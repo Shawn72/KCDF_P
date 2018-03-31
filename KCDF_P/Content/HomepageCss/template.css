@@ -1,0 +1,31 @@
+.accordion-sub ul.sub-menu-4 li a {
+    display: inline-block;
+    padding: 10px 10px 10px 70px;
+    color: inherit;
+    width: 100%;
+    font-weight: 700;
+    font-size: 13px;
+    /* background: #E4E4E4; */
+    border-bottom: 1px solid #DEDEDE;
+}
+.vacancy-info-meta{
+    display: block;
+    margin-left: 100px;
+}
+div.vacancy-item{
+    background: none;
+}
+li.item-488{
+	display:none !important;
+}
+li.item-364{
+	display:none !important;
+}
+div.field-error p{
+	color:#E31B3F;
+	font-size:12px;
+	line-height:26px !important;
+	margin-bottom:0 !important;
+}
+span#ui-id-97{display:none !important;}
+span#ui-id-99{display:none !important;}

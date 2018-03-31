@@ -1,0 +1,81 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Defaults.master.cs" Inherits="KCDF_P.Defaults" %>
+
+    <!DOCTYPE html>
+
+    <html lang="en">
+
+    <head runat="server">
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>
+            <%: Page.Title %> - KCDF Web Portal</title>
+
+        <link href="~/Content/bootstrap.css" rel="stylesheet" />
+        <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+        <link href="~/Content/elegant-icons-style.css" rel="stylesheet" />
+        <link href="~/Content/font-awesome.css" rel="stylesheet" />
+        <%--<link href="~/Content/style.css" rel="stylesheet" />--%>
+            <%--<link href="~/Content/line-icons.css" rel="stylesheet" />--%>
+                <%--<link href="~/Content/style-responsive.css" rel="stylesheet" />--%>
+                    <link href="Content/HomepageCss/main.css" rel="stylesheet" />
+                    <link href="Content/HomepageCss/template.css" rel="stylesheet" />
+                    <link href="Content/HomepageCss/system.css" rel="stylesheet" />
+                    <link href="Content/HomepageCss/general.css" rel="stylesheet" />
+                    <style type="text/css">
+                        .auto-style1 {
+                            height: 15px;
+                            width: 19px;
+                        }
+                    </style>
+
+    </head>
+
+    <body class="corporate_template home">
+        <form class="login-form" runat="server">
+            <!-- main_menu -->
+            <div id="main_menu">
+                <!-- ultra-top-bar -->
+            </div>
+            <!-- main_menu end -->
+            <div id="main_wrapper">
+
+                <div class="content-wrapper home-content-wrapper">
+                    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                    <hr />
+
+                    <footer>
+                        <p align="center"><span>Copyright &copy; <%: DateTime.Now.Year %> <a target="_blank" href="http://www.kcdf.or.ke/" style="padding-left:5px"> KCDF </a></span><span> | </span>
+                            <span> Powered by: <a target ="_blank" href="http://surestep.co.ke" style="padding-right:5px">Surestep Systems and Solutions</a></span></p>
+                    </footer>
+                </div>
+            </div>
+            <script src="Scripts/HomepageJS/jquery.min.js" type="text/javascript"></script>
+            <script src="Scripts/HomepageJS/jquery-noconflict.js" type="text/javascript"></script>
+            <script src='https://www.google.com/recaptcha/api.js'></script>
+
+
+            <script src="Scripts/HomepageJS/jquery-migrate.min.js"></script>
+            <script src="Scripts/HomepageJS/caption.js"></script>
+            <script src="Scripts/HomepageJS/html5fallback.js"></script>
+
+
+
+            <script src="Scripts/HomepageJS/modernizr.custom.js"></script>
+            <script src="Scripts/HomepageJS/jquery-ui.min.js"></script>
+            <script src="Scripts/HomepageJS/jquery.cycle2.min.js"></script>
+            <script src="Scripts/HomepageJS/jquery.placeholder.min.js"></script>
+            <script src="Scripts/HomepageJS/jquery.responsiveTabs.min.js"></script>
+            <script src="Scripts/HomepageJS/jquery.webticker.min.js"></script>
+            <script src="Scripts/HomepageJS/jquery.selectric.min.js"></script>
+            <script src="Scripts/HomepageJS/rangeslider.min.js"></script>
+            <script src="Scripts/HomepageJS/masonry.pkgd.min.js"></script>
+            <script src="Scripts/HomepageJS/imagesloaded.pkgd.min.js"></script>
+            <script src="Scripts/HomepageJS/classie.js"></script>
+            <script src="Scripts/HomepageJS/subscribe.js"></script>
+            <script src="Scripts/HomepageJS/AnimOnScroll.js"></script>
+            <script src="Scripts/HomepageJS/common.js"></script>
+        </form>
+    </body>
+
+    </html>

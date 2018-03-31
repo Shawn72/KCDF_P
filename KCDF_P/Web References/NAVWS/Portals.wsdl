@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:tns="urn:microsoft-dynamics-schemas/codeunit/Portals" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <schema elementFormDefault="qualified" targetNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals" xmlns="http://www.w3.org/2001/XMLSchema">
+      <element name="FnActivateAc">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="activationCode" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnActivateAc_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnRegisterStudent">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="fName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="mName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="lName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="iD_Noa46" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="residence" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="phone_Num" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="gender" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="date" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnRegisterStudent_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnCreateAccount">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="first_Name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="middle_Name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="last_Name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="password" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activation_Code" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCreateAccount_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnEducatBg">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="useRname" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="primo_sch" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="sec_sch" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="univCollege" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="yearofAdmn" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="yearofStudy" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="yearofCompltn" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="parentGuardian_Phone" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="parentGuardian_Email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="parentGuardian_Address" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="degree" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnEducatBg_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnAddReferee">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="stud_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="fname" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="mname" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="lname" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="phone_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddReferee_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnAddScholasticSupport">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="description" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="studentNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="year_of_Study" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="cost" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="rank" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddScholasticSupport_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnAddWorkplanItem">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="studeNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="objective" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activity" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activity_target" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="means_of_veri" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="amount" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="timeframe" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="scolarship_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddWorkplanItem_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnAddGrantee">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="orgName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="password" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activ_Code" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddGrantee_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnActivateGrantee">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="activationCode" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnActivateGrantee_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnRegGranteeInfo">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="contact_person_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="current_position" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="phone_Number" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="postal_address" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="postal_code" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="town" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="non_governmental" type="boolean" />
+            <element minOccurs="1" maxOccurs="1" name="non_partisan" type="boolean" />
+            <element minOccurs="1" maxOccurs="1" name="non_profit" type="boolean" />
+            <element minOccurs="1" maxOccurs="1" name="legally_registered" type="boolean" />
+            <element minOccurs="1" maxOccurs="1" name="physical_address" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="type_of_organization" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="reg_Date" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="website" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="company_reg_no" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="nonPartsan_Description" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnRegGranteeInfo_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnAttachment">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grant_type" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachment_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnGrantManager">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="donor_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="amount_provided" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="year_awarded" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="grant_objective" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="target_county" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="target_beneficiary" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="target_benefs_number" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="year_of_funding" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="amount_received" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="intervention_supported" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_status" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnGrantManager_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnProjectOverview">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="counties" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="subcounties" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_title" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="target_geog_area" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_months" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="total_project_cost" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="your_cash_contribution" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="kcdf_amount_requested" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="start_date" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="grant_scale" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnProjectOverview_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnDeleteReferee">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="no" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteReferee_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnSaveProfP">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="filename" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSaveProfP_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnDeleteUpload">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="iD" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteUpload_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnDeleteGrant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="code" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteGrant_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnDeleteProject">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="code" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteProject_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnValidateSubmission">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnValidateSubmission_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSaveToGargetGroup">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="households" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="schools" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="organization" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="youth" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="women" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="men" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="childold" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="old" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="children" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="orphan" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="illness" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="marginalised" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="drug" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="sexworker" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="teacher" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="farmer" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSaveToGargetGroup_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnDelSchlSupport">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="scholarship_Number" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDelSchlSupport_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnDelWorkplan">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="workplan_number" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDelWorkplan_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+    </schema>
+  </types>
+  <message name="FnActivateAc">
+    <part name="parameters" element="tns:FnActivateAc" />
+  </message>
+  <message name="FnActivateAc_Result">
+    <part name="parameters" element="tns:FnActivateAc_Result" />
+  </message>
+  <message name="FnRegisterStudent">
+    <part name="parameters" element="tns:FnRegisterStudent" />
+  </message>
+  <message name="FnRegisterStudent_Result">
+    <part name="parameters" element="tns:FnRegisterStudent_Result" />
+  </message>
+  <message name="FnCreateAccount">
+    <part name="parameters" element="tns:FnCreateAccount" />
+  </message>
+  <message name="FnCreateAccount_Result">
+    <part name="parameters" element="tns:FnCreateAccount_Result" />
+  </message>
+  <message name="FnEducatBg">
+    <part name="parameters" element="tns:FnEducatBg" />
+  </message>
+  <message name="FnEducatBg_Result">
+    <part name="parameters" element="tns:FnEducatBg_Result" />
+  </message>
+  <message name="FnAddReferee">
+    <part name="parameters" element="tns:FnAddReferee" />
+  </message>
+  <message name="FnAddReferee_Result">
+    <part name="parameters" element="tns:FnAddReferee_Result" />
+  </message>
+  <message name="FnAddScholasticSupport">
+    <part name="parameters" element="tns:FnAddScholasticSupport" />
+  </message>
+  <message name="FnAddScholasticSupport_Result">
+    <part name="parameters" element="tns:FnAddScholasticSupport_Result" />
+  </message>
+  <message name="FnAddWorkplanItem">
+    <part name="parameters" element="tns:FnAddWorkplanItem" />
+  </message>
+  <message name="FnAddWorkplanItem_Result">
+    <part name="parameters" element="tns:FnAddWorkplanItem_Result" />
+  </message>
+  <message name="FnAddGrantee">
+    <part name="parameters" element="tns:FnAddGrantee" />
+  </message>
+  <message name="FnAddGrantee_Result">
+    <part name="parameters" element="tns:FnAddGrantee_Result" />
+  </message>
+  <message name="FnActivateGrantee">
+    <part name="parameters" element="tns:FnActivateGrantee" />
+  </message>
+  <message name="FnActivateGrantee_Result">
+    <part name="parameters" element="tns:FnActivateGrantee_Result" />
+  </message>
+  <message name="FnRegGranteeInfo">
+    <part name="parameters" element="tns:FnRegGranteeInfo" />
+  </message>
+  <message name="FnRegGranteeInfo_Result">
+    <part name="parameters" element="tns:FnRegGranteeInfo_Result" />
+  </message>
+  <message name="FnAttachment">
+    <part name="parameters" element="tns:FnAttachment" />
+  </message>
+  <message name="FnAttachment_Result">
+    <part name="parameters" element="tns:FnAttachment_Result" />
+  </message>
+  <message name="FnGrantManager">
+    <part name="parameters" element="tns:FnGrantManager" />
+  </message>
+  <message name="FnGrantManager_Result">
+    <part name="parameters" element="tns:FnGrantManager_Result" />
+  </message>
+  <message name="FnProjectOverview">
+    <part name="parameters" element="tns:FnProjectOverview" />
+  </message>
+  <message name="FnProjectOverview_Result">
+    <part name="parameters" element="tns:FnProjectOverview_Result" />
+  </message>
+  <message name="FnDeleteReferee">
+    <part name="parameters" element="tns:FnDeleteReferee" />
+  </message>
+  <message name="FnDeleteReferee_Result">
+    <part name="parameters" element="tns:FnDeleteReferee_Result" />
+  </message>
+  <message name="FnSaveProfP">
+    <part name="parameters" element="tns:FnSaveProfP" />
+  </message>
+  <message name="FnSaveProfP_Result">
+    <part name="parameters" element="tns:FnSaveProfP_Result" />
+  </message>
+  <message name="FnDeleteUpload">
+    <part name="parameters" element="tns:FnDeleteUpload" />
+  </message>
+  <message name="FnDeleteUpload_Result">
+    <part name="parameters" element="tns:FnDeleteUpload_Result" />
+  </message>
+  <message name="FnDeleteGrant">
+    <part name="parameters" element="tns:FnDeleteGrant" />
+  </message>
+  <message name="FnDeleteGrant_Result">
+    <part name="parameters" element="tns:FnDeleteGrant_Result" />
+  </message>
+  <message name="FnDeleteProject">
+    <part name="parameters" element="tns:FnDeleteProject" />
+  </message>
+  <message name="FnDeleteProject_Result">
+    <part name="parameters" element="tns:FnDeleteProject_Result" />
+  </message>
+  <message name="FnValidateSubmission">
+    <part name="parameters" element="tns:FnValidateSubmission" />
+  </message>
+  <message name="FnValidateSubmission_Result">
+    <part name="parameters" element="tns:FnValidateSubmission_Result" />
+  </message>
+  <message name="FnSaveToGargetGroup">
+    <part name="parameters" element="tns:FnSaveToGargetGroup" />
+  </message>
+  <message name="FnSaveToGargetGroup_Result">
+    <part name="parameters" element="tns:FnSaveToGargetGroup_Result" />
+  </message>
+  <message name="FnDelSchlSupport">
+    <part name="parameters" element="tns:FnDelSchlSupport" />
+  </message>
+  <message name="FnDelSchlSupport_Result">
+    <part name="parameters" element="tns:FnDelSchlSupport_Result" />
+  </message>
+  <message name="FnDelWorkplan">
+    <part name="parameters" element="tns:FnDelWorkplan" />
+  </message>
+  <message name="FnDelWorkplan_Result">
+    <part name="parameters" element="tns:FnDelWorkplan_Result" />
+  </message>
+  <portType name="Portals_Port">
+    <operation name="FnActivateAc">
+      <input name="FnActivateAc" message="tns:FnActivateAc" />
+      <output name="FnActivateAc_Result" message="tns:FnActivateAc_Result" />
+    </operation>
+    <operation name="FnRegisterStudent">
+      <input name="FnRegisterStudent" message="tns:FnRegisterStudent" />
+      <output name="FnRegisterStudent_Result" message="tns:FnRegisterStudent_Result" />
+    </operation>
+    <operation name="FnCreateAccount">
+      <input name="FnCreateAccount" message="tns:FnCreateAccount" />
+      <output name="FnCreateAccount_Result" message="tns:FnCreateAccount_Result" />
+    </operation>
+    <operation name="FnEducatBg">
+      <input name="FnEducatBg" message="tns:FnEducatBg" />
+      <output name="FnEducatBg_Result" message="tns:FnEducatBg_Result" />
+    </operation>
+    <operation name="FnAddReferee">
+      <input name="FnAddReferee" message="tns:FnAddReferee" />
+      <output name="FnAddReferee_Result" message="tns:FnAddReferee_Result" />
+    </operation>
+    <operation name="FnAddScholasticSupport">
+      <input name="FnAddScholasticSupport" message="tns:FnAddScholasticSupport" />
+      <output name="FnAddScholasticSupport_Result" message="tns:FnAddScholasticSupport_Result" />
+    </operation>
+    <operation name="FnAddWorkplanItem">
+      <input name="FnAddWorkplanItem" message="tns:FnAddWorkplanItem" />
+      <output name="FnAddWorkplanItem_Result" message="tns:FnAddWorkplanItem_Result" />
+    </operation>
+    <operation name="FnAddGrantee">
+      <input name="FnAddGrantee" message="tns:FnAddGrantee" />
+      <output name="FnAddGrantee_Result" message="tns:FnAddGrantee_Result" />
+    </operation>
+    <operation name="FnActivateGrantee">
+      <input name="FnActivateGrantee" message="tns:FnActivateGrantee" />
+      <output name="FnActivateGrantee_Result" message="tns:FnActivateGrantee_Result" />
+    </operation>
+    <operation name="FnRegGranteeInfo">
+      <input name="FnRegGranteeInfo" message="tns:FnRegGranteeInfo" />
+      <output name="FnRegGranteeInfo_Result" message="tns:FnRegGranteeInfo_Result" />
+    </operation>
+    <operation name="FnAttachment">
+      <input name="FnAttachment" message="tns:FnAttachment" />
+      <output name="FnAttachment_Result" message="tns:FnAttachment_Result" />
+    </operation>
+    <operation name="FnGrantManager">
+      <input name="FnGrantManager" message="tns:FnGrantManager" />
+      <output name="FnGrantManager_Result" message="tns:FnGrantManager_Result" />
+    </operation>
+    <operation name="FnProjectOverview">
+      <input name="FnProjectOverview" message="tns:FnProjectOverview" />
+      <output name="FnProjectOverview_Result" message="tns:FnProjectOverview_Result" />
+    </operation>
+    <operation name="FnDeleteReferee">
+      <input name="FnDeleteReferee" message="tns:FnDeleteReferee" />
+      <output name="FnDeleteReferee_Result" message="tns:FnDeleteReferee_Result" />
+    </operation>
+    <operation name="FnSaveProfP">
+      <input name="FnSaveProfP" message="tns:FnSaveProfP" />
+      <output name="FnSaveProfP_Result" message="tns:FnSaveProfP_Result" />
+    </operation>
+    <operation name="FnDeleteUpload">
+      <input name="FnDeleteUpload" message="tns:FnDeleteUpload" />
+      <output name="FnDeleteUpload_Result" message="tns:FnDeleteUpload_Result" />
+    </operation>
+    <operation name="FnDeleteGrant">
+      <input name="FnDeleteGrant" message="tns:FnDeleteGrant" />
+      <output name="FnDeleteGrant_Result" message="tns:FnDeleteGrant_Result" />
+    </operation>
+    <operation name="FnDeleteProject">
+      <input name="FnDeleteProject" message="tns:FnDeleteProject" />
+      <output name="FnDeleteProject_Result" message="tns:FnDeleteProject_Result" />
+    </operation>
+    <operation name="FnValidateSubmission">
+      <input name="FnValidateSubmission" message="tns:FnValidateSubmission" />
+      <output name="FnValidateSubmission_Result" message="tns:FnValidateSubmission_Result" />
+    </operation>
+    <operation name="FnSaveToGargetGroup">
+      <input name="FnSaveToGargetGroup" message="tns:FnSaveToGargetGroup" />
+      <output name="FnSaveToGargetGroup_Result" message="tns:FnSaveToGargetGroup_Result" />
+    </operation>
+    <operation name="FnDelSchlSupport">
+      <input name="FnDelSchlSupport" message="tns:FnDelSchlSupport" />
+      <output name="FnDelSchlSupport_Result" message="tns:FnDelSchlSupport_Result" />
+    </operation>
+    <operation name="FnDelWorkplan">
+      <input name="FnDelWorkplan" message="tns:FnDelWorkplan" />
+      <output name="FnDelWorkplan_Result" message="tns:FnDelWorkplan_Result" />
+    </operation>
+  </portType>
+  <binding name="Portals_Binding" type="tns:Portals_Port">
+    <binding transport="http://schemas.xmlsoap.org/soap/http" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    <operation name="FnActivateAc">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnActivateAc">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnActivateAc_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnRegisterStudent">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnRegisterStudent" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnRegisterStudent">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnRegisterStudent_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCreateAccount">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCreateAccount" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCreateAccount">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCreateAccount_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnEducatBg">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnEducatBg" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnEducatBg">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnEducatBg_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddReferee">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddReferee" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddReferee">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddReferee_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddScholasticSupport">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddScholasticSupport" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddScholasticSupport">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddScholasticSupport_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddWorkplanItem">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddWorkplanItem" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddWorkplanItem">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddWorkplanItem_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddGrantee">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddGrantee" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddGrantee">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddGrantee_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnActivateGrantee">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateGrantee" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnActivateGrantee">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnActivateGrantee_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnRegGranteeInfo">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnRegGranteeInfo" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnRegGranteeInfo">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnRegGranteeInfo_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAttachment">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAttachment" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAttachment">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAttachment_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnGrantManager">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnGrantManager" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnGrantManager">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnGrantManager_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnProjectOverview">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnProjectOverview" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnProjectOverview">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnProjectOverview_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDeleteReferee">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteReferee" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDeleteReferee">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDeleteReferee_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnSaveProfP">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSaveProfP" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSaveProfP">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSaveProfP_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDeleteUpload">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteUpload" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDeleteUpload">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDeleteUpload_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDeleteGrant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteGrant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDeleteGrant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDeleteGrant_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDeleteProject">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteProject" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDeleteProject">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDeleteProject_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnValidateSubmission">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnValidateSubmission" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnValidateSubmission">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnValidateSubmission_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnSaveToGargetGroup">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSaveToGargetGroup" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSaveToGargetGroup">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSaveToGargetGroup_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDelSchlSupport">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDelSchlSupport" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDelSchlSupport">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDelSchlSupport_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDelWorkplan">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDelWorkplan" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDelWorkplan">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDelWorkplan_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+  </binding>
+  <service name="Portals">
+    <port name="Portals_Port" binding="tns:Portals_Binding">
+      <address location="http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+    </port>
+  </service>
+</definitions>

@@ -1,0 +1,12 @@
+﻿.sure_font {
+    font-size: 17px;
+    font-family: verdana;
+}
+.navbar-inverse {
+
+    color: #6cb655;
+
+}
+textarea {
+    resize: none;
+}
