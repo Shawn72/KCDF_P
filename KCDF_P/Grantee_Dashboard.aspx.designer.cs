@@ -58,6 +58,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUploadMe;
         
         /// <summary>
+        /// lblProjNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProjNo;
+        
+        /// <summary>
         /// lblPrjNm control.
         /// </summary>
         /// <remarks>

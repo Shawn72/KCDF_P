@@ -623,11 +623,30 @@ namespace KCDF_P
 
         protected void btnSaveTarget_Click(object sender, EventArgs e)
         {
-           
+            try
+            {
             string proj = ddlAccountType.SelectedItem.Text;
             var usnm = Session["username"].ToString();
-            int hsehlds = Convert.ToInt32(TextBoxhse.Text);
-            int schls = Convert.ToInt32(TextBoxschl.Text);
+                int hsehlds = 0;
+                int schls = 0;
+                if (TextBoxhse.Text == null)
+                {
+                    KCDFAlert.ShowAlert("Field required");
+                    TextBoxhse.BackColor=Color.Red;
+                }
+                else
+                {
+                    hsehlds = Convert.ToInt32(TextBoxhse.Text);
+                }
+                if (TextBoxschl.Text == null)
+                {
+                    KCDFAlert.ShowAlert("Field required");
+                    TextBoxschl.BackColor = Color.Red;
+                }
+                else
+                {
+                    schls = Convert.ToInt32(TextBoxschl.Text);
+                }
             string org = TextBoxorg.Text;
             int yth = Convert.ToInt32(TextBoxyth.Text);
             int wmn = Convert.ToInt32(TextBowmn.Text);
@@ -649,7 +668,28 @@ namespace KCDF_P
             sup.PreAuthenticate = true;
             sup.FnSaveToGargetGroup(usnm, hsehlds, schls, org, yth, wmn, mn, chldold, old, ren, orph, ill, marg, drg,
                 sxwrkr, tchr, frmr, proj);
-
+            KCDFAlert.ShowAlert("Target group information saved successfully!");
+            TextBoxhse.Text = "";
+            TextBoxschl.Text = "";
+            TextBoxorg.Text = "";
+            TextBoxyth.Text = "";
+            TextBowmn.Text = "";
+            TextBowmn.Text = "";
+            TextBoxmn.Text = "";
+            TextBcldold.Text = "";
+            TextBoxold.Text = "";
+            TextBoxren.Text = "";
+            TextBoxorph.Text = "";
+            TextBoxill.Text = "";
+            TextBoxmarg.Text = "";
+            TextBoxdrg.Text = "";
+            TextBoxsxwrkr.Text = "";
+            TextBoxfarmr.Text = "";
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
+            }
         }
         protected void btnValidateInfo_OnClick(object sender, EventArgs e)
         {

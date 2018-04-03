@@ -116,14 +116,28 @@ namespace KCDF_P
 
         protected void lnkEdit_OnClick(object sender, EventArgs e)
         {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openEditProj();", true);
-
             string edit_id = (sender as LinkButton).CommandArgument;
             var prjnm =
                 nav.projectOverview.ToList().Where(i => i.No == edit_id).Select(pn => pn.Project_Name).SingleOrDefault();
-            lblPrjNm.Text = prjnm;
-            loadEditPrj(edit_id);
+            var approvedyeah =
+                nav.projectOverview.ToList()
+                    .Where(a => a.No == edit_id)
+                    .Select(ast => ast.Submission_Status)
+                    .SingleOrDefault();
 
+            switch (approvedyeah)
+            {
+                case "Approved":
+                    KCDFAlert.ShowAlert("You cannot Edit an Appproved project!!");
+                    break;
+
+                case "Pending Approval":
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openEditProj();", true);
+                    lblPrjNm.Text = prjnm;
+                    lblProjNo.Text = edit_id;
+                    loadEditPrj(edit_id);
+                    break;
+            }
         }
 
         protected void refreSH()
@@ -148,8 +162,8 @@ namespace KCDF_P
             decimal projCost = Convert.ToDecimal(TextBoxcost.Text);
             decimal contrib = Convert.ToDecimal(TextBoxcont.Text);
             decimal kcdffunds = Convert.ToDecimal(TextBoxrequested.Text);
-            string projectNm = lblPrjNm.Text;
-
+            string projectNm = lblProjNo.Text;
+            
             if (ddlMonths.SelectedItem.Text == "..Select project Length..")
             {
                 KCDFAlert.ShowAlert("Select valid project duration!");
@@ -160,15 +174,17 @@ namespace KCDF_P
                 projectlength = Convert.ToInt32(ddlMonths.SelectedItem.Text);
             }
 
+            try
+            {
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            sup.FnProjectOverview(usn, county, constituency, projTt, urbantarget,
-                projectlength, projCost, contrib, kcdffunds, projTDt, scale, projectNm);
-
+            sup.FnEditProject(projectNm, county, constituency, urbantarget,
+                projectlength, projCost, contrib, kcdffunds, projTDt, scale);
+              
             KCDFAlert.ShowAlert("Data Updated Successfully!");
-            refreSH();
+          
             TextBoxtitle.Text = "";
             txtDateofStart.Value = "";
             ddlSelCountry.SelectedIndex = 0;
@@ -179,6 +195,12 @@ namespace KCDF_P
             TextBoxcost.Text = "";
             TextBoxcont.Text = "";
             TextBoxrequested.Text = "";
+            }
+            catch (Exception ex)
+            {
+
+                KCDFAlert.ShowAlert(ex.Message);
+            }
         }
 
         protected void loadEditPrj(string projNumber)

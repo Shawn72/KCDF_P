@@ -328,7 +328,6 @@
                                                             <asp:BoundField DataField="No" HeaderText="S/No:" />
                                                             <asp:BoundField DataField="Project_Name" HeaderText="Project Name" />
                                                             <asp:BoundField DataField="Name_Of_the_Donor" HeaderText="Donor" />
-                                                            <asp:BoundField DataField="Year_Of_Award" HeaderText="Year of Award:" DataFormatString="{0:dd/MM/yyyy}" />
                                                             <asp:BoundField DataField="Grant_Amount_Recieved" HeaderText="Grant Amount Received:" DataFormatString="{0:N2}" />
                                                             <asp:BoundField DataField="Project_Status" HeaderText="Project Status:" />
                                                             <asp:CommandField ShowDeleteButton="True" ButtonType="Button" />
@@ -506,7 +505,7 @@
                                                 <div class="col-md-9"></div>
                                                 <div class="col-md-3">
                                                     <div class="form-group">
-                                                        <asp:Button ID="btnSaveTarget" runat="server" Text="Save Target Information" CssClass="btn btn-primary pull-left btn-sm" />
+                                                        <asp:Button ID="btnSaveTarget" runat="server" Text="Save Target Information" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveTarget_Click" />
                                                     </div>
                                                 </div>
                                                 <%-- <div class="col-md-3"></div>--%>

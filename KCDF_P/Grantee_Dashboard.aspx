@@ -100,7 +100,7 @@
 			<div class="modal-content" runat="server">
                 <div class="panel-heading" style="text-align:left; background: #00bfff; color: #f0f8ff">Edit Projects Information</div>
 			<div class="modal-header" runat="server">
-					<strong>Edit Project: </strong><asp:Label runat="server" ID="lblPrjNm"></asp:Label>
+					<strong>Edit Project :</strong><asp:Label runat="server" ID="lblProjNo">&nbsp;:</asp:Label>&nbsp;&nbsp;<asp:Label runat="server" ID="lblPrjNm"></asp:Label>
 					<button type="button" class="close" data-dismiss="modal">&times;</button>
 				</div>
 			<div class="modal-body">
@@ -112,7 +112,7 @@
                  <div class="form-group">
                      <asp:Label runat="server"  CssClass="col-md-3 control-label">Proposed short title of your project:</asp:Label>
                         <div class="col-md-6">
-                            <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style="text-transform:uppercase" />              
+                            <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style="text-transform:uppercase" Enabled="False" />              
                         </div> 
                   </div>
                     

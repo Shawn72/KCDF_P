@@ -75,6 +75,8 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnEditProjectOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnEditGrantManagerOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -181,6 +183,9 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         public event FnEditProjectCompletedEventHandler FnEditProjectCompleted;
+        
+        /// <remarks/>
+        public event FnEditGrantManagerCompletedEventHandler FnEditGrantManagerCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1186,6 +1191,60 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnEditGrantManager", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnEditGrantManager_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void FnEditGrantManager(string project_number, string username, string donor_name, decimal amount_provided, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime year_awarded, string grant_objective, string target_county, string target_beneficiary, int target_benefs_number, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime year_of_funding, decimal amount_received, string intervention_supported, string project_status, string project_name) {
+            this.Invoke("FnEditGrantManager", new object[] {
+                        project_number,
+                        username,
+                        donor_name,
+                        amount_provided,
+                        year_awarded,
+                        grant_objective,
+                        target_county,
+                        target_beneficiary,
+                        target_benefs_number,
+                        year_of_funding,
+                        amount_received,
+                        intervention_supported,
+                        project_status,
+                        project_name});
+        }
+        
+        /// <remarks/>
+        public void FnEditGrantManagerAsync(string project_number, string username, string donor_name, decimal amount_provided, System.DateTime year_awarded, string grant_objective, string target_county, string target_beneficiary, int target_benefs_number, System.DateTime year_of_funding, decimal amount_received, string intervention_supported, string project_status, string project_name) {
+            this.FnEditGrantManagerAsync(project_number, username, donor_name, amount_provided, year_awarded, grant_objective, target_county, target_beneficiary, target_benefs_number, year_of_funding, amount_received, intervention_supported, project_status, project_name, null);
+        }
+        
+        /// <remarks/>
+        public void FnEditGrantManagerAsync(string project_number, string username, string donor_name, decimal amount_provided, System.DateTime year_awarded, string grant_objective, string target_county, string target_beneficiary, int target_benefs_number, System.DateTime year_of_funding, decimal amount_received, string intervention_supported, string project_status, string project_name, object userState) {
+            if ((this.FnEditGrantManagerOperationCompleted == null)) {
+                this.FnEditGrantManagerOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnEditGrantManagerOperationCompleted);
+            }
+            this.InvokeAsync("FnEditGrantManager", new object[] {
+                        project_number,
+                        username,
+                        donor_name,
+                        amount_provided,
+                        year_awarded,
+                        grant_objective,
+                        target_county,
+                        target_beneficiary,
+                        target_benefs_number,
+                        year_of_funding,
+                        amount_received,
+                        intervention_supported,
+                        project_status,
+                        project_name}, this.FnEditGrantManagerOperationCompleted, userState);
+        }
+        
+        private void OnFnEditGrantManagerOperationCompleted(object arg) {
+            if ((this.FnEditGrantManagerCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnEditGrantManagerCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1361,6 +1420,10 @@ namespace KCDF_P.NAVWS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void FnEditProjectCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnEditGrantManagerCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591
