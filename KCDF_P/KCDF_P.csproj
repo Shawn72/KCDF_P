@@ -828,10 +828,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals">
+    <WebReferenceUrl Include="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\NAVWS\</RelPath>
-      <UpdateFromURL>http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals</UpdateFromURL>
+      <UpdateFromURL>http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

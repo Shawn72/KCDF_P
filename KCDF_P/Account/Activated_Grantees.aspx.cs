@@ -34,9 +34,12 @@ namespace KCDF_P.Account
                     string activationCode = Request.QueryString["ActivationCode"]; Guid.Empty.ToString();
 
                     var activatem = nav.grantees_Register.ToList().Where(r => r.Activation_Code == activationCode);
-                    string activatemyASS = activatem.Select(r => r.Activation_Code).SingleOrDefault().ToString();
-                    sup.FnActivateGrantee(activatemyASS);
-                    ltMessage.Text = "Your Acount has been activated successfully.";
+                    string activatemyASS = activatem.Select(r => r.Activation_Code).SingleOrDefault();
+                    if (sup.FnActivateGrantee(activatemyASS) == true)
+                    {
+                        ltMessage.Text = "Your Acount has been activated successfully.";
+                    }
+                    
                 }
                 catch (Exception ex)
                 {

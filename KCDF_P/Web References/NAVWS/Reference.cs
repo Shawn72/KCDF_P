@@ -73,6 +73,8 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnDelWorkplanOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnEditProjectOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -176,6 +178,9 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         public event FnDelWorkplanCompletedEventHandler FnDelWorkplanCompleted;
+        
+        /// <remarks/>
+        public event FnEditProjectCompletedEventHandler FnEditProjectCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1135,6 +1140,52 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnEditProject", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnEditProject_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void FnEditProject(string project_number, string counties, string subcounties, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime start_date, string grant_scale) {
+            this.Invoke("FnEditProject", new object[] {
+                        project_number,
+                        counties,
+                        subcounties,
+                        target_geog_area,
+                        project_months,
+                        total_project_cost,
+                        your_cash_contribution,
+                        kcdf_amount_requested,
+                        start_date,
+                        grant_scale});
+        }
+        
+        /// <remarks/>
+        public void FnEditProjectAsync(string project_number, string counties, string subcounties, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, System.DateTime start_date, string grant_scale) {
+            this.FnEditProjectAsync(project_number, counties, subcounties, target_geog_area, project_months, total_project_cost, your_cash_contribution, kcdf_amount_requested, start_date, grant_scale, null);
+        }
+        
+        /// <remarks/>
+        public void FnEditProjectAsync(string project_number, string counties, string subcounties, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, System.DateTime start_date, string grant_scale, object userState) {
+            if ((this.FnEditProjectOperationCompleted == null)) {
+                this.FnEditProjectOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnEditProjectOperationCompleted);
+            }
+            this.InvokeAsync("FnEditProject", new object[] {
+                        project_number,
+                        counties,
+                        subcounties,
+                        target_geog_area,
+                        project_months,
+                        total_project_cost,
+                        your_cash_contribution,
+                        kcdf_amount_requested,
+                        start_date,
+                        grant_scale}, this.FnEditProjectOperationCompleted, userState);
+        }
+        
+        private void OnFnEditProjectOperationCompleted(object arg) {
+            if ((this.FnEditProjectCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnEditProjectCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1306,6 +1357,10 @@ namespace KCDF_P.NAVWS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void FnDelWorkplanCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnEditProjectCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

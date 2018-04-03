@@ -95,14 +95,23 @@ namespace KCDF_P
 
         protected void tblMyProjects_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            var del_id = tblMyProjects.DataKeys[e.RowIndex].Values[0].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            sup.FnDeleteProject(del_id);
-            loadMyProjects();
-            KCDFAlert.ShowAlert("Project Deleted Successfully!");
+
+            try
+            {
+                var del_id = tblMyProjects.DataKeys[e.RowIndex].Values[0].ToString();
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                sup.FnDeleteProject(del_id);
+                loadMyProjects();
+                KCDFAlert.ShowAlert("Project Deleted Successfully!");
+            }
+            catch (Exception ex)
+            {
+               KCDFAlert.ShowAlert(ex.Message); 
+            }
+          
         }
 
         protected void lnkEdit_OnClick(object sender, EventArgs e)
@@ -114,7 +123,6 @@ namespace KCDF_P
                 nav.projectOverview.ToList().Where(i => i.No == edit_id).Select(pn => pn.Project_Name).SingleOrDefault();
             lblPrjNm.Text = prjnm;
             loadEditPrj(edit_id);
-
 
         }
 

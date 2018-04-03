@@ -3461,9 +3461,6 @@
         <Property Name="Type_of_registration" Type="Edm.String" />
         <Property Name="Date_Registered" Type="Edm.DateTime" />
         <Property Name="Registration_No" Type="Edm.String" />
-        <Property Name="Vision" Type="Edm.String" />
-        <Property Name="Mission" Type="Edm.String" />
-        <Property Name="Organization_profile" Type="Edm.String" />
         <Property Name="Postal_Code" Type="Edm.String" />
         <Property Name="Town" Type="Edm.String" />
         <Property Name="NGO" Type="Edm.Boolean" />
@@ -3575,6 +3572,8 @@
         <Property Name="Requested_KCDF_Amount_KES" Type="Edm.Decimal" />
         <Property Name="Project_Impact" Type="Edm.String" />
         <Property Name="Project_Start_Date" Type="Edm.DateTime" />
+        <Property Name="NGO" Type="Edm.Boolean" />
+        <Property Name="Partisan" Type="Edm.Boolean" />
         <Property Name="Project_Name" Type="Edm.String" />
         <Property Name="Submission_Status" Type="Edm.String" />
       </EntityType>
@@ -3742,30 +3741,18 @@
         <Property Name="Account_Type" Type="Edm.String" />
         <Property Name="Direct_Posting" Type="Edm.Boolean" />
         <Property Name="Totaling" Type="Edm.String" />
-        <Property Name="Gen_Posting_Type" Type="Edm.String" />
-        <Property Name="Gen_Bus_Posting_Group" Type="Edm.String" />
-        <Property Name="Gen_Prod_Posting_Group" Type="Edm.String" />
-        <Property Name="VAT_Bus_Posting_Group" Type="Edm.String" />
-        <Property Name="VAT_Prod_Posting_Group" Type="Edm.String" />
         <Property Name="Net_Change" Type="Edm.Decimal" />
         <Property Name="Debit_Amount" Type="Edm.Decimal" />
         <Property Name="Credit_Amount" Type="Edm.Decimal" />
         <Property Name="Balance_at_Date" Type="Edm.Decimal" />
         <Property Name="Balance" Type="Edm.Decimal" />
-        <Property Name="Additional_Currency_Net_Change" Type="Edm.Decimal" />
-        <Property Name="Add_Currency_Balance_at_Date" Type="Edm.Decimal" />
-        <Property Name="Additional_Currency_Balance" Type="Edm.Decimal" />
-        <Property Name="Consol_Debit_Acc" Type="Edm.String" />
-        <Property Name="Consol_Credit_Acc" Type="Edm.String" />
-        <Property Name="Cost_Type_No" Type="Edm.String" />
-        <Property Name="Consol_Translation_Method" Type="Edm.String" />
-        <Property Name="Default_IC_Partner_G_L_Acc_No" Type="Edm.String" />
-        <Property Name="Default_Deferral_Template_Code" Type="Edm.String" />
+        <Property Name="Budgeted_Amount" Type="Edm.Decimal" />
         <Property Name="Business_Unit_Filter" Type="Edm.String" />
         <Property Name="Global_Dimension_1_Filter" Type="Edm.String" />
         <Property Name="Global_Dimension_2_Filter" Type="Edm.String" />
         <Property Name="Date_Filter" Type="Edm.String" />
         <Property Name="Dimension_Set_ID_Filter" Type="Edm.String" />
+        <Property Name="Budget_Filter" Type="Edm.String" />
         <Property Name="ETag" Type="Edm.String" ConcurrencyMode="Fixed" />
       </EntityType>
       <EntityType Name="Job_List">

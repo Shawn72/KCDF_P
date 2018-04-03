@@ -149,7 +149,8 @@ namespace KCDF_P
             {
                projectlength = Convert.ToInt32(ddlMonths.SelectedItem.Text);
             }
-
+            try
+            {
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
@@ -158,6 +159,7 @@ namespace KCDF_P
                 projectlength, projCost, contrib, kcdffunds, projTDt, scale, projectNm);
 
             KCDFAlert.ShowAlert("Data saved Successfully!");
+
             TextBoxtitle.Text = "";
             txtDateofStart.Value = "";
             ddlSelCountry.SelectedIndex = 0;
@@ -168,7 +170,12 @@ namespace KCDF_P
             TextBoxcost.Text = "";
             TextBoxcont.Text = "";
             TextBoxrequested.Text = "";
-           
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+
         }
        
         protected void CopyFilesToDir()

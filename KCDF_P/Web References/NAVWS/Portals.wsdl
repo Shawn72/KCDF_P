@@ -386,6 +386,27 @@
           <sequence />
         </complexType>
       </element>
+      <element name="FnEditProject">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="project_number" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="counties" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="subcounties" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="target_geog_area" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_months" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="total_project_cost" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="your_cash_contribution" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="kcdf_amount_requested" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="start_date" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="grant_scale" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnEditProject_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="FnActivateAc">
@@ -520,6 +541,12 @@
   <message name="FnDelWorkplan_Result">
     <part name="parameters" element="tns:FnDelWorkplan_Result" />
   </message>
+  <message name="FnEditProject">
+    <part name="parameters" element="tns:FnEditProject" />
+  </message>
+  <message name="FnEditProject_Result">
+    <part name="parameters" element="tns:FnEditProject_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -608,6 +635,10 @@
     <operation name="FnDelWorkplan">
       <input name="FnDelWorkplan" message="tns:FnDelWorkplan" />
       <output name="FnDelWorkplan_Result" message="tns:FnDelWorkplan_Result" />
+    </operation>
+    <operation name="FnEditProject">
+      <input name="FnEditProject" message="tns:FnEditProject" />
+      <output name="FnEditProject_Result" message="tns:FnEditProject_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -810,10 +841,19 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
+    <operation name="FnEditProject">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnEditProject" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnEditProject">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnEditProject_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
   </binding>
   <service name="Portals">
     <port name="Portals_Port" binding="tns:Portals_Binding">
-      <address location="http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

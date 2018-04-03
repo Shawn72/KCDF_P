@@ -62,7 +62,7 @@ namespace KCDF_P
                     else if (nav.studentsRegister.Where(r => r.Username == userName && r.Activated == false && r.Password == userPassword).FirstOrDefault() != null)
                     {
                         //HotelFactory.ShowAlert("You Ain't Active!!");
-                        lblError.Text = "Account not active, please active!";
+                        lblError.Text = "Account not active, please activate!";
                         return;
                     }
                     else if (nav.studentsRegister.Where(r => r.Email == userName && r.Activated == true && r.Password == userPassword).FirstOrDefault() != null)
