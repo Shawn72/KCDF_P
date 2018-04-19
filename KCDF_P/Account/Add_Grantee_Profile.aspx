@@ -82,10 +82,8 @@
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Postal Code:</asp:Label>
                         <div class="col-md-6">
                             <asp:DropDownList ID="ddlPostalCode" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
-                                    data-live-search="true" AppendDataBoundItems="true"  AutoPostBack="True">
+                                    data-live-search="true" AppendDataBoundItems="true"  AutoPostBack="True" OnSelectedIndexChanged="ddlPostalCode_OnSelectedIndexChanged">
                                 <asp:ListItem Selected="True">..Select Postal Code..</asp:ListItem>
-                                <asp:ListItem>00100</asp:ListItem>
-                                <asp:ListItem>00200</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
                 </div>
@@ -93,7 +91,7 @@
                 <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Town:</asp:Label>
                         <div class="col-md-6">
-                            <asp:TextBox runat="server" ID="txtPostalTown" CssClass="form-control" style="text-transform:uppercase" Enabled="True" />              
+                            <asp:TextBox runat="server" ID="txtPostalTown" CssClass="form-control" style="text-transform:uppercase" Enabled="False" />              
                         </div> 
                 </div>
                    

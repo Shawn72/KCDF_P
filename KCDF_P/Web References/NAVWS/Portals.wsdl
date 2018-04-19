@@ -323,6 +323,7 @@
         <complexType>
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_number" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -428,6 +429,33 @@
         </complexType>
       </element>
       <element name="FnEditGrantManager_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnFinalSubmission">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnFinalSubmission_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnChangeSubmitStatus">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="projectNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnChangeSubmitStatus_Result">
         <complexType>
           <sequence />
         </complexType>
@@ -578,6 +606,18 @@
   <message name="FnEditGrantManager_Result">
     <part name="parameters" element="tns:FnEditGrantManager_Result" />
   </message>
+  <message name="FnFinalSubmission">
+    <part name="parameters" element="tns:FnFinalSubmission" />
+  </message>
+  <message name="FnFinalSubmission_Result">
+    <part name="parameters" element="tns:FnFinalSubmission_Result" />
+  </message>
+  <message name="FnChangeSubmitStatus">
+    <part name="parameters" element="tns:FnChangeSubmitStatus" />
+  </message>
+  <message name="FnChangeSubmitStatus_Result">
+    <part name="parameters" element="tns:FnChangeSubmitStatus_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -674,6 +714,14 @@
     <operation name="FnEditGrantManager">
       <input name="FnEditGrantManager" message="tns:FnEditGrantManager" />
       <output name="FnEditGrantManager_Result" message="tns:FnEditGrantManager_Result" />
+    </operation>
+    <operation name="FnFinalSubmission">
+      <input name="FnFinalSubmission" message="tns:FnFinalSubmission" />
+      <output name="FnFinalSubmission_Result" message="tns:FnFinalSubmission_Result" />
+    </operation>
+    <operation name="FnChangeSubmitStatus">
+      <input name="FnChangeSubmitStatus" message="tns:FnChangeSubmitStatus" />
+      <output name="FnChangeSubmitStatus_Result" message="tns:FnChangeSubmitStatus_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -891,6 +939,24 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
       <output name="FnEditGrantManager_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnFinalSubmission">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnFinalSubmission" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnFinalSubmission">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnFinalSubmission_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnChangeSubmitStatus">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnChangeSubmitStatus" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnChangeSubmitStatus">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnChangeSubmitStatus_Result">
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>

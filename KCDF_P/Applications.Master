@@ -64,15 +64,6 @@
                             </ul>
                         </li>
                         
-                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Upload Documents<b class="caret"></b></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a href="UploadFiles.aspx">Scholarship Application Documents</a></li>
-                                 <li class="divider"></li>
-                            </ul>
-                        </li>
-
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;<% =Students.Username %> </a>
                             <ul class="dropdown-menu">

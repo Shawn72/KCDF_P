@@ -41,7 +41,7 @@
                             <td><%=Grantees.No %></td>
                         </tr>
                     </table>   
-                   
+                   <%-- <asp:Button runat="server" ID="copyTest" OnClick="copyTest_OnClick" Text="Copy Files"/>--%>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
             <asp:BoundField DataField="Total_Project_Cost_KES" HeaderText="Total Project Cost" DataFormatString="{0:N2}" />
             <asp:BoundField DataField="Your_Cash_Contribution_KES" HeaderText="Organization Contribution" DataFormatString="{0:N2}" />
             <asp:BoundField DataField="Requested_KCDF_Amount_KES" HeaderText="Requested Grant Amount"  DataFormatString="{0:N2}"/>
-            <asp:BoundField DataField="Submission_Status" HeaderText="Approval Status"/>
+            <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status"/>
             <asp:TemplateField HeaderText="Edit">
                 <ItemTemplate>
                     <asp:LinkButton ID="lnkEdit" Text="Edit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEdit" runat="server" OnClick="lnkEdit_OnClick"></asp:LinkButton>
@@ -319,12 +319,12 @@
 
        }
 
-       protected void refreSH()
-       {
-           HttpResponse.RemoveOutputCacheItem("/Grantee_Dashboard.aspx");
-         //  Response.Redirect(Request.RawUrl);
-           Page.Response.Redirect(Page.Request.Url.ToString(), true);
-       }
+       //protected void refreSH()
+       //{
+       //    HttpResponse.RemoveOutputCacheItem("/Grantee_Dashboard.aspx");
+       //  //  Response.Redirect(Request.RawUrl);
+       //    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+       //}
 
        protected void saveProfToNav(string piclink, string fileNme)
        {
@@ -336,12 +336,12 @@
            sup.FnSaveProfP(usrnm, piclink,fileNme);
            refreSH();
            KCDFAlert.ShowAlert("Picture saved!");
-          
+
        }
 
    </script>
     
-  <script type="text/javascript">
+<script type="text/javascript">
     function openModal() {
         $('#pageUploadlink').modal('show');
     }

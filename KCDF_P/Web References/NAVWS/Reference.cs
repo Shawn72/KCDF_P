@@ -77,6 +77,10 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnEditGrantManagerOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnFinalSubmissionOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnChangeSubmitStatusOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -186,6 +190,12 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         public event FnEditGrantManagerCompletedEventHandler FnEditGrantManagerCompleted;
+        
+        /// <remarks/>
+        public event FnFinalSubmissionCompletedEventHandler FnFinalSubmissionCompleted;
+        
+        /// <remarks/>
+        public event FnChangeSubmitStatusCompletedEventHandler FnChangeSubmitStatusCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -944,24 +954,26 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnValidateSubmission", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnValidateSubmission_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public bool FnValidateSubmission(string username) {
+        public bool FnValidateSubmission(string username, string project_number) {
             object[] results = this.Invoke("FnValidateSubmission", new object[] {
-                        username});
+                        username,
+                        project_number});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void FnValidateSubmissionAsync(string username) {
-            this.FnValidateSubmissionAsync(username, null);
+        public void FnValidateSubmissionAsync(string username, string project_number) {
+            this.FnValidateSubmissionAsync(username, project_number, null);
         }
         
         /// <remarks/>
-        public void FnValidateSubmissionAsync(string username, object userState) {
+        public void FnValidateSubmissionAsync(string username, string project_number, object userState) {
             if ((this.FnValidateSubmissionOperationCompleted == null)) {
                 this.FnValidateSubmissionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnValidateSubmissionOperationCompleted);
             }
             this.InvokeAsync("FnValidateSubmission", new object[] {
-                        username}, this.FnValidateSubmissionOperationCompleted, userState);
+                        username,
+                        project_number}, this.FnValidateSubmissionOperationCompleted, userState);
         }
         
         private void OnFnValidateSubmissionOperationCompleted(object arg) {
@@ -1245,6 +1257,66 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnFinalSubmission", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnFinalSubmission_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnFinalSubmission(string username, string project_name) {
+            object[] results = this.Invoke("FnFinalSubmission", new object[] {
+                        username,
+                        project_name});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnFinalSubmissionAsync(string username, string project_name) {
+            this.FnFinalSubmissionAsync(username, project_name, null);
+        }
+        
+        /// <remarks/>
+        public void FnFinalSubmissionAsync(string username, string project_name, object userState) {
+            if ((this.FnFinalSubmissionOperationCompleted == null)) {
+                this.FnFinalSubmissionOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnFinalSubmissionOperationCompleted);
+            }
+            this.InvokeAsync("FnFinalSubmission", new object[] {
+                        username,
+                        project_name}, this.FnFinalSubmissionOperationCompleted, userState);
+        }
+        
+        private void OnFnFinalSubmissionOperationCompleted(object arg) {
+            if ((this.FnFinalSubmissionCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnFinalSubmissionCompleted(this, new FnFinalSubmissionCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnChangeSubmitStatus", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnChangeSubmitStatus_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void FnChangeSubmitStatus(string projectNo) {
+            this.Invoke("FnChangeSubmitStatus", new object[] {
+                        projectNo});
+        }
+        
+        /// <remarks/>
+        public void FnChangeSubmitStatusAsync(string projectNo) {
+            this.FnChangeSubmitStatusAsync(projectNo, null);
+        }
+        
+        /// <remarks/>
+        public void FnChangeSubmitStatusAsync(string projectNo, object userState) {
+            if ((this.FnChangeSubmitStatusOperationCompleted == null)) {
+                this.FnChangeSubmitStatusOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnChangeSubmitStatusOperationCompleted);
+            }
+            this.InvokeAsync("FnChangeSubmitStatus", new object[] {
+                        projectNo}, this.FnChangeSubmitStatusOperationCompleted, userState);
+        }
+        
+        private void OnFnChangeSubmitStatusOperationCompleted(object arg) {
+            if ((this.FnChangeSubmitStatusCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnChangeSubmitStatusCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -1424,6 +1496,36 @@ namespace KCDF_P.NAVWS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void FnEditGrantManagerCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnFinalSubmissionCompletedEventHandler(object sender, FnFinalSubmissionCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnFinalSubmissionCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnFinalSubmissionCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnChangeSubmitStatusCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591

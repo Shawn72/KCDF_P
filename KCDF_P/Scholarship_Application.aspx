@@ -240,125 +240,7 @@
               </div>
           </asp:View>
 
-          <%--  <asp:View runat="server" ID="scholarAdvocacyData">
-              <div class="form-horizontal">
-              <br/>
-                <div class="row">
-                    <div class="col-md-12">
-                        <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">1</span> Your Involvement & Participation in Public Advocacy on Matters of community developement in Kenya</label> 
-                    </div>
-                </div>
-              <br/>
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="form-control alert alert-info" style="font-weight: bold;">Please tell us about your civic engagement and leadership activities and achievements in community project in Kenya. This could be in your local community, school, college, or city (town).</p> 
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Max 300 words:</asp:Label>
-                        <div class="col-md-6">
-                                <asp:TextBox id="txtAreaCivicEngmt" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" />
-                        </div>
-                  </div>
-                  
-                <div class="row">
-                        <div class="col-md-12">
-                            <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span> Who would you say has been influenced by your actions, how and with what impact? </label> 
-                        </div>
-                    </div>
-              <br/>
-                <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Max 200 words:</asp:Label>
-                        <div class="col-md-6">
-                                <asp:TextBox id="txtAreaDescribe" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" />
-                        </div>
-                 </div>
-                  
-                <div class="row">
-                        <div class="col-md-12">
-                            <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">3</span>In reference to the guidelines tell us how your application fits the criteria for the Fund </label> 
-                        </div>
-                 </div>
-               <br/>
-                <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Max 200 words:</asp:Label>
-                        <div class="col-md-6">
-                                <asp:TextBox id="txtareaWhyFit" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" />
-                        </div>
-                     </div>
-                <div class="row">
-                  <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <asp:Button ID="btnSaveParticipation" runat="server" Text="Save Data" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveParticipation_OnClick" CausesValidation="False" />          
-                      </div>
-                   </div> 
-                   <div class="col-md-3"></div>
-                </div>
-
-              </div>            
-          </asp:View>--%>
           
-          <%-- <asp:View runat="server" ID="communityprojectView">
-            <div class="form-horizontal">
-            <br/>
-            <div class="row">
-                <div class="col-md-12">
-                    <p class="form-control alert alert-info" style="font-weight: bold;"> As part of the award, you will receive funds towards scholastic needs which includes tuition fees. You will also get funds to support a community environmental project. This section helps you articulate your project idea.</p> 
-                </div>
-            </div> 
-
-            <div class="form-group">
-                <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Project Title (Max 25 words):</asp:Label>
-                    <div class="col-md-6">
-                            <asp:TextBox id="txtProjectTitle" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                    </div>
-                </div>
-                  
-            <div class="form-group">
-            <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Main Goal (Max 45 words):</asp:Label>
-                <div class="col-md-6">
-                        <asp:TextBox id="txtAreaMainGoal" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                </div>
-            </div>
-                  
-            <div class="form-group">
-            <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">List Specific Objectives (Max 5 Objectives):</asp:Label>
-                <div class="col-md-6">
-                        <asp:TextBox id="txtAreaSpecificObjs" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                </div>
-            </div>
-                  
-            <div class="form-group">
-            <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Project Overview (Max 250 words):</asp:Label>
-                <div class="col-md-6">
-                        <asp:TextBox id="txtAreaProjOverview" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                </div>
-            </div>
-                  
-            <div class="form-group">
-            <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Beneficiaries:</asp:Label>
-                <div class="col-md-6">
-                        <asp:TextBox id="txtBeneficiary" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                </div>
-            </div>
-                  
-            <div class="form-group">
-            <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Innovation/Uniqueness of your project (100words):</asp:Label>
-                <div class="col-md-6">
-                        <asp:TextBox id="txtAreaInnovation" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                </div>
-            </div>
-                  
-            <div class="form-group">
-            <asp:Label runat="server"  CssClass="col-md-3 control-label" Font-Bold="true">Sustainability (150 words):</asp:Label>
-                <div class="col-md-6">
-                        <asp:TextBox id="txtAreaSustainability" TextMode="multiline" Columns="70" Width="100%" Rows="5" runat="server" required="true" />
-                </div>
-            </div>
-            </div>
-        </asp:View>--%>
 
           <asp:View runat="server" ID="scholarSupport">
               <div class="form-horizontal">
@@ -546,7 +428,126 @@
           </asp:View>
           
           <asp:View runat="server" ID="AttachDocs">
-              
+             <asp:Label ID="lblErrMsg" runat="server" CssClass="text-left hidden" Visible="false"></asp:Label>
+            <span class="text-center text-danger"><small><%=lblErrMsg.Text %></small></span>
+            <div class="row">
+                <div class="col-md-12">
+                    <label class="control-label form-control alert-info" style="font-weight: bold;">Select Documents from your computer to upload</label>
+                </div>
+                <br/>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label class="control-label form-control alert-info" style="font-weight: bold;">Scholarship Form</label>
+                            </div>
+                            <div class="col-md-7">
+                                <asp:FileUpload ID="FileUploadSDoc" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                <asp:Button ID="btnUploadSDc" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadSDc_OnClick"/>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label class="control-label form-control alert-danger" style="font-weight: bold;">College Financials</label>
+                            </div>
+                            <div class="col-md-7">
+                                <asp:FileUpload ID="FileUploadCF" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                <asp:Button ID="btnUploadCF" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadCF_OnClick"/>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label class="control-label form-control alert-info" style="font-weight: bold;">National ID /or Student ID </label>
+                            </div>
+                            <div class="col-md-7">
+                                <asp:FileUpload ID="FileUploadSNID" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                <asp:Button ID="btnUploadNID" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadNID_OnClick" />
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label class="control-label form-control alert-info" style="font-weight: bold;">Passport Photo  </label>
+                            </div>
+                            <div class="col-md-7">
+                                <asp:FileUpload ID="FileUploadPhoto" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                <asp:Button ID="btnUploadPhoto" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadPhoto_OnClick" />
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label class="control-label form-control alert-info" style="font-weight: bold;">Guardian’s Concurrence Letter  </label>
+                            </div>
+                            <div class="col-md-7">
+                                <asp:FileUpload ID="FileUploadGurdLeter" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                <asp:Button ID="btnUploadGuardLeter" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadGuardLeter_OnClick"/>
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+                
+                 <div class="col-md-12">
+                    <div class="row">
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <label class="control-label form-control alert-info" style="font-weight: bold;"> Dean/ Departmental Chair Testimonial  </label>
+                            </div>
+                            <div class="col-md-7">
+                                <asp:FileUpload ID="FileUploadDeansTest" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                <asp:Button ID="btnUploadDeansTest" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadDeansTest_OnClick" />
+                            </div>
+                        </div>
+                        <br/>
+                    </div>
+                </div>
+
+                <br/>
+                <hr />
+                
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="form-control alert alert-info" style="font-weight: bold;"> My Uploaded Documents</p>
+                </div>
+
+                <div class="col-md-12">
+                    <asp:GridView ID="gridViewUploads" runat="server" CssClass="table table-striped table-advance table-hover" GridLines="None" EmptyDataText="No files uploaded" OnRowDeleting="gridViewUploads_OnRowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" AlternatingRowStyle-BackColor="#C2D69B"
+                        OnRowDataBound="gridViewUploads_OnRowDataBound">
+                        <Columns>
+                            <asp:BoundField DataField="Id" HeaderText="S/No:" />
+                            <asp:BoundField DataField="Document_Kind" HeaderText="Document" />
+                            <asp:BoundField DataField="Document_Name" HeaderText="File Name" />
+                            <asp:BoundField DataField="Document_type" HeaderText="File Type" />
+                            <asp:CommandField ShowDeleteButton="True" ButtonType="Button" />
+                        </Columns>
+                    </asp:GridView>
+                    </div>
+                </div>
           </asp:View>
           <asp:View runat="server" ID="bankDetails">
            <div class="form-horizontal">

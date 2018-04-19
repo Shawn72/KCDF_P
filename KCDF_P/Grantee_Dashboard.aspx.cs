@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,6 +20,7 @@ namespace KCDF_P
               new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                   ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
+        [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -221,5 +223,44 @@ namespace KCDF_P
             TextBoxrequested.Text = ldPrj.Select(rq => rq.Requested_KCDF_Amount_KES).SingleOrDefault().ToString();
 
         }
+
+        protected void copyTest_OnClick(object sender, EventArgs e)
+        {
+            CopyFilesToDir();
+        }
+
+        protected void CopyFilesToDir()
+        {
+            // Impersonate, automatically release the impersonation.
+            using (new Impersonator("KCDFFOUNDATION", @"KCDFFOUNDATION\Administrator", "Admin987654321"))
+            {
+                //try
+                //{
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents/" + Grantees.No + @"\";
+                string uriUploads = new Uri(uploadsFolder).LocalPath;
+
+                string destPath = @"http://192.168.0.249:801/";
+                //string uriPath = @"E:\AdvancedPortals\KCDF_P\KCDF_P\All Uploads\";
+                string uriPath = new Uri(destPath).LocalPath;
+                foreach (string dirPath in Directory.GetDirectories(uriUploads, " * ",
+                    SearchOption.AllDirectories))
+                    Directory.CreateDirectory(dirPath.Replace(uriUploads, uriPath));
+
+                //Copy all the files & Replaces any files with the same name
+                foreach (string newPath in Directory.GetFiles(uriUploads, "*.*",
+                    SearchOption.AllDirectories))
+                    File.Copy(newPath, newPath.Replace(uriUploads, uriPath), true);
+                KCDFAlert.ShowAlert("Copied from " + uriUploads + " to " + uriPath);
+                //}
+                //catch (Exception em)
+                //{
+                //  KCDFAlert.ShowAlert(em.Message);  
+
+                //}
+
+            }
+        }
+
+
     }
 }

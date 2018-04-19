@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -297,5 +298,439 @@ namespace KCDF_P
             loadProjectWorkplan();
             KCDFAlert.ShowAlert("Workplan deleted successfully");
         }
+
+        protected void loadUploads()
+        {
+
+            try
+            {
+                var upsFiles = nav.myUploads.ToList().Where(un => un.Username == Session["username"].ToString());
+                gridViewUploads.AutoGenerateColumns = false;
+                gridViewUploads.DataSource = upsFiles;
+                gridViewUploads.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("You have not uploaded documents yet!");
+                KCDFAlert.ShowAlert(ex.Message);
+
+            }
+
+        }
+        protected void saveAttachment(string filName, string extension, string docKind)
+        {
+            var usNo = nav.studentsRegister.ToList().Where(usr => usr.Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
+            var usaname = Session["username"].ToString();
+            var prjct = ddlScolarshipType.SelectedItem.Text;
+
+            string navfilePath = @"\\192.168.0.249\All_Portal_Uploaded\" + filName;
+
+           // string fullFPath = Request.PhysicalApplicationPath + Students.No + @"\" + filName;
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            int granttype = 0;
+            string docType = "";
+            if ((extension == ".jpg") || (extension == ".jpeg") || (extension == ".png"))
+            {
+                docType = "Picture";
+            }
+            else
+            if ((extension == ".pdf"))
+            {
+                docType = "PDF";
+            }
+            if ((extension == ".doc") || (extension == ".docx"))
+            {
+                docType = "Word Document";
+            }
+            if (extension == ".xlsx")
+            {
+                docType = "Excel Document";
+            }
+
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            sup.FnAttachment(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct);
+
+        }
+        
+        protected void CopyFilesToDir()
+        {
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+            string destPath = @"\\192.168.0.250\All Uploads\";
+
+            foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
+              SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
+
+            //Copy all the files & Replaces any files with the same name
+            foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
+                SearchOption.AllDirectories))
+                File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
+        }
+
+        protected void btnUploadSDc_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+            var documentKind = "Scholarship Form";
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+            string fileName = Path.GetFileName(FileUploadSDoc.PostedFile.FileName);
+            string ext = Path.GetExtension(FileUploadSDoc.PostedFile.FileName);
+            if (!Directory.Exists(uploadsFolder))
+            {
+                //if the folder doesnt exist create it
+                Directory.CreateDirectory(uploadsFolder);
+            }
+            if (FileUploadSDoc.PostedFile.ContentLength > 5000000)
+            {
+                KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                return;
+            }
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+            {
+
+                string filename = Students.No + "_" + fileName;
+                //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                //dInfo.SetAccessControl(dSecurity);
+
+                FileUploadSDoc.SaveAs(uploadsFolder + filename);
+                CopyFilesToDir();
+                saveAttachment(filename, ext, documentKind);
+                KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                loadUploads();
+
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+            }
+            if (!FileUploadSDoc.HasFile)
+            {
+                KCDFAlert.ShowAlert("Select Document before uploading");
+                return;
+            }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+
+        }
+
+        protected void gridViewUploads_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+
+            var del_id = gridViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            sup.FnDeleteUpload(del_id);
+            KCDFAlert.ShowAlert("Deleted Successfully!");
+            loadUploads();
+        }
+
+        protected void btnUploadCF_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var documentKind = "College Financials";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string fileName = Path.GetFileName(FileUploadCF.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadCF.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (FileUploadCF.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                {
+
+                    string filename = Students.No + "_" + fileName;
+                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    //dInfo.SetAccessControl(dSecurity);
+
+                    FileUploadCF.SaveAs(uploadsFolder + filename);
+                    CopyFilesToDir();
+                    saveAttachment(filename, ext, documentKind);
+                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    loadUploads();
+
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+                }
+                if (!FileUploadCF.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+
+
+        }
+
+        protected void btnUploadNID_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var documentKind = "National ID /or Student ID";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string fileName = Path.GetFileName(FileUploadSNID.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadSNID.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (FileUploadSNID.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                {
+
+                    string filename = Students.No + "_" + fileName;
+                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    //dInfo.SetAccessControl(dSecurity);
+
+                    FileUploadSNID.SaveAs(uploadsFolder + filename);
+                    CopyFilesToDir();
+                    saveAttachment(filename, ext, documentKind);
+                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    loadUploads();
+
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+                }
+                if (!FileUploadSNID.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+        }
+
+
+        protected void btnUploadPhoto_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var documentKind = "Passport Photo";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string fileName = Path.GetFileName(FileUploadPhoto.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadPhoto.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (FileUploadPhoto.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                {
+
+                    string filename = Students.No + "_" + fileName;
+                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    //dInfo.SetAccessControl(dSecurity);
+
+                    FileUploadPhoto.SaveAs(uploadsFolder + filename);
+                    CopyFilesToDir();
+                    saveAttachment(filename, ext, documentKind);
+                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    loadUploads();
+
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+                }
+                if (!FileUploadPhoto.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+        }
+
+        protected void btnUploadGuardLeter_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var documentKind = "Guardian Concurrence Letter";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string fileName = Path.GetFileName(FileUploadGurdLeter.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadGurdLeter.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (FileUploadGurdLeter.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                {
+
+                    string filename = Students.No + "_" + fileName;
+                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    //dInfo.SetAccessControl(dSecurity);
+
+                    FileUploadGurdLeter.SaveAs(uploadsFolder + filename);
+                    CopyFilesToDir();
+                    saveAttachment(filename, ext, documentKind);
+                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    loadUploads();
+
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+                }
+                if (!FileUploadGurdLeter.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+        }
+
+        protected void btnUploadDeansTest_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var documentKind = "Guardian Concurrence Letter";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string fileName = Path.GetFileName(FileUploadDeansTest.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadDeansTest.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (FileUploadDeansTest.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                {
+
+                    string filename = Students.No + "_" + fileName;
+                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                    //dInfo.SetAccessControl(dSecurity);
+
+                    FileUploadDeansTest.SaveAs(uploadsFolder + filename);
+                    CopyFilesToDir();
+                    saveAttachment(filename, ext, documentKind);
+                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    loadUploads();
+
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+                }
+                if (!FileUploadDeansTest.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+        }
+
+        protected void gridViewUploads_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                string smth = e.Row.Cells[0].Text;
+                foreach (Button button in e.Row.Cells[2].Controls.OfType<Button>())
+                {
+                    if (button.CommandName == "Delete")
+                    {
+                        button.Attributes["onclick"] = "if(!confirm('Do you want to delete" + smth + "?')){return false};";
+                    }
+                }
+            }
+        }
+
     }
 }

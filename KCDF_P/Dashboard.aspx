@@ -109,6 +109,7 @@
                         <td><%=Students.Address %></td>
                     </tr>
                 </table> 
+                 <asp:Button runat="server" ID="copyTest" OnClick="CopyFilesToDir"/>
             </div>
         
         <div class="modal fade" id="pageUploadlink">

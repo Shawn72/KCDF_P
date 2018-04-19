@@ -66,6 +66,22 @@ namespace KCDF_P
             }
            
         }
+
+        protected void CopyFilesToDir(object sender, EventArgs eventArgs)
+        {
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+            string destPath = @"http://192.168.0.249:801/";
+
+            foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
+              SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
+
+            //Copy all the files & Replaces any files with the same name
+            foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
+                SearchOption.AllDirectories))
+                File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
+            KCDFAlert.ShowAlert("Copied!");
+        }
         protected Students returnCustomer()
         {
             return new Students(Session["username"].ToString());

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -18,7 +19,10 @@ namespace KCDF_P
                new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"],
                    ConfigurationManager.AppSettings["DOMAIN"])
         };
-
+        public string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+                                  ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
+                                  ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
+                                  ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
         protected void Page_Load(object sender, EventArgs e)
         {
            
@@ -89,86 +93,6 @@ namespace KCDF_P
             }
 
         }
-       
-
-        protected void btnSubmit_Click(object sender, EventArgs e)
-        {
-            //    string userName = txtEmployeeNo.Text.Trim().Replace("'", "");
-            //    string userPassword = idNo.Text.Trim().Replace("'", "");
-
-            //    var idcheck = nav.MemberList.Where(r => r.No == userName).Select(k=>k.ID_No).FirstOrDefault();
-            //    var emalcheck = nav.MemberList.Where(r => r.No == userName).Select(k => k.E_Mail).FirstOrDefault();
-            //    var phonecheck = nav.MemberList.Where(r => r.No == userName).Select(k => k.Phone_No).FirstOrDefault();
-
-            //    if (string.IsNullOrEmpty(userPassword) && string.IsNullOrEmpty(userName))
-            //    {
-            //        lblError.Text = "Member No or National ID Empty!";
-            //        btnSubmit.Visible = true;
-            //        btnBack.Visible = true;
-            //        btnSignup.Visible = false;
-            //        btnLogin.Visible = false;
-            //        MultiView1.SetActiveView(View2);
-            //        return;
-
-            //    }
-            //    else
-            //    {
-            //        try
-            //        {
-            //            var nPassword = NewPassword();
-            //            var CompEmail = WSConfig.ObjNav.FnUpdatePassword(txtEmployeeNo.Text.Trim(), idNo.Text.Trim(), nPassword);
-            //            if (WSConfig.MailFunction(string.Format("Dear Sacco Member,\n Your New password is: {0}", nPassword), CompEmail,
-            //                "Portal password reset successful") && !String.IsNullOrEmpty(CompEmail))
-            //            {
-            //                SACCOFactory.ShowAlert(
-            //                    "A New Password has been generated and sent to your Personal mail and Mobile Phone.Kindly use to it to login to your Member portal");
-            //                btnSubmit.Visible = false;
-            //                txtEmployeeNo.Enabled = false;
-            //                idNo.Enabled = false;
-            //                btnBack.Visible = false;
-            //                MultiView1.SetActiveView(View1);
-            //                btnSignup.Visible = true;
-            //                btnLogin.Visible = true;
-            //                lblError.Text = "";
-            //            }
-            //            else if (idcheck != userPassword)
-            //            {
-            //                SACCOFactory.ShowAlert(
-            //                   "Your Password could not be reset. Member number does not match your ID number!");
-            //                btnSubmit.Visible = true;
-            //                btnBack.Visible = true;
-            //                btnSignup.Visible = false;
-            //                btnLogin.Visible = false;
-            //                MultiView1.SetActiveView(View2);
-            //            }
-            //            else if (string.IsNullOrEmpty(emalcheck) && phonecheck!=null)
-            //            {
-            //                SACCOFactory.ShowAlert(
-            //                  "Your Password was send to your Phone Number");
-            //                btnSubmit.Visible = false;
-            //                txtEmployeeNo.Enabled = false;
-            //                idNo.Enabled = false;
-            //                btnBack.Visible = false;
-            //                MultiView1.SetActiveView(View1);
-            //                btnSignup.Visible = true;
-            //                btnLogin.Visible = true;
-            //                lblError.Text = "";
-            //            }
-
-            //        }
-            //        catch (Exception exception)
-            //        {
-            //            SACCOFactory.ShowAlert(exception.Message);
-            //        }
-            //    }
-            //    btnSubmit.Visible = true;
-            //    btnBack.Visible = true;
-            //    btnSignup.Visible = false;
-            //    btnLogin.Visible = false;
-            //    MultiView1.SetActiveView(View2);
-
-        }
-
 
         protected string NewPassword()
         {
@@ -214,6 +138,8 @@ namespace KCDF_P
 
                 try
                 {
+                   // var navusn = nav.grantees_Register.Where()
+
                     if (nav.grantees_Register.Where(r => r.Organization_Username == userName && r.Activated == true && r.Password == userPassword).FirstOrDefault() != null)
                     {
                         Session["username"] = userName;
@@ -250,8 +176,40 @@ namespace KCDF_P
             {
                 lblError.Text = "Invalid Captcha. Try again!";
             }
+            
+        }
 
+        private bool MyValidationFunction(string myusername, string mypassword)
+        {
+            bool boolReturnValue = false;
+            string SQLRQST = @"SELECT No_, Password from [United Women Sacco Ltd$Members Register]";
+            SqlConnection con = new SqlConnection(strSQLConn);
+            SqlCommand command = new SqlCommand(SQLRQST, con);
+            SqlDataReader Dr;
+            try
+            {
+                con.Open();
+                Dr = command.ExecuteReader();
+                while (Dr.Read())
+                {
+                    if ((myusername == Dr["No_"].ToString()) && (mypassword == Dr["Password"].ToString()))
+                    {
+                        boolReturnValue = true;
+                        break;
+                    }
+                    if (string.IsNullOrWhiteSpace(Dr["Password"].ToString()))
+                    {
+                        boolReturnValue = false;
+                    }
+                }
+                Dr.Close();
+            }
+            catch (SqlException ex)
+            {
+                KCDFAlert.ShowAlert("Authentication failed!" + ex.Message);
 
+            }
+            return boolReturnValue;
         }
     }
 }

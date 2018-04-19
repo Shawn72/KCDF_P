@@ -32,6 +32,7 @@ namespace KCDF_P.Account
                 }
                 readData();
                 loadApplicationInfo();
+                getPostaCodes();
             }
             
         }
@@ -261,5 +262,24 @@ namespace KCDF_P.Account
             }
         }
 
+        protected void ddlPostalCode_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            var pCode = ddlPostalCode.SelectedItem.Text;
+            var postaTown =
+                nav.list_myPosta.ToList()
+                    .Where(cd => cd.Postal_Code == pCode)
+                    .Select(pT => pT.Postal_Town)
+                    .SingleOrDefault();
+            txtPostalTown.Text = postaTown;
+        }
+
+        protected void getPostaCodes()
+        {
+            var posta = nav.list_myPosta.ToList();
+            ddlPostalCode.DataSource = posta;
+            ddlPostalCode.DataTextField = "Postal_Code";
+            ddlPostalCode.DataValueField = "Postal_Code";
+            ddlPostalCode.DataBind();
+        }
     }
 }

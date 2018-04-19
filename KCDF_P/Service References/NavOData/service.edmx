@@ -3519,6 +3519,22 @@
         <Property Name="Gen_Prod_Posting_Group" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
+      <EntityType Name="list_myPosta">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="Postal_Code" Type="Edm.String" />
+        <Property Name="Postal_Town" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="list_Schools">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="School" Type="Edm.String" />
+        <Property Name="Level_of_School" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
       <EntityType Name="myReferees">
         <Key>
           <PropertyRef Name="No" />
@@ -3544,6 +3560,8 @@
         <Property Name="link" Type="Edm.String" />
         <Property Name="Username" Type="Edm.String" />
         <Property Name="Id" Type="Edm.String" Nullable="false" />
+        <Property Name="Grant_No" Type="Edm.String" />
+        <Property Name="Project_Name" Type="Edm.String" />
       </EntityType>
       <EntityType Name="profile_Pics">
         <Key>
@@ -3576,6 +3594,7 @@
         <Property Name="Partisan" Type="Edm.Boolean" />
         <Property Name="Project_Name" Type="Edm.String" />
         <Property Name="Submission_Status" Type="Edm.String" />
+        <Property Name="Approval_Status" Type="Edm.String" />
       </EntityType>
       <EntityType Name="SalesDashboard">
         <Key>
@@ -4589,6 +4608,8 @@
         <NavigationProperty Name="grantees_Register" Relationship="NAV.Company_grantees_Register" ToRole="grantees_Register" FromRole="Company" />
         <NavigationProperty Name="ItemSalesAndProfit" Relationship="NAV.Company_ItemSalesAndProfit" ToRole="ItemSalesAndProfit" FromRole="Company" />
         <NavigationProperty Name="ItemSalesByCustomer" Relationship="NAV.Company_ItemSalesByCustomer" ToRole="ItemSalesByCustomer" FromRole="Company" />
+        <NavigationProperty Name="list_myPosta" Relationship="NAV.Company_list_myPosta" ToRole="list_myPosta" FromRole="Company" />
+        <NavigationProperty Name="list_Schools" Relationship="NAV.Company_list_Schools" ToRole="list_Schools" FromRole="Company" />
         <NavigationProperty Name="myReferees" Relationship="NAV.Company_myReferees" ToRole="myReferees" FromRole="Company" />
         <NavigationProperty Name="myUploads" Relationship="NAV.Company_myUploads" ToRole="myUploads" FromRole="Company" />
         <NavigationProperty Name="profile_Pics" Relationship="NAV.Company_profile_Pics" ToRole="profile_Pics" FromRole="Company" />
@@ -4905,6 +4926,14 @@
         <End Type="NAV.ItemSalesByCustomer" Role="ItemSalesByCustomer" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_list_myPosta">
+        <End Type="NAV.list_myPosta" Role="list_myPosta" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_list_Schools">
+        <End Type="NAV.list_Schools" Role="list_Schools" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_myReferees">
         <End Type="NAV.myReferees" Role="myReferees" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
@@ -5149,6 +5178,8 @@
         <EntitySet Name="grantees_Register" EntityType="NAV.grantees_Register" />
         <EntitySet Name="ItemSalesAndProfit" EntityType="NAV.ItemSalesAndProfit" />
         <EntitySet Name="ItemSalesByCustomer" EntityType="NAV.ItemSalesByCustomer" />
+        <EntitySet Name="list_myPosta" EntityType="NAV.list_myPosta" />
+        <EntitySet Name="list_Schools" EntityType="NAV.list_Schools" />
         <EntitySet Name="myReferees" EntityType="NAV.myReferees" />
         <EntitySet Name="myUploads" EntityType="NAV.myUploads" />
         <EntitySet Name="profile_Pics" EntityType="NAV.profile_Pics" />
@@ -5464,6 +5495,14 @@
         <AssociationSet Name="Company_ItemSalesByCustomer_ItemSalesByCustomer" Association="NAV.Company_ItemSalesByCustomer">
           <End Role="Company" EntitySet="Company" />
           <End Role="ItemSalesByCustomer" EntitySet="ItemSalesByCustomer" />
+        </AssociationSet>
+        <AssociationSet Name="Company_list_myPosta_list_myPosta" Association="NAV.Company_list_myPosta">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="list_myPosta" EntitySet="list_myPosta" />
+        </AssociationSet>
+        <AssociationSet Name="Company_list_Schools_list_Schools" Association="NAV.Company_list_Schools">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="list_Schools" EntitySet="list_Schools" />
         </AssociationSet>
         <AssociationSet Name="Company_myReferees_myReferees" Association="NAV.Company_myReferees">
           <End Role="Company" EntitySet="Company" />

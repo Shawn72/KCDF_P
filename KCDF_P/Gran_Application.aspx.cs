@@ -8,9 +8,12 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using System.Security.AccessControl;
+using System.Security.Principal;
 using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
 using KCDF_P.NAVWS;
+using Microsoft.Ajax.Utilities;
 
 namespace KCDF_P
 {
@@ -35,13 +38,10 @@ namespace KCDF_P
                 loadGrantsHistory();
                 loadUploads();
                 getProjects();
+                loadIncompleteApplication();
             }
 
         }
-   
-
-      
-
        
 
         protected void studentInfoMenu_OnMenuItemClick(object sender, MenuEventArgs e)
@@ -103,17 +103,6 @@ namespace KCDF_P
             loadGrantsHistory();
 
         }
-        protected void loadPastDonoryTable()
-        {
-            //var grnhisto =
-            //    nav.grant_history.ToList().Where(us => us.Organization_Username == Session["username"].ToString());
-            //tblGrantsManager.AutoGenerateColumns = false;
-            //tblGrantsManager.DataSource = grnhisto;
-            //tblGrantsManager.DataBind();
-       }
-
-     
-
         protected void loadGrantsHistory()
         {
             var grnhisto =
@@ -126,29 +115,109 @@ namespace KCDF_P
         protected void btnUpdatePOverview_OnClick(object sender, EventArgs e)
         {
             int projectlength = 0;
+            DateTime projTDt;
+            decimal projCost = 0;
+            decimal contrib = 0;
+            decimal kcdffunds = 0;
             var usn = Session["username"].ToString();
+
             string projTt = TextBoxtitle.Text.Trim();
+            if (string.IsNullOrWhiteSpace(TextBoxtitle.Text))
+            {
+                KCDFAlert.ShowAlert("Fill provide the title!");
+                TextBoxtitle.BackColor = Color.Red;
+                TextBoxtitle.Focus();
+                return;
+            }
             var pstartD = txtDateofStart.Value.Trim();
-            DateTime projTDt = DateTime.Parse(pstartD);
+            if (string.IsNullOrWhiteSpace(pstartD))
+            {
+                KCDFAlert.ShowAlert("Select a valid date!");
+                txtDateofStart.Focus();
+                return;
+            }
+            else
+            {
+                projTDt = DateTime.Parse(pstartD);
+            }
             string county = ddlSelCountry.SelectedItem.Text;
+            if (ddlSelCountry.SelectedIndex==0)
+            {
+                KCDFAlert.ShowAlert("Select valid county");
+                ddlSelCountry.BackColor = Color.OrangeRed;
+                return;
+            }
             string constituency = ddlConstituency.SelectedItem.Text;
+            if (ddlConstituency.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Select valid subcounty");
+                ddlConstituency.BorderColor = Color.OrangeRed;
+                return;
+            }
             string urbantarget = txtAreaTargetSettmnt.Text.Trim();
-           
+            if (string.IsNullOrWhiteSpace(urbantarget))
+            {
+                KCDFAlert.ShowAlert("Please fill target textArea!");
+                txtAreaTargetSettmnt.BorderColor = Color.Red;
+                txtAreaTargetSettmnt.Focus();
+                return;
+            }
             string scale = ddlEstScale.SelectedItem.Text;
-            decimal projCost = Convert.ToDecimal(TextBoxcost.Text);
-            decimal contrib = Convert.ToDecimal(TextBoxcont.Text);
-            decimal kcdffunds = Convert.ToDecimal(TextBoxrequested.Text);
+            if (string.IsNullOrWhiteSpace(TextBoxcost.Text))
+            {
+                KCDFAlert.ShowAlert("fill in the Cost Please!");
+                TextBoxcost.BorderColor = Color.Red;
+                TextBoxcost.Focus();
+                return;
+            }
+            else
+            {
+                projCost = Convert.ToDecimal(TextBoxcost.Text);
+            }
+            if (string.IsNullOrWhiteSpace(TextBoxcont.Text))
+            {
+                KCDFAlert.ShowAlert("Please fill in your contribution!");
+                TextBoxcont.BorderColor = Color.Red;
+                TextBoxcont.Focus();
+                return;
+            }
+            else
+            {
+                contrib = Convert.ToDecimal(TextBoxcont.Text);
+            }
+            if (string.IsNullOrWhiteSpace(TextBoxrequested.Text))
+            {
+                KCDFAlert.ShowAlert("Please fill requested amount!");
+                TextBoxrequested.BorderColor = Color.Red;
+                TextBoxrequested.Focus();
+                return;
+            }
+            else
+            {
+                kcdffunds = Convert.ToDecimal(TextBoxrequested.Text);
+            }
+             
             string projectNm = ddlAccountType.SelectedItem.Text;
+            if (ddlAccountType.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Select valid Project first!");
+                ddlAccountType.Focus();
+                ddlAccountType.BorderColor = Color.Red;
+                return;
+            }
 
             if (ddlMonths.SelectedIndex == 0)
             {
                 KCDFAlert.ShowAlert("Select valid project duration!");
+                ddlMonths.Focus();
+                ddlMonths.BackColor = Color.OrangeRed;
                 return;
             }
             else
             {
                projectlength = Convert.ToInt32(ddlMonths.SelectedItem.Text);
             }
+
             try
             {
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
@@ -180,17 +249,17 @@ namespace KCDF_P
        
         protected void CopyFilesToDir()
         {
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
-            string destPath = Request.PhysicalApplicationPath + "All Uploads\\";
+            //string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+            //string destPath = @"\\192.168.0.250\All Uploads\";
 
-            foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
-              SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
+            //foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
+            //  SearchOption.AllDirectories))
+            //    Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
 
-            //Copy all the files & Replaces any files with the same name
-            foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
-                SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
+            ////Copy all the files & Replaces any files with the same name
+            //foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
+            //    SearchOption.AllDirectories))
+            //    File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
         }
 
         protected void DownloadFile(object sender, EventArgs e)
@@ -201,16 +270,7 @@ namespace KCDF_P
             Response.WriteFile(filePath);
             Response.End();
         }
-        protected void DeleteFile(object sender, EventArgs e)
-        {
-            string filePath = (sender as LinkButton).CommandArgument;
-            File.Delete(filePath);
-            //delete from the common folder
-            //string commonF = Request.PhysicalApplicationPath + "All Uploads\\";
-            //File.Delete(commonF);
-            //Response.Redirect(Request.Url.AbsoluteUri);
-        }
-
+       
         protected void refreSH()
         {
            Response.Redirect(Request.RawUrl);Page.Response.Redirect(Page.Request.Url.ToString(), true);
@@ -222,7 +282,14 @@ namespace KCDF_P
             var usNo = nav.grantees_Register.ToList().Where(usr => usr.Organization_Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
             var usaname = Session["username"].ToString();
             var prjct = ddlAccountType.SelectedItem.Text;
-            string fullFPath = Request.PhysicalApplicationPath + "All Uploads\\" + Grantees.No + "\\" + filName;
+
+            // string fullFPath = Request.PhysicalApplicationPath + "All Uploads\\" + Grantees.No + @"\" + filName;
+
+            string navfilePath = @"\\192.168.0.249\All_Portal_Uploaded\" + filName;
+
+            // string uriPath = new Uri(navfilePath).LocalPath;
+            // string urI =;
+
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             int granttype = 1;
             string docType = "";
@@ -247,24 +314,19 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            sup.FnAttachment(usNo, docType, fullFPath, filName, granttype, docKind, usaname, prjct);
+            sup.FnAttachment(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct);
 
         }
 
        
-        protected void loadUploads()
+        private void loadUploads()
         {
-           
             try
             {
-            //    string[] filePaths = Directory.GetFiles(Server.MapPath("~/Uploaded Documents/" + Grantees.No + "/"));
-            //    List<ListItem> files = new List<ListItem>();
-            //    foreach (string filePath in filePaths)
-            //    {
-            //        files.Add(new ListItem(Path.GetFileName(filePath), filePath));
-            //    }
-            //    gridViewUploads.DataSource = files;
-                var upsFiles = nav.myUploads.ToList().Where(un => un.Username == Session["username"].ToString());
+                var userNM = Session["username"].ToString();
+                var openP =
+                    nav.projectOverview.ToList().Where(up => up.Username == userNM && up.Approval_Status == "Open").Select(pn=>pn.No).SingleOrDefault();            
+                var upsFiles = nav.myUploads.ToList().Where(un => un.Username == userNM && un.Grant_No==openP);
                 gridViewUploads.AutoGenerateColumns = false;
                 gridViewUploads.DataSource = upsFiles;
                 gridViewUploads.DataBind();
@@ -279,17 +341,18 @@ namespace KCDF_P
         }
         protected void UploadFile(object sender, EventArgs e)
         {
-            try
-            {
+            //+ Grantees.No + "\\"
+            //try
+            //{  
                 var documentKind = "Proposal";
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
                 string fileName = Path.GetFileName(FileUpload.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    //if the folder doesnt exist create it
-                    Directory.CreateDirectory(uploadsFolder);
-                }
+                //if (!Directory.Exists(uploadsFolder))
+                //{
+                //    //if the folder doesnt exist create it
+                //    Directory.CreateDirectory(uploadsFolder);
+                //}
 
                 if (FileUpload.PostedFile.ContentLength > 5000000)
                 {
@@ -298,12 +361,20 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
-                    FileUpload.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
-                    loadUploads();
+
+                string filename = Grantees.No + "_" + fileName;
+                //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
+                //DirectorySecurity dSecurity = dInfo.GetAccessControl();
+                //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
+                //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
+                //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
+                //dInfo.SetAccessControl(dSecurity);
+
+                FileUpload.SaveAs(uploadsFolder + filename);
+                CopyFilesToDir();
+                saveAttachment(filename, ext, documentKind);
+                KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                loadUploads();
 
                 }
                 else
@@ -317,12 +388,12 @@ namespace KCDF_P
                     return;
                 }
 
-            }
-            catch (Exception ex)
-            {
-                // KCDFAlert.ShowAlert("Unkown Error Occured!");
-                KCDFAlert.ShowAlert(ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    // KCDFAlert.ShowAlert("Unkown Error Occured!");
+            //    KCDFAlert.ShowAlert(ex.Message);
+            //}
 
         }
 
@@ -332,7 +403,7 @@ namespace KCDF_P
             try
             {
                 var documentKind = "Registration Certificate";
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
                 string fileName = Path.GetFileName(FileUploadID.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadID.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -380,7 +451,7 @@ namespace KCDF_P
             try
             {
                 var documentKind = "Organizational Constitution ";
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
                 string fileName = Path.GetFileName(FileUploadConst.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadConst.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -427,7 +498,7 @@ namespace KCDF_P
             try
             {
                 var documentKindML = "Members List";
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
                 string fileName = Path.GetFileName(FileUploadList.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadList.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -475,7 +546,7 @@ namespace KCDF_P
             try
             {
                 var documentKindFR = "Financial Report ";
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
                 string fileName = Path.GetFileName(FileUploadFinRePo.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadFinRePo.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -530,15 +601,26 @@ namespace KCDF_P
 
        protected void gridViewUploads_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-          
-            var del_id = gridViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            sup.FnDeleteUpload(del_id);
-            KCDFAlert.ShowAlert("Deleted Successfully!");
-            loadUploads();
+           try
+           {
+                var del_id = gridViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
+                Session["delMeID"] = del_id;
+
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                var uploadsGrantNo = nav.myUploads.ToList().Where(rU => rU.Id == Session["delMeID"].ToString() && rU.Username == Session["username"].ToString()).Select(gN => gN.Grant_No).SingleOrDefault();
+                sup.FnChangeSubmitStatus(uploadsGrantNo);
+                sup.FnDeleteUpload(Session["delMeID"].ToString());
+                KCDFAlert.ShowAlert("Deleted Successfully!" + uploadsGrantNo + " &&" + del_id);
+                loadUploads();
+            }
+           catch (Exception ex)
+           {
+           KCDFAlert.ShowAlert(ex.Message);
+           }
+            
         }
 
 
@@ -695,19 +777,37 @@ namespace KCDF_P
         {
             try
             {
+                var tobevalidated = Session["edit_id"].ToString();
+                //KCDFAlert.ShowAlert(tobevalidated);
+                var prj = ddlAccountType.SelectedItem.Text;
                 var usNM = Session["username"].ToString();
                 var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
                 Portals sup = new Portals();
                 sup.Credentials = credentials;
                 sup.PreAuthenticate = true;
-                bool myValid = sup.FnValidateSubmission(usNM);
-                if (myValid)
+                bool myValid = sup.FnValidateSubmission(usNM, tobevalidated);
+                switch (myValid)
                 {
+                    case true:
+                    KCDFAlert.ShowAlert("All Uploads available, you can submit your application");
                     txtValidate.Text = "ALL UPLOADS AVAILABLE";
                     txtValidate.ForeColor = Color.GhostWhite;
                     txtValidate.BackColor = Color.ForestGreen;
                     btnFinalSubmit.Enabled = true;
+                    btnValidateInfo.Enabled = false;
+
+                    break;
+
+                    case false:
+                    KCDFAlert.ShowAlert("No uploads yet!, you cannot submit anything");
+                    txtValidate.Text = "PLEASE COMPLETE THE APPLICATION FIRST";
+                    txtValidate.BackColor = Color.Red;
+                    txtValidate.ForeColor = Color.GhostWhite;
+                    btnFinalSubmit.Enabled = false;
+                    sup.FnChangeSubmitStatus(tobevalidated);
+                    break;
                 }
+                
 
             }
             catch (Exception ex)
@@ -718,13 +818,77 @@ namespace KCDF_P
                 txtValidate.ForeColor = Color.GhostWhite;
                 btnFinalSubmit.Enabled = false;
             }
-           
-
         }
 
         protected void btnFinalSubmit_OnClick(object sender, EventArgs e)
         {
-           
+            try
+            {
+                var usNM = Session["username"].ToString();
+                var projTtle = ddlAccountType.SelectedItem.Text;
+
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                bool isSubmitted = sup.FnFinalSubmission(usNM, projTtle);
+
+                switch (isSubmitted)
+                {
+                    case true:
+                        KCDFAlert.ShowAlert("Your Application is Successfully submitted!" + isSubmitted);
+                        loadIncompleteApplication();
+                        break;
+
+                    case false:
+                        KCDFAlert.ShowAlert("Your Application could not submitted!" + isSubmitted);
+                        break;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+
+        }
+
+        protected void checkApprovalStat(string projName)
+        {
+            var usnm = Session["username"].ToString();
+            var chckIt = nav.projectOverview.ToList().Where(pu => pu.Username == usnm);
+            var appStat = chckIt.ToList().Where(pns => pns.Project_Name == projName).Select(st => st.Approval_Status).ToString();
+
+            switch (appStat)
+            {
+                case "Pending Approval":
+                break;
+
+                case "Approved":
+
+                    break;
+            }
+        }
+
+        protected void lnkEditMe_OnClick(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModalSubmit();", true);
+            Session["edit_id"] = (sender as LinkButton).CommandArgument;
+            var validMe = Session["edit_id"].ToString();
+            lblProjNb.Text = validMe;
+
+        }
+
+        private void loadIncompleteApplication()
+        {
+            var usn = Session["username"].ToString();
+            var inComp = nav.projectOverview.ToList()
+                .Where(us => us.Username == usn && Convert.ToString(us.Submission_Status) =="Incomplete");
+            gridSubmitApps.AutoGenerateColumns = false;
+            gridSubmitApps.DataSource = inComp;
+            gridSubmitApps.DataBind();
+
         }
     }
 }
