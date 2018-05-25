@@ -69,7 +69,7 @@ namespace KCDF_P
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            //Session["username"] = Students.Username;
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
@@ -80,6 +80,12 @@ namespace KCDF_P
         protected void editModal()
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+        }
+
+        protected void lnkBtnChangeP_OnClick(object sender, EventArgs e)
+        {
+            Session["userType"] = "student";
+            Response.Redirect("PasswordReset.aspx");
         }
     }
 

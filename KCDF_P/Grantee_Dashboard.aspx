@@ -1,13 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Grantee_Dashboard.aspx.cs" MasterPageFile="Gran_Master.Master" Inherits="KCDF_P.Grantee_Dashboard" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Grantee_Dashboard.aspx.cs" MasterPageFile="~/Gran_Master.Master" Inherits="KCDF_P.Grantee_Dashboard" %>
 
 <%@Import namespace="System.IO" %>
-<%@Import namespace="System" %>
 <%@ Import Namespace="System.Net" %>
 <%@ Import Namespace="KCDF_P" %>
 <%@ Import Namespace="KCDF_P.NAVWS" %>
 <asp:Content ID="userDashBd" ContentPlaceHolderID="MainContent" runat="server">
 
-<meta http-equiv="refresh" content="180;url=Grantee_Dashboard.aspx"> 
+<meta http-equiv="refresh" content="500;url=Grantee_Dashboard.aspx"> 
     <div class="row" style="height: 20px">&nbsp;</div>
     <div class="row">
         <div class="col-md-4">
@@ -47,9 +46,9 @@
         </div>
              
         <div class="col-md-8">
-        <asp:GridView ID="tblMyProjects" runat="server" CssClass="table table-condensed" Width="100%" AutoGenerateSelectButton="false" 
+        <asp:GridView ID="tblMyProjects" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
             EmptyDataText="No projects Found!" OnRowDeleting="tblMyProjects_OnRowDeleting" DataKeyNames="No"
-             AlternatingRowStyle-BackColor = "#C2D69B">
+             AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
         <Columns>
             <asp:BoundField DataField="No" HeaderText="S/No:"/>
             <asp:BoundField DataField="Project_Name" HeaderText="Project" />
@@ -67,9 +66,52 @@
         </Columns>
         <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
             </asp:GridView>      
-        </div> 
+       </div>
         
-        <div class="modal fade" id="pageUploadlink">
+         <%--<div class="form-group">
+            <asp:Label runat="server"  CssClass="col-md-3 control-label">Account Type:</asp:Label>
+                <div class="col-md-6">
+                    <asp:DropDownList ID="ddlCountry" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                            data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
+                        <asp:ListItem Selected="True">..Select Country..</asp:ListItem>
+                    </asp:DropDownList>
+                </div> 
+                
+        </div>--%>
+
+ <%-- <asp:Repeater ID="rptr" runat="server">
+
+            <HeaderTemplate>
+                <table id="myPrJs" class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th >S/No:</th>
+                            <th>Project</th>
+                            <th>Project Start Year</th>
+                            <th>Total Project Cost</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+            </HeaderTemplate>
+            <ItemTemplate>
+                <tbody>
+                    <tr>
+                        <td><%# Eval("No")%></td>
+                        <td><%# Eval("Project_Name") %></td>
+                        <td><%# Eval("Project_Start_Date") %></td>
+                        <td><%# Eval("Total_Project_Cost_KES") %></td>
+                        <td><a href='<%#Eval("No") %>'>Edit</a></td>
+                    </tr>
+                </tbody>
+            </ItemTemplate>
+
+            <FooterTemplate>
+                </table>
+            </FooterTemplate>
+        </asp:Repeater>
+        --%>
+        
+<div class="modal fade" id="pageUploadlink">
 		<div class="modal-dialog" runat="server">
 			<div class="modal-content" runat="server">
                 <div class="panel-heading" style="text-align:left; background: #00bfff; color: #f0f8ff">Upload Profile Picture Here</div>
@@ -95,7 +137,7 @@
     </div>
         
           
-        <div class="modal fade" id="pageProjectEdit">
+<div class="modal fade" id="pageProjectEdit">
 		<div class="modal-dialog" runat="server">
 			<div class="modal-content" runat="server">
                 <div class="panel-heading" style="text-align:left; background: #00bfff; color: #f0f8ff">Edit Projects Information</div>
@@ -266,7 +308,7 @@
 
     </div>
     
-   <script runat="server">
+<script runat="server">
        protected void btnUploadMe_OnClick(object sender, EventArgs e)
        {
            string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";

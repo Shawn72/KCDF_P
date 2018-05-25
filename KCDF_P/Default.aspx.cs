@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
+using KCDF_P.NAVWS;
 
 namespace KCDF_P
 {
@@ -19,17 +20,16 @@ namespace KCDF_P
                new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"],
                    ConfigurationManager.AppSettings["DOMAIN"])
         };
-        public string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+        public readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
                                   ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
+
+        public string Company_Name = "KCDF TEST NEW";
+       
         protected void Page_Load(object sender, EventArgs e)
         {
-           
-            if (!IsPostBack)
-            {
-
-            }
+            
         }
 
         //protected override void CreateChildControls()
@@ -47,9 +47,10 @@ namespace KCDF_P
                 string userName = txtUsername.Text.Trim().Replace("'", "");
                 string userPassword = txtPassword.Text.Trim().Replace("'", "");
 
-                if (string.IsNullOrEmpty(userPassword) && string.IsNullOrEmpty(userName))
+                if (string.IsNullOrWhiteSpace(userPassword))
                 {
-                    lblError.Text = "Username or Password Empty!";
+                    lblError.Text = "Password Empty!";
+                    KCDFAlert.ShowAlert("Password Empty!");
                     return;
                 }
 
@@ -59,7 +60,6 @@ namespace KCDF_P
                     {
                         Session["username"] = userName;
                         Session["pwd"] = userPassword;
-                      //  Students cust = new Students(userName);
                         Response.Redirect("~/Dashboard.aspx");
 
                     }
@@ -69,12 +69,6 @@ namespace KCDF_P
                         lblError.Text = "Account not active, please activate!";
                         return;
                     }
-                    else if (nav.studentsRegister.Where(r => r.Email == userName && r.Activated == true && r.Password == userPassword).FirstOrDefault() != null)
-                    {
-                        Session["username"] = userName;
-                        Session["pwd"] = userPassword;
-                        Response.Redirect("~/Dashboard.aspx");
-                    }
                     else
                     {
                         lblError.Text = "Authentication failed!";
@@ -83,7 +77,7 @@ namespace KCDF_P
                 }
                 catch (Exception exception)
                 {
-                   // lblError.Text = exception.Message;
+                    lblError.Text = exception.Message;
                     return;
                 }
             }
@@ -108,18 +102,21 @@ namespace KCDF_P
             Response.Redirect("Account/Register.aspx");
         }
         
-
         protected void ddlUserType_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             string ddlUsrT = ddlUserType.SelectedItem.Text;
-            if (ddlUsrT == "Student")
+
+            switch (ddlUsrT)
             {
+                case "Student":
                 LoginViews.SetActiveView(studentView);
-            }
-            if (ddlUsrT == "Grantee")
-            {
+                break;
+
+                case "Grantee":
                 LoginViews.SetActiveView(granteeView);
+                break;
             }
+          
         }
 
         protected void btnGrantLogin_OnClick(object sender, EventArgs e)
@@ -130,41 +127,18 @@ namespace KCDF_P
                 string userName = txtorgUsn.Text.Trim().Replace("'", "");
                 string userPassword = txtorgPsw.Text.Trim().Replace("'", "");
 
-                if (string.IsNullOrEmpty(userPassword) && string.IsNullOrEmpty(userName))
-                {
-                    lblError.Text = "Username or Password Empty!";
-                    return;
-                }
-
                 try
                 {
-                   // var navusn = nav.grantees_Register.Where()
+                    if (string.IsNullOrWhiteSpace(userPassword))
+                {
+                    lblError.Text = "Password Empty!";
+                    KCDFAlert.ShowAlert("Password Empty!");
+                    return;
+                }
+                CheckExistsSql(userName, userPassword);
 
-                    if (nav.grantees_Register.Where(r => r.Organization_Username == userName && r.Activated == true && r.Password == userPassword).FirstOrDefault() != null)
-                    {
-                        Session["username"] = userName;
-                        Session["pwd"] = userPassword;
-                        //  Students cust = new Students(userName);
-                        Response.Redirect("~/Grantee_Dashboard.aspx");
 
-                    }
-                    else if (nav.grantees_Register.Where(r => r.Organization_Username == userName && r.Activated == false && r.Password == userPassword).FirstOrDefault() != null)
-                    {
-                        //HotelFactory.ShowAlert("You Ain't Active!!");
-                        lblError.Text = "Account not active, please active!";
-                        return;
-                    }
-                    else if (nav.grantees_Register.Where(r => r.Email == userName && r.Activated == true && r.Password == userPassword).FirstOrDefault() != null)
-                    {
-                        Session["username"] = userName;
-                        Session["pwd"] = userPassword;
-                        Response.Redirect("~/Grantee_Dashboard.aspx");
-                    }
-                    else
-                    {
-                        lblError.Text = "Authentication failed!";
-                        return;
-                    }
+
                 }
                 catch (Exception exception)
                 {
@@ -178,38 +152,162 @@ namespace KCDF_P
             }
             
         }
-
-        private bool MyValidationFunction(string myusername, string mypassword)
+        public void LoginFn(string eml, string pass)
         {
-            bool boolReturnValue = false;
-            string SQLRQST = @"SELECT No_, Password from [United Women Sacco Ltd$Members Register]";
+            string SQLRQST = @"SELECT [Organization Username], Password from [" + Company_Name + "$Grantees] WHERE [Organization Username]=@usnM AND Password=@passAssD";
             SqlConnection con = new SqlConnection(strSQLConn);
             SqlCommand command = new SqlCommand(SQLRQST, con);
-            SqlDataReader Dr;
+            command.Parameters.AddWithValue("@usnM",eml);
+            command.Parameters.AddWithValue("@passAssD", pass);
+            con.Open();
+            SqlDataReader dr = command.ExecuteReader();
+            while (dr.Read())
+            {
+                if ((eml == dr["Organization Username"].ToString()) && (pass == dr["Password"].ToString()))
+                {
+                    Session["username"] = eml;
+                    Session["pwd"] = pass;
+                    Response.Redirect("~/Grantee_Dashboard.aspx");
+                   break;
+                }
+            }
+
+        }
+
+        protected void CheckExistsSql(string myUserName, string passMyass)
+        {
+            var iamThere = nav.grantees_Register.ToList().Where(usN => usN.Organization_Username == myUserName).SingleOrDefault();
+            
+            if (iamThere==null)
+            {
+              KCDFAlert.ShowAlert("Username not registered yet!"); 
+              return; 
+            }
+            else
+            {
+                CheckIfActive(myUserName, passMyass);
+                // KCDFAlert.ShowAlert("I see u");
+            }
+
+        }
+
+        private void CheckIfActive(string usnUsername, string passWord )
+        {
+
             try
             {
-                con.Open();
-                Dr = command.ExecuteReader();
-                while (Dr.Read())
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+
+                if (sup.FnCheckIfActive_Grantee(usnUsername))
                 {
-                    if ((myusername == Dr["No_"].ToString()) && (mypassword == Dr["Password"].ToString()))
-                    {
-                        boolReturnValue = true;
-                        break;
-                    }
-                    if (string.IsNullOrWhiteSpace(Dr["Password"].ToString()))
-                    {
-                        boolReturnValue = false;
-                    }
+                    // KCDFAlert.ShowAlert("Active Member");
+                    GetGranteePassword(usnUsername, passWord);
+                    LoginFn(usnUsername, passWord);
+                    return;
                 }
-                Dr.Close();
-            }
-            catch (SqlException ex)
-            {
-                KCDFAlert.ShowAlert("Authentication failed!" + ex.Message);
 
             }
-            return boolReturnValue;
+            catch(Exception ex)
+            {
+              KCDFAlert.ShowAlert(ex.Message);  
+            }
+
+        }
+
+        private void GetGranteePassword(string mYusNm, string myPassWd)
+        {
+            var myPass =
+                  nav.grantees_Register.ToList()
+                      .Where(or => or.Organization_Username == mYusNm)
+                      .Select(p => p.Password)
+                      .SingleOrDefault();
+            if (myPass!= myPassWd)
+            {
+               KCDFAlert.ShowAlert("Aunthentication Failed!");
+                lblError.Text = "Aunthentication Failed!";
+                return;
+            }
+        }
+
+        protected void lnkBtnResetPassword_OnClick(object sender, EventArgs e)
+        {
+          //for scholarships
+            Session["resetPassword"] = "scholarship";
+          //  KCDFAlert.ShowAlert(Session["resetPassword"].ToString());
+            LoginViews.SetActiveView(viewiForgotItP);
+
+        }
+
+        protected void lnkBtnOrgResetP_OnClick(object sender, EventArgs e)
+        {
+            //for organization
+            Session["resetPassword"] = "grant";
+            //KCDFAlert.ShowAlert(Session["resetPassword"].ToString());
+            LoginViews.SetActiveView(viewiForgotItP);
+        }
+
+        protected void btnResetUrPss_OnClick(object sender, EventArgs e)
+        {
+            var sessionSet = Session["resetPassword"].ToString();
+            switch (sessionSet)
+            {
+                case "scholarship":
+                    ResetmyScholarshipPass();
+                    break;
+                case "grant":
+                    ResetmyGranteePassword();
+                    break;
+            }
+
+        }
+
+        protected void ResetmyGranteePassword()
+        {
+            var myEmailIs = txtIforgotPassword.Text.Trim();
+
+           try
+            {
+                var nPassword = NewPassword();
+                var CompEmail = WSConfig.ObjNav.FnGranteePasswordReset(myEmailIs, nPassword);
+                if (WSConfig.MailFunction(string.Format("Dear Member,\n Your New password is: {0}", nPassword), CompEmail,
+                    "Grantee Portal password reset successful") && !String.IsNullOrEmpty(CompEmail))
+                {
+                    KCDFAlert.ShowAlert("A New Password has been generated and sent to your registered E-mail Address.");
+                       
+                }
+             }
+            catch (Exception exception)
+            {
+                KCDFAlert.ShowAlert(exception.Message);
+            }
+         }
+
+        protected void ResetmyScholarshipPass()
+        {
+            var myEmailIs = txtIforgotPassword.Text.Trim();
+
+            try
+            {
+                var nPassword = NewPassword();
+                var CompEmail = WSConfig.ObjNav.FnStudentPasswordReset(myEmailIs, nPassword);
+                if (WSConfig.MailFunction(string.Format("Dear Member,\n Your New password is: {0}", nPassword), CompEmail,
+                    "Scholarship Portal password reset successful") && !String.IsNullOrEmpty(CompEmail))
+                {
+                    KCDFAlert.ShowAlert("A New Password has been generated and sent to your registered E-mail Address.");
+                }
+            }
+            catch (Exception exception)
+            {
+                KCDFAlert.ShowAlert(exception.Message);
+            }
+        }
+
+        protected void btnbacktomyRoots_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Default.aspx");
         }
     }
 }

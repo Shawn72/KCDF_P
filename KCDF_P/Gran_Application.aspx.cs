@@ -30,19 +30,26 @@ namespace KCDF_P
         {
             if (!IsPostBack)
             {
-                if (Session["username"] == null)
-                {
-                    Response.Redirect("/Default.aspx");
-
-                }
+                checkSessionExists();
                 loadGrantsHistory();
                 loadUploads();
                 getProjects();
                 loadIncompleteApplication();
+                myCountyIs();
+                loadGranteeUploads();
+                loadApplicationInfo();
             }
 
         }
-       
+        protected void checkSessionExists()
+        {
+            var sessionIs = Session["username"];
+            if (sessionIs == null)
+            {
+                Response.Redirect("/Default.aspx");
+            }
+        }
+
 
         protected void studentInfoMenu_OnMenuItemClick(object sender, MenuEventArgs e)
         {
@@ -53,14 +60,34 @@ namespace KCDF_P
       
         protected void btnSaveGrantHisto_OnClick(object sender, EventArgs e)
         {
+            DateTime yearOfAward, yrOfFunds;
             string usnme = Session["username"].ToString();
             string donorname = txtDonor.Text.Trim();
             decimal amtprovided = Convert.ToDecimal(txtAmount.Text);
+
             var yoAwrd = yrofAward.Value.Trim();
-            DateTime yearOfAward = DateTime.Parse(yoAwrd);
+            if (string.IsNullOrWhiteSpace(yoAwrd))
+            {
+                KCDFAlert.ShowAlert("Select a valid date!");
+                yrofAward.Focus();
+                return;
+            }
+            else
+            {
+                yearOfAward = DateTime.Parse(yoAwrd);
+            }
 
             var yoFunding = yrofFunding.Value.Trim();
-            DateTime yrOfFunds = DateTime.Parse(yoFunding);
+            if (string.IsNullOrWhiteSpace(yoFunding))
+            {
+                KCDFAlert.ShowAlert("Select a valid date!");
+                yrofFunding.Focus();
+                return;
+            }
+            else
+            {
+                yrOfFunds = DateTime.Parse(yoFunding);
+            }
 
             string proj_name = ddlAccountType.SelectedItem.Text;
             string objGrnt = TextObj.Text.Trim();
@@ -105,11 +132,29 @@ namespace KCDF_P
         }
         protected void loadGrantsHistory()
         {
-            var grnhisto =
-                nav.grant_history.ToList().Where(us => us.Organization_Username == Session["username"].ToString());
-            tblGrantsManager.AutoGenerateColumns = false;
-            tblGrantsManager.DataSource = grnhisto;
-            tblGrantsManager.DataBind();
+            try
+            {
+                var grnhisto =
+               nav.grant_history.ToList().Where(us => us.Organization_Username == Session["username"].ToString());
+                tblGrantsManager.AutoGenerateColumns = false;
+                tblGrantsManager.DataSource = grnhisto;
+                tblGrantsManager.DataBind();
+
+                tblGrantsManager.UseAccessibleHeader = true;
+                tblGrantsManager.HeaderRow.TableSection = TableRowSection.TableHeader;
+                TableCellCollection cells = tblGrantsManager.HeaderRow.Cells;
+                cells[0].Attributes.Add("data-class", "expand");
+                cells[2].Attributes.Add("data-hide", "phone,tablet");
+                cells[3].Attributes.Add("data-hide", "phone,tablet");
+                cells[4].Attributes.Add("data-hide", "phone, tablet");
+                cells[5].Attributes.Add("data-hide", "phone, tablet");
+            }
+            catch (Exception ex)
+            {
+               // KCDFAlert.ShowAlert("No projects yet!");
+                tblGrantsManager.EmptyDataText = "No grants management data found";
+            }
+           
         }
 
         protected void btnUpdatePOverview_OnClick(object sender, EventArgs e)
@@ -125,7 +170,7 @@ namespace KCDF_P
             if (string.IsNullOrWhiteSpace(TextBoxtitle.Text))
             {
                 KCDFAlert.ShowAlert("Fill provide the title!");
-                TextBoxtitle.BackColor = Color.Red;
+                TextBoxtitle.BorderColor = Color.OrangeRed;
                 TextBoxtitle.Focus();
                 return;
             }
@@ -140,11 +185,11 @@ namespace KCDF_P
             {
                 projTDt = DateTime.Parse(pstartD);
             }
-            string county = ddlSelCountry.SelectedItem.Text;
-            if (ddlSelCountry.SelectedIndex==0)
+            string county = ddlSelCounty.SelectedItem.Text;
+            if (ddlSelCounty.SelectedIndex==0)
             {
                 KCDFAlert.ShowAlert("Select valid county");
-                ddlSelCountry.BackColor = Color.OrangeRed;
+                ddlSelCounty.BackColor = Color.OrangeRed;
                 return;
             }
             string constituency = ddlConstituency.SelectedItem.Text;
@@ -163,6 +208,13 @@ namespace KCDF_P
                 return;
             }
             string scale = ddlEstScale.SelectedItem.Text;
+            if (ddlEstScale.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Select valid estimated  scale");
+                ddlEstScale.Focus();
+                ddlEstScale.BorderColor = Color.OrangeRed;
+                return;
+            }
             if (string.IsNullOrWhiteSpace(TextBoxcost.Text))
             {
                 KCDFAlert.ShowAlert("fill in the Cost Please!");
@@ -173,6 +225,7 @@ namespace KCDF_P
             else
             {
                 projCost = Convert.ToDecimal(TextBoxcost.Text);
+
             }
             if (string.IsNullOrWhiteSpace(TextBoxcont.Text))
             {
@@ -184,19 +237,10 @@ namespace KCDF_P
             else
             {
                 contrib = Convert.ToDecimal(TextBoxcont.Text);
+                decimal kcdfthing = projCost - contrib;
+                TextBoxrequested.Text = kcdfthing.ToString();
+                kcdffunds = contrib;
             }
-            if (string.IsNullOrWhiteSpace(TextBoxrequested.Text))
-            {
-                KCDFAlert.ShowAlert("Please fill requested amount!");
-                TextBoxrequested.BorderColor = Color.Red;
-                TextBoxrequested.Focus();
-                return;
-            }
-            else
-            {
-                kcdffunds = Convert.ToDecimal(TextBoxrequested.Text);
-            }
-             
             string projectNm = ddlAccountType.SelectedItem.Text;
             if (ddlAccountType.SelectedIndex == 0)
             {
@@ -205,7 +249,7 @@ namespace KCDF_P
                 ddlAccountType.BorderColor = Color.Red;
                 return;
             }
-
+            
             if (ddlMonths.SelectedIndex == 0)
             {
                 KCDFAlert.ShowAlert("Select valid project duration!");
@@ -227,11 +271,11 @@ namespace KCDF_P
             sup.FnProjectOverview(usn, county, constituency, projTt, urbantarget,
                 projectlength, projCost, contrib, kcdffunds, projTDt, scale, projectNm);
 
-            KCDFAlert.ShowAlert("Data saved Successfully!");
+            KCDFAlert.ShowAlert("Data saved Successfully!, KCDF Requested Amount : "+ kcdffunds);
 
             TextBoxtitle.Text = "";
             txtDateofStart.Value = "";
-            ddlSelCountry.SelectedIndex = 0;
+            ddlSelCounty.SelectedIndex = 0;
             ddlConstituency.SelectedIndex = 0;
             txtAreaTargetSettmnt.Text = "";
             ddlMonths.SelectedIndex = 0;
@@ -325,16 +369,27 @@ namespace KCDF_P
             {
                 var userNM = Session["username"].ToString();
                 var openP =
-                    nav.projectOverview.ToList().Where(up => up.Username == userNM && up.Approval_Status == "Open").Select(pn=>pn.No).SingleOrDefault();            
+                    nav.projectOverview.ToList().Where(up => up.Username == userNM && (up.Submission_Status == "Pending Approval" || up.Submission_Status=="Incomplete")).Select(pn=>pn.No).SingleOrDefault();
+
+                KCDFAlert.ShowAlert(openP);
                 var upsFiles = nav.myUploads.ToList().Where(un => un.Username == userNM && un.Grant_No==openP);
                 gridViewUploads.AutoGenerateColumns = false;
                 gridViewUploads.DataSource = upsFiles;
                 gridViewUploads.DataBind();
+
+                gridViewUploads.UseAccessibleHeader = true;
+                gridViewUploads.HeaderRow.TableSection = TableRowSection.TableHeader;
+                TableCellCollection cells = gridViewUploads.HeaderRow.Cells;
+                cells[0].Attributes.Add("data-class", "expand");
+                cells[2].Attributes.Add("data-hide", "phone,tablet");
+                cells[3].Attributes.Add("data-hide", "phone,tablet");
+                cells[4].Attributes.Add("data-hide", "phone, tablet");
             }
             catch (Exception ex)
             {
-               // KCDFAlert.ShowAlert("You have not uploaded documents yet!");
-               KCDFAlert.ShowAlert(ex.Message);
+                // KCDFAlert.ShowAlert("You have not uploaded documents yet!");
+                //KCDFAlert.ShowAlert(ex.Message);
+                gridViewUploads.EmptyDataText = "No Uploads found!";
 
             }
 
@@ -342,8 +397,8 @@ namespace KCDF_P
         protected void UploadFile(object sender, EventArgs e)
         {
             //+ Grantees.No + "\\"
-            //try
-            //{  
+            try
+            {
                 var documentKind = "Proposal";
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
                 string fileName = Path.GetFileName(FileUpload.PostedFile.FileName);
@@ -388,16 +443,15 @@ namespace KCDF_P
                     return;
                 }
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    // KCDFAlert.ShowAlert("Unkown Error Occured!");
-            //    KCDFAlert.ShowAlert(ex.Message);
-            //}
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
 
         }
-
-
+        
         protected void btnUploadID_OnClick(object sender, EventArgs e)
         {
             try
@@ -612,6 +666,7 @@ namespace KCDF_P
                 sup.PreAuthenticate = true;
                 var uploadsGrantNo = nav.myUploads.ToList().Where(rU => rU.Id == Session["delMeID"].ToString() && rU.Username == Session["username"].ToString()).Select(gN => gN.Grant_No).SingleOrDefault();
                 sup.FnChangeSubmitStatus(uploadsGrantNo);
+
                 sup.FnDeleteUpload(Session["delMeID"].ToString());
                 KCDFAlert.ShowAlert("Deleted Successfully!" + uploadsGrantNo + " &&" + del_id);
                 loadUploads();
@@ -692,12 +747,12 @@ namespace KCDF_P
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                string smth = e.Row.Cells[0].Text;
+                string item = e.Row.Cells[0].Text;
                 foreach (Button button in e.Row.Cells[2].Controls.OfType<Button>())
                 {
                     if (button.CommandName == "Delete")
                     {
-                        button.Attributes["onclick"] = "if(!confirm('Do you want to delete" + smth + "?')){return false};";
+                        button.Attributes["onclick"] = "if(!confirm('Do you want to delete " + item + "?')){ return false; };";
                     }
                 }
             }
@@ -882,13 +937,208 @@ namespace KCDF_P
 
         private void loadIncompleteApplication()
         {
-            var usn = Session["username"].ToString();
-            var inComp = nav.projectOverview.ToList()
-                .Where(us => us.Username == usn && Convert.ToString(us.Submission_Status) =="Incomplete");
-            gridSubmitApps.AutoGenerateColumns = false;
-            gridSubmitApps.DataSource = inComp;
-            gridSubmitApps.DataBind();
+            try
+            {
+                var usn = Session["username"].ToString();
+                var inComp = nav.projectOverview.ToList()
+                    .Where(us => us.Username == usn && Convert.ToString(us.Submission_Status) == "Incomplete");
+                gridSubmitApps.AutoGenerateColumns = false;
+                gridSubmitApps.DataSource = inComp;
+                gridSubmitApps.DataBind();
+
+                gridSubmitApps.UseAccessibleHeader = true;
+                gridSubmitApps.HeaderRow.TableSection = TableRowSection.TableHeader;
+                TableCellCollection cells = gridSubmitApps.HeaderRow.Cells;
+                cells[0].Attributes.Add("data-class", "expand");
+                cells[2].Attributes.Add("data-hide", "phone,tablet");
+                cells[3].Attributes.Add("data-hide", "phone,tablet");
+                cells[4].Attributes.Add("data-hide", "phone, tablet");
+                cells[5].Attributes.Add("data-hide", "phone, tablet");
+                cells[6].Attributes.Add("data-hide", "phone, tablet");
+            }
+            catch (Exception ex)
+            {
+               // KCDFAlert.ShowAlert("No projects yet!");
+                gridSubmitApps.EmptyDataText = "No Application data found";
+            }
+            
+        }
+
+        protected void myCountyIs()
+        {
+            var mycounty = nav.mycountyIs.ToList();
+            ddlSelCounty.DataSource = mycounty;
+            ddlSelCounty.DataTextField = "County_Name";
+            ddlSelCounty.DataValueField = "County_Code";
+            ddlSelCounty.DataBind();
+            ddlSelCounty.Items.Insert(0, "--Select your County--");
+
+            ddltargetCounty.DataSource = mycounty;
+            ddltargetCounty.DataTextField = "County_Name";
+            ddltargetCounty.DataValueField = "County_Code";
+            ddltargetCounty.DataBind();
+            ddltargetCounty.Items.Insert(0, "--Select your County--");
+        }
+        protected void ddlSelCounty_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+           
+            int selIndex = ddlSelCounty.SelectedIndex;
+            switch (selIndex)
+            {
+                case 0:
+                     KCDFAlert.ShowAlert("Invalid County selection");      
+                    break;
+                default:
+                    var sbCntysplit00 = ddlSelCounty.SelectedValue;
+                    //var sbcoutysplit = new StringBuilder(sbCntysplit00);
+                    //sbcoutysplit.Remove(0, 2); //Trim two characters from position 1
+                    //sbCntysplit00 = sbcoutysplit.ToString();
+                    var subCnty = nav.mysubCountyIs.Where(sc => sc.County_Code == sbCntysplit00).ToList();
+                    ddlConstituency.DataSource = subCnty;
+                    ddlConstituency.DataTextField = "Sub_County_Name";
+                    ddlConstituency.DataValueField = "Sub_County_Name";
+                    ddlConstituency.DataBind();
+                    ddlConstituency.Items.Insert(0, "--Select your Sub County--");
+                    KCDFAlert.ShowAlert(sbCntysplit00);
+                    break;
+            }
 
         }
+
+        protected void ddlAccountType_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int slVal = ddlAccountType.SelectedIndex;
+            switch (slVal)
+            {
+              case 0:
+                    KCDFAlert.ShowAlert("Select valid project from dropdownlist");
+                    btnUpdatePOverview.Enabled = false;
+                    break;
+            default:
+                    btnUpdatePOverview.Enabled = true;
+                    break;
+            }
+        }
+
+        protected void btnRefreshScript_OnClick(object sender, EventArgs e)
+        {
+            TextBoxcost.Text = "";
+            TextBoxcont.Text = "";
+            TextBoxrequested.Text = "";
+        }
+
+      
+        protected void rdoBtnListYesNo_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Session["yesOrno"] = rdoBtnListYesNo.SelectedIndex;
+            int selindex = Convert.ToInt32(Session["yesOrno"].ToString());switch (selindex)
+            {
+                case 0:
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "text", "IfYesIts()", true);
+                    //KCDFAlert.ShowAlert("clicked: "+ selindex);
+                    break;
+                default:
+                    KCDFAlert.ShowAlert("Non KCDF grant!");
+                    break;
+            }
+            
+        }
+
+        protected void rdBtnStatus_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Session["kcdfPstatus"] = rdBtnStatus.SelectedItem.Text;
+        }
+
+        protected void loadGranteeUploads()
+        {
+            try
+            {
+                string[] filePaths = Directory.GetFiles(Server.MapPath("~/Downloads_Grantees/"));
+                List<ListItem> files = new List<ListItem>();
+                foreach (string filePath in filePaths)
+                {
+                    files.Add(new ListItem(Path.GetFileName(filePath), filePath));
+                }
+                gridVGrantsDownloads.DataSource = files;
+                gridVGrantsDownloads.DataBind();
+            }
+            catch (Exception ex)
+            {
+
+                KCDFAlert.ShowAlert("No Uploads!");
+            }
+
+        }
+
+        protected void ddlObjectives_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Objectives from NaVISION
+            txtAreaObjs.Visible = true;
+            string obJs = ddlObjectives.SelectedItem.Text.Trim();
+            AppendObjectives(obJs);
+        }
+        protected void AppendObjectives(string str2AppendObj)
+        {
+            txtAreaCounties.Text = txtAreaObjs.Text + str2AppendObj + ", ";
+        }
+        protected void btnSaveObjectives_OnClick(object sender, EventArgs e)
+        {
+            var txtArObjs = txtAreaObjs.Text.TrimEnd('?', '.', ',');
+            KCDFAlert.ShowAlert(txtArObjs);
+            //save objectives
+            switch (txtArObjs)
+            {
+                case null:
+                    KCDFAlert.ShowAlert("Please select Objectives!");
+                    break;
+                default:
+                    //save in naVision
+                    break;
+            }
+        }
+        protected void loadApplicationInfo()
+        {
+            var granteeInfo =
+                nav.grantees_Register.ToList()
+                    .Where(n => n.Organization_Username.Equals(Session["username"].ToString()));
+            TextBxcont.Text = granteeInfo.Select(co => co.Contact_Person).SingleOrDefault();
+            TextBoposition.Text = granteeInfo.Select(po => po.Current_Position).SingleOrDefault();
+            TextBxpostal.Text = granteeInfo.Select(pa => pa.Postal_Address).SingleOrDefault();
+            txtPostalCode.Text = granteeInfo.Select(pc => pc.Postal_Code).SingleOrDefault();
+            txtPostalTown.Text = granteeInfo.Select(ta => ta.Town).SingleOrDefault();
+            TextBoxphone.Text = granteeInfo.Select(pn => pn.Phone).SingleOrDefault();
+            txEmailAdd.Text = granteeInfo.Select(em => em.Email).SingleOrDefault();
+            TextBoxweb.Text = granteeInfo.Select(wb => wb.Website).SingleOrDefault();;
+            var ngO = granteeInfo.Select(ot => ot.NGO).SingleOrDefault();
+            switch (ngO)
+            {
+                case true:
+                    txtNGO.Text = "Non Governmental Organization";
+                    break;
+                case false:
+                    txtNGO.Text = "Governmental Organization";
+                    break;
+                default:
+                    txtNGO.Text = "Incomplete Information";
+                    break;
+            }
+            var proftb = granteeInfo.Select(pft => pft.Profitable).SingleOrDefault();
+            switch (proftb)
+            {
+                case true:
+                    txtNonProfit.Text = "Profitable Organization";
+                    break;
+                case false:
+                    txtNonProfit.Text = "Non-Profitable Organization";
+                    break;
+                default:
+                    txtNonProfit.Text = "Incomplete Information";
+                    break;
+            }
+            txtTypeofOrg.Text = granteeInfo.Select(rt => rt.Type_Of_Organization).SingleOrDefault();
+           // var doR = granteeInfo.Select(dr => Convert.ToDateTime(dr.Date_Registered)).SingleOrDefault();
+            txtRegNo.Text = granteeInfo.Select(rg => rg.Registration_No).SingleOrDefault();
+
+        }
+      }
     }
-}

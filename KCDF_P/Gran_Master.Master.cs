@@ -13,5 +13,11 @@ namespace KCDF_P
         {
 
         }
+
+        protected void lnkBtnChangeP_OnClick(object sender, EventArgs e)
+        {
+            Session["userType"] = "grantee";
+            Response.Redirect("PasswordReset.aspx");
+        }
     }
 }

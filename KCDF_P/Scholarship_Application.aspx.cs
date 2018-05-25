@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -30,14 +31,21 @@ namespace KCDF_P
                     Response.Redirect("/Default.aspx");
 
                 }
+                ReturnStudent();
                 readData();
                 loadRefs();
                 readEducBgData();
                 loadScholarData();
                 loadProjectWorkplan();
                 getScholarship();
+                loadUploads();
             }
 
+        }
+        protected Students ReturnStudent()
+        {
+
+            return new Students(Session["username"].ToString());
         }
 
         protected void scholarshipDataCollection_OnMenuItemClick(object sender, MenuEventArgs e)
@@ -110,16 +118,16 @@ namespace KCDF_P
                 txtPhoneNo.Text = "";
             }
             // txtPhoneNo.Text = studData.Select(pn => pn.Phone_Number).SingleOrDefault().ToString();
-            txtfNname.Text = studData.Select(fn => fn.First_name).SingleOrDefault().ToString();
-            txtMname.Text = studData.Select(mn => mn.Middle_name).SingleOrDefault().ToString();
-            txtLname.Text = studData.Select(ln => ln.Last_name).SingleOrDefault().ToString();
-            txtResidence.Text = studData.Select(r => r.Residence).SingleOrDefault().ToString();
-            txtIDNo.Text = studData.Select(id => id.ID_No).SingleOrDefault().ToString();
-            txtEmailAdd.Text = studData.Select(em => em.Email).SingleOrDefault().ToString();
+            txtfNname.Text = studData.Select(fn => fn.First_name).SingleOrDefault();
+            txtMname.Text = studData.Select(mn => mn.Middle_name).SingleOrDefault();
+            txtLname.Text = studData.Select(ln => ln.Last_name).SingleOrDefault();
+            txtResidence.Text = studData.Select(r => r.Residence).SingleOrDefault();
+            txtIDNo.Text = studData.Select(id => id.ID_No).SingleOrDefault();
+            txtEmailAdd.Text = studData.Select(em => em.Email).SingleOrDefault();
             var dtB = studData.Select(dtoB => dtoB.Date_of_Birth).SingleOrDefault().ToString();
             DateTime dt1 = DateTime.Parse(dtB);
-            dateofBirth.Value = dt1.ToShortDateString();
-            var gent = studData.Select(g => g.Gender).SingleOrDefault().ToString();
+            dateofBirth.Text = dt1.ToShortDateString();
+            var gent = studData.Select(g => g.Gender).SingleOrDefault();
             if (gent == "Male")
             {
                 lstGender.SelectedIndex = 1;
@@ -350,7 +358,14 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            sup.FnAttachment(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct);
+            if (sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct) == true)
+            {
+                KCDFAlert.ShowAlert("Attached!");
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Not Attached, Error!");
+            }
 
         }
         
@@ -401,7 +416,7 @@ namespace KCDF_P
                 FileUploadSDoc.SaveAs(uploadsFolder + filename);
                 CopyFilesToDir();
                 saveAttachment(filename, ext, documentKind);
-                KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                 loadUploads();
 
             }
@@ -732,5 +747,89 @@ namespace KCDF_P
             }
         }
 
+        protected void btnEditUniDetails_OnClick(object sender, EventArgs e)
+        {
+            var uniVNm = ddlUniversity.SelectedItem.Text;
+            var uniBank = ddlBankUni.SelectedItem.Text;
+            var bankBrnch = ddlbankBranchUni.SelectedItem.Text;
+            var accName = txtUniAccName.Text;
+            var accNo = txtUniAccNumber.Text;
+            var regNo = txtRegNumber.Text;
+            var idNo = txtIDNumber.Text;
+
+
+
+        }
+
+        protected void btnAddPersonalBankDs_OnClick(object sender, EventArgs e)
+        {
+            var stdbank = ddlPersonaBank.Text;
+            var bBranch = ddlPersonaBranch.Text;
+            var accBName = txtYourAccNAme.Text;
+            var accNumber = txtYourAccNumber.Text;
+            var stdIdno = txtYourIDNo.Text;
+
+
+        }
+        
+        protected void btnSaveApplication_OnClick(object sender, EventArgs e)
+        {
+            var admNo = txtIDNo.Text;
+            var fname = txtfNname.Text.Trim();
+            var mname = txtMname.Text.Trim();
+            var lname = txtLname.Text.Trim();
+
+            var fullName = fname + " " + mname + " " + lname;
+            DateTime todayIs = DateTime.Now;
+            var myColleIs = txtCollege.Text;
+            var sclName = ddlScolarshipType.SelectedItem.Text;
+            if (ddlScolarshipType.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Select valid Scholarship first!");
+                ddlScolarshipType.Focus();
+                ddlScolarshipType.BorderColor = Color.Red;
+                return;
+            }
+            //Save application here
+            try
+            {
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            if (sup.FnAddScholarship(sclName, admNo, fullName, todayIs, myColleIs, Session["username"].ToString()) ==
+                true)
+            {
+                KCDFAlert.ShowAlert("Application Saved Successfully! on :"+todayIs);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Error Occured!");
+            }
+            }
+            catch (Exception Er)
+            {
+                KCDFAlert.ShowAlert(Er.Message);
+            }
+        }
+
+        protected void ddlScolarshipType_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selVal = ddlScolarshipType.SelectedIndex;
+            switch (selVal)
+            {
+                case 0:
+                    KCDFAlert.ShowAlert("Select a valid Scholarship to continue!");
+                    btnSaveApplication.Enabled = false;
+                    break;
+                default:
+                    Session["theScholarship"] = ddlScolarshipType.SelectedItem.Text;
+                    KCDFAlert.ShowAlert("You selected "+ Session["theScholarship"]);
+                        
+                    btnSaveApplication.Enabled = true;
+                    break;
+                    
+            }
+        }
     }
 }

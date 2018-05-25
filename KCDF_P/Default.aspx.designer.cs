@@ -112,6 +112,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnLogin;
         
         /// <summary>
+        /// lnkBtnResetPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkBtnResetPassword;
+        
+        /// <summary>
         /// granteeView control.
         /// </summary>
         /// <remarks>
@@ -173,5 +182,50 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGrantLogin;
+        
+        /// <summary>
+        /// lnkBtnOrgResetP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkBtnOrgResetP;
+        
+        /// <summary>
+        /// viewiForgotItP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View viewiForgotItP;
+        
+        /// <summary>
+        /// txtIforgotPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIforgotPassword;
+        
+        /// <summary>
+        /// btnResetUrPss control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnResetUrPss;
+        
+        /// <summary>
+        /// btnbacktomyRoots control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnbacktomyRoots;
     }
 }

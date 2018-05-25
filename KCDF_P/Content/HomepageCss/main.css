@@ -1064,15 +1064,15 @@ body {
 
 body {
     color: #676767;
-	font-family: 'Lato', sans-serif;
+    font-family: "Trebuchet MS", Raleway;
     font-size: 15px;
     position: relative;
     /*top: 131px;*/
     overflow-x: hidden;
     background-color: #FAFAFA;
-	//background:url(../../image/newbg.jpg);
+	/*//background:url(../../image/newbg.jpg);
 	//background-size:100%;
-	//opacity:0.5%;
+	//opacity:0.5%;*/
 }
 
 @media ( max-width: 768px) {
@@ -1899,7 +1899,7 @@ body.menu-fixed #main_menu {
 
 #main_menu .top-bar {
    height: 55px;
-    background-color: #6dcc32!important;
+    background-color: #00a367!important;
     position: relative;
     z-index: 10;
     padding-right: 35px;
@@ -2887,7 +2887,7 @@ body.search-open #footer
 }
 
 .home-form-container {
-    background-color: #6dcc32!important;
+    background-color: #00a367!important;
     padding: 20px;
     height: 100%;
 }

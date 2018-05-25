@@ -3531,8 +3531,24 @@
         <Key>
           <PropertyRef Name="AuxiliaryIndex1" />
         </Key>
-        <Property Name="School" Type="Edm.String" />
+        <Property Name="School_Name" Type="Edm.String" />
         <Property Name="Level_of_School" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="my_unisOrCollegs">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="College_Name" Type="Edm.String" />
+        <Property Name="Type_of_College" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="mycountyIs">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="County_Code" Type="Edm.String" />
+        <Property Name="County_Name" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="myReferees">
@@ -3548,6 +3564,14 @@
         <Property Name="Search_Name" Type="Edm.String" />
         <Property Name="studentNo" Type="Edm.String" />
         <Property Name="Username" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="mysubCountyIs">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="County_Code" Type="Edm.String" />
+        <Property Name="Sub_County_Name" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="myUploads">
         <Key>
@@ -3686,6 +3710,17 @@
         <Property Name="Scholarship_Name" Type="Edm.String" />
         <Property Name="No" Type="Edm.String" Nullable="false" />
       </EntityType>
+      <EntityType Name="studeBanks">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="Student_Username" Type="Edm.String" />
+        <Property Name="Student_No" Type="Edm.String" />
+        <Property Name="Student_Bank_Name" Type="Edm.String" />
+        <Property Name="Student_Bank_Branch" Type="Edm.String" />
+        <Property Name="Student_Bank_Account" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
       <EntityType Name="studentsRegister">
         <Key>
           <PropertyRef Name="No" />
@@ -3714,6 +3749,32 @@
         <Property Name="Parent_or_Guardian_Address" Type="Edm.String" />
         <Property Name="Course" Type="Edm.String" />
         <Property Name="Year_of_Study" Type="Edm.String" />
+        <Property Name="KCPE_Marks" Type="Edm.String" />
+        <Property Name="KCSE_Grade" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="target_Groups">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="Organization_username" Type="Edm.String" />
+        <Property Name="House_Holds" Type="Edm.Int32" />
+        <Property Name="Schools" Type="Edm.Int32" />
+        <Property Name="Grass_root_organizations" Type="Edm.Int32" />
+        <Property Name="Youth_aged_18_35_years" Type="Edm.Int32" />
+        <Property Name="women" Type="Edm.Int32" />
+        <Property Name="Men" Type="Edm.Int32" />
+        <Property Name="Children_0_6_years_old" Type="Edm.Int32" />
+        <Property Name="Children_7_14_years_old" Type="Edm.Int32" />
+        <Property Name="Children_15_17_years_old" Type="Edm.Int32" />
+        <Property Name="OrphansVulnerable_Children" Type="Edm.Int32" />
+        <Property Name="Terminal_Illness" Type="Edm.Int32" />
+        <Property Name="Marginalizedpopulation" Type="Edm.Int32" />
+        <Property Name="Drug_users" Type="Edm.Int32" />
+        <Property Name="Commercial_Sex_Workers" Type="Edm.Int32" />
+        <Property Name="Teachers" Type="Edm.Int32" />
+        <Property Name="Farmers" Type="Edm.Int32" />
+        <Property Name="Project_Name" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="TopCustomerOverview">
         <Key>
@@ -3734,6 +3795,18 @@
         <Property Name="CountryRegionName" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
         <Property Name="AuxiliaryIndex2" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="uniBanks">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="University_Name" Type="Edm.String" />
+        <Property Name="University_Bank_Name" Type="Edm.String" />
+        <Property Name="University_Bank_Branch" Type="Edm.String" />
+        <Property Name="Student_Username" Type="Edm.String" />
+        <Property Name="Student_No" Type="Edm.String" />
+        <Property Name="University_Account_No" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="workplanQ">
         <Key>
@@ -4610,7 +4683,10 @@
         <NavigationProperty Name="ItemSalesByCustomer" Relationship="NAV.Company_ItemSalesByCustomer" ToRole="ItemSalesByCustomer" FromRole="Company" />
         <NavigationProperty Name="list_myPosta" Relationship="NAV.Company_list_myPosta" ToRole="list_myPosta" FromRole="Company" />
         <NavigationProperty Name="list_Schools" Relationship="NAV.Company_list_Schools" ToRole="list_Schools" FromRole="Company" />
+        <NavigationProperty Name="my_unisOrCollegs" Relationship="NAV.Company_my_unisOrCollegs" ToRole="my_unisOrCollegs" FromRole="Company" />
+        <NavigationProperty Name="mycountyIs" Relationship="NAV.Company_mycountyIs" ToRole="mycountyIs" FromRole="Company" />
         <NavigationProperty Name="myReferees" Relationship="NAV.Company_myReferees" ToRole="myReferees" FromRole="Company" />
+        <NavigationProperty Name="mysubCountyIs" Relationship="NAV.Company_mysubCountyIs" ToRole="mysubCountyIs" FromRole="Company" />
         <NavigationProperty Name="myUploads" Relationship="NAV.Company_myUploads" ToRole="myUploads" FromRole="Company" />
         <NavigationProperty Name="profile_Pics" Relationship="NAV.Company_profile_Pics" ToRole="profile_Pics" FromRole="Company" />
         <NavigationProperty Name="projectOverview" Relationship="NAV.Company_projectOverview" ToRole="projectOverview" FromRole="Company" />
@@ -4618,8 +4694,11 @@
         <NavigationProperty Name="SalesOpportunities" Relationship="NAV.Company_SalesOpportunities" ToRole="SalesOpportunities" FromRole="Company" />
         <NavigationProperty Name="SalesOrdersBySalesPerson" Relationship="NAV.Company_SalesOrdersBySalesPerson" ToRole="SalesOrdersBySalesPerson" FromRole="Company" />
         <NavigationProperty Name="Scholar_Support" Relationship="NAV.Company_Scholar_Support" ToRole="Scholar_Support" FromRole="Company" />
+        <NavigationProperty Name="studeBanks" Relationship="NAV.Company_studeBanks" ToRole="studeBanks" FromRole="Company" />
         <NavigationProperty Name="studentsRegister" Relationship="NAV.Company_studentsRegister" ToRole="studentsRegister" FromRole="Company" />
+        <NavigationProperty Name="target_Groups" Relationship="NAV.Company_target_Groups" ToRole="target_Groups" FromRole="Company" />
         <NavigationProperty Name="TopCustomerOverview" Relationship="NAV.Company_TopCustomerOverview" ToRole="TopCustomerOverview" FromRole="Company" />
+        <NavigationProperty Name="uniBanks" Relationship="NAV.Company_uniBanks" ToRole="uniBanks" FromRole="Company" />
         <NavigationProperty Name="workplanQ" Relationship="NAV.Company_workplanQ" ToRole="workplanQ" FromRole="Company" />
         <NavigationProperty Name="Chart_of_Accounts" Relationship="NAV.Company_Chart_of_Accounts" ToRole="Chart_of_Accounts" FromRole="Company" />
         <NavigationProperty Name="Job_List" Relationship="NAV.Company_Job_List" ToRole="Job_List" FromRole="Company" />
@@ -4934,8 +5013,20 @@
         <End Type="NAV.list_Schools" Role="list_Schools" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_my_unisOrCollegs">
+        <End Type="NAV.my_unisOrCollegs" Role="my_unisOrCollegs" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_mycountyIs">
+        <End Type="NAV.mycountyIs" Role="mycountyIs" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_myReferees">
         <End Type="NAV.myReferees" Role="myReferees" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_mysubCountyIs">
+        <End Type="NAV.mysubCountyIs" Role="mysubCountyIs" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_myUploads">
@@ -4966,12 +5057,24 @@
         <End Type="NAV.Scholar_Support" Role="Scholar_Support" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_studeBanks">
+        <End Type="NAV.studeBanks" Role="studeBanks" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_studentsRegister">
         <End Type="NAV.studentsRegister" Role="studentsRegister" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_target_Groups">
+        <End Type="NAV.target_Groups" Role="target_Groups" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_TopCustomerOverview">
         <End Type="NAV.TopCustomerOverview" Role="TopCustomerOverview" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_uniBanks">
+        <End Type="NAV.uniBanks" Role="uniBanks" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_workplanQ">
@@ -5180,7 +5283,10 @@
         <EntitySet Name="ItemSalesByCustomer" EntityType="NAV.ItemSalesByCustomer" />
         <EntitySet Name="list_myPosta" EntityType="NAV.list_myPosta" />
         <EntitySet Name="list_Schools" EntityType="NAV.list_Schools" />
+        <EntitySet Name="my_unisOrCollegs" EntityType="NAV.my_unisOrCollegs" />
+        <EntitySet Name="mycountyIs" EntityType="NAV.mycountyIs" />
         <EntitySet Name="myReferees" EntityType="NAV.myReferees" />
+        <EntitySet Name="mysubCountyIs" EntityType="NAV.mysubCountyIs" />
         <EntitySet Name="myUploads" EntityType="NAV.myUploads" />
         <EntitySet Name="profile_Pics" EntityType="NAV.profile_Pics" />
         <EntitySet Name="projectOverview" EntityType="NAV.projectOverview" />
@@ -5188,8 +5294,11 @@
         <EntitySet Name="SalesOpportunities" EntityType="NAV.SalesOpportunities" />
         <EntitySet Name="SalesOrdersBySalesPerson" EntityType="NAV.SalesOrdersBySalesPerson" />
         <EntitySet Name="Scholar_Support" EntityType="NAV.Scholar_Support" />
+        <EntitySet Name="studeBanks" EntityType="NAV.studeBanks" />
         <EntitySet Name="studentsRegister" EntityType="NAV.studentsRegister" />
+        <EntitySet Name="target_Groups" EntityType="NAV.target_Groups" />
         <EntitySet Name="TopCustomerOverview" EntityType="NAV.TopCustomerOverview" />
+        <EntitySet Name="uniBanks" EntityType="NAV.uniBanks" />
         <EntitySet Name="workplanQ" EntityType="NAV.workplanQ" />
         <EntitySet Name="Chart_of_Accounts" EntityType="NAV.Chart_of_Accounts" />
         <EntitySet Name="Job_List" EntityType="NAV.Job_List" />
@@ -5504,9 +5613,21 @@
           <End Role="Company" EntitySet="Company" />
           <End Role="list_Schools" EntitySet="list_Schools" />
         </AssociationSet>
+        <AssociationSet Name="Company_my_unisOrCollegs_my_unisOrCollegs" Association="NAV.Company_my_unisOrCollegs">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="my_unisOrCollegs" EntitySet="my_unisOrCollegs" />
+        </AssociationSet>
+        <AssociationSet Name="Company_mycountyIs_mycountyIs" Association="NAV.Company_mycountyIs">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="mycountyIs" EntitySet="mycountyIs" />
+        </AssociationSet>
         <AssociationSet Name="Company_myReferees_myReferees" Association="NAV.Company_myReferees">
           <End Role="Company" EntitySet="Company" />
           <End Role="myReferees" EntitySet="myReferees" />
+        </AssociationSet>
+        <AssociationSet Name="Company_mysubCountyIs_mysubCountyIs" Association="NAV.Company_mysubCountyIs">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="mysubCountyIs" EntitySet="mysubCountyIs" />
         </AssociationSet>
         <AssociationSet Name="Company_myUploads_myUploads" Association="NAV.Company_myUploads">
           <End Role="Company" EntitySet="Company" />
@@ -5536,13 +5657,25 @@
           <End Role="Company" EntitySet="Company" />
           <End Role="Scholar_Support" EntitySet="Scholar_Support" />
         </AssociationSet>
+        <AssociationSet Name="Company_studeBanks_studeBanks" Association="NAV.Company_studeBanks">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="studeBanks" EntitySet="studeBanks" />
+        </AssociationSet>
         <AssociationSet Name="Company_studentsRegister_studentsRegister" Association="NAV.Company_studentsRegister">
           <End Role="Company" EntitySet="Company" />
           <End Role="studentsRegister" EntitySet="studentsRegister" />
         </AssociationSet>
+        <AssociationSet Name="Company_target_Groups_target_Groups" Association="NAV.Company_target_Groups">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="target_Groups" EntitySet="target_Groups" />
+        </AssociationSet>
         <AssociationSet Name="Company_TopCustomerOverview_TopCustomerOverview" Association="NAV.Company_TopCustomerOverview">
           <End Role="Company" EntitySet="Company" />
           <End Role="TopCustomerOverview" EntitySet="TopCustomerOverview" />
+        </AssociationSet>
+        <AssociationSet Name="Company_uniBanks_uniBanks" Association="NAV.Company_uniBanks">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="uniBanks" EntitySet="uniBanks" />
         </AssociationSet>
         <AssociationSet Name="Company_workplanQ_workplanQ" Association="NAV.Company_workplanQ">
           <End Role="Company" EntitySet="Company" />

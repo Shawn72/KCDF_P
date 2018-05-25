@@ -54,7 +54,15 @@
             
             <div class="collapse navbar-collapse" id="shrink">
                     <ul class="nav navbar-nav navbar-right">                       
-                       
+                         <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Forms<b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="UploadFiles.aspx">Application Forms Downloads</a></li>
+                                <li class="divider"></li>                                
+                            </ul>
+                        </li>
+
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Application Forms<b class="caret"></b></a>
 

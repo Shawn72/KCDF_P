@@ -145,7 +145,7 @@ namespace KCDF_P {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText dateofBirth;
+        protected global::System.Web.UI.WebControls.TextBox dateofBirth;
         
         /// <summary>
         /// txtCollege control.
@@ -218,6 +218,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtGuardianAddress;
+        
+        /// <summary>
+        /// btnSaveApplication control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveApplication;
         
         /// <summary>
         /// MyrefsView control.
@@ -607,6 +616,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox txtIDNumber;
         
         /// <summary>
+        /// btnEditUniDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEditUniDetails;
+        
+        /// <summary>
         /// ddlPersonaBank control.
         /// </summary>
         /// <remarks>
@@ -623,15 +641,6 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlPersonaBranch;
-        
-        /// <summary>
-        /// DropDownList1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
         
         /// <summary>
         /// txtYourAccNAme control.
@@ -659,5 +668,14 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtYourIDNo;
+        
+        /// <summary>
+        /// btnAddPersonalBankDs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddPersonalBankDs;
     }
 }

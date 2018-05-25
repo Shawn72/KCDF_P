@@ -187,14 +187,24 @@ namespace KCDF_P.Account
             TextBxcont.Text = granteeInfo.Select(co => co.Contact_Person).SingleOrDefault();
             TextBoposition.Text = granteeInfo.Select(po => po.Current_Position).SingleOrDefault();
             TextBxpostal.Text = granteeInfo.Select(pa => pa.Postal_Address).SingleOrDefault();
-            ddlPostalCode.SelectedItem.Text = granteeInfo.Select(pc => pc.Postal_Code).SingleOrDefault();
+            var posta= granteeInfo.Select(pc => pc.Postal_Code).SingleOrDefault();
+           // KCDFAlert.ShowAlert(granteeInfo.Select(pc => pc.Postal_Code).SingleOrDefault());
             txtPostalTown.Text = granteeInfo.Select(ta => ta.Town).SingleOrDefault();
             TextBoxphone.Text = granteeInfo.Select(pn => pn.Phone).SingleOrDefault();
             txPhoneNo.Text = granteeInfo.Select(pn => pn.Phone).SingleOrDefault();
             TextBoxweb.Text = granteeInfo.Select(wb => wb.Website).SingleOrDefault();
             txtPhysicallAddr.Text = granteeInfo.Select(pad => pad.Physical_Address).SingleOrDefault();
-            var ngO = granteeInfo.Select(ot => ot.NGO).SingleOrDefault();
 
+            if (string.IsNullOrWhiteSpace(posta))
+            {
+                ddlPostalCode.SelectedIndex = 0;
+            }
+            else
+            {
+                ddlPostalCode.SelectedItem.Text = posta;
+            }
+
+            var ngO = granteeInfo.Select(ot => ot.NGO).SingleOrDefault();
             if (ngO == false)
             {
                 ddlOrgType.SelectedIndex = 1;
@@ -275,11 +285,20 @@ namespace KCDF_P.Account
 
         protected void getPostaCodes()
         {
-            var posta = nav.list_myPosta.ToList();
-            ddlPostalCode.DataSource = posta;
-            ddlPostalCode.DataTextField = "Postal_Code";
-            ddlPostalCode.DataValueField = "Postal_Code";
-            ddlPostalCode.DataBind();
+            try
+            {
+                var posta = nav.list_myPosta.ToList();
+                ddlPostalCode.DataSource = posta;
+                ddlPostalCode.DataTextField = "Postal_Code";
+                ddlPostalCode.DataValueField = "Postal_Code";
+                ddlPostalCode.DataBind();
+                ddlPostalCode.Items.Insert(0, "--Select Postal Code--");
+            }
+            catch (Exception err)
+            {
+                KCDFAlert.ShowAlert(err.Message);
+            }
+            
         }
     }
 }

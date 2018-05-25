@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" MasterPageFile="Site.Master" Inherits="KCDF_P.Dashboard" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Dashboard.aspx.cs" MasterPageFile="~/Site.Master" Inherits="KCDF_P.Dashboard" %>
 <%@Import namespace="System.IO" %>
 <%@ Import Namespace="System.Net" %>
 <%@ Import Namespace="KCDF_P" %>
 <%@ Import Namespace="KCDF_P.NAVWS" %>
 <asp:Content ID="userDashBd" ContentPlaceHolderID="MainContent" runat="server">
-<meta http-equiv="refresh" content="30;url=Dashboard.aspx"> 
+<meta http-equiv="refresh" content="200;url=Dashboard.aspx"> 
     <div class="row" style="height: 20px">&nbsp;</div>
     <div class="row">
         <div class="col-md-5">
@@ -109,8 +109,29 @@
                         <td><%=Students.Address %></td>
                     </tr>
                 </table> 
-                 <asp:Button runat="server" ID="copyTest" OnClick="CopyFilesToDir"/>
-            </div>
+                 
+             <%--  <asp:GridView ID="tblmyScholarships" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
+                EmptyDataText="No projects Found!" DataKeyNames="No"
+                 AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
+                <Columns>
+                    <asp:BoundField DataField="No" HeaderText="S/No:"/>
+                    <asp:BoundField DataField="Project_Name" HeaderText="Project" />
+                    <asp:BoundField DataField="Project_Start_Date" HeaderText="Project Start Year" DataFormatString="{0:dd/MM/yyyy}" />
+                    <asp:BoundField DataField="Total_Project_Cost_KES" HeaderText="Total Project Cost" DataFormatString="{0:N2}" />
+                    <asp:BoundField DataField="Your_Cash_Contribution_KES" HeaderText="Organization Contribution" DataFormatString="{0:N2}" />
+                    <asp:BoundField DataField="Requested_KCDF_Amount_KES" HeaderText="Requested Grant Amount"  DataFormatString="{0:N2}"/>
+                    <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status"/>
+                    <asp:TemplateField HeaderText="Edit">
+                        <ItemTemplate>
+                            <asp:LinkButton ID="lnkEdit" Text="Edit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEdit" runat="server" OnClick="lnkEdit_OnClick"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />
+                </Columns>
+                <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
+            </asp:GridView> --%>
+              </div>
+     <%-- <a href="angularTest.html">Link to Angular</a>--%>
         
         <div class="modal fade" id="pageUploadlink">
 		<div class="modal-dialog" runat="server">
@@ -232,6 +253,8 @@
             }
         }
     }
-</script>
+</script>    
+        
+       
    </div>
 </asp:Content>

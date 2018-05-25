@@ -28,6 +28,8 @@
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="gender" type="int" />
             <element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="myMarks" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="myGrade" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -46,12 +48,17 @@
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="password" type="string" />
             <element minOccurs="1" maxOccurs="1" name="activation_Code" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="gender" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="dateofBirth" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="studentRegNo" type="string" />
           </sequence>
         </complexType>
       </element>
       <element name="FnCreateAccount_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnEducatBg">
@@ -460,6 +467,175 @@
           <sequence />
         </complexType>
       </element>
+      <element name="FnSaveUniBankDetails">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="university_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="university_bank_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="university_bank_branch" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="student_username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="university_account_no" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="students_idno" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="account_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSaveUniBankDetails_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
+      <element name="FnCheckIfActive_Grantee">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckIfActive_Grantee_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnVerifyStudentRegNo">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="admission_Number" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnVerifyStudentRegNo_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddScholarship">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="scholarship_Title" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="admn_or_IDNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="applicant_FullName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="year_of_Application" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="applicants_College" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddScholarship_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSholarAttachment">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grant_type" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSholarAttachment_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnStudentPasswordReset">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="myUsername" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newPassword" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnStudentPasswordReset_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnGranteePasswordReset">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="myOrgUsername" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newPassword" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnGranteePasswordReset_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnGrantee_PasswordChange">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="oldPassword" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newPassword" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnGrantee_PasswordChange_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnStudent_PasswordChange">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="oldPassword" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newPasswordIs" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnStudent_PasswordChange_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachements_Scholarship">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grant_type" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachements_Scholarship_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="FnActivateAc">
@@ -618,6 +794,66 @@
   <message name="FnChangeSubmitStatus_Result">
     <part name="parameters" element="tns:FnChangeSubmitStatus_Result" />
   </message>
+  <message name="FnSaveUniBankDetails">
+    <part name="parameters" element="tns:FnSaveUniBankDetails" />
+  </message>
+  <message name="FnSaveUniBankDetails_Result">
+    <part name="parameters" element="tns:FnSaveUniBankDetails_Result" />
+  </message>
+  <message name="FnCheckIfActive_Grantee">
+    <part name="parameters" element="tns:FnCheckIfActive_Grantee" />
+  </message>
+  <message name="FnCheckIfActive_Grantee_Result">
+    <part name="parameters" element="tns:FnCheckIfActive_Grantee_Result" />
+  </message>
+  <message name="FnVerifyStudentRegNo">
+    <part name="parameters" element="tns:FnVerifyStudentRegNo" />
+  </message>
+  <message name="FnVerifyStudentRegNo_Result">
+    <part name="parameters" element="tns:FnVerifyStudentRegNo_Result" />
+  </message>
+  <message name="FnAddScholarship">
+    <part name="parameters" element="tns:FnAddScholarship" />
+  </message>
+  <message name="FnAddScholarship_Result">
+    <part name="parameters" element="tns:FnAddScholarship_Result" />
+  </message>
+  <message name="FnSholarAttachment">
+    <part name="parameters" element="tns:FnSholarAttachment" />
+  </message>
+  <message name="FnSholarAttachment_Result">
+    <part name="parameters" element="tns:FnSholarAttachment_Result" />
+  </message>
+  <message name="FnStudentPasswordReset">
+    <part name="parameters" element="tns:FnStudentPasswordReset" />
+  </message>
+  <message name="FnStudentPasswordReset_Result">
+    <part name="parameters" element="tns:FnStudentPasswordReset_Result" />
+  </message>
+  <message name="FnGranteePasswordReset">
+    <part name="parameters" element="tns:FnGranteePasswordReset" />
+  </message>
+  <message name="FnGranteePasswordReset_Result">
+    <part name="parameters" element="tns:FnGranteePasswordReset_Result" />
+  </message>
+  <message name="FnGrantee_PasswordChange">
+    <part name="parameters" element="tns:FnGrantee_PasswordChange" />
+  </message>
+  <message name="FnGrantee_PasswordChange_Result">
+    <part name="parameters" element="tns:FnGrantee_PasswordChange_Result" />
+  </message>
+  <message name="FnStudent_PasswordChange">
+    <part name="parameters" element="tns:FnStudent_PasswordChange" />
+  </message>
+  <message name="FnStudent_PasswordChange_Result">
+    <part name="parameters" element="tns:FnStudent_PasswordChange_Result" />
+  </message>
+  <message name="FnAttachements_Scholarship">
+    <part name="parameters" element="tns:FnAttachements_Scholarship" />
+  </message>
+  <message name="FnAttachements_Scholarship_Result">
+    <part name="parameters" element="tns:FnAttachements_Scholarship_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -722,6 +958,46 @@
     <operation name="FnChangeSubmitStatus">
       <input name="FnChangeSubmitStatus" message="tns:FnChangeSubmitStatus" />
       <output name="FnChangeSubmitStatus_Result" message="tns:FnChangeSubmitStatus_Result" />
+    </operation>
+    <operation name="FnSaveUniBankDetails">
+      <input name="FnSaveUniBankDetails" message="tns:FnSaveUniBankDetails" />
+      <output name="FnSaveUniBankDetails_Result" message="tns:FnSaveUniBankDetails_Result" />
+    </operation>
+    <operation name="FnCheckIfActive_Grantee">
+      <input name="FnCheckIfActive_Grantee" message="tns:FnCheckIfActive_Grantee" />
+      <output name="FnCheckIfActive_Grantee_Result" message="tns:FnCheckIfActive_Grantee_Result" />
+    </operation>
+    <operation name="FnVerifyStudentRegNo">
+      <input name="FnVerifyStudentRegNo" message="tns:FnVerifyStudentRegNo" />
+      <output name="FnVerifyStudentRegNo_Result" message="tns:FnVerifyStudentRegNo_Result" />
+    </operation>
+    <operation name="FnAddScholarship">
+      <input name="FnAddScholarship" message="tns:FnAddScholarship" />
+      <output name="FnAddScholarship_Result" message="tns:FnAddScholarship_Result" />
+    </operation>
+    <operation name="FnSholarAttachment">
+      <input name="FnSholarAttachment" message="tns:FnSholarAttachment" />
+      <output name="FnSholarAttachment_Result" message="tns:FnSholarAttachment_Result" />
+    </operation>
+    <operation name="FnStudentPasswordReset">
+      <input name="FnStudentPasswordReset" message="tns:FnStudentPasswordReset" />
+      <output name="FnStudentPasswordReset_Result" message="tns:FnStudentPasswordReset_Result" />
+    </operation>
+    <operation name="FnGranteePasswordReset">
+      <input name="FnGranteePasswordReset" message="tns:FnGranteePasswordReset" />
+      <output name="FnGranteePasswordReset_Result" message="tns:FnGranteePasswordReset_Result" />
+    </operation>
+    <operation name="FnGrantee_PasswordChange">
+      <input name="FnGrantee_PasswordChange" message="tns:FnGrantee_PasswordChange" />
+      <output name="FnGrantee_PasswordChange_Result" message="tns:FnGrantee_PasswordChange_Result" />
+    </operation>
+    <operation name="FnStudent_PasswordChange">
+      <input name="FnStudent_PasswordChange" message="tns:FnStudent_PasswordChange" />
+      <output name="FnStudent_PasswordChange_Result" message="tns:FnStudent_PasswordChange_Result" />
+    </operation>
+    <operation name="FnAttachements_Scholarship">
+      <input name="FnAttachements_Scholarship" message="tns:FnAttachements_Scholarship" />
+      <output name="FnAttachements_Scholarship_Result" message="tns:FnAttachements_Scholarship_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -960,10 +1236,100 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
+    <operation name="FnSaveUniBankDetails">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSaveUniBankDetails" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSaveUniBankDetails">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSaveUniBankDetails_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCheckIfActive_Grantee">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCheckIfActive_Grantee" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCheckIfActive_Grantee">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCheckIfActive_Grantee_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnVerifyStudentRegNo">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnVerifyStudentRegNo" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnVerifyStudentRegNo">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnVerifyStudentRegNo_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddScholarship">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddScholarship" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddScholarship">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddScholarship_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnSholarAttachment">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSholarAttachment" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSholarAttachment">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSholarAttachment_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnStudentPasswordReset">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnStudentPasswordReset" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnStudentPasswordReset">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnStudentPasswordReset_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnGranteePasswordReset">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnGranteePasswordReset" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnGranteePasswordReset">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnGranteePasswordReset_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnGrantee_PasswordChange">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnGrantee_PasswordChange" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnGrantee_PasswordChange">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnGrantee_PasswordChange_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnStudent_PasswordChange">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnStudent_PasswordChange" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnStudent_PasswordChange">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnStudent_PasswordChange_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAttachements_Scholarship">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAttachements_Scholarship" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAttachements_Scholarship">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAttachements_Scholarship_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
   </binding>
   <service name="Portals">
     <port name="Portals_Port" binding="tns:Portals_Binding">
-      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF%20TEST%20NEW/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

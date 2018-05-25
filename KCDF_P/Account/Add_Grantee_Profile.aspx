@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Grantee_Profile.aspx.cs" MasterPageFile="../Gran_Master.Master" Inherits="KCDF_P.Account.Add_Grantee_Profile" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Grantee_Profile.aspx.cs" MasterPageFile="~/Gran_Master.Master" Inherits="KCDF_P.Account.Add_Grantee_Profile" %>
 <asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
 <meta http-equiv="refresh" content="200;url=Add_Grantee_Profile.aspx"> 
 <div class="panel-body" style="font-family:Trebuchet MS">
@@ -83,7 +83,6 @@
                         <div class="col-md-6">
                             <asp:DropDownList ID="ddlPostalCode" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true"  AutoPostBack="True" OnSelectedIndexChanged="ddlPostalCode_OnSelectedIndexChanged">
-                                <asp:ListItem Selected="True">..Select Postal Code..</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
                 </div>

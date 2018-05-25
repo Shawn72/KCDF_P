@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Scholarship_Application.aspx.cs" MasterPageFile="Applications.Master" Inherits="KCDF_P.Grant_Application" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Scholarship_Application.aspx.cs" MasterPageFile="~/Applications.Master" Inherits="KCDF_P.Grant_Application" %>
 
 <asp:Content ID="studentRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
 <div class="panel-body" style="font-family:Trebuchet MS">
@@ -12,7 +12,7 @@
     <asp:Label runat="server"  CssClass="col-md-3 control-label">Select Scholarship:</asp:Label>
         <div class="col-md-6">
             <asp:DropDownList ID="ddlScolarshipType" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
-                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
+                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True" OnSelectedIndexChanged="ddlScolarshipType_OnSelectedIndexChanged">
             </asp:DropDownList>
         </div> 
 </div>
@@ -118,7 +118,7 @@
                     </div> 
           
                 <div class="form-group">
-                    <asp:Label runat="server" CssClass="col-md-3 control-label">ID/Passport Number:</asp:Label>
+                    <asp:Label runat="server" CssClass="col-md-3 control-label">ID/Passport/Admission No:</asp:Label>
                         <div class="col-md-6">
                             <asp:TextBox runat="server" ID="txtIDNo" CssClass="form-control" required="True" TextMode="Number" onkeypress="return validateID(event)" Enabled="False"/>              
                 
@@ -139,9 +139,7 @@
                 <div class="form-group">
                 <asp:Label runat="server" CssClass="col-md-3 control-label">Date of Birth:</asp:Label>
                     <div class="col-md-6">
-                       <div class="input-group date">
-                           <input type="text" class="form-control" id="dateofBirth" runat="server"/><span class="input-group-addon"><i class="glyphicon glyphicon-th"></i></span>
-                       </div>      
+                       <asp:TextBox ID="dateofBirth" runat="server" CssClass="form-control"></asp:TextBox>   
                     </div> 
                 </div>
 
@@ -206,8 +204,11 @@
                         <div class="col-md-6">
                             <asp:TextBox runat="server" ID="txtGuardianAddress" CssClass="form-control" Enabled="False" style="text-transform:uppercase"/>              
                         </div> 
+                     <div class="col-md-3">
+                       <asp:Button ID="btnSaveApplication" runat="server" Text="Apply for this Scholarship" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveApplication_OnClick" CausesValidation="True" Enabled="False" />          
+                   </div>
                 </div>
-                
+                <br/>
             </div>
               
          </asp:View>
@@ -220,7 +221,7 @@
                     </div>
                 </div>
               <br/>
-                 <asp:GridView ID="tblRefs" runat="server" CssClass="table table-condensed" Width="100%" AutoGenerateSelectButton="false" 
+                 <asp:GridView ID="tblRefs" runat="server" CssClass="table table-condensed footable" Width="100%" AutoGenerateSelectButton="false" 
                  EmptyDataText="No Referees Found!" OnSelectedIndexChanged="tblRefs_OnSelectedIndexChanged">
                 <Columns>
                     <asp:BoundField DataField="firstname" HeaderText="First Name" />
@@ -239,8 +240,6 @@
                
               </div>
           </asp:View>
-
-          
 
           <asp:View runat="server" ID="scholarSupport">
               <div class="form-horizontal">
@@ -307,7 +306,7 @@
                 <br/>
                 </div>
                   <div class="col-md-6">
-                    <asp:GridView ID="grdViewScholarS" runat="server" CssClass="table table-condensed" Width="100%" AutoGenerateSelectButton="false" 
+                    <asp:GridView ID="grdViewScholarS" runat="server" CssClass="table table-condensed footable" Width="100%" AutoGenerateSelectButton="false" 
                      EmptyDataText="No Scholarstic Support data Found!" DataKeyNames="No" OnRowDeleting="grdViewScholarS_OnRowDeleting">
                     <Columns>
                         <asp:BoundField DataField="No" HeaderText="S/No:"/>
@@ -386,7 +385,7 @@
                <br/>
                 </div>
                  <div class="col-md-6">
-                    <asp:GridView ID="tblWorkplan" runat="server" CssClass="table table-condensed" Width="100%" AutoGenerateSelectButton="false" 
+                    <asp:GridView ID="tblWorkplan" runat="server" CssClass="table table-condensed footable" Width="100%" AutoGenerateSelectButton="false" 
                      EmptyDataText="No Workplan data Found!" DataKeyNames="No" OnRowDeleting="tblWorkplan_OnRowDeleting">
                         <Columns>
                             <asp:BoundField DataField="No" HeaderText="S/No:"/>
@@ -536,7 +535,7 @@
                 </div>
 
                 <div class="col-md-12">
-                    <asp:GridView ID="gridViewUploads" runat="server" CssClass="table table-striped table-advance table-hover" GridLines="None" EmptyDataText="No files uploaded" OnRowDeleting="gridViewUploads_OnRowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" AlternatingRowStyle-BackColor="#C2D69B"
+                    <asp:GridView ID="gridViewUploads" runat="server" CssClass="table table-striped table-advance table-hover footable" GridLines="None" EmptyDataText="No files uploaded" OnRowDeleting="gridViewUploads_OnRowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" AlternatingRowStyle-BackColor="#C2D69B"
                         OnRowDataBound="gridViewUploads_OnRowDataBound">
                         <Columns>
                             <asp:BoundField DataField="Id" HeaderText="S/No:" />
@@ -549,6 +548,7 @@
                     </div>
                 </div>
           </asp:View>
+
           <asp:View runat="server" ID="bankDetails">
            <div class="form-horizontal">
             <br/>
@@ -567,10 +567,9 @@
                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Univerity/College:</asp:Label>
                         <div class="col-md-6">
-                            <asp:DropDownList ID="ddlUniversity" runat="server" CssClass="form-control" AutoPostBack="true">
+                            <asp:DropDownList ID="ddlUniversity" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
                                 <asp:ListItem>..Select Univeristy..</asp:ListItem>
-                                <asp:ListItem>KU</asp:ListItem>
-                                <asp:ListItem>UoN</asp:ListItem>
                             </asp:DropDownList>         
                         </div> 
                 </div>
@@ -578,10 +577,9 @@
                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Bank:</asp:Label>
                         <div class="col-md-6">
-                            <asp:DropDownList ID="ddlBankUni" runat="server" CssClass="form-control" AutoPostBack="true">
+                            <asp:DropDownList ID="ddlBankUni" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
                                 <asp:ListItem>..Select Bank..</asp:ListItem>
-                                <asp:ListItem>Equity</asp:ListItem>
-                                <asp:ListItem>BoA</asp:ListItem>
                             </asp:DropDownList>         
                         </div> 
                 </div>
@@ -589,10 +587,9 @@
                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Bank Branch:</asp:Label>
                         <div class="col-md-6">
-                            <asp:DropDownList ID="ddlbankBranchUni" runat="server" CssClass="form-control" AutoPostBack="true">
+                            <asp:DropDownList ID="ddlbankBranchUni" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
                                 <asp:ListItem>..Select Branch..</asp:ListItem>
-                                <asp:ListItem>KU</asp:ListItem>
-                                <asp:ListItem>UoN</asp:ListItem>
                             </asp:DropDownList>         
                         </div> 
                 </div>
@@ -623,8 +620,11 @@
                     <div class="col-md-6">
                         <asp:TextBox runat="server" ID="txtIDNumber" CssClass="form-control" Enabled="True"/>               
                     </div>
-                </div>
+                   <div class="col-md-3">
+                       <asp:Button ID="btnEditUniDetails" runat="server" Text="Save Details" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditUniDetails_OnClick" CausesValidation="False" />          
+                   </div>
 
+                </div>
              <br/>
                <div class="row">
                     <div class="col-md-12">
@@ -635,10 +635,9 @@
                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Bank:</asp:Label>
                         <div class="col-md-6">
-                            <asp:DropDownList ID="ddlPersonaBank" runat="server" CssClass="form-control" AutoPostBack="true">
+                            <asp:DropDownList ID="ddlPersonaBank" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
                                 <asp:ListItem>..Select Bank..</asp:ListItem>
-                                <asp:ListItem>Equity</asp:ListItem>
-                                <asp:ListItem>BoA</asp:ListItem>
                             </asp:DropDownList>         
                         </div> 
                 </div>
@@ -646,21 +645,9 @@
                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Bank Branch:</asp:Label>
                         <div class="col-md-6">
-                            <asp:DropDownList ID="ddlPersonaBranch" runat="server" CssClass="form-control" AutoPostBack="true">
+                            <asp:DropDownList ID="ddlPersonaBranch" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                    data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True">
                                 <asp:ListItem>..Select Branch..</asp:ListItem>
-                                <asp:ListItem>KU</asp:ListItem>
-                                <asp:ListItem>UoN</asp:ListItem>
-                            </asp:DropDownList>         
-                        </div> 
-                </div>
-               
-               <div class="form-group">
-                    <asp:Label runat="server" CssClass="col-md-3 control-label">Bank Branch:</asp:Label>
-                        <div class="col-md-6">
-                            <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" AutoPostBack="true">
-                                <asp:ListItem>..Select Branch..</asp:ListItem>
-                                <asp:ListItem>KU</asp:ListItem>
-                                <asp:ListItem>UoN</asp:ListItem>
                             </asp:DropDownList>         
                         </div> 
                 </div>
@@ -684,10 +671,13 @@
                     <div class="col-md-6">
                         <asp:TextBox runat="server" ID="txtYourIDNo" CssClass="form-control" TextMode="Number" Enabled="True"/>               
                     </div>
+                    <div class="col-md-3">
+                       <asp:Button ID="btnAddPersonalBankDs" runat="server" Text="Save Details" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnAddPersonalBankDs_OnClick" CausesValidation="False" />          
+                   </div>
                 </div>
+                  <br/>
                
             </div>
-
           </asp:View>
         
         </asp:MultiView>

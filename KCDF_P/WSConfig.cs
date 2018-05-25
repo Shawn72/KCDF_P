@@ -39,7 +39,7 @@ namespace KCDF_P
 
             try
             {
-                const string fromAddress = "ngutumbuvi8@gmail.com";
+                const string fromAddress = "kcdfportal@gmail.com";
                 string toAddress = recepient;
                 var mail = new MailMessage();
                 mail.To.Add(toAddress);
@@ -50,7 +50,7 @@ namespace KCDF_P
                 var client = new SmtpClient
                 {
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("ngutumbuvi8@gmail.com", "ngutu12345"),
+                    Credentials = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*"),
                     Port = 587,
                     Host = "smtp.gmail.com",
                     DeliveryMethod = SmtpDeliveryMethod.Network,

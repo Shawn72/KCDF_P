@@ -32,13 +32,14 @@ namespace KCDF_P
                 }
                 returnCustomer();
                 loadProfPic();
-
                 // checkUser();
                 // checkExtension();
-
             }
         }
-
+        protected Students returnCustomer()
+        {
+            return new Students(Session["username"].ToString());
+        }
         protected void loadProfPic()
         {
             try
@@ -81,10 +82,6 @@ namespace KCDF_P
                 SearchOption.AllDirectories))
                 File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
             KCDFAlert.ShowAlert("Copied!");
-        }
-        protected Students returnCustomer()
-        {
-            return new Students(Session["username"].ToString());
         }
         protected void checkUser()
         {

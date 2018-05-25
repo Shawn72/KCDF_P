@@ -1,5 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -18,6 +22,13 @@ namespace KCDF_P.Account
              new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                  ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
+
+        public static readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+                                  ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
+                                  ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
+                                  ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
+
+        public string Company_Name = "KCDF TEST NEW";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -27,11 +38,31 @@ namespace KCDF_P.Account
                    // Response.Redirect("~/Default.aspx");
 
                 }
-               
+                loadList();
+
             }
         }
 
         protected void CreateUser_Click(object sender, EventArgs e)
+        {
+            var regno = txtIDorRegNo.Text;
+
+            string confirmValue = Request.Form["confirm_value"];
+            if (confirmValue == "Yes")
+            {
+                // this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('You clicked YES!')", true);
+                CheckAdmissionNO(regno);
+
+            }
+            else
+            {
+                this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Operation Cancelled by user!')", true); // ScriptManager.RegisterStartupScript(this.Page, typeof(Page), "alert", "alert('You clicked NO!')", true);
+               
+            }
+
+        }
+
+        protected void createStudentUser()
         {
             string fname = txtFirstname.Text.Trim();
             string mname = txtMiddlename.Text.Trim();
@@ -41,22 +72,38 @@ namespace KCDF_P.Account
             string passW1 = txtPassword1.Text.Trim();
             string confirPwd = txtPassConfirmed.Text.Trim();
             string activationCode = Guid.NewGuid().ToString();
+            int gender = Convert.ToInt32(Session["gender"].ToString());
+            string admNo = txtIDorRegNo.Text.Trim();
 
+            DateTime doB;
+            var leohii = DateTime.Today;
+
+            var dofB = dateofBirth.Value.Trim();
+            if (string.IsNullOrWhiteSpace(dofB))
+            {
+                KCDFAlert.ShowAlert("Select a valid date!");
+                dateofBirth.Focus();
+                return;
+            }
+            else
+            {
+                doB = DateTime.Parse(dofB);
+
+            }
 
             if (string.IsNullOrEmpty(fname) || string.IsNullOrEmpty(lname) || string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username) || string.IsNullOrEmpty(passW1) || string.IsNullOrEmpty(confirPwd))
             {
                 lblError.Text = "Please fill all the empty required fields!";
                 return;
             }
-            else if (passW1 != confirPwd)
+            if (passW1 != confirPwd)
             {
                 lblError.Text = "Password Mismatch, try again!";
+                KCDFAlert.ShowAlert("Password Mismatch, try again!");
                 txtPassword1.Text = "";
                 txtPassConfirmed.Text = "";
             }
-            //else if (usname==username) {
-            //    lblError.Text = "Username is already taken, please choose another";
-            //}
+
             else
             {
                 try
@@ -65,40 +112,44 @@ namespace KCDF_P.Account
                     Portals sup = new Portals();
                     sup.Credentials = credentials;
                     sup.PreAuthenticate = true;
-                    sup.FnCreateAccount(fname, mname, lname, email, username, confirPwd, activationCode);
-
-                    KCDFAlert.ShowAlert("Your account succcessfully created, proceed to activation from your email");
-
-                    using (MailMessage mm = new MailMessage("ngutumbuvi8@gmail.com", email))
+                    if (sup.FnCreateAccount(fname, mname, lname, email, username, confirPwd, activationCode, gender, doB,
+                        admNo))
                     {
-                        string ActivationUrl = string.Empty;
-                        ActivationUrl = System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Activated.aspx?ActivationCode=" + activationCode + "";
+                        this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "getmeTohomeConfirm()", true);
 
-                        //Click here to activate your account
-                        //var contactUsUrl = Page.ResolveClientUrl("~/Account/Register.aspx");
+                        //call goback to login to load Default page for user
 
-                        mm.Subject = "KCDF Account Activation";
-                        string body = "Hello " + username + ",";
-                        body += "<br /><br />Please click the following link to activate your account";
+                       using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", email))
+                        {
+                            string ActivationUrl = string.Empty;
+                            ActivationUrl =
+                                System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) +
+                                "/Account/Activated.aspx?ActivationCode=" + activationCode + "";
 
-                        // body += "<br /><a href = '" + Request.Url.AbsoluteUri.Replace("/Account/Register.aspx", "/Account/Activated.aspx?ActivationCode=" + activationCode) + "'>Click here to activate your account.</a>";
+                            //Click here to activate your account
+                            //var contactUsUrl = Page.ResolveClientUrl("~/Account/Register.aspx");
 
-                        body += "<br />" + ActivationUrl + "";
-                        body += "<br /><br />Thanks";
-                        mm.Body = body;
-                        mm.IsBodyHtml = true;
-                        SmtpClient smtp = new SmtpClient();
-                        smtp.Host = "smtp.gmail.com";
-                        smtp.EnableSsl = true;
-                        NetworkCredential NetworkCred = new NetworkCredential("ngutumbuvi8@gmail.com", "ngutu12345");
-                        smtp.UseDefaultCredentials = true;
-                        smtp.Credentials = NetworkCred;
-                        smtp.Port = 587;
-                        smtp.Send(mm);
+                            mm.Subject = "KCDF Account Activation";
+                            string body = "Hello " + username + ",";
+                            body += "<br /><br />Please click the following link to activate your account";
 
-                        KCDFAlert.ShowAlert("Activation link has been send to your email");
+                            // body += "<br /><a href = '" + Request.Url.AbsoluteUri.Replace("/Account/Register.aspx", "/Account/Activated.aspx?ActivationCode=" + activationCode) + "'>Click here to activate your account.</a>";
+
+                            body += "<br />" + ActivationUrl + "";
+                            body += "<br /><br />Thanks";
+                            mm.Body = body;
+                            mm.IsBodyHtml = true;
+                            SmtpClient smtp = new SmtpClient();
+                            smtp.Host = "smtp.gmail.com";
+                            smtp.EnableSsl = true;
+                            NetworkCredential NetworkCred = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*");
+                            smtp.UseDefaultCredentials = true;
+                            smtp.Credentials = NetworkCred;
+                            smtp.Port = 587;
+                            smtp.Send(mm);
+                            // KCDFAlert.ShowAlert("Activation link has been send to your email");
+                        }
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -106,10 +157,9 @@ namespace KCDF_P.Account
                     return;
                 }
             }
-
         }
 
-        protected void btnCreateAcc_OnClick(object sender, EventArgs e)
+       protected void btnCreateAcc_OnClick(object sender, EventArgs e)
         {
             string orgname = txtOrgName.Text.Trim();
             string orgmail = txtOrgEmail.Text.Trim();
@@ -136,7 +186,7 @@ namespace KCDF_P.Account
 
                     KCDFAlert.ShowAlert("Your account succcessfully created, proceed to activation from your email");
 
-                    using (MailMessage mm = new MailMessage("ngutumbuvi8@gmail.com", orgmail))
+                    using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", orgmail))
                     {
                         string ActivationUrl = string.Empty;
                         ActivationUrl = System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Account/Activated_Grantees.aspx?ActivationCode=" + activationCode + "";
@@ -157,7 +207,7 @@ namespace KCDF_P.Account
                         SmtpClient smtp = new SmtpClient();
                         smtp.Host = "smtp.gmail.com";
                         smtp.EnableSsl = true;
-                        NetworkCredential NetworkCred = new NetworkCredential("ngutumbuvi8@gmail.com", "ngutu12345");
+                        NetworkCredential NetworkCred = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*");
                         smtp.UseDefaultCredentials = true;
                         smtp.Credentials = NetworkCred;
                         smtp.Port = 587;
@@ -174,22 +224,113 @@ namespace KCDF_P.Account
                 }
             }
 
-
         }
+
+        protected void loadList()
+        {
+            ddlAccountType.Items.Add("Scholarship Account");
+            ddlAccountType.Items.Add("Grantee Account");
+        }
+
         protected void ddlAccountType_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             var selType = ddlAccountType.SelectedItem.Text;
-            if (selType== "Scholarship Account")
+
+            switch (selType)
             {
+                case "Scholarship Account":
                 accuontTypeViews.SetActiveView(scholarView);
-            }
-            else if (selType== "Grantee Account")
-            {
+                break;
+
+                case "Grantee Account":
                 accuontTypeViews.SetActiveView(grantsView);
+                break;
             }
+        }
+
+        protected void rdoBtnListGender_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            Session["gender"] = rdoBtnListGender.SelectedIndex;
+           // KCDFAlert.ShowAlert(Session["gender"].ToString());
+        }
+
+        protected void compareDates()
+        {
+            DateTime doB;
+            var leohii = DateTime.Today;
+            
+            var dofB = dateofBirth.Value.Trim();
+            if (string.IsNullOrWhiteSpace(dofB))
             {
-                
+                KCDFAlert.ShowAlert("Select a valid date!");
+                dateofBirth.Focus();
+                return;
             }
+            else
+            {
+                doB = DateTime.Parse(dofB);
+
+            }
+          var myAge = (leohii - doB).TotalDays;
+            if (myAge<18)
+            {
+              KCDFAlert.ShowAlert("PG 13 pls go to bed");  
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("18 and above, greenlight");
+            }
+        }
+
+        public static bool CheckAdmissionNO12(string RegNo)
+        {
+            bool status = false;
+            using (SqlConnection conn = new SqlConnection(strSQLConn))
+            {
+                using (SqlCommand cmd = new SqlCommand("CheckMyAdmissionNo", conn))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@AdmNo", RegNo.Trim());
+                    conn.Open();
+                    status = Convert.ToBoolean(cmd.ExecuteScalar());
+                    conn.Close();
+                }
+            }
+            return status;
+
+        }
+
+        public bool CheckAdmissionNO(string RegNo)
+        {
+            bool status = false;
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+
+            if (sup.FnVerifyStudentRegNo(RegNo)==true)
+            {
+                status = true;
+               KCDFAlert.ShowAlert(status.ToString()+ "That Reg No is already taken");
+                //Session["myStatusIs"] = status;
+                //lblStatus.Text = Session["myStatusIs"].ToString();
+            }
+            else
+            {
+                status = false;
+                //Session["myStatusIsFalse"] = status;
+                //  KCDFAlert.ShowAlert(status.ToString());
+                createStudentUser();
+            }
+
+            return status;
+            
+
+        }
+
+        protected void checkIam_OnClick(object sender, EventArgs e)
+        {
+            CheckAdmissionNO(txtIDorRegNo.Text);
         }
     }
 }

@@ -646,6 +646,7 @@ ul.sidebar-menu li.active a i {
 
 #main-content {
     margin-left: 180px;
+    overflow-x: hidden;
 }
 
 
@@ -687,6 +688,7 @@ ul.sidebar-menu li.active a i {
     margin-top: 60px;
     padding: 15px;
     width: 100%;
+    margin-bottom: 10%;
 }
 
 
@@ -1344,8 +1346,8 @@ div[data-role="editor-toolbar"] {
 
 .dark-bg {
     color: #fff;
-    background: #97d131;
-    background-color: #97d131;
+    background: #00a367;
+    background-color: #00a367;
     border-bottom: 1px solid #f1f2f7;
 }
 
@@ -6611,9 +6613,18 @@ img {
     border: none;
     display: block;
 }
+.footer {
+   position: fixed;
+   left: 0;
+   bottom: 0;
+   width: 100%;
+   background-color: #00a367;
+   text-align: center;
+}
+
 .top-bar {
     height: 55px;
-    background-color: #6dcc32!important;
+    background-color: #00a367!important;
     position: relative;
     z-index: 10;
     padding-right: 35px;
@@ -6624,4 +6635,9 @@ img {
     -webkit-transform: scale(0.95);
     transform-origin: 0 0;
     -webkit-transform-origin: 0 0;
+}
+.required {
+    color: red;
+    font-weight: bold;
+    float: left;
 }

@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -20,6 +23,12 @@ namespace KCDF_P
               new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                   ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
+        public readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+                                  ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
+                                  ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
+                                  ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
+
+        public string Company_Name = "KCDF TEST NEW";
         [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -32,6 +41,7 @@ namespace KCDF_P
                 }
                 returnGrantee();
                 loadMyProjects();
+               // loadAllcountries();
                 loadProfPic();
                 clearCache();
             }
@@ -42,10 +52,6 @@ namespace KCDF_P
             return new Grantees(Session["username"].ToString());
         }
 
-        protected void lnkDelete_OnClick(object sender, EventArgs e)
-        {
-          
-        }
 
         protected void clearCache()
         {
@@ -56,10 +62,30 @@ namespace KCDF_P
 
         protected void loadMyProjects()
         {
-            var prjcts = nav.projectOverview.ToList().Where(us => us.Username.Equals(Session["username"].ToString()));
-            tblMyProjects.AutoGenerateColumns = false;
-            tblMyProjects.DataSource = prjcts;
-            tblMyProjects.DataBind();
+            try
+            {
+                var prjcts = nav.projectOverview.ToList().Where(us => us.Username.Equals(Session["username"].ToString()));
+                tblMyProjects.AutoGenerateColumns = false;
+                tblMyProjects.DataSource = prjcts;
+                tblMyProjects.DataBind();
+
+                tblMyProjects.UseAccessibleHeader = true;
+                tblMyProjects.HeaderRow.TableSection = TableRowSection.TableHeader;
+
+                TableCellCollection cells = tblMyProjects.HeaderRow.Cells;
+                cells[0].Attributes.Add("data-class", "expand");
+                cells[2].Attributes.Add("data-hide", "phone,tablet");
+                cells[3].Attributes.Add("data-hide", "phone,tablet");
+                cells[4].Attributes.Add("data-hide", "phone, tablet");
+                cells[5].Attributes.Add("data-hide", "phone, tablet");
+                cells[6].Attributes.Add("data-hide", "phone, tablet");
+
+            }
+            catch (Exception ex)
+            {
+              // KCDFAlert.ShowAlert("No projects yet!");
+                tblMyProjects.EmptyDataText = "No project data found";
+            }
 
         }
         protected void loadProfPic()
@@ -130,10 +156,17 @@ namespace KCDF_P
             switch (approvedyeah)
             {
                 case "Approved":
-                    KCDFAlert.ShowAlert("You cannot Edit an Appproved project!!");
+                    KCDFAlert.ShowAlert("You cannot Edit an Appproved submission!!");
                     break;
 
                 case "Pending Approval":
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openEditProj();", true);
+                    lblPrjNm.Text = prjnm;
+                    lblProjNo.Text = edit_id;
+                    loadEditPrj(edit_id);
+                    break;
+
+                case "Incomplete":
                     ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openEditProj();", true);
                     lblPrjNm.Text = prjnm;
                     lblProjNo.Text = edit_id;
@@ -260,7 +293,14 @@ namespace KCDF_P
 
             }
         }
-
-
+        
+        //protected void loadAllcountries() 
+        //{
+        //    var myList = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
+        //        .Select(c => new RegionInfo(c.Name).EnglishName)
+        //        .Distinct().OrderBy(s => s).ToList();
+        //    ddlCountry.DataSource = myList;
+        //    ddlCountry.DataBind();
+        //}
     }
 }

@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" MasterPageFile="Defaults.Master" Inherits="KCDF_P.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" MasterPageFile="~/Defaults.Master" Inherits="KCDF_P.Default" %>
 <%@ Register Assembly="MSCaptcha" Namespace="MSCaptcha" TagPrefix="cc1" %>
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
@@ -80,10 +80,13 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="*Required!" ControlToValidate = "txtCaptcha" ForeColor="red"></asp:RequiredFieldValidator>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <asp:Button ID="btnLogin" runat="server" Text="Login" CssClass="btn btn-primary btn-lg btn-block" OnClick="btnLogin_Click"/>&nbsp;&nbsp;
                         </div>
-                    </div>
+                        <div class="col-md-6">
+                             <span class="pull-right"><asp:LinkButton runat="server" ID="lnkBtnResetPassword" OnClick="lnkBtnResetPassword_OnClick" CausesValidation="False">Reset Password</asp:LinkButton></span>
+                         </div>
+                    </div>  
                 </asp:View>
                 <asp:View runat="server" ID="granteeView">
                     <div class="input-group">
@@ -96,8 +99,7 @@
                         <asp:TextBox ID="txtorgPsw" runat="server" CssClass="form-control" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
                     </div>
                     <br/>
-                       <%-- <span class="pull-left"> <asp:LinkButton ID="lnkBtnResetOrgP" runat="server" >Reset Password?</asp:LinkButton></span>--%>
-                   
+                    
                      <div style="transform:scale(1.0); -webkit-transform:scale(1.0);transform-origin:0 0;-webkit-transform-origin:0 0;">
                     <cc1:CaptchaControl ID="captchaGrantee" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
@@ -112,11 +114,38 @@
                         <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="*Required!" ControlToValidate = "txtCaptcha2" ForeColor="red"></asp:RequiredFieldValidator>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <asp:Button ID="btnGrantLogin" runat="server" Text="Login" CssClass="btn btn-primary btn-lg btn-block" OnClick="btnGrantLogin_OnClick" />
+                         </div>
+                          <div class="col-md-6">
+                             <span class="pull-right"><asp:LinkButton runat="server" ID="lnkBtnOrgResetP" OnClick="lnkBtnOrgResetP_OnClick" CausesValidation="False">Reset Password</asp:LinkButton></span>
                          </div>
                     </div>
                 </asp:View>
+                
+                <asp:View runat="server" ID="viewiForgotItP">
+                    <div class="form-horizontal">
+                              <label class="form-control alert" style="font-weight: bold;"><span class="badge alert-danger">+</span>Please enter the username you registered with to reset your password:</label>
+                            <br/>
+                      
+                        
+                   
+                     <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-user"></i> Registered Username:</span>
+                          <asp:TextBox ID="txtIforgotPassword" runat="server" CssClass="form-control" placeholder="Enter your username"></asp:TextBox>
+                    </div>
+                    <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                              <asp:Button ID="btnResetUrPss" runat="server" Text="Reset Password" CssClass="btn btn-primary btn-sm btn-block" OnClick="btnResetUrPss_OnClick" />
+                            </div>
+                            <div class="col-md-6">
+                                <asp:Button runat="server" ID="btnbacktomyRoots" Text="Back to Login" CssClass="btn btn-primary btn-sm btn-block" OnClick="btnbacktomyRoots_OnClick"/>
+                            </div>
+                        </div>
+                    </div>
+                </asp:View>  
+
             </asp:MultiView>
         </div>
 

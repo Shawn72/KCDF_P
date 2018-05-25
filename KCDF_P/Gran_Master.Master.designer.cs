@@ -13,6 +13,15 @@ namespace KCDF_P {
     public partial class Gran_Master {
         
         /// <summary>
+        /// lnkBtnChangeP control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkBtnChangeP;
+        
+        /// <summary>
         /// MainContent control.
         /// </summary>
         /// <remarks>

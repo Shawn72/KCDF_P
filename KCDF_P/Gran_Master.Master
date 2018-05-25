@@ -27,11 +27,18 @@
     <link href="~/Content/bootstrap-dropdownhover.min.css" rel="stylesheet">
     <link href="~/Content/jquery-ui.min.css" rel="stylesheet">
     
+    <%-- responsive gridview --%>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/0.1.0/css/footable.min.css" rel="stylesheet" />
+    
     <!-- Bootstrap -->
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     
      <%-- SearchDropdown --%>
    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" />
+    
+    <%--  DataTables  --%>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" />
+  
 
     <%-- Datepicker --%>
     <link href="~/DatePicker/bootstrap/css/bootstrap-datepicker3.css" rel="stylesheet" />
@@ -59,7 +66,14 @@
             
             <div class="collapse navbar-collapse" id="shrink">
                     <ul class="nav navbar-nav navbar-right">                       
-                       
+                       <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Forms<b class="caret"></b></a>
+
+                            <ul class="dropdown-menu">
+                                <li><a href="UploadFiles_Grants.aspx">Application Forms Downloads</a></li>
+                                <li class="divider"></li>                                
+                            </ul>
+                        </li>
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Apply for Grant<b class="caret"></b></a>
 
@@ -75,7 +89,7 @@
                                 <li class="divider"></li>
                                 <li><a href="Account/Add_Grantee_Profile.aspx">Edit Profile</a></li>
                                  <li class="divider"></li>
-                                <li><a href="#">Change Password</a></li>
+                                <asp:LinkButton ID="lnkBtnChangeP" runat="server" OnClick="lnkBtnChangeP_OnClick" style="align-content: center">Change Password</asp:LinkButton>
                                  <li class="divider"></li>
                                 <li><a href="/Logout.aspx">Log Out</a></li>
                                 <li class="divider"></li>
@@ -92,7 +106,7 @@
             </asp:ContentPlaceHolder>
           </section>        
             
-          <footer>
+          <footer class="footer">
             <p align="center"><span>Copyright &copy; <%: DateTime.Now.Year %> <a target="_blank" href="http://www.kcdf.or.ke/" style="padding-left:5px"> KCDF </a></span><span> | </span>
                 <span> Powered by: <a target ="_blank" href="http://surestep.co.ke" style="padding-right:5px">Surestep Systems and Solutions</a></span></p>
            </footer>
@@ -112,13 +126,26 @@
     <script src="Scripts/navbar.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
-
+        
+    <%-- responsive gridview --%>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-footable/0.1.0/js/footable.min.js"></script>
+     
+   
+   <%-- <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.js"></script>
+       <script>
+          var $i = jQuery.noConflict();
+      </script> 
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/1.0.7/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/1.10.9/js/dataTables.bootstrap.min.js"></script>--%>
+  
     <!-- Bootstrap Dropdown Hover JS -->
    <%-- <script src="Scripts/bootstrap-dropdownhover.min.js"></script>--%>
 
      <!-- Datepicker  -->
     <script type="text/javascript" src="/DatePicker/bootstrap/js/bootstrap-datepicker.js" charset="UTF-8"></script>
-
+        
+    
     <script type="text/javascript">
         $('.input-group.date').datepicker({
             format: "mm/dd/yy",
@@ -131,48 +158,56 @@
         });
     </script>
   	<script type="text/javascript">
-		$(document).ready(function() {
-			$("select").searchable();
-		});
+	      $(document).ready(function() {
+	          $("select").searchable();
+	      });
+	      // demo functions
+	      $(document).ready(function() {
+	          $("#value").html($("#myselect :selected").text() + " (VALUE: " + $("#myselect").val() + ")");
+	          $("select").change(function(){
+	              $("#value").html(this.options[this.selectedIndex].text + " (VALUE: " + this.value + ")");
+	          });
+	      });
 	
+	      function modifySelect() {
+	          $("select").get(0).selectedIndex = 5;
+	      }
 	
-		// demo functions
-		$(document).ready(function() {
-			$("#value").html($("#myselect :selected").text() + " (VALUE: " + $("#myselect").val() + ")");
-			$("select").change(function(){
-				$("#value").html(this.options[this.selectedIndex].text + " (VALUE: " + this.value + ")");
-			});
-		});
+	      function appendSelectOption(str) {
+	          $("select").append("<option value=\"" + str + "\">" + str + "</option>");
+	      }
 	
-		function modifySelect() {
-			$("select").get(0).selectedIndex = 5;
-		}
+	      function applyOptions() {			  
+	          $("select").searchable({
+	              maxListSize: $("#maxListSize").val(),
+	              maxMultiMatch: $("#maxMultiMatch").val(),
+	              latency: $("#latency").val(),
+	              exactMatch: $("#exactMatch").get(0).checked,
+	              wildcards: $("#wildcards").get(0).checked,
+	              ignoreCase: $("#ignoreCase").get(0).checked
+	          });
 	
-		function appendSelectOption(str) {
-			$("select").append("<option value=\"" + str + "\">" + str + "</option>");
-		}
-	
-		function applyOptions() {			  
-			$("select").searchable({
-				maxListSize: $("#maxListSize").val(),
-				maxMultiMatch: $("#maxMultiMatch").val(),
-				latency: $("#latency").val(),
-				exactMatch: $("#exactMatch").get(0).checked,
-				wildcards: $("#wildcards").get(0).checked,
-				ignoreCase: $("#ignoreCase").get(0).checked
-			});
-	
-			alert(
-				"OPTIONS\n---------------------------\n" + 
-				"maxListSize: " + $("#maxListSize").val() + "\n" +
-				"maxMultiMatch: " + $("#maxMultiMatch").val() + "\n" +
-				"exactMatch: " + $("#exactMatch").get(0).checked + "\n"+
-				"wildcards: " + $("#wildcards").get(0).checked + "\n" +
-				"ignoreCase: " + $("#ignoreCase").get(0).checked + "\n" +
-				"latency: " + $("#latency").val()
-			);
-		}
-	</script> 
+	          alert(
+	              "OPTIONS\n---------------------------\n" + 
+	              "maxListSize: " + $("#maxListSize").val() + "\n" +
+	              "maxMultiMatch: " + $("#maxMultiMatch").val() + "\n" +
+	              "exactMatch: " + $("#exactMatch").get(0).checked + "\n"+
+	              "wildcards: " + $("#wildcards").get(0).checked + "\n" +
+	              "ignoreCase: " + $("#ignoreCase").get(0).checked + "\n" +
+	              "latency: " + $("#latency").val()
+	          );
+	      }
+	  </script> 
+        
+    <script type="text/javascript">
+        $(function() {
+            $('[id*=tblGrantsManager]').footable();
+            $('[id*=gridViewUploads]').footable();
+            $('[id*=gridSubmitApps]').footable();
+            $('[id*=tblMyProjects]').footable();
+            //$('[id*=gridViewUploads]').footable();
+        });
+    </script>
   
 </form>
 </body>
