@@ -26,7 +26,7 @@ namespace KCDF_P.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.WebServiceUrl)]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://sngutu:7047/DynamicsNAV110/WS/KCDF%20TEST%20NEW/Codeunit/Portals")]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://192.168.0.249:2442/PORTAL/WS/KCDF%20TEST%20NEW/Codeunit/Portals")]
         public string KCDF_P_NAVWS_Portals {
             get {
                 return ((string)(this["KCDF_P_NAVWS_Portals"]));

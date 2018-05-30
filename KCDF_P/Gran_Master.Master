@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Gran_Master.master.cs" Inherits="KCDF_P.Gran_Master" %>
+<%@ Import Namespace="NUnit.Framework.Constraints" %>
 <%
     Response.Cache.SetNoStore();
     //Response.Write (DateTime.Now.ToLongTimeString ());
@@ -87,7 +88,7 @@
                             <ul class="dropdown-menu">
                                 <li><a href="../Grantee_Dashboard.aspx">My Dashboard</a></li>
                                 <li class="divider"></li>
-                                <li><a href="Account/Add_Grantee_Profile.aspx">Edit Profile</a></li>
+                                <asp:LinkButton ID="lnkbtnEdit" runat="server" OnClick="lnkbtnEdit_OnClick" style="align-content: center">Edit Profile</asp:LinkButton>
                                  <li class="divider"></li>
                                 <asp:LinkButton ID="lnkBtnChangeP" runat="server" OnClick="lnkBtnChangeP_OnClick" style="align-content: center">Change Password</asp:LinkButton>
                                  <li class="divider"></li>

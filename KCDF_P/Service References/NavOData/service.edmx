@@ -3749,8 +3749,9 @@
         <Property Name="Parent_or_Guardian_Address" Type="Edm.String" />
         <Property Name="Course" Type="Edm.String" />
         <Property Name="Year_of_Study" Type="Edm.String" />
-        <Property Name="KCPE_Marks" Type="Edm.String" />
+        <Property Name="KCPE_Marks" Type="Edm.Int32" />
         <Property Name="KCSE_Grade" Type="Edm.String" />
+        <Property Name="KCPE_Total_Marks" Type="Edm.Int32" />
       </EntityType>
       <EntityType Name="target_Groups">
         <Key>

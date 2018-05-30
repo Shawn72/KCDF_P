@@ -418,6 +418,7 @@
     <Content Include="Gran_Master.Master" />
     <Content Include="DCopy\DCopier.bat" />
     <Content Include="PasswordReset_Master.Master" />
+    <Content Include="Account\AddGranteeProfile_Master.Master" />
     <None Include="Properties\PublishProfiles\KCDF_p.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1322,6 +1323,13 @@
     </Compile>
     <Compile Include="Account\Activated_Grantees.aspx.designer.cs">
       <DependentUpon>Activated_Grantees.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Account\AddGranteeProfile_Master.Master.cs">
+      <DependentUpon>AddGranteeProfile_Master.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\AddGranteeProfile_Master.Master.designer.cs">
+      <DependentUpon>AddGranteeProfile_Master.Master</DependentUpon>
     </Compile>
     <Compile Include="Account\AddPhoneNumber.aspx.cs">
       <DependentUpon>AddPhoneNumber.aspx</DependentUpon>

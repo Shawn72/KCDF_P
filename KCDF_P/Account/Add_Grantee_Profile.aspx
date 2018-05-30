@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Grantee_Profile.aspx.cs" MasterPageFile="~/Gran_Master.Master" Inherits="KCDF_P.Account.Add_Grantee_Profile" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Grantee_Profile.aspx.cs" MasterPageFile="~/Account/AddGranteeProfile_Master.Master" Inherits="KCDF_P.Account.Add_Grantee_Profile" %>
 <asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
 <meta http-equiv="refresh" content="200;url=Add_Grantee_Profile.aspx"> 
 <div class="panel-body" style="font-family:Trebuchet MS">
@@ -80,11 +80,14 @@
                    
                 <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Postal Code:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlPostalCode" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true"  AutoPostBack="True" OnSelectedIndexChanged="ddlPostalCode_OnSelectedIndexChanged">
                             </asp:DropDownList>
-                    </div> 
+                       </div> 
+                    <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtMyPostaIs" CssClass="form-control" Enabled="False" placeholder="My Postal Code" />              
+                     </div>
                 </div>
                    
                 <div class="form-group">
@@ -120,7 +123,7 @@
              <br /> 
                  <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Governmental:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlOrgType" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true">
                                 <asp:ListItem Selected="True">..Select Organization Type..</asp:ListItem>
@@ -128,21 +131,27 @@
                                 <asp:ListItem>YES</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
+                      <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtOrgtype" CssClass="form-control" Enabled="False" placeholder="Organization type" />              
+                     </div>
                 </div>
 
                  <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Partisan:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlnonPartisan" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlnonPartisan_OnSelectedIndexChanged" AutoPostBack="True" >
-                               <asp:ListItem Selected="True">..Select Type..</asp:ListItem>
+                               <asp:ListItem Selected="True">--Select Type--</asp:ListItem>
                                <asp:ListItem>NO</asp:ListItem>
                                <asp:ListItem>YES</asp:ListItem>
                             </asp:DropDownList>
                          </div> 
+                      <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtpartsan" CssClass="form-control" Enabled="False" placeholder="partisan?" />              
+                     </div>
                       <div class="col-md-3">
                       <div class="form-group">
-                            <asp:TextBox id="txtAreaPartisan" TextMode="multiline" Columns="8" Width="90%" Rows="2" runat="server" placeholder="Describe your partisan" Visible="False"/>
+                            <asp:TextBox id="txtAreaPartisan" CssClass="form-control" TextMode="multiline" Columns="8" Width="90%" Rows="2" runat="server" placeholder="Describe your partisan" Visible="False"/>
                         </div>
                      </div>
 
@@ -150,34 +159,40 @@
 
                  <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Profitable:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlNonProfitable" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" >
-                                <asp:ListItem Selected="True">..Select Type..</asp:ListItem>
+                                <asp:ListItem Selected="True">--Select Type--</asp:ListItem>
                               <asp:ListItem>NO</asp:ListItem>
                               <asp:ListItem>YES</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
+                      <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtNgO" CssClass="form-control"  Enabled="False" placeholder="NGO?" />              
+                     </div>
                 </div>
 
                  <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Legally Registered:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlLegal" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" >
-                                <asp:ListItem Selected="True">..Select..</asp:ListItem>
+                                <asp:ListItem Selected="True">--Choose--</asp:ListItem>
                                 <asp:ListItem>NO</asp:ListItem>
                                 <asp:ListItem>YES</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
+                     <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtlegalY" CssClass="form-control"  Enabled="False" placeholder="legal?" />              
+                     </div>
                 </div>
                    
                  <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Type Of Registration:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlRegtype" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" >
-                                <asp:ListItem>..Select..</asp:ListItem>
+                                <asp:ListItem>--Select--</asp:ListItem>
                                 <asp:ListItem>SHG</asp:ListItem>
                                 <asp:ListItem>CBO</asp:ListItem>
                                 <asp:ListItem>NGO</asp:ListItem>
@@ -188,6 +203,9 @@
                                 <asp:ListItem>Foundation</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
+                     <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtregtypeIs" CssClass="form-control"  Enabled="False" placeholder="registration type?" />              
+                     </div>
                 </div>
 
                  <div class="form-group">

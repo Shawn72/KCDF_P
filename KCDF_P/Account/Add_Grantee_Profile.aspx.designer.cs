@@ -112,6 +112,15 @@ namespace KCDF_P.Account {
         protected global::System.Web.UI.WebControls.DropDownList ddlPostalCode;
         
         /// <summary>
+        /// txtMyPostaIs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMyPostaIs;
+        
+        /// <summary>
         /// txtPostalTown control.
         /// </summary>
         /// <remarks>
@@ -157,6 +166,15 @@ namespace KCDF_P.Account {
         protected global::System.Web.UI.WebControls.DropDownList ddlOrgType;
         
         /// <summary>
+        /// txtOrgtype control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtOrgtype;
+        
+        /// <summary>
         /// ddlnonPartisan control.
         /// </summary>
         /// <remarks>
@@ -164,6 +182,15 @@ namespace KCDF_P.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlnonPartisan;
+        
+        /// <summary>
+        /// txtpartsan control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtpartsan;
         
         /// <summary>
         /// txtAreaPartisan control.
@@ -184,6 +211,15 @@ namespace KCDF_P.Account {
         protected global::System.Web.UI.WebControls.DropDownList ddlNonProfitable;
         
         /// <summary>
+        /// txtNgO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNgO;
+        
+        /// <summary>
         /// ddlLegal control.
         /// </summary>
         /// <remarks>
@@ -193,6 +229,15 @@ namespace KCDF_P.Account {
         protected global::System.Web.UI.WebControls.DropDownList ddlLegal;
         
         /// <summary>
+        /// txtlegalY control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtlegalY;
+        
+        /// <summary>
         /// ddlRegtype control.
         /// </summary>
         /// <remarks>
@@ -200,6 +245,15 @@ namespace KCDF_P.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlRegtype;
+        
+        /// <summary>
+        /// txtregtypeIs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtregtypeIs;
         
         /// <summary>
         /// dateofReg control.

@@ -25,17 +25,37 @@ namespace KCDF_P.Account
 
             if (!IsPostBack)
             {
-                if (Session["username"] == null)
-                {
-                    Response.Redirect("/Default.aspx");
-
-                }
+                checkSessionExists();
                 readData();
                 loadApplicationInfo();
                 getPostaCodes();
+                //getURL();
             }
             
         }
+
+        protected void getURL()
+        {
+            string path = HttpContext.Current.Request.Url.AbsolutePath;
+            Session["url"] = path;
+           // KCDFAlert.ShowAlert(Session["url"].ToString());
+        }
+        protected void checkSessionExists()
+        {
+            try
+            {
+                string sessionIs = Convert.ToString(Session["username"]);
+                if (string.IsNullOrWhiteSpace(sessionIs))
+                {
+                    Response.Redirect("/Default.aspx");
+                }
+            }
+            catch (Exception errEx)
+            {
+                Response.Redirect("/Default.aspx");
+            }
+        }
+
         protected void editProfile()
         {
             var MobileString = txPhoneNo.Text.Trim();
@@ -66,13 +86,21 @@ namespace KCDF_P.Account
 
         protected void readData()
         {
+            try
+            {
 
+           
             var granteeData = nav.grantees_Register.ToList().Where(r => r.Organization_Username == Session["username"].ToString());
             
             txPhoneNo.Text = granteeData.Select(pn => pn.Phone).SingleOrDefault().ToString();
             txOrgname.Text = granteeData.Select(fn => fn.Organization_Name).SingleOrDefault().ToString();
             txEmailAdd.Text = granteeData.Select(em => em.Email).SingleOrDefault().ToString();
+            }
+            catch (Exception exp)
+            {
+                KCDFAlert.ShowAlert("Your Information is not Up to Date, update!");
 
+            }
 
         }
 
@@ -85,8 +113,9 @@ namespace KCDF_P.Account
         protected void btnSave_OnClick(object sender, EventArgs e)
         {
             bool ngo = false, notpartisan = false, nonprofit = false, legally = false;
-
+           
             string usanm = Session["username"].ToString();
+
             string contactP = TextBxcont.Text.Trim();
             string currposition = TextBoposition.Text.Trim();
             string postaddress = TextBxpostal.Text.Trim();
@@ -161,50 +190,54 @@ namespace KCDF_P.Account
                 legally = true;
             }
             string regType = ddlRegtype.SelectedItem.Text;
-
+            try
+            {
             var YoReg = dateofReg.Value.Trim();
             DateTime yearOfAdmn = DateTime.Parse(YoReg);
-
-
+           
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            sup.FnRegGranteeInfo(usanm, contactP, currposition, phoneNum,
-                postaddress, postcode, tao, ngo, notpartisan, nonprofit,
-                legally, physicAddre, regType, yearOfAdmn, webs, registrationNum, nonPartisanTxtA);
-            KCDFAlert.ShowAlert("Organization Information updated successfully!");
-            loadApplicationInfo();
+                if (sup.FnRegGranteeInfo(usanm, contactP, currposition, phoneNum,
+                    postaddress, postcode, tao, ngo, notpartisan, nonprofit,
+                    legally, physicAddre, regType, yearOfAdmn, webs, registrationNum, nonPartisanTxtA))
+                {
+                    KCDFAlert.ShowAlert("Organization Information updated successfully!");
+                    loadApplicationInfo();
+                }
+            
+            }
+            catch (Exception exO)
+            {
+                KCDFAlert.ShowAlert("Select a Valid Date");
+                dateofReg.Focus();
+            }
 
 
         }
 
         protected void loadApplicationInfo()
         {
+            try
+            {
+           
             var granteeInfo =
                 nav.grantees_Register.ToList()
                     .Where(n => n.Organization_Username.Equals(Session["username"].ToString()));
+
             TextBxcont.Text = granteeInfo.Select(co => co.Contact_Person).SingleOrDefault();
             TextBoposition.Text = granteeInfo.Select(po => po.Current_Position).SingleOrDefault();
             TextBxpostal.Text = granteeInfo.Select(pa => pa.Postal_Address).SingleOrDefault();
-            var posta= granteeInfo.Select(pc => pc.Postal_Code).SingleOrDefault();
-           // KCDFAlert.ShowAlert(granteeInfo.Select(pc => pc.Postal_Code).SingleOrDefault());
+            txtMyPostaIs.Text = granteeInfo.Select(pc => Convert.ToString(pc.Postal_Code)).SingleOrDefault();
+         //   KCDFAlert.ShowAlert(txtMyPostaIs.Text);
             txtPostalTown.Text = granteeInfo.Select(ta => ta.Town).SingleOrDefault();
             TextBoxphone.Text = granteeInfo.Select(pn => pn.Phone).SingleOrDefault();
             txPhoneNo.Text = granteeInfo.Select(pn => pn.Phone).SingleOrDefault();
             TextBoxweb.Text = granteeInfo.Select(wb => wb.Website).SingleOrDefault();
             txtPhysicallAddr.Text = granteeInfo.Select(pad => pad.Physical_Address).SingleOrDefault();
-
-            if (string.IsNullOrWhiteSpace(posta))
-            {
-                ddlPostalCode.SelectedIndex = 0;
-            }
-            else
-            {
-                ddlPostalCode.SelectedItem.Text = posta;
-            }
-
             var ngO = granteeInfo.Select(ot => ot.NGO).SingleOrDefault();
+            txtNgO.Text = ngO.ToString();
             if (ngO == false)
             {
                 ddlOrgType.SelectedIndex = 1;
@@ -218,6 +251,8 @@ namespace KCDF_P.Account
                 ddlOrgType.SelectedIndex = 0;
             }
             var partsn = granteeInfo.Select(pt => pt.Partisan).SingleOrDefault();
+            txtpartsan.Text = partsn.ToString();
+
             if (partsn == true)
             {
                 ddlnonPartisan.SelectedIndex = 2;
@@ -238,6 +273,7 @@ namespace KCDF_P.Account
                 ddlNonProfitable.SelectedIndex = 2;
             }
             var legl = granteeInfo.Select(lg => lg.Legally_registered).SingleOrDefault();
+            txtlegalY.Text = legl.ToString();
             if (legl == false)
             {
                 ddlLegal.SelectedIndex = 1;
@@ -248,11 +284,20 @@ namespace KCDF_P.Account
                 ddlLegal.SelectedIndex = 2;
             }
             ddlRegtype.SelectedItem.Text = granteeInfo.Select(rt => rt.Type_Of_Organization).SingleOrDefault();
+            txtOrgtype.Text = granteeInfo.Select(rt => rt.Type_Of_Organization).SingleOrDefault();
+
             var doR = granteeInfo.Select(dr => Convert.ToDateTime(dr.Date_Registered)).SingleOrDefault();
             dateofReg.Value = doR.ToShortDateString();
             TextBoxreg.Text = granteeInfo.Select(rg => rg.Registration_No).SingleOrDefault();
+            txtregtypeIs.Text = granteeInfo.Select(rT => rT.Type_of_registration).SingleOrDefault();
+            }
+            catch (Exception exp)
+            {
+                KCDFAlert.ShowAlert("Your Information is not up to date, please Update!");
 
+            }
         }
+
 
         protected void ddlnonPartisan_OnSelectedIndexChanged(object sender, EventArgs e)
         {
@@ -265,6 +310,7 @@ namespace KCDF_P.Account
             if (selVal == 1)
             {
                 txtAreaPartisan.Visible = true;
+                txtAreaPartisan.Focus();
             }
             else
             {
@@ -293,12 +339,14 @@ namespace KCDF_P.Account
                 ddlPostalCode.DataValueField = "Postal_Code";
                 ddlPostalCode.DataBind();
                 ddlPostalCode.Items.Insert(0, "--Select Postal Code--");
-            }
-            catch (Exception err)
-            {
-                KCDFAlert.ShowAlert(err.Message);
-            }
             
+            }
+            catch (Exception exp)
+            {
+                KCDFAlert.ShowAlert("Your Postal code is not updated, Please update");
+
+            }
+
         }
     }
 }

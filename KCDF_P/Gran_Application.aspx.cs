@@ -268,21 +268,27 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            sup.FnProjectOverview(usn, county, constituency, projTt, urbantarget,
-                projectlength, projCost, contrib, kcdffunds, projTDt, scale, projectNm);
+                if (sup.FnProjectOverview(usn, county, constituency, projTt, urbantarget,
+                    projectlength, projCost, contrib, kcdffunds, projTDt, scale, projectNm) == true)
+                {
+                    KCDFAlert.ShowAlert("Data saved Successfully!, KCDF Requested Amount : " + kcdffunds);
+                    TextBoxtitle.Text = "";
+                    txtDateofStart.Value = "";
+                    ddlSelCounty.SelectedIndex = 0;
+                    ddlConstituency.SelectedIndex = 0;
+                    txtAreaTargetSettmnt.Text = "";
+                    ddlMonths.SelectedIndex = 0;
+                    ddlEstScale.SelectedIndex = 0;
+                    TextBoxcost.Text = "";
+                    TextBoxcont.Text = "";
+                    TextBoxrequested.Text = "";
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("Error Saving!");
+                }
 
-            KCDFAlert.ShowAlert("Data saved Successfully!, KCDF Requested Amount : "+ kcdffunds);
-
-            TextBoxtitle.Text = "";
-            txtDateofStart.Value = "";
-            ddlSelCounty.SelectedIndex = 0;
-            ddlConstituency.SelectedIndex = 0;
-            txtAreaTargetSettmnt.Text = "";
-            ddlMonths.SelectedIndex = 0;
-            ddlEstScale.SelectedIndex = 0;
-            TextBoxcost.Text = "";
-            TextBoxcont.Text = "";
-            TextBoxrequested.Text = "";
+            
             }
             catch (Exception ex)
             {
@@ -803,25 +809,32 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            sup.FnSaveToGargetGroup(usnm, hsehlds, schls, org, yth, wmn, mn, chldold, old, ren, orph, ill, marg, drg,
-                sxwrkr, tchr, frmr, proj);
-            KCDFAlert.ShowAlert("Target group information saved successfully!");
-            TextBoxhse.Text = "";
-            TextBoxschl.Text = "";
-            TextBoxorg.Text = "";
-            TextBoxyth.Text = "";
-            TextBowmn.Text = "";
-            TextBowmn.Text = "";
-            TextBoxmn.Text = "";
-            TextBcldold.Text = "";
-            TextBoxold.Text = "";
-            TextBoxren.Text = "";
-            TextBoxorph.Text = "";
-            TextBoxill.Text = "";
-            TextBoxmarg.Text = "";
-            TextBoxdrg.Text = "";
-            TextBoxsxwrkr.Text = "";
-            TextBoxfarmr.Text = "";
+                if (sup.FnSaveToGargetGroup(usnm, hsehlds, schls, org, yth, wmn, mn, chldold, old, ren, orph, ill, marg,
+                    drg,
+                    sxwrkr, tchr, frmr, proj) == true)
+                {
+                    KCDFAlert.ShowAlert("Target group information saved successfully!");
+                    TextBoxhse.Text = "";
+                    TextBoxschl.Text = "";
+                    TextBoxorg.Text = "";
+                    TextBoxyth.Text = "";
+                    TextBowmn.Text = "";
+                    TextBowmn.Text = "";
+                    TextBoxmn.Text = "";
+                    TextBcldold.Text = "";
+                    TextBoxold.Text = "";
+                    TextBoxren.Text = "";
+                    TextBoxorph.Text = "";
+                    TextBoxill.Text = "";
+                    TextBoxmarg.Text = "";
+                    TextBoxdrg.Text = "";
+                    TextBoxsxwrkr.Text = "";
+                    TextBoxfarmr.Text = "";
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("Error Occured Saving Info!");
+                }
             }
             catch (Exception ex)
             {
@@ -1101,6 +1114,7 @@ namespace KCDF_P
             var granteeInfo =
                 nav.grantees_Register.ToList()
                     .Where(n => n.Organization_Username.Equals(Session["username"].ToString()));
+
             TextBxcont.Text = granteeInfo.Select(co => co.Contact_Person).SingleOrDefault();
             TextBoposition.Text = granteeInfo.Select(po => po.Current_Position).SingleOrDefault();
             TextBxpostal.Text = granteeInfo.Select(pa => pa.Postal_Address).SingleOrDefault();
@@ -1108,7 +1122,8 @@ namespace KCDF_P
             txtPostalTown.Text = granteeInfo.Select(ta => ta.Town).SingleOrDefault();
             TextBoxphone.Text = granteeInfo.Select(pn => pn.Phone).SingleOrDefault();
             txEmailAdd.Text = granteeInfo.Select(em => em.Email).SingleOrDefault();
-            TextBoxweb.Text = granteeInfo.Select(wb => wb.Website).SingleOrDefault();;
+            TextBoxweb.Text = granteeInfo.Select(wb => wb.Website).SingleOrDefault();
+            txOrgname.Text = granteeInfo.Select(on => on.Organization_Name).SingleOrDefault();
             var ngO = granteeInfo.Select(ot => ot.NGO).SingleOrDefault();
             switch (ngO)
             {

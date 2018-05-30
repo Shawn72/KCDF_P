@@ -279,7 +279,7 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnRegisterStudent", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnRegisterStudent_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnRegisterStudent(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime dateOfBirth, string myMarks, string myGrade) {
+        public void FnRegisterStudent(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime dateOfBirth, int myMarks, string myGrade, string secondary, string primary, int totalKCPEMarks) {
             this.Invoke("FnRegisterStudent", new object[] {
                         fName,
                         mName,
@@ -291,16 +291,19 @@ namespace KCDF_P.NAVWS {
                         gender,
                         dateOfBirth,
                         myMarks,
-                        myGrade});
+                        myGrade,
+                        secondary,
+                        primary,
+                        totalKCPEMarks});
         }
         
         /// <remarks/>
-        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, string myMarks, string myGrade) {
-            this.FnRegisterStudentAsync(fName, mName, lName, iD_Noa46, residence, phone_Num, userName, gender, dateOfBirth, myMarks, myGrade, null);
+        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, int myMarks, string myGrade, string secondary, string primary, int totalKCPEMarks) {
+            this.FnRegisterStudentAsync(fName, mName, lName, iD_Noa46, residence, phone_Num, userName, gender, dateOfBirth, myMarks, myGrade, secondary, primary, totalKCPEMarks, null);
         }
         
         /// <remarks/>
-        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, string myMarks, string myGrade, object userState) {
+        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, int myMarks, string myGrade, string secondary, string primary, int totalKCPEMarks, object userState) {
             if ((this.FnRegisterStudentOperationCompleted == null)) {
                 this.FnRegisterStudentOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnRegisterStudentOperationCompleted);
             }
@@ -315,7 +318,10 @@ namespace KCDF_P.NAVWS {
                         gender,
                         dateOfBirth,
                         myMarks,
-                        myGrade}, this.FnRegisterStudentOperationCompleted, userState);
+                        myGrade,
+                        secondary,
+                        primary,
+                        totalKCPEMarks}, this.FnRegisterStudentOperationCompleted, userState);
         }
         
         private void OnFnRegisterStudentOperationCompleted(object arg) {
@@ -613,7 +619,8 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnRegGranteeInfo", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnRegGranteeInfo_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnRegGranteeInfo(
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnRegGranteeInfo(
                     string username, 
                     string contact_person_name, 
                     string current_position, 
@@ -631,7 +638,7 @@ namespace KCDF_P.NAVWS {
                     string website, 
                     string company_reg_no, 
                     string nonPartsan_Description) {
-            this.Invoke("FnRegGranteeInfo", new object[] {
+            object[] results = this.Invoke("FnRegGranteeInfo", new object[] {
                         username,
                         contact_person_name,
                         current_position,
@@ -649,6 +656,7 @@ namespace KCDF_P.NAVWS {
                         website,
                         company_reg_no,
                         nonPartsan_Description});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -719,7 +727,7 @@ namespace KCDF_P.NAVWS {
         private void OnFnRegGranteeInfoOperationCompleted(object arg) {
             if ((this.FnRegGranteeInfoCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.FnRegGranteeInfoCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.FnRegGranteeInfoCompleted(this, new FnRegGranteeInfoCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -819,8 +827,9 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnProjectOverview", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnProjectOverview_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnProjectOverview(string username, string counties, string subcounties, string project_title, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime start_date, string grant_scale, string project_name) {
-            this.Invoke("FnProjectOverview", new object[] {
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnProjectOverview(string username, string counties, string subcounties, string project_title, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime start_date, string grant_scale, string project_name) {
+            object[] results = this.Invoke("FnProjectOverview", new object[] {
                         username,
                         counties,
                         subcounties,
@@ -833,6 +842,7 @@ namespace KCDF_P.NAVWS {
                         start_date,
                         grant_scale,
                         project_name});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -863,7 +873,7 @@ namespace KCDF_P.NAVWS {
         private void OnFnProjectOverviewOperationCompleted(object arg) {
             if ((this.FnProjectOverviewCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.FnProjectOverviewCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.FnProjectOverviewCompleted(this, new FnProjectOverviewCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1047,7 +1057,8 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnSaveToGargetGroup", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnSaveToGargetGroup_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnSaveToGargetGroup(
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnSaveToGargetGroup(
                     string username, 
                     int households, 
                     int schools, 
@@ -1066,7 +1077,7 @@ namespace KCDF_P.NAVWS {
                     int teacher, 
                     int farmer, 
                     string project_name) {
-            this.Invoke("FnSaveToGargetGroup", new object[] {
+            object[] results = this.Invoke("FnSaveToGargetGroup", new object[] {
                         username,
                         households,
                         schools,
@@ -1085,6 +1096,7 @@ namespace KCDF_P.NAVWS {
                         teacher,
                         farmer,
                         project_name});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -1158,7 +1170,7 @@ namespace KCDF_P.NAVWS {
         private void OnFnSaveToGargetGroupOperationCompleted(object arg) {
             if ((this.FnSaveToGargetGroupCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.FnSaveToGargetGroupCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.FnSaveToGargetGroupCompleted(this, new FnSaveToGargetGroupCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1861,7 +1873,29 @@ namespace KCDF_P.NAVWS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
-    public delegate void FnRegGranteeInfoCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    public delegate void FnRegGranteeInfoCompletedEventHandler(object sender, FnRegGranteeInfoCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnRegGranteeInfoCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnRegGranteeInfoCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
@@ -1873,7 +1907,29 @@ namespace KCDF_P.NAVWS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
-    public delegate void FnProjectOverviewCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    public delegate void FnProjectOverviewCompletedEventHandler(object sender, FnProjectOverviewCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnProjectOverviewCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnProjectOverviewCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
@@ -1923,7 +1979,29 @@ namespace KCDF_P.NAVWS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
-    public delegate void FnSaveToGargetGroupCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    public delegate void FnSaveToGargetGroupCompletedEventHandler(object sender, FnSaveToGargetGroupCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnSaveToGargetGroupCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnSaveToGargetGroupCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]

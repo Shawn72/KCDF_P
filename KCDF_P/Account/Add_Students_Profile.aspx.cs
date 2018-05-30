@@ -32,7 +32,7 @@ namespace KCDF_P.Account
         {
             if (!IsPostBack)
             {
-                //ReturnStudent();
+                ReturnStudent();
                 checkSessionExists();
                 readData();
                 readEducBgData();
@@ -44,8 +44,15 @@ namespace KCDF_P.Account
 
         protected void checkSessionExists()
         {
-            var sessionIs = Session["username"];
-            if (sessionIs==null)
+            try
+            {
+                var sessionIs = Convert.ToString(Session["username"]);
+                if (string.IsNullOrWhiteSpace(sessionIs))
+                {
+                    Response.Redirect("/Default.aspx");
+                }
+            }
+            catch (Exception errEx)
             {
                 Response.Redirect("/Default.aspx");
             }
@@ -110,6 +117,9 @@ namespace KCDF_P.Account
                 int marks = Convert.ToInt32(txtMarks.Text);
                 int ttMarks = Convert.ToInt32(txtTotalMarks.Text);
                 var mygradeIs = Session["myGrade"].ToString();
+                var primary = txtSearch.Text;
+                var sec = ddlSeco.SelectedItem.Text;
+
 
                 var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                     ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
@@ -127,7 +137,7 @@ namespace KCDF_P.Account
                 }
                 else
                 {
-                    sup.FnRegisterStudent(fname, mname, lname, idno, resid, MobileString, usname, gentype, dTOfBth,marks.ToString(),mygradeIs);
+                    sup.FnRegisterStudent(fname, mname, lname, idno, resid, MobileString, usname, gentype, dTOfBth,marks,mygradeIs, sec, primary, ttMarks);
                     KCDFAlert.ShowAlert("Your account succcessfully Edited");
                 }
             }
@@ -170,13 +180,15 @@ namespace KCDF_P.Account
             txtResidence.Text = studData.Select(r => r.Residence).SingleOrDefault();
             txtIDNo.Text = studData.Select(id => id.ID_No).SingleOrDefault();
             txtEmailAdd.Text = studData.Select(em => em.Email).SingleOrDefault();
-            var marsk = studData.Select(mk => mk.KCPE_Marks).SingleOrDefault();
+            int marsk = studData.Select(mk => Convert.ToInt32(mk.KCPE_Marks)).SingleOrDefault();
             var fGrade = studData.Select(grd => grd.KCSE_Grade).SingleOrDefault();
             var dtB = studData.Select(dtoB => dtoB.Date_of_Birth).SingleOrDefault().ToString();
+            var ttMks = studData.Select(ttm => Convert.ToInt32(ttm.KCPE_Total_Marks));
             var dt1 = DateTime.Parse(dtB);
             dateOFBirth.Value = dt1.ToShortDateString();
-                txtMarks.Text = marsk;
-                rdoBtnListGrade.SelectedValue = fGrade;
+            txtMarks.Text = Convert.ToString(marsk);
+            txtTotalMarks.Text = Convert.ToString(ttMks);
+            rdoBtnListGrade.SelectedValue = fGrade;
             var gent = studData.Select(g => g.Gender).SingleOrDefault();
             if (gent == "Male")
             {

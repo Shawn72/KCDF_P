@@ -105,7 +105,7 @@
                             <div class="form-group">
                             <asp:Label runat="server" CssClass="col-md-3 control-label">Name of Contact Person:</asp:Label>
                                 <div class="col-md-6">
-                                    <asp:TextBox runat="server" ID="TextBxcont" CssClass="form-control" style="text-transform:uppercase" />               
+                                    <asp:TextBox runat="server" ID="TextBxcont" CssClass="form-control" style="text-transform:uppercase" Enabled="False" />               
                                 </div>
                             </div>
 
@@ -119,14 +119,14 @@
                             <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">His or Her current position:</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="TextBoposition" CssClass="form-control"  Enabled="True" />              
+                                        <asp:TextBox runat="server" ID="TextBoposition" CssClass="form-control"  Enabled="False" />              
                                     </div> 
                             </div>
                    
                             <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Postal Address:</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="TextBxpostal" CssClass="form-control" TextMode="Number"  Enabled="True" />              
+                                        <asp:TextBox runat="server" ID="TextBxpostal" CssClass="form-control" TextMode="Number"  Enabled="False" />              
                                     </div> 
                             </div>
                    
@@ -147,7 +147,7 @@
                             <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Phone:</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="TextBoxphone" CssClass="form-control"  Enabled="True" />              
+                                        <asp:TextBox runat="server" ID="TextBoxphone" CssClass="form-control"  Enabled="False" />              
                                     </div> 
                             </div>
 
@@ -161,7 +161,7 @@
                             <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Website Address if applicable:</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox runat="server" ID="TextBoxweb" CssClass="form-control"  Enabled="True" />              
+                                        <asp:TextBox runat="server" ID="TextBoxweb" CssClass="form-control"  Enabled="False" />              
                                     </div> 
                             </div>
                         <div class="col-md-12">
@@ -171,14 +171,14 @@
                              <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Governmental:</asp:Label>
                                     <div class="col-md-6">
-                                       <asp:TextBox ID="txtNGO" runat="server" CssClass="form-control"></asp:TextBox>
+                                       <asp:TextBox ID="txtNGO" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                 </div> 
                             </div>
 
                              <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Profitable:</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox ID="txtNonProfit" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtNonProfit" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                 </div> 
                             </div>
                                <div class="form-group">
@@ -198,11 +198,10 @@
                              <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Type Of Registration:</asp:Label>
                                     <div class="col-md-6">
-                                       <asp:TextBox ID="txtTypeofOrg" runat="server" CssClass="form-control"></asp:TextBox>
-                                </div>
-                                 <div class="col-md-3"><asp:Button runat="server" ID="btnSaveObjectives" Text="Save Information" CausesValidation="False" OnClick="btnSaveObjectives_OnClick"/></div> 
+                                       <asp:TextBox ID="txtTypeofOrg" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
+                                    </div>
+                                 <div class="col-md-3"><asp:Button runat="server" ID="btnSaveObjectives" Text="Save Information" CausesValidation="False" OnClick="btnSaveObjectives_OnClick" CssClass="btn btn-primary pull-left btn-sm"/></div> 
                             </div>
-
                            <br/>                                 
                
                          </div>
@@ -540,7 +539,9 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Households</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxhse" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
-                                        </div>
+                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator18" ErrorMessage="This textfield is mandatory"
+                                         ControlToValidate="TextBoxschl" runat="server" ForeColor="Red" Display="Dynamic" />
+                                             </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -548,6 +549,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Schools:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxschl" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator17" ErrorMessage="This textfield is mandatory"
+                                         ControlToValidate="TextBoxschl" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -562,7 +565,7 @@
                                             <asp:TextBox runat="server" ID="TextBoxorg" CssClass="form-control" Placeholder="Number Targeted" TextMode="Number" />
                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator2" ErrorMessage="This textfield is mandatory"
                                          ControlToValidate="TextBoxorg" runat="server" ForeColor="Red" Display="Dynamic" />
-                                        </div><span class="required">*</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -585,6 +588,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Women:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBowmn" CssClass="form-control" Placeholder="Number Targeted" TextMode="Number" />
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator5" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBowmn" runat="server" ForeColor="Red" Display="Dynamic" /> 
                                         </div>
                                     </div>
                                 </div>
@@ -593,6 +598,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Men:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxmn" CssClass="form-control" Placeholder="Number Targeted" TextMode="Number" />
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxmn" runat="server" ForeColor="Red" Display="Dynamic" /> 
                                         </div>
                                     </div>
                                 </div>
@@ -604,6 +611,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Children (0-6 years old):</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBcldold" CssClass="form-control" Placeholder="Number Tageted" TextMode="Number" />
+                                             <asp:RequiredFieldValidator ID="RequiredFieldValidator7" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBcldold" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -612,6 +621,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Children ( 7- 14 years old):</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxold" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator8" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxold" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -623,6 +634,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Children (15-17 years old):</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxren" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxren" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -631,6 +644,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Orphans and Vulnerable Children:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxorph" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator10" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxorph" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -642,6 +657,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">People with Terminal Illness:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxill" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator11" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxill" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -650,6 +667,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Marginalized and pastoral population:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxmarg" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator12" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxmarg" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -660,6 +679,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Drug users:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxdrg" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator13" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxdrg" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -668,6 +689,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Commercial Sex Workers:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxsxwrkr" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator14" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxsxwrkr" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -678,6 +701,8 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Teachers:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxtchr" CssClass="form-control" placeholder="Number Targeted" TextMode="Number" />
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator15" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxtchr" runat="server" ForeColor="Red" Display="Dynamic" />
                                         </div>
                                     </div>
                                 </div>
@@ -686,7 +711,9 @@
                                         <asp:Label runat="server" CssClass="col-md-6 control-label">Farmers:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="TextBoxfarmr" CssClass="form-control" placeholder="Number Target" TextMode="Number" />
-                                        </div>
+                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator16" ErrorMessage="This field is mandatory"
+                                     ControlToValidate="TextBoxfarmr" runat="server" ForeColor="Red" Display="Dynamic" />
+                                          </div>
                                     </div>
                                 </div>
                             </div><br />
@@ -952,14 +979,14 @@
                 }
                 function getKCDFContribution()
                 {
-                     var _txt1 = document.getElementById('<%= TextBoxcost.ClientID %>').value;
+                    var _txt1 = document.getElementById('<%= TextBoxcost.ClientID %>').value;
                     var _txt2 = document.getElementById('<%= TextBoxcont.ClientID %>').value;
 
                     var _minused = _txt1 - _txt2;
                        
-                    if (!isNaN(_txt1) && !isNaN(_txt2) && _txt2 < _txt1) {
+                    if (!isNaN(_txt1) && !isNaN(_txt2)) {
                         document.getElementById('<%= TextBoxrequested.ClientID %>').value = _minused;
-                    } else {
+                    } else if (_minused<1) {
                         document.getElementById("lblCharLeft").style.color = "red";
                         document.getElementById("lblCharLeft").innerHTML = "Invalid Entry!, Click Refresh";
                         document.getElementById('<%= TextBoxrequested.ClientID %>').value = "";
@@ -970,8 +997,13 @@
 
                 function ValidatemeSpecialCase(textBox) {
                     var maxLength = document.getElementById('<%= TextBoxcost.ClientID %>').value.length;
-
                     document.getElementById("lblCharLeft").innerHTML = maxLength - textBox.value.length + " characters left";
+                    var subs = maxLength - textBox.value.length;
+                    if (subs === 0) {
+                        document.getElementById("lblCharLeft").innerHTML = "Input error!";
+                        document.getElementById("lblCharLeft").style.color = "red";
+                        document.getElementById('<%= TextBoxrequested.ClientID %>').disabled = true;
+                    }
                     if (textBox.value.length > maxLength) {
                         document.getElementById("lblCharLeft").style.color = "red";
                         textBox.value = textBox.value.substr(0, maxLength);
