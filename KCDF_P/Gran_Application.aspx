@@ -1,6 +1,30 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Gran_Application.aspx.cs" MasterPageFile="~/Gran_Master.Master"Inherits="KCDF_P.Gran_Application" %>
-    <asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
-        <%--<meta http-equiv="refresh" content="120;url=Gran_Application.aspx">--%>
+<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit, Version=3.5.7.123, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e" %>
+<asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
+  <%--   <div class="col-md-12">
+         <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+    </asp:ToolkitScriptManager>
+    <h4>Session Idle:&nbsp;<span id="secondsIdle"></span>&nbsp;Seconds.</h4>
+    <asp:LinkButton ID="lnkFake" runat="server" />
+    <asp:ModalPopupExtender ID="mpeTimeout" BehaviorID="mpeTimeout" runat="server" PopupControlID="pnlPopup"
+        TargetControlID="lnkFake" OkControlID="btnYes" CancelControlID="btnNo" BackgroundCssClass="modalBackground"
+        OnOkScript="ResetSession()">
+    </asp:ModalPopupExtender>
+
+    <asp:Panel ID="pnlPopup" runat="server" CssClass="modalPopup" Style="display: none">
+        <div class="panel panel-default">
+            Session Expiring!
+        </div>
+        <div class="body">
+            Your Session will expire in&nbsp;<span id="seconds"></span>&nbsp;seconds.<br />
+            Do you want to reset?
+        </div>
+        <div class="footer" align="right">
+            <asp:Button ID="btnYes" runat="server" Text="Yes" CssClass="yes" />
+            <asp:Button ID="btnNo" runat="server" Text="No" CssClass="no" />
+        </div>
+    </asp:Panel>
+     </div>--%>
         <div class="panel-body" style="font-family:Trebuchet MS">
             <div class="row">
                 <div class="col-md-12">
@@ -9,16 +33,20 @@
             <div class="form-horizontal">
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">KCDF Project:</asp:Label>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <asp:DropDownList ID="ddlAccountType" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="true" AutoPostBack="True" OnSelectedIndexChanged="ddlAccountType_OnSelectedIndexChanged">
                         </asp:DropDownList>
                     </div>
+                    <div class="col-md-5">
+                        <asp:TextBox runat="server" ID="txtPrefNo" CssClass="form-control" Enabled="False" placeholder="Project Reference No"></asp:TextBox>
+                    </div>
+                    
                 </div>
             </div>
             <br/>
             <%
-        var selProj = ddlAccountType.SelectedItem.Text;
-        var proFtures = nav.call_for_Proposal.ToList().Where(bf => bf.Project == selProj);
+        var selProj = ddlAccountType.SelectedValue;
+        var proFtures = nav.call_for_Proposal.ToList().Where(bf => bf.Call_Ref_Number == selProj);
         var itswhats = proFtures.Select(f => f.Basic_Features).SingleOrDefault();
 
         if (itswhats == false)
@@ -59,13 +87,18 @@
             <div class="panel panel-primary">
                 <span class="text-center text-danger"><small><%=lbError.Text %></small></span>
                 <br/>
-                  <div class="form-group">
-                        <asp:Label runat="server" CssClass="col-md-3 control-label">Organization Registration No:</asp:Label>
+                 <asp:Label ID="lblUsernameIS" runat="server" Visible="False"></asp:Label>
+                <div class="col-md-12">
+                     <div class="form-group">
+                       <label class="control-label alert alert-info col-md-3" style="font-weight: bold;"><span class="badge alert-danger">1</span>Registration of applying organization:</label> 
+                     <%--   <asp:Label runat="server" CssClass="col-md-3 control-label">Registration No:</asp:Label>--%>
                         <div class="col-md-6">
                             <asp:TextBox runat="server" ID="txtRegNo" CssClass="form-control" style="text-transform:uppercase" Enabled="False" />
                         </div>
                       <br/>
                   </div>
+                </div>
+                 
                 <br/>
                 <asp:MultiView ID="orgPMultiview" runat="server" ActiveViewIndex="0">
                 
@@ -99,7 +132,7 @@
                          <div class="form-horizontal">
                         <br/>
                         <div class="col-md-12">
-                            <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">1</span>Contact Information of applying organization:</label> 
+                            <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Contact Information of applying organization:</label> 
                         </div>
                          <br />
                             <div class="form-group">
@@ -133,7 +166,7 @@
                             <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Postal Code:</asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox ID="txtPostalCode" runat="server" CssClass="form-control"></asp:TextBox>
+                                        <asp:TextBox ID="txtPostalCode" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                     </div> 
                             </div>
                    
@@ -165,38 +198,49 @@
                                     </div> 
                             </div>
                         <div class="col-md-12">
-                            <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Type of applying organization :</label> 
+                            <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">3</span>Type of applying organization :</label> 
                         </div>
                          <br /> 
                              <div class="form-group">
-                                <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Governmental:</asp:Label>
+                                <asp:Label runat="server"  CssClass="col-md-3 control-label">Type of Organization:</asp:Label>
                                     <div class="col-md-6">
-                                       <asp:TextBox ID="txtNGO" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
+                                        <asp:CheckBoxList ID="checkIFNgO"  RepeatDirection="Horizontal" runat="server" >
+                                            <asp:ListItem Text="Government" Value="GV" Enabled="False" />
+                                            <asp:ListItem Text="Non-Government" Value="NGV" Enabled="False" />
+                                        </asp:CheckBoxList>
+                                        <asp:CheckBoxList ID="nonProfitOR" runat="server" RepeatDirection="Horizontal">
+                                             <asp:ListItem Text="Non-Profit" Value="NP" Enabled="False"/>
+                                            <asp:ListItem Text="Profit Making" Value="PM" Enabled="False" />
+                                        </asp:CheckBoxList>
+                                      <%-- <asp:TextBox ID="txtNGO" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>--%>
                                 </div> 
                             </div>
 
-                             <div class="form-group">
+                            <%-- <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Profitable:</asp:Label>
                                     <div class="col-md-6">
                                         <asp:TextBox ID="txtNonProfit" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                 </div> 
-                            </div>
+                            </div>--%>
                                <div class="form-group">
-                                <asp:Label runat="server"  CssClass="col-md-3 control-label">Proposal Alignment to call Objectives</asp:Label>
-                                    <div class="col-md-6">
+                                <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">4</span>Proposal Alignment to call Objectives</asp:Label>
+                                    <div class="col-md-4">
                                         <asp:DropDownList ID="ddlObjectives" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                                 data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlObjectives_OnSelectedIndexChanged" AutoPostBack="True">
                                         </asp:DropDownList>
                                     </div> 
-                                   <div class="col-md-3">
+                                   <div class="col-md-2">
                                         <div class="form-group">
-                                            <asp:TextBox id="txtAreaObjs" TextMode="multiline" Columns="10" Width="100%" Rows="2" runat="server" placeholder="Objectives Here" Visible="False" ReadOnly="True" />
+                                            <asp:TextBox id="txtAreaObjs" TextMode="multiline" 
+                                                Columns="10" Width="100%" Rows="2" runat="server"
+                                                 placeholder="Objectives Here" Visible="False" ReadOnly="True"
+                                                CssClass="form-control" MaxLength="250" />
                                         </div>
                                    </div>
                                 </div>
                    
                              <div class="form-group">
-                                <asp:Label runat="server"  CssClass="col-md-3 control-label">Type Of Registration:</asp:Label>
+                                <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">5</span>Type Of Registration:</asp:Label>
                                     <div class="col-md-6">
                                        <asp:TextBox ID="txtTypeofOrg" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                     </div>
@@ -219,8 +263,8 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Have you Received KCDF funding before?</asp:Label><span class="required">*</span>
                                             <div class="col-md-6">
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ErrorMessage="Please answer approriately!<br />"
-                                        ControlToValidate="rdoBtnListYesNo" runat="server" ForeColor="Red" Display="Dynamic" />
+                                                    <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator3" ErrorMessage="Please answer approriately!<br />"
+                                        ControlToValidate="rdoBtnListYesNo" runat="server" ForeColor="Red" Display="Dynamic" />--%>
                                                     <asp:RadioButtonList ID="rdoBtnListYesNo" runat="server" OnSelectedIndexChanged="rdoBtnListYesNo_OnSelectedIndexChanged" AutoPostBack="True">
                                                     <asp:ListItem Text="Yes" Value="0" Selected="False"></asp:ListItem>
                                                     <asp:ListItem Text="No" Value="1" Selected="False"></asp:ListItem>
@@ -231,8 +275,6 @@
                                          <div class="form-group">
                                             <asp:Label runat="server" CssClass="col-md-3 control-label">If Yes what is the status of the grant?</asp:Label><span class="required">*</span>
                                                 <div class="col-md-6">
-                                                        <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ErrorMessage="Please answer approriately!<br />"
-                                                         ControlToValidate="rdBtnStatus" runat="server" ForeColor="Red" Display="Dynamic" />
                                                         <asp:RadioButtonList ID="rdBtnStatus" runat="server" OnSelectedIndexChanged="rdBtnStatus_OnSelectedIndexChanged">
                                                         <asp:ListItem Text="Ongoing" Value="0" Selected="False"></asp:ListItem>
                                                         <asp:ListItem Text="Completed" Value="1" Selected="False"></asp:ListItem>
@@ -405,6 +447,23 @@
                                     <asp:DropDownList ID="ddlSelCounty" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="True" OnSelectedIndexChanged="ddlSelCounty_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
                                 </div>
                             </div>
+                            
+                          <%--  <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+                                <ContentTemplate>
+                                     <div class="form-group">
+                                        <asp:Label runat="server" CssClass="col-md-3 control-label">County:</asp:Label>
+                                        <div class="col-md-6">
+                                            <asp:DropDownList ID="ddlmycountyIS" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="True" 
+                                                OnSelectedIndexChanged="ddlmycountyIS_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
+                                         </div>
+                                     </div>
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="ddlmycountyIS" EventName="SelectedIndexChanged" />
+                                </Triggers>
+                            </asp:UpdatePanel>--%>
+
 
                             <div class="form-group">
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Constituency:</asp:Label>
@@ -758,7 +817,7 @@
                                 <div class="row">
                                     <div class="form-group">
                                         <div class="col-md-5">
-                                            <label class="control-label form-control alert-danger" style="font-weight: bold;">Registration Certificate</label>
+                                            <label class="control-label form-control alert-info" style="font-weight: bold;">Registration Certificate</label>
                                         </div>
                                         <div class="col-md-7">
                                             <asp:FileUpload ID="FileUploadID" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
@@ -827,8 +886,7 @@
                                 <asp:GridView ID="gridViewUploads" runat="server" CssClass="table table-striped table-advance table-hover footable"
                                      GridLines="None" EmptyDataText="No files uploaded"
                                      OnRowDeleting="gridViewUploads_OnRowDeleting" AutoGenerateColumns="False"
-                                     DataKeyNames="Id, Grant_No" AlternatingRowStyle-BackColor="#C2D69B"
-                                    OnRowDataBound="gridViewUploads_OnRowDataBound" AllowSorting="True">
+                                     DataKeyNames="Id, Grant_No" AlternatingRowStyle-BackColor="#C2D69B" AllowSorting="True">
                                     <Columns>
                                         <asp:BoundField DataField="Id" HeaderText="S/No:" />
                                         <asp:BoundField DataField="Document_Kind" HeaderText="Document" />
@@ -845,8 +903,9 @@
 
                     <asp:View ID="finalSubmit" runat="server">
                         <div class="form-horizontal">
+                            <asp:HiddenField ID="hdnTxtValidit" runat="server" />
                             <div class="col-md-12">
-                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">1</span>Validate and submit your application:</label>
+                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Validate and submit your application:</label>
                             </div>
                             <br />
 
@@ -854,14 +913,20 @@
                                 <div class="col-md-12">
                                 <asp:GridView ID="gridSubmitApps" runat="server" CssClass="table table-condensed footable" Width="100%" AutoGenerateSelectButton="false"
                                      EmptyDataText="No unsubmitted application" AlternatingRowStyle-BackColor="#C2D69B" DataKeyNames="No"
-                                    >
+                                   >
                                     <Columns>
                                         <asp:BoundField DataField="No" HeaderText="S/No:" />
                                         <asp:BoundField DataField="Project_Name" HeaderText="Project Name" />
-                                        <asp:BoundField DataField="Submission_Status" HeaderText="Submission Status" />
-                                         <asp:TemplateField HeaderText="Edit">
+                                        <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status" />
+                                         <asp:TemplateField HeaderText="Confirm Attachments">
                                             <ItemTemplate>
-                                                <asp:LinkButton ID="lnkEditMe" Text="Confirm Attachments/Submit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEditMe" runat="server" OnClick="lnkEditMe_OnClick"></asp:LinkButton>
+                                                <asp:LinkButton ID="lnkEditMe" Text="Confirm Attachments" CommandArgument='<%# Eval("No") %>' CommandName="lnkEditMe" runat="server" OnClick="lnkEditMe_OnClick"></asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        
+                                         <asp:TemplateField HeaderText="Submit Application" >
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lnkConfirm" Text="Submit Application" CommandArgument='<%# Eval("No") %>' CommandName="lnkConfirm" runat="server" OnClick="lnkConfirm_OnClick"></asp:LinkButton>
                                             </ItemTemplate>
                                         </asp:TemplateField>
                                     </Columns>
@@ -942,6 +1007,29 @@
                     }
                 }
             </script>
+             <script type="text/javascript">
+        function SessionExpireAlert(timeout) {
+            var seconds = timeout / 1000;
+            document.getElementsByName("secondsIdle").innerHTML = seconds;
+            document.getElementsByName("seconds").innerHTML = seconds;
+            setInterval(function () {
+                seconds--;
+                document.getElementById("seconds").innerHTML = seconds;
+                document.getElementById("secondsIdle").innerHTML = seconds;
+            }, 1000);
+            setTimeout(function () {
+                //Show Popup before 20 seconds of timeout.
+                $find("mpeTimeout").show();
+            }, timeout - 20 * 1000);
+            setTimeout(function () {
+                window.location = "Expired.aspx";
+            }, timeout);
+        };
+        function ResetSession() {
+            //Redirect to refresh Session.
+            window.location = window.location.href;
+        }
+    </script>  
 
             <script type="text/javascript">
                 $(function() {

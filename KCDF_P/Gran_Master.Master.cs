@@ -22,7 +22,8 @@ namespace KCDF_P
 
         protected void lnkbtnEdit_OnClick(object sender, EventArgs e)
         {
-           Response.Redirect("Account/Add_Grantee_Profile.aspx");
+            // Response.Redirect("Account/Add_Grantee_Profile.aspx");
+            Server.Transfer("~/Account/Add_Grantee_Profile.aspx");
         }
     }
 }

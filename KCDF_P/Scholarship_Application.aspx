@@ -20,8 +20,8 @@
 <br/>
     
  <%
-        var selProj = ddlScolarshipType.SelectedItem.Text;
-        var proFtures = nav.call_for_Proposal.ToList().Where(bf => bf.Project == selProj);
+     var selProj = ddlScolarshipType.SelectedValue;
+        var proFtures = nav.call_for_Proposal.ToList().Where(bf => bf.Call_Ref_Number == selProj);
         var itswhats = proFtures.Select(f => f.Basic_Features).SingleOrDefault();
 
         if (itswhats == false)
@@ -453,7 +453,7 @@
                     <div class="row">
                         <div class="form-group">
                             <div class="col-md-5">
-                                <label class="control-label form-control alert-danger" style="font-weight: bold;">College Financials</label>
+                                <label class="control-label form-control alert-info" style="font-weight: bold;">College Financials</label>
                             </div>
                             <div class="col-md-7">
                                 <asp:FileUpload ID="FileUploadCF" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
@@ -535,13 +535,16 @@
                 </div>
 
                 <div class="col-md-12">
-                    <asp:GridView ID="gridViewUploads" runat="server" CssClass="table table-striped table-advance table-hover footable" GridLines="None" EmptyDataText="No files uploaded" OnRowDeleting="gridViewUploads_OnRowDeleting" AutoGenerateColumns="False" DataKeyNames="Id" AlternatingRowStyle-BackColor="#C2D69B"
-                        OnRowDataBound="gridViewUploads_OnRowDataBound">
+                    <asp:GridView ID="gridmyViewUploads" runat="server" CssClass="table table-striped table-advance table-hover footable"
+                    GridLines="None" EmptyDataText="No files uploaded"
+                    OnRowDeleting="gridmyViewUploads_OnRowDeleting" AutoGenerateColumns="False"
+                    DataKeyNames="Id, Scholarship_No" AlternatingRowStyle-BackColor="#C2D69B" AllowSorting="True">
                         <Columns>
                             <asp:BoundField DataField="Id" HeaderText="S/No:" />
                             <asp:BoundField DataField="Document_Kind" HeaderText="Document" />
                             <asp:BoundField DataField="Document_Name" HeaderText="File Name" />
                             <asp:BoundField DataField="Document_type" HeaderText="File Type" />
+                            <asp:BoundField DataField="Scholarship_No" HeaderText="Scholarship Number" />
                             <asp:CommandField ShowDeleteButton="True" ButtonType="Button" />
                         </Columns>
                     </asp:GridView>

@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Grantee_Profile.aspx.cs" MasterPageFile="~/Account/AddGranteeProfile_Master.Master" Inherits="KCDF_P.Account.Add_Grantee_Profile" %>
 <asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
-<meta http-equiv="refresh" content="200;url=Add_Grantee_Profile.aspx"> 
+<%--<meta http-equiv="refresh" content="200;url=Add_Grantee_Profile.aspx"> --%>
 <div class="panel-body" style="font-family:Trebuchet MS">
     <div class="row">
         <div class="col-md-12">

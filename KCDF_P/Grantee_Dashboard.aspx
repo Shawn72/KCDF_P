@@ -5,10 +5,36 @@
 <%@ Import Namespace="KCDF_P" %>
 <%@ Import Namespace="KCDF_P.NAVWS" %>
 <asp:Content ID="userDashBd" ContentPlaceHolderID="MainContent" runat="server">
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 
-<meta http-equiv="refresh" content="500;url=Grantee_Dashboard.aspx"> 
+<%--<meta http-equiv="refresh" content="500;url=Grantee_Dashboard.aspx">--%> 
     <div class="row" style="height: 20px">&nbsp;</div>
+     <div class="col-md-12">
+         <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+    </asp:ToolkitScriptManager>
+    <h4>Session Idle:&nbsp;<span id="secondsIdle"></span>&nbsp;Seconds.</h4>
+    <asp:LinkButton ID="lnkFake" runat="server" />
+    <asp:ModalPopupExtender ID="mpeTimeout" BehaviorID="mpeTimeout" runat="server" PopupControlID="pnlPopup"
+        TargetControlID="lnkFake" OkControlID="btnYes" CancelControlID="btnNo" BackgroundCssClass="modalBackground"
+        OnOkScript="ResetSession()">
+    </asp:ModalPopupExtender>
+
+    <asp:Panel ID="pnlPopup" runat="server" CssClass="modalPopup" Style="display: none">
+        <div class="panel panel-default">
+            Session Expiring!
+        </div>
+        <div class="body">
+            Your Session will expire in&nbsp;<span id="seconds"></span>&nbsp;seconds.<br />
+            Do you want to reset?
+        </div>
+        <div class="footer" align="right">
+            <asp:Button ID="btnYes" runat="server" Text="Yes" CssClass="yes" />
+            <asp:Button ID="btnNo" runat="server" Text="No" CssClass="no" />
+        </div>
+    </asp:Panel>
+     </div>
     <div class="row">
+    <asp:Label ID="lblUsernameIS" runat="server" Visible="False"></asp:Label>
         <div class="col-md-4">
             <div class="panel panel-default">
                 <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <%=Grantees.OrgUsername%></strong></div>
@@ -154,7 +180,7 @@
                  <div class="form-group">
                      <asp:Label runat="server"  CssClass="col-md-3 control-label">Proposed short title of your project:</asp:Label>
                         <div class="col-md-6">
-                            <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style="text-transform:uppercase" Enabled="False" />              
+                            <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style="text-transform:uppercase" Enabled="True" />              
                         </div> 
                   </div>
                     
@@ -175,12 +201,7 @@
                        <asp:Label runat="server"  CssClass="col-md-3 control-label">County:</asp:Label>
                          <div class="col-md-6">
                             <asp:DropDownList ID="ddlSelCountry" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
-                                    data-live-search="true" AppendDataBoundItems="true" >
-                                <asp:ListItem Selected="True">..Select County..</asp:ListItem>
-                                <asp:ListItem>Nairobi</asp:ListItem>
-                                <asp:ListItem>Mombasa</asp:ListItem>
-                                <asp:ListItem>Kitui</asp:ListItem>
-                                <asp:ListItem>Kiambu</asp:ListItem>
+                                    data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlSelCountry_OnSelectedIndexChanged" >
                             </asp:DropDownList>
                         </div> 
                     </div>
@@ -190,11 +211,6 @@
                             <div class="col-md-6">
                             <asp:DropDownList ID="ddlConstituency" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" >
-                                <asp:ListItem Selected="True">..Select County..</asp:ListItem>
-                                <asp:ListItem>Dagoretti</asp:ListItem>
-                                <asp:ListItem>Westlands</asp:ListItem>
-                                <asp:ListItem>Kitui south</asp:ListItem>
-                                <asp:ListItem>Ruiru</asp:ListItem>
                             </asp:DropDownList>
                         </div>  
                     </div>
@@ -301,85 +317,108 @@
              </div>
 			</div>
                 <div class="modal-footer">
-                <asp:Button runat="server" Text="Update" CssClass="btn btn-primary"  ID="btnProjEdit" OnClick="btnProjEdit_OnClick"  />
+                <asp:Button runat="server" Text="Update" CssClass="btn btn-primary"  ID="btnProjEdit" OnClick="btnProjEdit_OnClick" Enabled="False"  />
                 </div>
 		</div>
 	</div>
 
     </div>
-    
+ <script type="text/javascript">
+        function SessionExpireAlert(timeout) {
+            var seconds = timeout / 1000;
+            document.getElementsByName("secondsIdle").innerHTML = seconds;
+            document.getElementsByName("seconds").innerHTML = seconds;
+            setInterval(function () {
+                seconds--;
+                document.getElementById("seconds").innerHTML = seconds;
+                document.getElementById("secondsIdle").innerHTML = seconds;
+            }, 1000);
+            setTimeout(function () {
+                //Show Popup before 20 seconds of timeout.
+                $find("mpeTimeout").show();
+            }, timeout - 20 * 1000);
+            setTimeout(function () {
+                window.location = "Expired.aspx";
+            }, timeout);
+        };
+        function ResetSession() {
+            //Redirect to refresh Session.
+            window.location = window.location.href;
+        }
+    </script>        
+
 <script runat="server">
-       protected void btnUploadMe_OnClick(object sender, EventArgs e)
-       {
-           string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
-           string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
-           string filenameO = Grantees.OrgUsername + DateTime.Now.Millisecond.ToString()+ ext;
-           if (FileUpload.PostedFile.ContentLength>1000000)
-           {
-               KCDFAlert.ShowAlert("Select a file less than 1MB!");
-               return;
-           }
-           if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png"))
-           {
-               FileUpload.SaveAs(uploadsFolder + filenameO);
-               saveProfToNav(uploadsFolder + filenameO, filenameO);
-               refreSH();
-           }
-           else
-           {
-               KCDFAlert.ShowAlert("File Format is: " +ext+"Allowed picture formats are: JPG, JPEG, PNG only!");
+    protected void btnUploadMe_OnClick(object sender, EventArgs e)
+    {
+        string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
+        string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
+        string filenameO = Grantees.OrgUsername + DateTime.Now.Millisecond.ToString()+ ext;
+        if (FileUpload.PostedFile.ContentLength>1000000)
+        {
+            KCDFAlert.ShowAlert("Select a file less than 1MB!");
+            return;
+        }
+        if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png"))
+        {
+            FileUpload.SaveAs(uploadsFolder + filenameO);
+            saveProfToNav(uploadsFolder + filenameO, filenameO);
+            refreSH();
+        }
+        else
+        {
+            KCDFAlert.ShowAlert("File Format is: " +ext+"Allowed picture formats are: JPG, JPEG, PNG only!");
 
-           }
-           if (!FileUpload.HasFile)
-           {
-               KCDFAlert.ShowAlert("Select Picture before uploading");
-               return;
-           }
-       }
-       protected void ToPNG(string imgFormat)
-       {
-           string extn = imgFormat;
-           string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
-           string filenameO = Students.Username + extn;
-           System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
-           image.Save(uploadsFolder +Students.Username +".png", System.Drawing.Imaging.ImageFormat.Png);
-           KCDFAlert.ShowAlert("Picture: " + filenameO + " uploaded successfully");
-           File.Delete(filenameO);
-           Page.Response.Redirect(Page.Request.Url.ToString(), true);
-       }
+        }
+        if (!FileUpload.HasFile)
+        {
+            KCDFAlert.ShowAlert("Select Picture before uploading");
+            return;
+        }
+    }
+    protected void ToPNG(string imgFormat)
+    {
+        string extn = imgFormat;
+        string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
+        string filenameO = Students.Username + extn;
+        System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
+        image.Save(uploadsFolder +Students.Username +".png", System.Drawing.Imaging.ImageFormat.Png);
+        KCDFAlert.ShowAlert("Picture: " + filenameO + " uploaded successfully");
+        File.Delete(filenameO);
+        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+    }
 
-       protected void DeleteDups()
-       {
-           string namepart = Session["username"].ToString();
-           DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/"));
-           FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
-           foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
-           {
-               gotcha.Delete();
+    protected void DeleteDups()
+    {
+        string namepart = Session["username"].ToString();
+        DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/"));
+        FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
+        foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
+        {
+            gotcha.Delete();
 
-           }
+        }
 
-       }
+    }
 
-       //protected void refreSH()
-       //{
-       //    HttpResponse.RemoveOutputCacheItem("/Grantee_Dashboard.aspx");
-       //  //  Response.Redirect(Request.RawUrl);
-       //    Page.Response.Redirect(Page.Request.Url.ToString(), true);
-       //}
+    protected void refreSH()
+    {
+        HttpResponse.RemoveOutputCacheItem("/Grantee_Dashboard.aspx");
+        //  Response.Redirect(Request.RawUrl);
+        Page.Response.Redirect(Page.Request.Url.ToString(), true);
+    }
 
-       protected void saveProfToNav(string piclink, string fileNme)
-       {
-           var usrnm = Session["username"].ToString();
-           var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-           Portals sup = new Portals();
-           sup.Credentials = credentials;
-           sup.PreAuthenticate = true;
-           sup.FnSaveProfP(usrnm, piclink,fileNme);
-           refreSH();
-           KCDFAlert.ShowAlert("Picture saved!");
+    protected void saveProfToNav(string piclink, string fileNme)
+    {
+        var usrnm = Session["username"].ToString();
+        var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+        Portals sup = new Portals();
+        sup.Credentials = credentials;
+        sup.PreAuthenticate = true;
+        sup.FnSaveProfP(usrnm, piclink,fileNme);
+        refreSH();
+        KCDFAlert.ShowAlert("Picture saved!");
 
-       }
+    }
 
    </script>
     

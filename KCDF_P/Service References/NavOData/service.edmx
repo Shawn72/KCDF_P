@@ -1452,6 +1452,7 @@
         <Property Name="Variant_Code" Type="Edm.String" />
         <Property Name="Substitution_Available" Type="Edm.Boolean" />
         <Property Name="Purchasing_Code" Type="Edm.String" />
+        <Property Name="Gen_Prod_Posting_Group" Type="Edm.String" />
         <Property Name="Nonstock" Type="Edm.Boolean" />
         <Property Name="VAT_Prod_Posting_Group" Type="Edm.String" />
         <Property Name="Description" Type="Edm.String" />
@@ -3419,6 +3420,7 @@
         <Property Name="Project" Type="Edm.String" />
         <Property Name="Basic_Features" Type="Edm.Boolean" />
         <Property Name="Proposal_Type" Type="Edm.String" />
+        <Property Name="Call_Ref_Number" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="grant_history">
@@ -3565,6 +3567,19 @@
         <Property Name="studentNo" Type="Edm.String" />
         <Property Name="Username" Type="Edm.String" />
       </EntityType>
+      <EntityType Name="myScholaruploads">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Username" Type="Edm.String" />
+        <Property Name="CallReferenceNumber" Type="Edm.String" />
+        <Property Name="Scholarship_No" Type="Edm.String" />
+        <Property Name="Grant_Type" Type="Edm.String" />
+        <Property Name="Document_Kind" Type="Edm.String" />
+        <Property Name="Document_type" Type="Edm.String" />
+        <Property Name="Document_Name" Type="Edm.String" />
+        <Property Name="Id" Type="Edm.String" Nullable="false" />
+      </EntityType>
       <EntityType Name="mysubCountyIs">
         <Key>
           <PropertyRef Name="AuxiliaryIndex1" />
@@ -3586,6 +3601,7 @@
         <Property Name="Id" Type="Edm.String" Nullable="false" />
         <Property Name="Grant_No" Type="Edm.String" />
         <Property Name="Project_Name" Type="Edm.String" />
+        <Property Name="ProjCallRefNo" Type="Edm.String" />
       </EntityType>
       <EntityType Name="profile_Pics">
         <Key>
@@ -3595,6 +3611,14 @@
         <Property Name="Link" Type="Edm.String" />
         <Property Name="Filename" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="project_objectives">
+        <Key>
+          <PropertyRef Name="Objective" />
+          <PropertyRef Name="Project" />
+        </Key>
+        <Property Name="Project" Type="Edm.String" Nullable="false" />
+        <Property Name="Objective" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="projectOverview">
         <Key>
@@ -3612,13 +3636,16 @@
         <Property Name="Total_Project_Cost_KES" Type="Edm.Decimal" />
         <Property Name="Your_Cash_Contribution_KES" Type="Edm.Decimal" />
         <Property Name="Requested_KCDF_Amount_KES" Type="Edm.Decimal" />
-        <Property Name="Project_Impact" Type="Edm.String" />
+        <Property Name="Organization_No" Type="Edm.String" />
         <Property Name="Project_Start_Date" Type="Edm.DateTime" />
         <Property Name="NGO" Type="Edm.Boolean" />
         <Property Name="Partisan" Type="Edm.Boolean" />
         <Property Name="Project_Name" Type="Edm.String" />
         <Property Name="Submission_Status" Type="Edm.String" />
         <Property Name="Approval_Status" Type="Edm.String" />
+        <Property Name="Technical_Review" Type="Edm.String" />
+        <Property Name="Call_Ref_Number" Type="Edm.String" />
+        <Property Name="projectisSubmitted" Type="Edm.Boolean" />
       </EntityType>
       <EntityType Name="SalesDashboard">
         <Key>
@@ -3708,6 +3735,16 @@
         <Property Name="Description" Type="Edm.String" />
         <Property Name="Username" Type="Edm.String" />
         <Property Name="Scholarship_Name" Type="Edm.String" />
+        <Property Name="No" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="scholarshipApplications">
+        <Key>
+          <PropertyRef Name="No" />
+        </Key>
+        <Property Name="Admission_Number_IDNumber" Type="Edm.String" />
+        <Property Name="Approval_Status" Type="Edm.String" />
+        <Property Name="Student_Username" Type="Edm.String" />
+        <Property Name="Call_Reference_Number" Type="Edm.String" />
         <Property Name="No" Type="Edm.String" Nullable="false" />
       </EntityType>
       <EntityType Name="studeBanks">
@@ -4687,14 +4724,17 @@
         <NavigationProperty Name="my_unisOrCollegs" Relationship="NAV.Company_my_unisOrCollegs" ToRole="my_unisOrCollegs" FromRole="Company" />
         <NavigationProperty Name="mycountyIs" Relationship="NAV.Company_mycountyIs" ToRole="mycountyIs" FromRole="Company" />
         <NavigationProperty Name="myReferees" Relationship="NAV.Company_myReferees" ToRole="myReferees" FromRole="Company" />
+        <NavigationProperty Name="myScholaruploads" Relationship="NAV.Company_myScholaruploads" ToRole="myScholaruploads" FromRole="Company" />
         <NavigationProperty Name="mysubCountyIs" Relationship="NAV.Company_mysubCountyIs" ToRole="mysubCountyIs" FromRole="Company" />
         <NavigationProperty Name="myUploads" Relationship="NAV.Company_myUploads" ToRole="myUploads" FromRole="Company" />
         <NavigationProperty Name="profile_Pics" Relationship="NAV.Company_profile_Pics" ToRole="profile_Pics" FromRole="Company" />
+        <NavigationProperty Name="project_objectives" Relationship="NAV.Company_project_objectives" ToRole="project_objectives" FromRole="Company" />
         <NavigationProperty Name="projectOverview" Relationship="NAV.Company_projectOverview" ToRole="projectOverview" FromRole="Company" />
         <NavigationProperty Name="SalesDashboard" Relationship="NAV.Company_SalesDashboard" ToRole="SalesDashboard" FromRole="Company" />
         <NavigationProperty Name="SalesOpportunities" Relationship="NAV.Company_SalesOpportunities" ToRole="SalesOpportunities" FromRole="Company" />
         <NavigationProperty Name="SalesOrdersBySalesPerson" Relationship="NAV.Company_SalesOrdersBySalesPerson" ToRole="SalesOrdersBySalesPerson" FromRole="Company" />
         <NavigationProperty Name="Scholar_Support" Relationship="NAV.Company_Scholar_Support" ToRole="Scholar_Support" FromRole="Company" />
+        <NavigationProperty Name="scholarshipApplications" Relationship="NAV.Company_scholarshipApplications" ToRole="scholarshipApplications" FromRole="Company" />
         <NavigationProperty Name="studeBanks" Relationship="NAV.Company_studeBanks" ToRole="studeBanks" FromRole="Company" />
         <NavigationProperty Name="studentsRegister" Relationship="NAV.Company_studentsRegister" ToRole="studentsRegister" FromRole="Company" />
         <NavigationProperty Name="target_Groups" Relationship="NAV.Company_target_Groups" ToRole="target_Groups" FromRole="Company" />
@@ -5026,6 +5066,10 @@
         <End Type="NAV.myReferees" Role="myReferees" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_myScholaruploads">
+        <End Type="NAV.myScholaruploads" Role="myScholaruploads" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_mysubCountyIs">
         <End Type="NAV.mysubCountyIs" Role="mysubCountyIs" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
@@ -5036,6 +5080,10 @@
       </Association>
       <Association Name="Company_profile_Pics">
         <End Type="NAV.profile_Pics" Role="profile_Pics" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_project_objectives">
+        <End Type="NAV.project_objectives" Role="project_objectives" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_projectOverview">
@@ -5056,6 +5104,10 @@
       </Association>
       <Association Name="Company_Scholar_Support">
         <End Type="NAV.Scholar_Support" Role="Scholar_Support" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_scholarshipApplications">
+        <End Type="NAV.scholarshipApplications" Role="scholarshipApplications" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_studeBanks">
@@ -5287,14 +5339,17 @@
         <EntitySet Name="my_unisOrCollegs" EntityType="NAV.my_unisOrCollegs" />
         <EntitySet Name="mycountyIs" EntityType="NAV.mycountyIs" />
         <EntitySet Name="myReferees" EntityType="NAV.myReferees" />
+        <EntitySet Name="myScholaruploads" EntityType="NAV.myScholaruploads" />
         <EntitySet Name="mysubCountyIs" EntityType="NAV.mysubCountyIs" />
         <EntitySet Name="myUploads" EntityType="NAV.myUploads" />
         <EntitySet Name="profile_Pics" EntityType="NAV.profile_Pics" />
+        <EntitySet Name="project_objectives" EntityType="NAV.project_objectives" />
         <EntitySet Name="projectOverview" EntityType="NAV.projectOverview" />
         <EntitySet Name="SalesDashboard" EntityType="NAV.SalesDashboard" />
         <EntitySet Name="SalesOpportunities" EntityType="NAV.SalesOpportunities" />
         <EntitySet Name="SalesOrdersBySalesPerson" EntityType="NAV.SalesOrdersBySalesPerson" />
         <EntitySet Name="Scholar_Support" EntityType="NAV.Scholar_Support" />
+        <EntitySet Name="scholarshipApplications" EntityType="NAV.scholarshipApplications" />
         <EntitySet Name="studeBanks" EntityType="NAV.studeBanks" />
         <EntitySet Name="studentsRegister" EntityType="NAV.studentsRegister" />
         <EntitySet Name="target_Groups" EntityType="NAV.target_Groups" />
@@ -5626,6 +5681,10 @@
           <End Role="Company" EntitySet="Company" />
           <End Role="myReferees" EntitySet="myReferees" />
         </AssociationSet>
+        <AssociationSet Name="Company_myScholaruploads_myScholaruploads" Association="NAV.Company_myScholaruploads">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="myScholaruploads" EntitySet="myScholaruploads" />
+        </AssociationSet>
         <AssociationSet Name="Company_mysubCountyIs_mysubCountyIs" Association="NAV.Company_mysubCountyIs">
           <End Role="Company" EntitySet="Company" />
           <End Role="mysubCountyIs" EntitySet="mysubCountyIs" />
@@ -5637,6 +5696,10 @@
         <AssociationSet Name="Company_profile_Pics_profile_Pics" Association="NAV.Company_profile_Pics">
           <End Role="Company" EntitySet="Company" />
           <End Role="profile_Pics" EntitySet="profile_Pics" />
+        </AssociationSet>
+        <AssociationSet Name="Company_project_objectives_project_objectives" Association="NAV.Company_project_objectives">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="project_objectives" EntitySet="project_objectives" />
         </AssociationSet>
         <AssociationSet Name="Company_projectOverview_projectOverview" Association="NAV.Company_projectOverview">
           <End Role="Company" EntitySet="Company" />
@@ -5657,6 +5720,10 @@
         <AssociationSet Name="Company_Scholar_Support_Scholar_Support" Association="NAV.Company_Scholar_Support">
           <End Role="Company" EntitySet="Company" />
           <End Role="Scholar_Support" EntitySet="Scholar_Support" />
+        </AssociationSet>
+        <AssociationSet Name="Company_scholarshipApplications_scholarshipApplications" Association="NAV.Company_scholarshipApplications">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="scholarshipApplications" EntitySet="scholarshipApplications" />
         </AssociationSet>
         <AssociationSet Name="Company_studeBanks_studeBanks" Association="NAV.Company_studeBanks">
           <End Role="Company" EntitySet="Company" />

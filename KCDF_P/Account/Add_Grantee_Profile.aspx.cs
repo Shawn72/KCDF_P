@@ -30,6 +30,7 @@ namespace KCDF_P.Account
                 loadApplicationInfo();
                 getPostaCodes();
                 //getURL();
+               // readLabelfromDashboard();
             }
             
         }
@@ -40,14 +41,23 @@ namespace KCDF_P.Account
             Session["url"] = path;
            // KCDFAlert.ShowAlert(Session["url"].ToString());
         }
+
+        protected void readLabelfromDashboard()
+        {
+            if (this.Page.PreviousPage != null)
+            {
+                Label lblSess = (Label)this.Page.PreviousPage.FindControl("lblUsernameIS");
+               // KCDFAlert.ShowAlert(lblSess.Text);
+            }
+        }
         protected void checkSessionExists()
         {
             try
             {
-                string sessionIs = Convert.ToString(Session["username"]);
-                if (string.IsNullOrWhiteSpace(sessionIs))
+                if (Session["username"] == null)
                 {
-                    Response.Redirect("/Default.aspx");
+                    Response.Redirect("~/Default.aspx");
+
                 }
             }
             catch (Exception errEx)
@@ -113,13 +123,13 @@ namespace KCDF_P.Account
         protected void btnSave_OnClick(object sender, EventArgs e)
         {
             bool ngo = false, notpartisan = false, nonprofit = false, legally = false;
-           
+            DateTime yearOfAdmn;
             string usanm = Session["username"].ToString();
 
             string contactP = TextBxcont.Text.Trim();
             string currposition = TextBoposition.Text.Trim();
             string postaddress = TextBxpostal.Text.Trim();
-            string postcode = ddlPostalCode.SelectedItem.Text;
+            string postcode="";
             string tao = txtPostalTown.Text.Trim();
             string phoneNum = TextBoxphone.Text.Trim();
             string webs = TextBoxweb.Text.Trim();
@@ -128,6 +138,7 @@ namespace KCDF_P.Account
             string nonPartisanTxtA = txtAreaPartisan.Text.Trim();
 
             //string nonPtrimmed  = txtAreaPartisan.Text.Substring(0, txtAreaPartisan.Text.Length - 1);
+            string regType = ddlRegtype.SelectedItem.Text;
 
             int nonG = ddlOrgType.SelectedIndex;
             if (nonG == 0)
@@ -167,6 +178,7 @@ namespace KCDF_P.Account
             {
                 KCDFAlert.ShowAlert("Select valid option!");
             }
+
             if (nonProfit == 1)
             {
                 nonprofit = false;
@@ -181,20 +193,41 @@ namespace KCDF_P.Account
             {
                 KCDFAlert.ShowAlert("Select valid option!");
             }
+
             if (legal == 1)
             {
                 legally = false;
             }
+
             if (legal == 2)
             {
                 legally = true;
             }
-            string regType = ddlRegtype.SelectedItem.Text;
+
+            if (ddlPostalCode.SelectedIndex==0)
+            {
+               KCDFAlert.ShowAlert("Pleasse select postal code"); 
+                return;
+            }
+            else
+            {
+                postcode = ddlPostalCode.SelectedItem.Text;
+            }
+            var YoReg = dateofReg.Value.Trim();
+            if (string.IsNullOrWhiteSpace(YoReg))
+            {
+                KCDFAlert.ShowAlert("Select a Valid Date");
+                dateofReg.Focus();
+                return;
+            }
+            else
+            {
+              yearOfAdmn = DateTime.Parse(YoReg);
+            }
+
             try
             {
-            var YoReg = dateofReg.Value.Trim();
-            DateTime yearOfAdmn = DateTime.Parse(YoReg);
-           
+              
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
@@ -206,14 +239,11 @@ namespace KCDF_P.Account
                     KCDFAlert.ShowAlert("Organization Information updated successfully!");
                     loadApplicationInfo();
                 }
-            
-            }
+             }
             catch (Exception exO)
             {
-                KCDFAlert.ShowAlert("Select a Valid Date");
-                dateofReg.Focus();
+               KCDFAlert.ShowAlert("Error Occured, contact System Administrator!");
             }
-
 
         }
 

@@ -38,7 +38,7 @@
                         <div class="col-md-8">
                             <asp:DropDownList ID="ddlUserType" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlUserType_OnSelectedIndexChanged" AutoPostBack="True">
-                                <asp:ListItem Selected="True">..Select User Type..</asp:ListItem>
+                                <asp:ListItem Selected="True">--Select User Type--</asp:ListItem>
                                 <asp:ListItem>Student</asp:ListItem>
                                 <asp:ListItem>Grantee</asp:ListItem>
                             </asp:DropDownList>
@@ -65,8 +65,14 @@
                         <asp:TextBox ID="txtPassword" runat="server" CssClass="form-control" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
                     </div>
                     <br/>
+
+                    <div class="input-group">
+                        <asp:CheckBox ID="chkRememberMe" runat="server" />
+                        <label>Remember Me</label>
+                     </div>
+                    <br/>
                    
-                     <div style="transform:scale(1.0); -webkit-transform:scale(1.0);transform-origin:0 0;-webkit-transform-origin:0 0;">
+                    <div style="transform:scale(1.0); -webkit-transform:scale(1.0);transform-origin:0 0;-webkit-transform-origin:0 0;">
                     <cc1:CaptchaControl ID="cptCaptcha" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
                         CaptchaHeight="60" CaptchaWidth="250" 
@@ -98,6 +104,11 @@
                         <span class="input-group-addon"><i class="fa fa-key"></i> Organization Password:</span>
                         <asp:TextBox ID="txtorgPsw" runat="server" CssClass="form-control" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
                     </div>
+                    <br/>
+                    <div class="input-group">
+                        <asp:CheckBox ID="checkRemMegrant" runat="server" />
+                        <label>Remember Me</label>
+                     </div>
                     <br/>
                     
                      <div style="transform:scale(1.0); -webkit-transform:scale(1.0);transform-origin:0 0;-webkit-transform-origin:0 0;">

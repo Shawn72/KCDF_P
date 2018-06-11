@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
@@ -39,11 +40,14 @@ namespace KCDF_P
                     Response.Redirect("~/Default.aspx");
 
                 }
+                checkSessX();
                 returnGrantee();
                 loadMyProjects();
-               // loadAllcountries();
+                myCountyIs();
                 loadProfPic();
                 clearCache();
+                lblUsernameIS.Text = Convert.ToString(Session["username"]);
+                lblSessionfromMAster();
             }
 
         }
@@ -52,6 +56,26 @@ namespace KCDF_P
             return new Grantees(Session["username"].ToString());
         }
 
+        protected void lblSessionfromMAster()
+        {
+            System.Web.UI.WebControls.Label lblMastersession =
+                (System.Web.UI.WebControls.Label)Master.FindControl("lblSessionUsername");
+
+            lblMastersession.Text = lblUsernameIS.Text;
+        }
+
+        public void checkSessX()
+        {
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+            if (!this.IsPostBack)
+            {
+                Session["Reset"] = true;
+                Configuration config = WebConfigurationManager.OpenWebConfiguration("~/Web.Config");
+                SessionStateSection section = (SessionStateSection)config.GetSection("system.web/sessionState");
+                int timeout = (int)section.Timeout.TotalMinutes * 1000 * 60;
+                ClientScript.RegisterStartupScript(this.GetType(), "SessionAlert", "SessionExpireAlert(" + timeout + ");", true);
+            }
+        }
 
         protected void clearCache()
         {
@@ -121,6 +145,43 @@ namespace KCDF_P
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
         }
 
+
+
+        protected void myCountyIs()
+        {
+            var mycounty = nav.mycountyIs.ToList();
+            ddlSelCountry.DataSource = mycounty;
+            ddlSelCountry.DataTextField = "County_Name";
+            ddlSelCountry.DataValueField = "County_Code";
+            ddlSelCountry.DataBind();
+            ddlSelCountry.Items.Insert(0, "--Select your County--");
+        }
+        protected void ddlSelCountry_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            int selIndex = ddlSelCountry.SelectedIndex;
+            switch (selIndex)
+            {
+                case 0:
+                    KCDFAlert.ShowAlert("Invalid County selection");
+                    break;
+                default:
+                    var sbCntysplit00 = ddlSelCountry.SelectedValue;
+                    //var sbcoutysplit = new StringBuilder(sbCntysplit00);
+                    //sbcoutysplit.Remove(0, 2); //Trim two characters from position 1
+                    //sbCntysplit00 = sbcoutysplit.ToString();
+                    var subCnty = nav.mysubCountyIs.Where(sc => sc.County_Code == sbCntysplit00).ToList();
+                    ddlConstituency.DataSource = subCnty;
+                    ddlConstituency.DataTextField = "Sub_County_Name";
+                    ddlConstituency.DataValueField = "Sub_County_Name";
+                    ddlConstituency.DataBind();
+                    ddlConstituency.Items.Insert(0, "--Select your Sub County--");
+                    KCDFAlert.ShowAlert(sbCntysplit00);
+                    break;
+            }
+
+        }
+
         protected void tblMyProjects_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
 
@@ -144,42 +205,47 @@ namespace KCDF_P
 
         protected void lnkEdit_OnClick(object sender, EventArgs e)
         {
+            try
+            {
             string edit_id = (sender as LinkButton).CommandArgument;
             var prjnm =
                 nav.projectOverview.ToList().Where(i => i.No == edit_id).Select(pn => pn.Project_Name).SingleOrDefault();
-            var approvedyeah =
+                var CallRefNo =
+                    nav.projectOverview.ToList().Where(i => i.No == edit_id).Select(pn => pn.Call_Ref_Number).SingleOrDefault();
+
+                var approvedyeah =
                 nav.projectOverview.ToList()
                     .Where(a => a.No == edit_id)
-                    .Select(ast => ast.Submission_Status)
+                    .Select(ast => ast.Approval_Status)
                     .SingleOrDefault();
 
             switch (approvedyeah)
             {
                 case "Approved":
-                    KCDFAlert.ShowAlert("You cannot Edit an Appproved submission!!");
+                    KCDFAlert.ShowAlert("You cannot Edit an Appproved application!!");
                     break;
 
                 case "Pending Approval":
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openEditProj();", true);
-                    lblPrjNm.Text = prjnm;
-                    lblProjNo.Text = edit_id;
-                    loadEditPrj(edit_id);
+                     KCDFAlert.ShowAlert("Your application is pending approval, you cannot edit");
+                       
                     break;
 
-                case "Incomplete":
-                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openEditProj();", true);
-                    lblPrjNm.Text = prjnm;
-                    lblProjNo.Text = edit_id;
-                    loadEditPrj(edit_id);
+                case "Open":
+                    Session["projectname"] = prjnm;
+                    Session["projectidnumber"] = edit_id;
+                    Session["prjCallrefNo"] = CallRefNo;
+                    Response.Redirect("EditMyProject.aspx");
+
+                    //lblPrjNm.Text = prjnm;
+                    //lblProjNo.Text = edit_id;
+                    //loadEditPrj(edit_id);
                     break;
+              }
             }
-        }
-
-        protected void refreSH()
-        {
-            HttpResponse.RemoveOutputCacheItem("/Grantee_Dashboard.aspx");
-            //  Response.Redirect(Request.RawUrl);
-            Page.Response.Redirect(Page.Request.Url.ToString(), true);
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert("Error Loading!");
+            }
         }
 
         protected void btnProjEdit_OnClick(object sender, EventArgs e)

@@ -188,17 +188,6 @@
 	          );
 	      }
 	  </script> 
-        
-    <script type="text/javascript">
-        $(function() {
-            $('[id*=tblGrantsManager]').footable();
-            $('[id*=gridViewUploads]').footable();
-            $('[id*=gridSubmitApps]').footable();
-            $('[id*=tblMyProjects]').footable();
-            //$('[id*=gridViewUploads]').footable();
-        });
-    </script>
-  
 </form>
 </body>
 </html>

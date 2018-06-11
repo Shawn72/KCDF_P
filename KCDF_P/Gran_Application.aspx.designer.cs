@@ -22,6 +22,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.DropDownList ddlAccountType;
         
         /// <summary>
+        /// txtPrefNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPrefNo;
+        
+        /// <summary>
         /// OrgInfoMenu control.
         /// </summary>
         /// <remarks>
@@ -47,6 +56,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbError;
+        
+        /// <summary>
+        /// lblUsernameIS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblUsernameIS;
         
         /// <summary>
         /// txtRegNo control.
@@ -175,22 +193,22 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox TextBoxweb;
         
         /// <summary>
-        /// txtNGO control.
+        /// checkIFNgO control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNGO;
+        protected global::System.Web.UI.WebControls.CheckBoxList checkIFNgO;
         
         /// <summary>
-        /// txtNonProfit control.
+        /// nonProfitOR control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtNonProfit;
+        protected global::System.Web.UI.WebControls.CheckBoxList nonProfitOR;
         
         /// <summary>
         /// ddlObjectives control.
@@ -238,15 +256,6 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.View grantsMgt;
         
         /// <summary>
-        /// RequiredFieldValidator3 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator3;
-        
-        /// <summary>
         /// rdoBtnListYesNo control.
         /// </summary>
         /// <remarks>
@@ -254,15 +263,6 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RadioButtonList rdoBtnListYesNo;
-        
-        /// <summary>
-        /// RequiredFieldValidator4 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidator4;
         
         /// <summary>
         /// rdBtnStatus control.
@@ -947,6 +947,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View finalSubmit;
+        
+        /// <summary>
+        /// hdnTxtValidit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnTxtValidit;
         
         /// <summary>
         /// gridSubmitApps control.

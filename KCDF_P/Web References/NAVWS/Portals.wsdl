@@ -213,12 +213,15 @@
             <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="callrefNo" type="string" />
           </sequence>
         </complexType>
       </element>
       <element name="FnAttachment_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnGrantManager">
@@ -236,13 +239,17 @@
             <element minOccurs="1" maxOccurs="1" name="amount_received" type="decimal" />
             <element minOccurs="1" maxOccurs="1" name="intervention_supported" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_status" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_refNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="kcdfgrantsB4" type="boolean" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
           </sequence>
         </complexType>
       </element>
       <element name="FnGrantManager_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnProjectOverview">
@@ -260,6 +267,7 @@
             <element minOccurs="1" maxOccurs="1" name="start_date" type="date" />
             <element minOccurs="1" maxOccurs="1" name="grant_scale" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="callRefNo" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -306,7 +314,9 @@
       </element>
       <element name="FnDeleteUpload_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnDeleteGrant">
@@ -453,7 +463,7 @@
         <complexType>
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="username" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="proj_refNo" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -467,7 +477,8 @@
       <element name="FnChangeSubmitStatus">
         <complexType>
           <sequence>
-            <element minOccurs="1" maxOccurs="1" name="projectNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="projectRefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="orgUsername" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -525,7 +536,7 @@
       <element name="FnAddScholarship">
         <complexType>
           <sequence>
-            <element minOccurs="1" maxOccurs="1" name="scholarship_Title" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarship_RefNo" type="string" />
             <element minOccurs="1" maxOccurs="1" name="admn_or_IDNo" type="string" />
             <element minOccurs="1" maxOccurs="1" name="applicant_FullName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="year_of_Application" type="date" />
@@ -535,27 +546,6 @@
         </complexType>
       </element>
       <element name="FnAddScholarship_Result">
-        <complexType>
-          <sequence>
-            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
-          </sequence>
-        </complexType>
-      </element>
-      <element name="FnSholarAttachment">
-        <complexType>
-          <sequence>
-            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="grant_type" type="int" />
-            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
-          </sequence>
-        </complexType>
-      </element>
-      <element name="FnSholarAttachment_Result">
         <complexType>
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
@@ -635,10 +625,28 @@
             <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarshipRefNo" type="string" />
           </sequence>
         </complexType>
       </element>
       <element name="FnAttachements_Scholarship_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddProjObjective">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="projectName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="_Objectives" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="_RefNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddProjObjective_Result">
         <complexType>
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
@@ -827,12 +835,6 @@
   <message name="FnAddScholarship_Result">
     <part name="parameters" element="tns:FnAddScholarship_Result" />
   </message>
-  <message name="FnSholarAttachment">
-    <part name="parameters" element="tns:FnSholarAttachment" />
-  </message>
-  <message name="FnSholarAttachment_Result">
-    <part name="parameters" element="tns:FnSholarAttachment_Result" />
-  </message>
   <message name="FnStudentPasswordReset">
     <part name="parameters" element="tns:FnStudentPasswordReset" />
   </message>
@@ -862,6 +864,12 @@
   </message>
   <message name="FnAttachements_Scholarship_Result">
     <part name="parameters" element="tns:FnAttachements_Scholarship_Result" />
+  </message>
+  <message name="FnAddProjObjective">
+    <part name="parameters" element="tns:FnAddProjObjective" />
+  </message>
+  <message name="FnAddProjObjective_Result">
+    <part name="parameters" element="tns:FnAddProjObjective_Result" />
   </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
@@ -984,10 +992,6 @@
       <input name="FnAddScholarship" message="tns:FnAddScholarship" />
       <output name="FnAddScholarship_Result" message="tns:FnAddScholarship_Result" />
     </operation>
-    <operation name="FnSholarAttachment">
-      <input name="FnSholarAttachment" message="tns:FnSholarAttachment" />
-      <output name="FnSholarAttachment_Result" message="tns:FnSholarAttachment_Result" />
-    </operation>
     <operation name="FnStudentPasswordReset">
       <input name="FnStudentPasswordReset" message="tns:FnStudentPasswordReset" />
       <output name="FnStudentPasswordReset_Result" message="tns:FnStudentPasswordReset_Result" />
@@ -1007,6 +1011,10 @@
     <operation name="FnAttachements_Scholarship">
       <input name="FnAttachements_Scholarship" message="tns:FnAttachements_Scholarship" />
       <output name="FnAttachements_Scholarship_Result" message="tns:FnAttachements_Scholarship_Result" />
+    </operation>
+    <operation name="FnAddProjObjective">
+      <input name="FnAddProjObjective" message="tns:FnAddProjObjective" />
+      <output name="FnAddProjObjective_Result" message="tns:FnAddProjObjective_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -1281,15 +1289,6 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
-    <operation name="FnSholarAttachment">
-      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSholarAttachment" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
-      <input name="FnSholarAttachment">
-        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
-      </input>
-      <output name="FnSholarAttachment_Result">
-        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
-      </output>
-    </operation>
     <operation name="FnStudentPasswordReset">
       <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnStudentPasswordReset" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       <input name="FnStudentPasswordReset">
@@ -1332,6 +1331,15 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
       <output name="FnAttachements_Scholarship_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddProjObjective">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddProjObjective" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddProjObjective">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddProjObjective_Result">
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>

@@ -535,13 +535,13 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUploadDeansTest;
         
         /// <summary>
-        /// gridViewUploads control.
+        /// gridmyViewUploads control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewUploads;
+        protected global::System.Web.UI.WebControls.GridView gridmyViewUploads;
         
         /// <summary>
         /// bankDetails control.

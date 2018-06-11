@@ -20,6 +20,8 @@ using KCDF_P.NavOData;
         public static string Email { get; set; }
         public static string Password { get; set; }
         public static string orgname { get; set; }
+
+        public static string SessionUsername;
         public Grantees(string username)
         {
             var objGrantees = nav.grantees_Register.Where(r => r.Organization_Username == username);

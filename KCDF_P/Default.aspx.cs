@@ -60,6 +60,7 @@ namespace KCDF_P
                     {
                         Session["username"] = userName;
                         Session["pwd"] = userPassword;
+                        rememberMeYeah(userName, userPassword);
                         Response.Redirect("~/Dashboard.aspx");
 
                     }
@@ -165,8 +166,14 @@ namespace KCDF_P
             {
                 if ((eml == dr["Organization Username"].ToString()) && (pass == dr["Password"].ToString()))
                 {
-                    Session["username"] = eml;
+                    //System.Web.UI.HtmlControls.HtmlGenericControl lblMastersession =
+                    //    (System.Web.UI.HtmlControls.HtmlGenericControl) Master.FindControl("lblSessionUsername");
+
+                    //lblMastersession.InnerText = eml;
+                    Grantees.SessionUsername = eml;
+                    Session["username"] = Grantees.SessionUsername;
                     Session["pwd"] = pass;
+                    rememberMeYeah(eml, pass);
                     Response.Redirect("~/Grantee_Dashboard.aspx");
                    break;
                 }
@@ -309,5 +316,23 @@ namespace KCDF_P
         {
             Response.Redirect("~/Default.aspx");
         }
+
+        protected void rememberMeYeah(string cookieuser, string cookiepasswd)
+        {
+            if (chkRememberMe.Checked || checkRemMegrant.Checked)
+            {
+                Response.Cookies["username"].Expires = DateTime.Now.AddDays(30);
+                Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(30);
+            }
+            else
+            {
+                Response.Cookies["username"].Expires = DateTime.Now.AddDays(-1);
+                Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(-1);
+
+            }
+            Response.Cookies["username"].Value = cookieuser;
+            Response.Cookies["pwd"].Value = cookiepasswd;
+        }
+        
     }
 }

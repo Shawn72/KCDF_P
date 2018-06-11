@@ -225,7 +225,7 @@ namespace KCDF_P
             var projs = nav.call_for_Proposal.ToList().Where(pty => pty.Proposal_Type == "Scholarship");
             ddlScolarshipType.DataSource = projs;
             ddlScolarshipType.DataTextField = "Project";
-            ddlScolarshipType.DataValueField = "Project";
+            ddlScolarshipType.DataValueField = "Call_Ref_Number";
             ddlScolarshipType.DataBind();
             ddlScolarshipType.Items.Insert(0, "--Select Scholarship--");
         }
@@ -309,13 +309,20 @@ namespace KCDF_P
 
         protected void loadUploads()
         {
-
             try
             {
-                var upsFiles = nav.myUploads.ToList().Where(un => un.Username == Session["username"].ToString());
-                gridViewUploads.AutoGenerateColumns = false;
-                gridViewUploads.DataSource = upsFiles;
-                gridViewUploads.DataBind();
+                string userNM = Session["username"].ToString();
+
+                var openPrj = nav.scholarshipApplications.ToList()
+                    .Where(up => up.Student_Username == userNM && up.Approval_Status == "Open")
+                    .Select(pn => pn.No).SingleOrDefault();
+
+                KCDFAlert.ShowAlert(openPrj);
+
+                var upsFiles = nav.myScholaruploads.ToList().Where(un => un.Username == userNM && un.Scholarship_No == openPrj);
+                gridmyViewUploads.AutoGenerateColumns = false;
+                gridmyViewUploads.DataSource = upsFiles;
+                gridmyViewUploads.DataBind();
             }
             catch (Exception ex)
             {
@@ -325,13 +332,13 @@ namespace KCDF_P
             }
 
         }
-        protected void saveAttachment(string filName, string extension, string docKind)
+        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo)
         {
             var usNo = nav.studentsRegister.ToList().Where(usr => usr.Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
             var usaname = Session["username"].ToString();
             var prjct = ddlScolarshipType.SelectedItem.Text;
 
-            string navfilePath = @"\\192.168.0.249\All_Portal_Uploaded\" + filName;
+            string navfilePath = @"D:\All_Portal_Uploaded\" + filName;
 
            // string fullFPath = Request.PhysicalApplicationPath + Students.No + @"\" + filName;
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
@@ -358,7 +365,7 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            if (sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct) == true)
+            if (sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo) == true)
             {
                 KCDFAlert.ShowAlert("Attached!");
             }
@@ -371,17 +378,17 @@ namespace KCDF_P
         
         protected void CopyFilesToDir()
         {
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
-            string destPath = @"\\192.168.0.250\All Uploads\";
+            //string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+            //string destPath = @"\\192.168.0.250\All Uploads\";
 
-            foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
-              SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
+            //foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
+            //  SearchOption.AllDirectories))
+            //    Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
 
-            //Copy all the files & Replaces any files with the same name
-            foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
-                SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
+            ////Copy all the files & Replaces any files with the same name
+            //foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
+            //    SearchOption.AllDirectories))
+            //    File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
         }
 
         protected void btnUploadSDc_OnClick(object sender, EventArgs e)
@@ -389,6 +396,7 @@ namespace KCDF_P
             try
             {
             var documentKind = "Scholarship Form";
+            var schlRefNo = ddlScolarshipType.SelectedValue;
             string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
             string fileName = Path.GetFileName(FileUploadSDoc.PostedFile.FileName);
             string ext = Path.GetExtension(FileUploadSDoc.PostedFile.FileName);
@@ -415,7 +423,7 @@ namespace KCDF_P
 
                 FileUploadSDoc.SaveAs(uploadsFolder + filename);
                 CopyFilesToDir();
-                saveAttachment(filename, ext, documentKind);
+                saveAttachment(filename, ext, documentKind, schlRefNo);
                 //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                 loadUploads();
 
@@ -440,10 +448,10 @@ namespace KCDF_P
 
         }
 
-        protected void gridViewUploads_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        protected void gridmyViewUploads_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
 
-            var del_id = gridViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
+            var del_id = gridmyViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
@@ -458,6 +466,8 @@ namespace KCDF_P
             try
             {
                 var documentKind = "College Financials";
+                var schlRefNo = ddlScolarshipType.SelectedValue;
+
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
                 string fileName = Path.GetFileName(FileUploadCF.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadCF.PostedFile.FileName);
@@ -484,8 +494,8 @@ namespace KCDF_P
 
                     FileUploadCF.SaveAs(uploadsFolder + filename);
                     CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind, schlRefNo);
+                    //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
 
                 }
@@ -515,6 +525,8 @@ namespace KCDF_P
             try
             {
                 var documentKind = "National ID /or Student ID";
+                var schlRefNo = ddlScolarshipType.SelectedValue;
+
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
                 string fileName = Path.GetFileName(FileUploadSNID.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadSNID.PostedFile.FileName);
@@ -541,8 +553,8 @@ namespace KCDF_P
 
                     FileUploadSNID.SaveAs(uploadsFolder + filename);
                     CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind,schlRefNo);
+                    //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
 
                 }
@@ -571,6 +583,8 @@ namespace KCDF_P
             try
             {
                 var documentKind = "Passport Photo";
+                var schlRefNo = ddlScolarshipType.SelectedValue;
+
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
                 string fileName = Path.GetFileName(FileUploadPhoto.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadPhoto.PostedFile.FileName);
@@ -597,8 +611,8 @@ namespace KCDF_P
 
                     FileUploadPhoto.SaveAs(uploadsFolder + filename);
                     CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind,schlRefNo);
+                 //   KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
 
                 }
@@ -626,6 +640,8 @@ namespace KCDF_P
             try
             {
                 var documentKind = "Guardian Concurrence Letter";
+                var schlRefNo = ddlScolarshipType.SelectedValue;
+
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
                 string fileName = Path.GetFileName(FileUploadGurdLeter.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadGurdLeter.PostedFile.FileName);
@@ -652,8 +668,8 @@ namespace KCDF_P
 
                     FileUploadGurdLeter.SaveAs(uploadsFolder + filename);
                     CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind, schlRefNo);
+                  //  KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
 
                 }
@@ -681,6 +697,8 @@ namespace KCDF_P
             try
             {
                 var documentKind = "Guardian Concurrence Letter";
+                var schlRefNo = ddlScolarshipType.SelectedValue;
+
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
                 string fileName = Path.GetFileName(FileUploadDeansTest.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadDeansTest.PostedFile.FileName);
@@ -707,8 +725,7 @@ namespace KCDF_P
 
                     FileUploadDeansTest.SaveAs(uploadsFolder + filename);
                     CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind, schlRefNo);
                     loadUploads();
 
                 }
@@ -782,7 +799,7 @@ namespace KCDF_P
             var fullName = fname + " " + mname + " " + lname;
             DateTime todayIs = DateTime.Now;
             var myColleIs = txtCollege.Text;
-            var sclName = ddlScolarshipType.SelectedItem.Text;
+            var sclRefNo = ddlScolarshipType.SelectedValue;
             if (ddlScolarshipType.SelectedIndex == 0)
             {
                 KCDFAlert.ShowAlert("Select valid Scholarship first!");
@@ -797,7 +814,7 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            if (sup.FnAddScholarship(sclName, admNo, fullName, todayIs, myColleIs, Session["username"].ToString()) ==
+            if (sup.FnAddScholarship(sclRefNo, admNo, fullName, todayIs, myColleIs, Session["username"].ToString()) ==
                 true)
             {
                 KCDFAlert.ShowAlert("Application Saved Successfully! on :"+todayIs);
@@ -824,8 +841,7 @@ namespace KCDF_P
                     break;
                 default:
                     Session["theScholarship"] = ddlScolarshipType.SelectedItem.Text;
-                    KCDFAlert.ShowAlert("You selected "+ Session["theScholarship"]);
-                        
+                    KCDFAlert.ShowAlert("You selected: "+ Session["theScholarship"] +" Ref Number: "+ddlScolarshipType.SelectedValue);
                     btnSaveApplication.Enabled = true;
                     break;
                     
