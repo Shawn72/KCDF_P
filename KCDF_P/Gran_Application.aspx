@@ -232,8 +232,7 @@
                                    <div class="col-md-2">
                                         <div class="form-group">
                                             <asp:TextBox id="txtAreaObjs" TextMode="multiline" 
-                                                Columns="10" Width="100%" Rows="2" runat="server"
-                                                 placeholder="Objectives Here" Visible="False" ReadOnly="True"
+                                                Columns="10" Width="100%" Rows="2" runat="server" Visible="False" ReadOnly="True"
                                                 CssClass="form-control" MaxLength="250" />
                                         </div>
                                    </div>
@@ -263,8 +262,8 @@
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Have you Received KCDF funding before?</asp:Label><span class="required">*</span>
                                             <div class="col-md-6">
-                                                    <%--<asp:RequiredFieldValidator ID="RequiredFieldValidator3" ErrorMessage="Please answer approriately!<br />"
-                                        ControlToValidate="rdoBtnListYesNo" runat="server" ForeColor="Red" Display="Dynamic" />--%>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator3" ErrorMessage="Please answer approriately!<br />"
+                                        ControlToValidate="rdoBtnListYesNo" runat="server" ForeColor="Red" Display="Dynamic" />
                                                     <asp:RadioButtonList ID="rdoBtnListYesNo" runat="server" OnSelectedIndexChanged="rdoBtnListYesNo_OnSelectedIndexChanged" AutoPostBack="True">
                                                     <asp:ListItem Text="Yes" Value="0" Selected="False"></asp:ListItem>
                                                     <asp:ListItem Text="No" Value="1" Selected="False"></asp:ListItem>
@@ -327,7 +326,10 @@
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
-                                                <asp:TextBox id="txtAreaCounties" TextMode="multiline" Columns="10" Width="100%" Rows="2" runat="server" placeholder="Counties Here" Visible="False" ReadOnly="True" />
+                                                <asp:TextBox id="txtAreaCounties" TextMode="multiline" 
+                                                    Columns="10" Width="100%" Rows="2" runat="server" 
+                                                    placeholder="Counties Here" Visible="False" 
+                                                    ReadOnly="True" CssClass="form-control" />
                                             </div>
                                         </div>
                                     </div>

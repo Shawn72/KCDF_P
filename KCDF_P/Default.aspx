@@ -41,6 +41,7 @@
                                 <asp:ListItem Selected="True">--Select User Type--</asp:ListItem>
                                 <asp:ListItem>Student</asp:ListItem>
                                 <asp:ListItem>Grantee</asp:ListItem>
+                                <asp:ListItem>Consultant</asp:ListItem>
                             </asp:DropDownList>
                     </div> 
                 </div>
@@ -76,7 +77,7 @@
                     <cc1:CaptchaControl ID="cptCaptcha" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
                         CaptchaHeight="60" CaptchaWidth="250" 
-                        CaptchaLineNoise="None" CaptchaMinTimeout="5" 
+                        CaptchaLineNoise="None" CaptchaMinTimeout="10" 
                         CaptchaMaxTimeout="240" FontColor = "#529E00" />
                     </div>
                     <br/>
@@ -115,7 +116,7 @@
                     <cc1:CaptchaControl ID="captchaGrantee" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
                         CaptchaHeight="60" CaptchaWidth="250" 
-                        CaptchaLineNoise="None" CaptchaMinTimeout="5" 
+                        CaptchaLineNoise="None" CaptchaMinTimeout="10" 
                         CaptchaMaxTimeout="240" FontColor = "#529E00" />
                     </div>
                     <br/>
@@ -133,14 +134,51 @@
                          </div>
                     </div>
                 </asp:View>
+                 <asp:View runat="server" ID="viewConsultant">
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="fa fa-user"></i> Consultant Username:</span>
+                    <asp:TextBox ID="txtConsUsernameIS" runat="server" CssClass="form-control" placeholder="Username"></asp:TextBox>
+                    </div>
+                    <br />
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="fa fa-key"></i>Consultant Password:</span>
+                        <asp:TextBox ID="txtConsPasswordIS" runat="server" CssClass="form-control" placeholder="Enter Password" TextMode="Password"></asp:TextBox>
+                    </div>
+                    <br/>
+
+                    <div class="input-group">
+                        <asp:CheckBox ID="chckMeConsult" runat="server" />
+                        <label>Remember Me</label>
+                     </div>
+                    <br/>
+                   
+                    <div style="transform:scale(1.0); -webkit-transform:scale(1.0);transform-origin:0 0;-webkit-transform-origin:0 0;">
+                    <cc1:CaptchaControl ID="CaptchaControl1" runat="server" 
+                        CaptchaBackgroundNoise="Low" CaptchaLength="5" 
+                        CaptchaHeight="60" CaptchaWidth="250" 
+                        CaptchaLineNoise="None" CaptchaMinTimeout="10" 
+                        CaptchaMaxTimeout="240" FontColor = "#529E00" />
+                    </div>
+                    <br/>
+                    <div class="input-group">
+                         <asp:TextBox ID="txtCaptcha3" runat="server" CssClass="form-control" placeholder="Enter the above Text"></asp:TextBox>
+                          <br/>
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="*Required!" ControlToValidate = "txtCaptcha3" ForeColor="red"></asp:RequiredFieldValidator>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <asp:Button ID="btnLogConsultant" runat="server" Text="Login" CssClass="btn btn-primary btn-lg btn-block" OnClick="btnLogConsultant_OnClick"/>&nbsp;&nbsp;
+                        </div>
+                        <div class="col-md-6">
+                             <span class="pull-right"><asp:LinkButton runat="server" ID="lnkBtnResetPCons" OnClick="lnkBtnResetPCons_OnClick" CausesValidation="False" useSubmitBehaviour="False">Reset Password</asp:LinkButton></span>
+                         </div>
+                    </div>  
+                </asp:View>
                 
                 <asp:View runat="server" ID="viewiForgotItP">
                     <div class="form-horizontal">
                               <label class="form-control alert" style="font-weight: bold;"><span class="badge alert-danger">+</span>Please enter the username you registered with to reset your password:</label>
                             <br/>
-                      
-                        
-                   
                      <div class="input-group">
                         <span class="input-group-addon"><i class="fa fa-user"></i> Registered Username:</span>
                           <asp:TextBox ID="txtIforgotPassword" runat="server" CssClass="form-control" placeholder="Enter your username"></asp:TextBox>

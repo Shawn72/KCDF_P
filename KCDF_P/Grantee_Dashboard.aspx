@@ -88,7 +88,7 @@
                     <asp:LinkButton ID="lnkEdit" Text="Edit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEdit" runat="server" OnClick="lnkEdit_OnClick"></asp:LinkButton>
                 </ItemTemplate>
             </asp:TemplateField>
-            <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />
+           <%-- <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />--%>
         </Columns>
         <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
             </asp:GridView>      
@@ -350,7 +350,7 @@
 <script runat="server">
     protected void btnUploadMe_OnClick(object sender, EventArgs e)
     {
-        string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
+        string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\Grantees\\";
         string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
         string filenameO = Grantees.OrgUsername + DateTime.Now.Millisecond.ToString()+ ext;
         if (FileUpload.PostedFile.ContentLength>1000000)
@@ -375,30 +375,30 @@
             return;
         }
     }
-    protected void ToPNG(string imgFormat)
-    {
-        string extn = imgFormat;
-        string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
-        string filenameO = Students.Username + extn;
-        System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
-        image.Save(uploadsFolder +Students.Username +".png", System.Drawing.Imaging.ImageFormat.Png);
-        KCDFAlert.ShowAlert("Picture: " + filenameO + " uploaded successfully");
-        File.Delete(filenameO);
-        Page.Response.Redirect(Page.Request.Url.ToString(), true);
-    }
+    //protected void ToPNG(string imgFormat)
+    //{
+    //    string extn = imgFormat;
+    //    string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
+    //    string filenameO = Students.Username + extn;
+    //    System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
+    //    image.Save(uploadsFolder +Students.Username +".png", System.Drawing.Imaging.ImageFormat.Png);
+    //    KCDFAlert.ShowAlert("Picture: " + filenameO + " uploaded successfully");
+    //    File.Delete(filenameO);
+    //    Page.Response.Redirect(Page.Request.Url.ToString(), true);
+    //}
 
-    protected void DeleteDups()
-    {
-        string namepart = Session["username"].ToString();
-        DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/"));
-        FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
-        foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
-        {
-            gotcha.Delete();
+    //protected void DeleteDups()
+    //{
+    //    string namepart = Session["username"].ToString();
+    //    DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/"));
+    //    FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
+    //    foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
+    //    {
+    //        gotcha.Delete();
 
-        }
+    //    }
 
-    }
+    //}
 
     protected void refreSH()
     {

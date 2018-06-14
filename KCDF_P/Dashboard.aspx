@@ -161,7 +161,7 @@
    <script runat="server">
        protected void btnUploadMe_OnClick(object sender, EventArgs e)
        {
-           string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
+           string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\Scholarship\\";
            string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
            string filenameO = Students.Username+ DateTime.Now.Millisecond.ToString() + ext;
            if (FileUpload.PostedFile.ContentLength>1000000)
@@ -208,7 +208,7 @@
        protected void DeleteDups()
        {
            string namepart = Session["username"].ToString();
-           DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/"));
+           DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/Scholarship/"));
            FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
            foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
            {

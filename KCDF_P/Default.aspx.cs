@@ -110,12 +110,16 @@ namespace KCDF_P
             switch (ddlUsrT)
             {
                 case "Student":
-                LoginViews.SetActiveView(studentView);
-                break;
+                    LoginViews.SetActiveView(studentView);
+                    break;
 
                 case "Grantee":
-                LoginViews.SetActiveView(granteeView);
-                break;
+                    LoginViews.SetActiveView(granteeView);
+                    break;
+
+                case "Consultant":
+                    LoginViews.SetActiveView(viewConsultant);
+                    break;
             }
           
         }
@@ -267,6 +271,9 @@ namespace KCDF_P
                 case "grant":
                     ResetmyGranteePassword();
                     break;
+                case "consultant":
+
+                    break;
             }
 
         }
@@ -333,6 +340,63 @@ namespace KCDF_P
             Response.Cookies["username"].Value = cookieuser;
             Response.Cookies["pwd"].Value = cookiepasswd;
         }
-        
+
+        protected void lnkBtnResetPCons_OnClick(object sender, EventArgs e)
+        {
+            //for consultant
+            Session["resetPassword"] = "consultant";
+            //KCDFAlert.ShowAlert(Session["resetPassword"].ToString());
+            LoginViews.SetActiveView(viewiForgotItP);
+        }
+
+        protected void btnLogConsultant_OnClick(object sender, EventArgs e)
+        {
+            cptCaptcha.ValidateCaptcha(txtCaptcha3.Text.Trim());
+            if (cptCaptcha.UserValidated)
+            {
+                string userName = txtConsUsernameIS.Text.Trim().Replace("'", "");
+                string userPassword = txtConsPasswordIS.Text.Trim().Replace("'", "");
+
+                if (string.IsNullOrWhiteSpace(userPassword))
+                {
+                    lblError.Text = "Password Empty!";
+                    KCDFAlert.ShowAlert("Password Empty!");
+                    return;
+                }
+
+                try
+                {
+                    if (nav.myConsultants.Where(r => r.Organization_Username == userName && r.Active == true && r.Password == userPassword).FirstOrDefault() != null)
+                    {
+                        Session["username"] = userName;
+                        Session["pwd"] = userPassword;
+                        rememberMeYeah(userName, userPassword);
+                        Response.Redirect("~/Consultancy_Page.aspx");
+
+                    }
+                    else if (nav.myConsultants.Where(r => r.Organization_Username == userName && r.Active== false && r.Password == userPassword).FirstOrDefault() != null)
+                    {
+                        //HotelFactory.ShowAlert("You Ain't Active!!");
+                        lblError.Text = "Account not active, please activate!";
+                        return;
+                    }
+                    else
+                    {
+                        lblError.Text = "Authentication failed!";
+                        return;
+                    }
+                }
+                catch (Exception exception)
+                {
+                    lblError.Text = exception.Message;
+                    return;
+                }
+            }
+            else
+            {
+                lblError.Text = "Invalid Captcha. Try again!";
+            }
+
+        }
     }
 }

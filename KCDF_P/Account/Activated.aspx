@@ -13,7 +13,8 @@
 </head>
 <body>
     <form id="form1" runat="server">
-    <h1><asp:Literal ID="ltMessage" runat="server" /></h1>
+    <h2><asp:Literal ID="ltMessage" runat="server" /></h2>
+    <asp:LinkButton ID="lnkToHome" runat="server" OnClick="lnkToHome_OnClick">Go to Login</asp:LinkButton>
     </form>
 </body>
 </html>

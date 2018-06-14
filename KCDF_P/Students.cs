@@ -69,7 +69,7 @@ using KCDF_P.NavOData;
                 yrofCompltn = yroc.ToShortDateString();
                 yrofstudy = objStudent.Year_of_Study;
                 course = objStudent.Course;
-            }
+              }
                Name = fName + " " + mName + " " + lName;
 
      }

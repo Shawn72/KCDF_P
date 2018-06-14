@@ -52,5 +52,11 @@ namespace KCDF_P.Account
             }
 
         }
+        protected void lnkToHome_OnClick(object sender, EventArgs e)
+        {
+            string ActivationUrl = string.Empty;
+            ActivationUrl = System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) + "/Default.aspx";
+            Response.Redirect(ActivationUrl);
+        }
     }
 }

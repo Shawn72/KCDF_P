@@ -251,8 +251,9 @@
     <Content Include="Account\ResetPasswordConfirmation.aspx" />
     <Content Include="Account\TwoFactorAuthenticationSignIn.aspx" />
     <Content Include="Account\VerifyPhoneNumber.aspx" />
-    <Content Include="angularTest.html" />
+    <Content Include="Account\Activate_Consultant.aspx" />
     <Content Include="CheckSessionExpiry.aspx" />
+    <Content Include="Consultancy_Page.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\animate.css" />
     <Content Include="Content\animate.min.css" />
@@ -342,8 +343,8 @@
     <Content Include="NavBar\css\bootstrap-dropdownhover.css" />
     <Content Include="NavBar\css\bootstrap-dropdownhover.min.css" />
     <Content Include="PasswordReset.aspx" />
+    <Content Include="ProfilePics\Consultants\dre358.jpg" />
     <Content Include="ProfilePics\dre.jpg" />
-    <Content Include="ProfilePics\JuicyJ.jpg" />
     <Content Include="ProfilePics\kcdf.jpg" />
     <Content Include="Scholarship_Application.aspx" />
     <Content Include="HomepageImages\slide1.jpg" />
@@ -431,6 +432,7 @@
     <Content Include="Downloads_Grantees\Wangari Maathai Scholarship Fund  Application Form _28062017.doc" />
     <Content Include="Downloads_Scholarship\Grants Application Form  -Updated May 2018.doc" />
     <Content Include="Downloads_Scholarship\KCDF  Indicator Result Matrix Nov 2016 to Oct 2017-1 Edited in 2018 - Navision.xlsx" />
+    <Content Include="Consultants.Master" />
     <None Include="Properties\PublishProfiles\KCDF_p.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1462,6 +1464,13 @@
     <Compile Include="Account\VerifyPhoneNumber.aspx.designer.cs">
       <DependentUpon>VerifyPhoneNumber.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Account\Activate_Consultant.aspx.cs">
+      <DependentUpon>Activate_Consultant.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Account\Activate_Consultant.aspx.designer.cs">
+      <DependentUpon>Activate_Consultant.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Applications.Master.cs">
       <DependentUpon>Applications.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1486,6 +1495,21 @@
     </Compile>
     <Compile Include="CheckSessionExpiry.aspx.designer.cs">
       <DependentUpon>CheckSessionExpiry.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Consultancy_Page.aspx.cs">
+      <DependentUpon>Consultancy_Page.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Consultancy_Page.aspx.designer.cs">
+      <DependentUpon>Consultancy_Page.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConsultantClass.cs" />
+    <Compile Include="Consultants.Master.cs">
+      <DependentUpon>Consultants.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Consultants.Master.designer.cs">
+      <DependentUpon>Consultants.Master</DependentUpon>
     </Compile>
     <Compile Include="Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
@@ -1672,6 +1696,8 @@
     <Folder Include="All Uploads\" />
     <Folder Include="App_Data\" />
     <Folder Include="NavBar\js\" />
+    <Folder Include="ProfilePics\Grantees\" />
+    <Folder Include="ProfilePics\Scholarship\" />
     <Folder Include="Uploaded Documents\" />
   </ItemGroup>
   <ItemGroup>

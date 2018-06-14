@@ -30,7 +30,7 @@ namespace KCDF_P.Account
                 loadApplicationInfo();
                 getPostaCodes();
                 //getURL();
-               // readLabelfromDashboard();
+                //readLabelfromDashboard();
             }
             
         }

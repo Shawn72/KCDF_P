@@ -235,10 +235,6 @@ namespace KCDF_P
                     Session["projectidnumber"] = edit_id;
                     Session["prjCallrefNo"] = CallRefNo;
                     Response.Redirect("EditMyProject.aspx");
-
-                    //lblPrjNm.Text = prjnm;
-                    //lblProjNo.Text = edit_id;
-                    //loadEditPrj(edit_id);
                     break;
               }
             }

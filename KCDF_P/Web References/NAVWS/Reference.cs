@@ -101,6 +101,14 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnAddProjObjectiveOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnCreateConsultantOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnActivateConsultantOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnVerifyConsultantOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnEditConsultantOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -246,6 +254,18 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         public event FnAddProjObjectiveCompletedEventHandler FnAddProjObjectiveCompleted;
+        
+        /// <remarks/>
+        public event FnCreateConsultantCompletedEventHandler FnCreateConsultantCompleted;
+        
+        /// <remarks/>
+        public event FnActivateConsultantCompletedEventHandler FnActivateConsultantCompleted;
+        
+        /// <remarks/>
+        public event FnVerifyConsultantCompletedEventHandler FnVerifyConsultantCompleted;
+        
+        /// <remarks/>
+        public event FnEditConsultantCompletedEventHandler FnEditConsultantCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -1777,6 +1797,156 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnCreateConsultant", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnCreateConsultant_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnCreateConsultant(string fullName, string email, string regIDNo, string username, string password, string activationCode) {
+            object[] results = this.Invoke("FnCreateConsultant", new object[] {
+                        fullName,
+                        email,
+                        regIDNo,
+                        username,
+                        password,
+                        activationCode});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnCreateConsultantAsync(string fullName, string email, string regIDNo, string username, string password, string activationCode) {
+            this.FnCreateConsultantAsync(fullName, email, regIDNo, username, password, activationCode, null);
+        }
+        
+        /// <remarks/>
+        public void FnCreateConsultantAsync(string fullName, string email, string regIDNo, string username, string password, string activationCode, object userState) {
+            if ((this.FnCreateConsultantOperationCompleted == null)) {
+                this.FnCreateConsultantOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnCreateConsultantOperationCompleted);
+            }
+            this.InvokeAsync("FnCreateConsultant", new object[] {
+                        fullName,
+                        email,
+                        regIDNo,
+                        username,
+                        password,
+                        activationCode}, this.FnCreateConsultantOperationCompleted, userState);
+        }
+        
+        private void OnFnCreateConsultantOperationCompleted(object arg) {
+            if ((this.FnCreateConsultantCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnCreateConsultantCompleted(this, new FnCreateConsultantCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateConsultant", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateConsultant_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnActivateConsultant(string activation_Code) {
+            object[] results = this.Invoke("FnActivateConsultant", new object[] {
+                        activation_Code});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnActivateConsultantAsync(string activation_Code) {
+            this.FnActivateConsultantAsync(activation_Code, null);
+        }
+        
+        /// <remarks/>
+        public void FnActivateConsultantAsync(string activation_Code, object userState) {
+            if ((this.FnActivateConsultantOperationCompleted == null)) {
+                this.FnActivateConsultantOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnActivateConsultantOperationCompleted);
+            }
+            this.InvokeAsync("FnActivateConsultant", new object[] {
+                        activation_Code}, this.FnActivateConsultantOperationCompleted, userState);
+        }
+        
+        private void OnFnActivateConsultantOperationCompleted(object arg) {
+            if ((this.FnActivateConsultantCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnActivateConsultantCompleted(this, new FnActivateConsultantCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnVerifyConsultant", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnVerifyConsultant_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnVerifyConsultant(string regIDNumber) {
+            object[] results = this.Invoke("FnVerifyConsultant", new object[] {
+                        regIDNumber});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnVerifyConsultantAsync(string regIDNumber) {
+            this.FnVerifyConsultantAsync(regIDNumber, null);
+        }
+        
+        /// <remarks/>
+        public void FnVerifyConsultantAsync(string regIDNumber, object userState) {
+            if ((this.FnVerifyConsultantOperationCompleted == null)) {
+                this.FnVerifyConsultantOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnVerifyConsultantOperationCompleted);
+            }
+            this.InvokeAsync("FnVerifyConsultant", new object[] {
+                        regIDNumber}, this.FnVerifyConsultantOperationCompleted, userState);
+        }
+        
+        private void OnFnVerifyConsultantOperationCompleted(object arg) {
+            if ((this.FnVerifyConsultantCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnVerifyConsultantCompleted(this, new FnVerifyConsultantCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnEditConsultant", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnEditConsultant_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnEditConsultant(string username, string regIDNo, string phone_Number, string nameOfContactPerson, string positionofContatPerson, string postalcode, string postatown, string postaladdress, bool consultedB4, int statusofProject, string website) {
+            object[] results = this.Invoke("FnEditConsultant", new object[] {
+                        username,
+                        regIDNo,
+                        phone_Number,
+                        nameOfContactPerson,
+                        positionofContatPerson,
+                        postalcode,
+                        postatown,
+                        postaladdress,
+                        consultedB4,
+                        statusofProject,
+                        website});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnEditConsultantAsync(string username, string regIDNo, string phone_Number, string nameOfContactPerson, string positionofContatPerson, string postalcode, string postatown, string postaladdress, bool consultedB4, int statusofProject, string website) {
+            this.FnEditConsultantAsync(username, regIDNo, phone_Number, nameOfContactPerson, positionofContatPerson, postalcode, postatown, postaladdress, consultedB4, statusofProject, website, null);
+        }
+        
+        /// <remarks/>
+        public void FnEditConsultantAsync(string username, string regIDNo, string phone_Number, string nameOfContactPerson, string positionofContatPerson, string postalcode, string postatown, string postaladdress, bool consultedB4, int statusofProject, string website, object userState) {
+            if ((this.FnEditConsultantOperationCompleted == null)) {
+                this.FnEditConsultantOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnEditConsultantOperationCompleted);
+            }
+            this.InvokeAsync("FnEditConsultant", new object[] {
+                        username,
+                        regIDNo,
+                        phone_Number,
+                        nameOfContactPerson,
+                        positionofContatPerson,
+                        postalcode,
+                        postatown,
+                        postaladdress,
+                        consultedB4,
+                        statusofProject,
+                        website}, this.FnEditConsultantOperationCompleted, userState);
+        }
+        
+        private void OnFnEditConsultantOperationCompleted(object arg) {
+            if ((this.FnEditConsultantCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnEditConsultantCompleted(this, new FnEditConsultantCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2366,6 +2536,110 @@ namespace KCDF_P.NAVWS {
         private object[] results;
         
         internal FnAddProjObjectiveCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnCreateConsultantCompletedEventHandler(object sender, FnCreateConsultantCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnCreateConsultantCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnCreateConsultantCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnActivateConsultantCompletedEventHandler(object sender, FnActivateConsultantCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnActivateConsultantCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnActivateConsultantCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnVerifyConsultantCompletedEventHandler(object sender, FnVerifyConsultantCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnVerifyConsultantCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnVerifyConsultantCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnEditConsultantCompletedEventHandler(object sender, FnEditConsultantCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnEditConsultantCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnEditConsultantCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
                 base(exception, cancelled, userState) {
             this.results = results;
         }

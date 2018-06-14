@@ -3423,6 +3423,18 @@
         <Property Name="Call_Ref_Number" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
+      <EntityType Name="consActivationQuery">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="Organization_Email" Type="Edm.String" />
+        <Property Name="Organization_Username" Type="Edm.String" />
+        <Property Name="Password" Type="Edm.String" />
+        <Property Name="Activation_Code" Type="Edm.String" />
+        <Property Name="Active" Type="Edm.Boolean" />
+        <Property Name="Last_Modified_Date" Type="Edm.DateTime" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
       <EntityType Name="grant_history">
         <Key>
           <PropertyRef Name="No" />
@@ -3545,6 +3557,38 @@
         <Property Name="Type_of_College" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
       </EntityType>
+      <EntityType Name="myConsultants">
+        <Key>
+          <PropertyRef Name="No" />
+        </Key>
+        <Property Name="No" Type="Edm.String" Nullable="false" />
+        <Property Name="Organization_Name" Type="Edm.String" />
+        <Property Name="Organization_Email" Type="Edm.String" />
+        <Property Name="Organization_Username" Type="Edm.String" />
+        <Property Name="Password" Type="Edm.String" />
+        <Property Name="Phone_Number" Type="Edm.String" />
+        <Property Name="Contact_Person_FullName" Type="Edm.String" />
+        <Property Name="Contact_Person_Position" Type="Edm.String" />
+        <Property Name="Postal_Address" Type="Edm.String" />
+        <Property Name="Postal_Code" Type="Edm.String" />
+        <Property Name="Postal_Town" Type="Edm.String" />
+        <Property Name="Website_Address" Type="Edm.String" />
+        <Property Name="Organization_Registration_No" Type="Edm.String" />
+        <Property Name="Active" Type="Edm.Boolean" />
+        <Property Name="ConsultedForKCDFB4" Type="Edm.Boolean" />
+        <Property Name="Statusof_Project_Consulted" Type="Edm.String" />
+      </EntityType>
+      <EntityType Name="myConsultations">
+        <Key>
+          <PropertyRef Name="AuxiliaryIndex1" />
+        </Key>
+        <Property Name="Consultant_RegIDNo" Type="Edm.String" />
+        <Property Name="Consultant_Username" Type="Edm.String" />
+        <Property Name="Application_Submitted" Type="Edm.Boolean" />
+        <Property Name="Application_Date" Type="Edm.DateTime" />
+        <Property Name="Approval_Status" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
       <EntityType Name="mycountyIs">
         <Key>
           <PropertyRef Name="AuxiliaryIndex1" />
@@ -3646,6 +3690,8 @@
         <Property Name="Technical_Review" Type="Edm.String" />
         <Property Name="Call_Ref_Number" Type="Edm.String" />
         <Property Name="projectisSubmitted" Type="Edm.Boolean" />
+        <Property Name="Objectives" Type="Edm.String" />
+        <Property Name="Status_of_KCDf_Grant" Type="Edm.String" />
       </EntityType>
       <EntityType Name="SalesDashboard">
         <Key>
@@ -4715,6 +4761,7 @@
         <NavigationProperty Name="workflowWebhookSubscriptions" Relationship="NAV.Company_workflowWebhookSubscriptions" ToRole="workflowWebhookSubscriptions" FromRole="Company" />
         <NavigationProperty Name="activationquery" Relationship="NAV.Company_activationquery" ToRole="activationquery" FromRole="Company" />
         <NavigationProperty Name="call_for_Proposal" Relationship="NAV.Company_call_for_Proposal" ToRole="call_for_Proposal" FromRole="Company" />
+        <NavigationProperty Name="consActivationQuery" Relationship="NAV.Company_consActivationQuery" ToRole="consActivationQuery" FromRole="Company" />
         <NavigationProperty Name="grant_history" Relationship="NAV.Company_grant_history" ToRole="grant_history" FromRole="Company" />
         <NavigationProperty Name="grantees_Register" Relationship="NAV.Company_grantees_Register" ToRole="grantees_Register" FromRole="Company" />
         <NavigationProperty Name="ItemSalesAndProfit" Relationship="NAV.Company_ItemSalesAndProfit" ToRole="ItemSalesAndProfit" FromRole="Company" />
@@ -4722,6 +4769,8 @@
         <NavigationProperty Name="list_myPosta" Relationship="NAV.Company_list_myPosta" ToRole="list_myPosta" FromRole="Company" />
         <NavigationProperty Name="list_Schools" Relationship="NAV.Company_list_Schools" ToRole="list_Schools" FromRole="Company" />
         <NavigationProperty Name="my_unisOrCollegs" Relationship="NAV.Company_my_unisOrCollegs" ToRole="my_unisOrCollegs" FromRole="Company" />
+        <NavigationProperty Name="myConsultants" Relationship="NAV.Company_myConsultants" ToRole="myConsultants" FromRole="Company" />
+        <NavigationProperty Name="myConsultations" Relationship="NAV.Company_myConsultations" ToRole="myConsultations" FromRole="Company" />
         <NavigationProperty Name="mycountyIs" Relationship="NAV.Company_mycountyIs" ToRole="mycountyIs" FromRole="Company" />
         <NavigationProperty Name="myReferees" Relationship="NAV.Company_myReferees" ToRole="myReferees" FromRole="Company" />
         <NavigationProperty Name="myScholaruploads" Relationship="NAV.Company_myScholaruploads" ToRole="myScholaruploads" FromRole="Company" />
@@ -5030,6 +5079,10 @@
         <End Type="NAV.call_for_Proposal" Role="call_for_Proposal" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_consActivationQuery">
+        <End Type="NAV.consActivationQuery" Role="consActivationQuery" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_grant_history">
         <End Type="NAV.grant_history" Role="grant_history" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
@@ -5056,6 +5109,14 @@
       </Association>
       <Association Name="Company_my_unisOrCollegs">
         <End Type="NAV.my_unisOrCollegs" Role="my_unisOrCollegs" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_myConsultants">
+        <End Type="NAV.myConsultants" Role="myConsultants" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_myConsultations">
+        <End Type="NAV.myConsultations" Role="myConsultations" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_mycountyIs">
@@ -5330,6 +5391,7 @@
         <EntitySet Name="workflowWebhookSubscriptions" EntityType="NAV.workflowWebhookSubscriptions" />
         <EntitySet Name="activationquery" EntityType="NAV.activationquery" />
         <EntitySet Name="call_for_Proposal" EntityType="NAV.call_for_Proposal" />
+        <EntitySet Name="consActivationQuery" EntityType="NAV.consActivationQuery" />
         <EntitySet Name="grant_history" EntityType="NAV.grant_history" />
         <EntitySet Name="grantees_Register" EntityType="NAV.grantees_Register" />
         <EntitySet Name="ItemSalesAndProfit" EntityType="NAV.ItemSalesAndProfit" />
@@ -5337,6 +5399,8 @@
         <EntitySet Name="list_myPosta" EntityType="NAV.list_myPosta" />
         <EntitySet Name="list_Schools" EntityType="NAV.list_Schools" />
         <EntitySet Name="my_unisOrCollegs" EntityType="NAV.my_unisOrCollegs" />
+        <EntitySet Name="myConsultants" EntityType="NAV.myConsultants" />
+        <EntitySet Name="myConsultations" EntityType="NAV.myConsultations" />
         <EntitySet Name="mycountyIs" EntityType="NAV.mycountyIs" />
         <EntitySet Name="myReferees" EntityType="NAV.myReferees" />
         <EntitySet Name="myScholaruploads" EntityType="NAV.myScholaruploads" />
@@ -5645,6 +5709,10 @@
           <End Role="Company" EntitySet="Company" />
           <End Role="call_for_Proposal" EntitySet="call_for_Proposal" />
         </AssociationSet>
+        <AssociationSet Name="Company_consActivationQuery_consActivationQuery" Association="NAV.Company_consActivationQuery">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="consActivationQuery" EntitySet="consActivationQuery" />
+        </AssociationSet>
         <AssociationSet Name="Company_grant_history_grant_history" Association="NAV.Company_grant_history">
           <End Role="Company" EntitySet="Company" />
           <End Role="grant_history" EntitySet="grant_history" />
@@ -5672,6 +5740,14 @@
         <AssociationSet Name="Company_my_unisOrCollegs_my_unisOrCollegs" Association="NAV.Company_my_unisOrCollegs">
           <End Role="Company" EntitySet="Company" />
           <End Role="my_unisOrCollegs" EntitySet="my_unisOrCollegs" />
+        </AssociationSet>
+        <AssociationSet Name="Company_myConsultants_myConsultants" Association="NAV.Company_myConsultants">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="myConsultants" EntitySet="myConsultants" />
+        </AssociationSet>
+        <AssociationSet Name="Company_myConsultations_myConsultations" Association="NAV.Company_myConsultations">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="myConsultations" EntitySet="myConsultations" />
         </AssociationSet>
         <AssociationSet Name="Company_mycountyIs_mycountyIs" Association="NAV.Company_mycountyIs">
           <End Role="Company" EntitySet="Company" />

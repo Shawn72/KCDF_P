@@ -653,6 +653,77 @@
           </sequence>
         </complexType>
       </element>
+      <element name="FnCreateConsultant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="fullName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="regIDNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="password" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activationCode" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCreateConsultant_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnActivateConsultant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="activation_Code" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnActivateConsultant_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnVerifyConsultant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="regIDNumber" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnVerifyConsultant_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnEditConsultant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="regIDNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="phone_Number" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="nameOfContactPerson" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="positionofContatPerson" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="postalcode" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="postatown" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="postaladdress" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="consultedB4" type="boolean" />
+            <element minOccurs="1" maxOccurs="1" name="statusofProject" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="website" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnEditConsultant_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="FnActivateAc">
@@ -871,6 +942,30 @@
   <message name="FnAddProjObjective_Result">
     <part name="parameters" element="tns:FnAddProjObjective_Result" />
   </message>
+  <message name="FnCreateConsultant">
+    <part name="parameters" element="tns:FnCreateConsultant" />
+  </message>
+  <message name="FnCreateConsultant_Result">
+    <part name="parameters" element="tns:FnCreateConsultant_Result" />
+  </message>
+  <message name="FnActivateConsultant">
+    <part name="parameters" element="tns:FnActivateConsultant" />
+  </message>
+  <message name="FnActivateConsultant_Result">
+    <part name="parameters" element="tns:FnActivateConsultant_Result" />
+  </message>
+  <message name="FnVerifyConsultant">
+    <part name="parameters" element="tns:FnVerifyConsultant" />
+  </message>
+  <message name="FnVerifyConsultant_Result">
+    <part name="parameters" element="tns:FnVerifyConsultant_Result" />
+  </message>
+  <message name="FnEditConsultant">
+    <part name="parameters" element="tns:FnEditConsultant" />
+  </message>
+  <message name="FnEditConsultant_Result">
+    <part name="parameters" element="tns:FnEditConsultant_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -1015,6 +1110,22 @@
     <operation name="FnAddProjObjective">
       <input name="FnAddProjObjective" message="tns:FnAddProjObjective" />
       <output name="FnAddProjObjective_Result" message="tns:FnAddProjObjective_Result" />
+    </operation>
+    <operation name="FnCreateConsultant">
+      <input name="FnCreateConsultant" message="tns:FnCreateConsultant" />
+      <output name="FnCreateConsultant_Result" message="tns:FnCreateConsultant_Result" />
+    </operation>
+    <operation name="FnActivateConsultant">
+      <input name="FnActivateConsultant" message="tns:FnActivateConsultant" />
+      <output name="FnActivateConsultant_Result" message="tns:FnActivateConsultant_Result" />
+    </operation>
+    <operation name="FnVerifyConsultant">
+      <input name="FnVerifyConsultant" message="tns:FnVerifyConsultant" />
+      <output name="FnVerifyConsultant_Result" message="tns:FnVerifyConsultant_Result" />
+    </operation>
+    <operation name="FnEditConsultant">
+      <input name="FnEditConsultant" message="tns:FnEditConsultant" />
+      <output name="FnEditConsultant_Result" message="tns:FnEditConsultant_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -1340,6 +1451,42 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
       <output name="FnAddProjObjective_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCreateConsultant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCreateConsultant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCreateConsultant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCreateConsultant_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnActivateConsultant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateConsultant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnActivateConsultant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnActivateConsultant_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnVerifyConsultant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnVerifyConsultant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnVerifyConsultant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnVerifyConsultant_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnEditConsultant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnEditConsultant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnEditConsultant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnEditConsultant_Result">
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>

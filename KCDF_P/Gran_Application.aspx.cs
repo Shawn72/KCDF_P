@@ -393,17 +393,25 @@ namespace KCDF_P
        
         protected void CopyFilesToDir()
         {
-            //string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
-            //string destPath = @"\\192.168.0.250\All Uploads\";
+            try
+            {
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+            string destPath = @"\\192.168.0.250\All Uploads\";
 
-            //foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
-            //  SearchOption.AllDirectories))
-            //    Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
+            foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
+              SearchOption.AllDirectories))
+                Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
 
-            ////Copy all the files & Replaces any files with the same name
-            //foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
-            //    SearchOption.AllDirectories))
-            //    File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
+            //Copy all the files & Replaces any files with the same name
+            foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
+                SearchOption.AllDirectories))
+                File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
+
+            }
         }
 
         protected void DownloadFile(object sender, EventArgs e)
@@ -573,11 +581,11 @@ namespace KCDF_P
             //theNetCache.Add(new Uri(@"\\KCDFSVR\All_Portal_Uploaded\"), "Digest", netcredentials);
 
             FileUpload.SaveAs(uploadsFolder + filename);
-            CopyFilesToDir();
             saveAttachment(filename, ext, documentKind, refNoIs);
             // KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
             loadUploads();
-                 }
+            CopyFilesToDir();
+                }
                 else
                 {
                     KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
@@ -623,10 +631,10 @@ namespace KCDF_P
                 {
                     string filename = Grantees.No + "_" + fileName;
                     FileUploadID.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
                     saveAttachment(filename, ext, documentKind, refNoIs);
                   // KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
+                    CopyFilesToDir();
                 }
                 else
                 {
@@ -673,10 +681,10 @@ namespace KCDF_P
                 {
                     string filename = Grantees.No + "_" + fileName;
                     FileUploadConst.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
                     saveAttachment(filename, ext, documentKind, refNoIs);
                    // KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
+                    CopyFilesToDir();
                 }
                 else
                 {
@@ -722,10 +730,10 @@ namespace KCDF_P
                 {
                     string filename = Grantees.No + "_" + fileName;
                     FileUploadList.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
                     saveAttachment(filename, ext, documentKindML, refNoIs);
                    // KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
+                    CopyFilesToDir();
                 }
                 else
                 {
@@ -772,10 +780,10 @@ namespace KCDF_P
                 {
                     string filename = Grantees.No + "_" + fileName;
                     FileUploadFinRePo.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
                     saveAttachment(filename, ext, documentKindFR, refNoIs);
-                    KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                   // KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
                     loadUploads();
+                    CopyFilesToDir();
                 }
                 else
                 {
@@ -1319,10 +1327,23 @@ namespace KCDF_P
         }
         protected void loadApplicationInfo()
         {
-            var granteeInfo =
-                nav.grantees_Register.ToList()
-                    .Where(n => n.Organization_Username.Equals(Session["username"].ToString()));
+            var granteeInfo =nav.grantees_Register.ToList()
+                .Where(n => n.Organization_Username.Equals(Session["username"].ToString()));
 
+            var objctvs = nav.projectOverview
+                .Where(oj => oj.Username.Equals(Session["username"].ToString())
+                && oj.Call_Ref_Number==ddlAccountType.SelectedValue);
+
+            if (objctvs.Equals(null))
+            {
+                KCDFAlert.ShowAlert("You have not saved objectives for this project yet!");
+            }
+            else
+            {
+                txtAreaObjs.Visible = true;
+                txtAreaObjs.Text = objctvs.Select(obc => obc.Objectives).SingleOrDefault();
+            }
+           
             TextBxcont.Text = granteeInfo.Select(co => co.Contact_Person).SingleOrDefault();
             TextBoposition.Text = granteeInfo.Select(po => po.Current_Position).SingleOrDefault();
             TextBxpostal.Text = granteeInfo.Select(pa => pa.Postal_Address).SingleOrDefault();
@@ -1369,6 +1390,7 @@ namespace KCDF_P
            // var doR = granteeInfo.Select(dr => Convert.ToDateTime(dr.Date_Registered)).SingleOrDefault();
             txtRegNo.Text = granteeInfo.Select(rg => rg.Registration_No).SingleOrDefault();
 
+         
         }
 
         protected void lnkConfirm_OnClick(object sender, EventArgs e)

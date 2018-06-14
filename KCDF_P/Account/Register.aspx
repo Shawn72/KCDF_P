@@ -130,7 +130,6 @@
         </asp:View>
 
         <asp:View runat="server" ID="grantsView">
-            
             <div class="form-horizontal">
 			         <div class="form-group">
                         <asp:Label runat="server" CssClass="col-md-3 control-label">Organization Name:</asp:Label>
@@ -179,6 +178,76 @@
 			    
                </div>
         </asp:View>
+        <asp:View runat="server" ID="regConsults">
+             <div class="form-horizontal">
+			         <div class="form-group">
+                        <asp:Label runat="server" CssClass="col-md-3 control-label">Name:</asp:Label>
+                        <div class="col-md-6">
+                            <asp:TextBox runat="server" ID="txtConsName" CssClass="form-control" required="True" placeholder="Organization Name" MaxLength="250" />              
+                             <asp:RequiredFieldValidator ID="RequiredFieldValidator10" ErrorMessage="Fullname field is mandatory"
+                    ControlToValidate="txtConsName" runat="server" ForeColor="Red" Display="Dynamic" /> 
+                        </div><span class="required">*</span> 
+                       </div>
+               
+                    <div class="form-group">
+                    <asp:Label runat="server" CssClass="col-md-3 control-label">Email:</asp:Label>
+                        <div class="col-md-6">
+                            <asp:TextBox runat="server" ID="txtConsEmail" CssClass="form-control" placeholder="Organization Email" onkeypress="ValidatemyConsEmail()" />              
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator9" ErrorMessage="Email is mandatory"
+                    ControlToValidate="txtConsEmail" runat="server" ForeColor="Red" Display="Dynamic" /> 
+                    <span id="validemailCons"></span>
+                        </div><span class="required">*</span> 
+                    </div>
+                 
+                    <div class="form-group">
+                    <asp:Label runat="server" CssClass="col-md-3 control-label">Registration Number/ID Number:</asp:Label>
+                    <div class="col-md-6">
+                        <asp:TextBox runat="server" ID="txtConsIDReg" CssClass="form-control"  required ="true" placeholder="Unique ID" />              
+                         <asp:RequiredFieldValidator ID="RequiredFieldValidator11" ErrorMessage="Reg or ID No field is mandatory"
+                    ControlToValidate="txtConsIDReg" runat="server" ForeColor="Red" Display="Dynamic" /> 
+                    </div><span class="required">*</span> 
+                    </div>
+               
+                    <div class="form-group">
+                    <asp:Label runat="server" CssClass="col-md-3 control-label"> Username:</asp:Label>
+                    <div class="col-md-6">
+                        <asp:TextBox runat="server" ID="txtConsUsername" CssClass="form-control"  required ="true" placeholder="Choose a unique username" />              
+                        <asp:RequiredFieldValidator ID="RequiredFieldValidator12" ErrorMessage="Username field is mandatory"
+                    ControlToValidate="txtConsUsername" runat="server" ForeColor="Red" Display="Dynamic" /> 
+                    </div><span class="required">*</span> 
+                    </div>
+               
+              <div class="form-group">
+                <asp:Label runat="server" CssClass="col-md-3 control-label">Password:</asp:Label>
+                <div class="col-md-6">
+                    <asp:TextBox runat="server" ID="txtConsPass1" CssClass="form-control" required="True" TextMode="Password" placeholder="Your password"/>              
+                 <asp:RequiredFieldValidator ID="RequiredFieldValidator13" ErrorMessage="Password field is mandatory"
+                    ControlToValidate="txtConsPass1" runat="server" ForeColor="Red" Display="Dynamic" /> 
+                </div><span class="required">*</span> 
+               </div>
+          
+                <div class="form-group">
+                    <asp:Label runat="server" CssClass="col-md-3 control-label">Confirm Password:</asp:Label>
+                    <div class="col-md-6">
+                        <asp:TextBox runat="server" ID="txtConsPass2" CssClass="form-control" required="True" TextMode="Password" placeholder="Confirm password"/>              
+                         <asp:RequiredFieldValidator ID="RequiredFieldValidator14" ErrorMessage="Confirm password field is mandatory"
+                    ControlToValidate="txtConsPass2" runat="server" ForeColor="Red" Display="Dynamic" /> 
+                    </div><span class="required">*</span> 
+                    </div> 
+                 
+                <div class="row">
+                    <div class="col-md-3"></div>
+                    <div class="col-md-4">
+                        <div class="form-group">            
+                    <asp:Button ID="btnSaveConsultant" runat="server" Text="Create Consultants Account" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnSaveConsultant_OnClick" OnClientClick="Confirm()"/>          
+                  <%--  <asp:Button runat="server" ID="chekRegNo" OnClick="chekRegNo_OnClick" Text="Verify test" CausesValidation="False" UseSubmitBehavior="false"/>--%>
+                        </div> 
+                    </div>
+                    <div class="col-md-3"></div>
+                </div> 	
+			    
+               </div>
+        </asp:View>
     </asp:MultiView>
 
    <script type="text/javascript">
@@ -189,6 +258,22 @@
     function ValidatemyEmail() {
         var isValid = $("#validemail");
         var myEmail = document.getElementById('<%=txtEmail.ClientID%>').value;
+            if (!IsValidEmail(myEmail)) {
+                isValid.css("color", "red");
+                isValid.html("Email is Invalid!");
+            }
+            else {
+                isValid.css("color", "green");
+                isValid.html("Email is valid");
+            }
+        }
+    </script>
+        
+    <script type="text/javascript">
+   
+    function ValidatemyConsEmail() {
+        var isValid = $("#validemailCons");
+        var myEmail = document.getElementById('<%=txtConsEmail.ClientID%>').value;
             if (!IsValidEmail(myEmail)) {
                 isValid.css("color", "red");
                 isValid.html("Email is Invalid!");
