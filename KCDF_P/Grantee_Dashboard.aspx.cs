@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Drawing;
 using System.Data.SqlClient;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -29,7 +31,7 @@ namespace KCDF_P
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public string Company_Name = "KCDF TEST NEW";
+        public string Company_Name = "KCDF";
         [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -45,6 +47,7 @@ namespace KCDF_P
                 loadMyProjects();
                 myCountyIs();
                 loadProfPic();
+                //fetchPicture();
                 clearCache();
                 lblUsernameIS.Text = Convert.ToString(Session["username"]);
                 lblSessionfromMAster();
@@ -56,6 +59,27 @@ namespace KCDF_P
             return new Grantees(Session["username"].ToString());
         }
 
+
+        public void StoreToDatabase(string fileNme)
+        {
+
+            // file path to read file
+            string filePath = fileNme;
+
+            // declare and initialize FileStream object
+            FileStream stream = new FileStream(filePath, FileMode.Open, FileAccess.Read);
+
+            // declare and initialize BinaryReader object
+            BinaryReader reader = new BinaryReader(stream);
+
+            // Read bytes  from the file
+            byte[] file = reader.ReadBytes((int)stream.Length);
+            // always Remember  to close the handles, 
+            // or resources remain locked
+            reader.Close();
+            stream.Close();
+
+        }
         protected void lblSessionfromMAster()
         {
             System.Web.UI.WebControls.Label lblMastersession =
@@ -128,21 +152,75 @@ namespace KCDF_P
                 }
                 else
                 {
-                    profPic.ImageUrl = "ProfilePics/" + pic;
+                    profPic.ImageUrl = "ProfilePics/Grantees/" + pic;
                     HttpResponse.RemoveOutputCacheItem("/Grantee_Dashboard.aspx");
                     // KCDFAlert.ShowAlert("ProfilePics/ "+pic);
                 }
+
+                //string picture = string.Empty;
+                //WSConfig.ObjNav.FnRetrieveSavedPic(Session["username"].ToString(), ref picture);
+
+                //if (picture == string.Empty)
+                //{
+                //    KCDFAlert.ShowAlert("No Profile Photo yet!");
+                //    return;
+                //}
+                //else
+                //{
+                //    byte[] buffer = Convert.FromBase64String(picture);
+
+                //    FileStream file = File.Create("ProfilePics/Grantees/ "  + Grantees.No + ".png");
+
+                //    file.Write(buffer, 0, buffer.Length);
+                //    file.Close();
+                //    profPic.ImageUrl = "ProfilePics/Grantees/" + Grantees.No + ".png";
+                //    KCDFAlert.ShowAlert(picture);
+
+                //    FileStream file = File.OpenRead(filePath);
+                //    byte[] buffer = new byte[file.Length];
+                //    file.Read(buffer, 0, buffer.Length);
+                //    file.Close();
+                //    string attachedDoc = Convert.ToBase64String(buffer);
+                //    saveProfToNav(uploadsFolder + filenameO, filenameO, attachedDoc);
+                //}
+
             }
             catch (Exception ex)
             {
-
-
             }
+          }
+
+        protected void fetchPicture()
+        {
+            var grntNo = Grantees.No;
+            string SQLRQST = @"SELECT No, ProfilePhoto from [" + Company_Name + "$Grantees] WHERE No=@usnM";
+
+            SqlConnection con = new SqlConnection(strSQLConn);
+            SqlCommand command = new SqlCommand(SQLRQST, con);
+            command.Parameters.AddWithValue("@usnM", grntNo);
+            SqlDataAdapter da = new SqlDataAdapter(command);
+            SqlCommandBuilder cbd = new SqlCommandBuilder();
+            DataSet ds = new DataSet();
+            da.Fill(ds);
+            con.Open();
+            byte[] data = (byte[])(ds.Tables[0].Rows[0]["ProfilePhoto"]);
+            MemoryStream mem = new MemoryStream(data);
+            System.Drawing.Image image = System.Drawing.Image.FromStream(mem);
+            profPic.ImageUrl = image.ToString();
 
         }
         protected void btnUploadPic_OnClick(object sender, EventArgs e)
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
+        }
+
+        System.Drawing.Image ConvertBinarytoImage(byte[]data)
+        {
+            using (MemoryStream ms = new MemoryStream(data))
+            {
+                return System.Drawing.Image.FromStream(ms);
+
+            }
         }
 
 
@@ -364,5 +442,39 @@ namespace KCDF_P
         //    ddlCountry.DataSource = myList;
         //    ddlCountry.DataBind();
         //}
+        protected void Copy()
+        {
+            ProcessStartInfo processInfo;
+            Process process;
+
+            processInfo = new ProcessStartInfo("cmd.exe", @"/c E:\AdvancedPortals\KCDF_P\KCDF_P\DCopy\DCopier.bat");
+            processInfo.CreateNoWindow = false;
+            processInfo.UseShellExecute = false;
+            // *** Redirect the output ***
+            processInfo.RedirectStandardError = true;
+            processInfo.RedirectStandardOutput = true;
+            process = Process.Start(processInfo);
+
+            process.WaitForExit();
+        }
+
+        protected void copyMyBat()
+        {
+            try
+            {
+                //do your code here 
+                var proc = new Process();
+                proc.StartInfo.FileName = @"E:\AdvancedPortals\KCDF_P\KCDF_P\DCopy\DCopier.bat";
+                proc.StartInfo.Arguments = "-v -s -a";
+                System.IO.File.Create(Environment.CurrentDirectory + "Copierstart.txt");
+                proc.Start();
+                proc.WaitForExit();
+                proc.Close();
+                //  Thread.Sleep(3000);
+            }
+            catch (Exception e)
+            {
+            }
+        }
     }
 }

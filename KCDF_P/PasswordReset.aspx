@@ -64,5 +64,15 @@
                 txt = "Cancelled!";
             }
         }
+
+        function myFunctionLoadConsultants() {
+            var txt;
+            var r = confirm("Password Changed successfully!");
+            if (r === true) {
+                window.location.href = "Consultancy_Page.aspx";
+            } else {
+                txt = "Cancelled!";
+            }
+        }
     </script>
  </asp:Content>

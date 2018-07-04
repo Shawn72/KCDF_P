@@ -39,6 +39,9 @@ namespace KCDF_P
                 case "grantee":
                     ChangeGranteePassword();
                     break;
+                case "Consultant":
+                    ChangeConsultantPassword();
+                    break;
             }
         }
 
@@ -102,6 +105,43 @@ namespace KCDF_P
                         txtPasswordConfirm.Text.Trim()))
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "myFunctionLoadGrantees();",
+                            true);
+                    }
+                    else
+                    {
+                        KCDFAlert.ShowAlert("Password could not be changed, kindly contact ICT Admin for assistance");
+                    }
+                }
+                catch (Exception exception)
+                {
+                    KCDFAlert.ShowAlert(exception.Message);
+                }
+            }
+        }
+
+        public void ChangeConsultantPassword()
+        {
+            if (string.IsNullOrWhiteSpace(txtPasswordOld.Text.Trim()) && string.IsNullOrWhiteSpace(txtPasswordNew.Text.Trim()) &&
+               string.IsNullOrWhiteSpace(txtPasswordConfirm.Text))
+            {
+                KCDFAlert.ShowAlert("You must fill-in all the fields to continue");
+                return;
+            }
+            if (txtPasswordNew.Text.Trim() != txtPasswordConfirm.Text.Trim())
+            {
+                KCDFAlert.ShowAlert("New password is not matching the confirmed password field");
+                lblError.Text = "Password Mismatch, please try again!";
+                return;
+            }
+            else
+            {
+                try
+                {
+                    if (WSConfig.ObjNav.FnConsultant_PasswordChange(Session["username"].ToString(),
+                        txtPasswordOld.Text.Trim(),
+                        txtPasswordConfirm.Text.Trim()))
+                    {
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "myFunctionLoadConsultants();",
                             true);
                     }
                     else

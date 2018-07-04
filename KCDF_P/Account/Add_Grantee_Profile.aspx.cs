@@ -206,7 +206,7 @@ namespace KCDF_P.Account
 
             if (ddlPostalCode.SelectedIndex==0)
             {
-               KCDFAlert.ShowAlert("Pleasse select postal code"); 
+               KCDFAlert.ShowAlert("Please select postal code"); 
                 return;
             }
             else

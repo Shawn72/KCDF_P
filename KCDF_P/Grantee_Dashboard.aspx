@@ -43,7 +43,7 @@
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
                             <asp:Image ID="profPic" runat="server"  class="img-circle img-responsive" />
-                            <asp:Button  ID="btnUploadPic" runat="server" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnUploadPic_OnClick" Text="Change Picture" ></asp:Button>
+                            <asp:Button  ID="btnUploadPic" runat="server" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnUploadPic_OnClick" Text="Change Picture" CausesValidation="False" UseSubmitBehavior="False" ></asp:Button>
                         </div>
                        <div class="col-md-3"></div>
                     </div>
@@ -65,8 +65,7 @@
                             <td>KCDF Number: </td>
                             <td><%=Grantees.No %></td>
                         </tr>
-                    </table>   
-                   <%-- <asp:Button runat="server" ID="copyTest" OnClick="copyTest_OnClick" Text="Copy Files"/>--%>
+                    </table>  
                 </div>
             </div>
         </div>
@@ -106,7 +105,6 @@
         </div>--%>
 
  <%-- <asp:Repeater ID="rptr" runat="server">
-
             <HeaderTemplate>
                 <table id="myPrJs" class="table table-bordered table-striped">
                     <thead>

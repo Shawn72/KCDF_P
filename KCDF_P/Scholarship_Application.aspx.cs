@@ -332,7 +332,7 @@ namespace KCDF_P
             }
 
         }
-        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo)
+        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo, string AttachedBlob)
         {
             var usNo = nav.studentsRegister.ToList().Where(usr => usr.Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
             var usaname = Session["username"].ToString();
@@ -344,6 +344,7 @@ namespace KCDF_P
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             int granttype = 0;
             string docType = "";
+
             if ((extension == ".jpg") || (extension == ".jpeg") || (extension == ".png"))
             {
                 docType = "Picture";
@@ -365,7 +366,7 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            if (sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo) == true)
+            if (sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo, AttachedBlob) == true)
             {
                 KCDFAlert.ShowAlert("Attached!");
             }
@@ -414,17 +415,17 @@ namespace KCDF_P
             {
 
                 string filename = Students.No + "_" + fileName;
-                //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
-                //DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
-                //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                //dInfo.SetAccessControl(dSecurity);
+
+                //file path to read file
+                string filePath = uploadsFolder + filename;
+                FileStream file = File.OpenRead(filePath);
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+                file.Close();
+                string attachedDoc = Convert.ToBase64String(buffer);
 
                 FileUploadSDoc.SaveAs(uploadsFolder + filename);
-                CopyFilesToDir();
-                saveAttachment(filename, ext, documentKind, schlRefNo);
-                //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                 loadUploads();
 
             }
@@ -485,17 +486,16 @@ namespace KCDF_P
                 {
 
                     string filename = Students.No + "_" + fileName;
-                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
-                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
-                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                    //dInfo.SetAccessControl(dSecurity);
+                    //file path to read file
+                    string filePath = uploadsFolder + filename;
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
 
                     FileUploadCF.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind, schlRefNo);
-                    //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
@@ -542,19 +542,17 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
                 {
-
                     string filename = Students.No + "_" + fileName;
-                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
-                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
-                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                    //dInfo.SetAccessControl(dSecurity);
+                    //file path to read file
+                    string filePath = uploadsFolder + filename;
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
 
                     FileUploadSNID.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind,schlRefNo);
-                    //KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind,schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
@@ -602,17 +600,16 @@ namespace KCDF_P
                 {
 
                     string filename = Students.No + "_" + fileName;
-                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
-                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
-                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                    //dInfo.SetAccessControl(dSecurity);
+                    //file path to read file
+                    string filePath = uploadsFolder + filename;
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
 
                     FileUploadPhoto.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind,schlRefNo);
-                 //   KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind,schlRefNo,attachedDoc);
                     loadUploads();
 
                 }
@@ -659,17 +656,16 @@ namespace KCDF_P
                 {
 
                     string filename = Students.No + "_" + fileName;
-                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
-                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
-                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                    //dInfo.SetAccessControl(dSecurity);
+                    //file path to read file
+                    string filePath = uploadsFolder + filename;
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
 
                     FileUploadGurdLeter.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind, schlRefNo);
-                  //  KCDFAlert.ShowAlert("Document: " + filename + " uploaded and Saved successfully!");
+                    saveAttachment(filename, ext, documentKind, schlRefNo,attachedDoc);
                     loadUploads();
 
                 }
@@ -716,16 +712,16 @@ namespace KCDF_P
                 {
 
                     string filename = Students.No + "_" + fileName;
-                    //DirectoryInfo dInfo = new DirectoryInfo(uploadsFolder);
-                    //DirectorySecurity dSecurity = dInfo.GetAccessControl();
-                    //dSecurity.AddAccessRule(new FileSystemAccessRule(new SecurityIdentifier(WellKnownSidType.WorldSid, null), 
-                    //    FileSystemRights.FullControl, InheritanceFlags.ObjectInherit | InheritanceFlags.ContainerInherit, 
-                    //    PropagationFlags.NoPropagateInherit, AccessControlType.Allow));
-                    //dInfo.SetAccessControl(dSecurity);
+                    //file path to read file
+                    string filePath = uploadsFolder + filename;
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
 
                     FileUploadDeansTest.SaveAs(uploadsFolder + filename);
-                    CopyFilesToDir();
-                    saveAttachment(filename, ext, documentKind, schlRefNo);
+                    saveAttachment(filename, ext, documentKind, schlRefNo,attachedDoc);
                     loadUploads();
 
                 }
@@ -810,7 +806,7 @@ namespace KCDF_P
             //Save application here
             try
             {
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
@@ -823,7 +819,7 @@ namespace KCDF_P
             {
                 KCDFAlert.ShowAlert("Error Occured!");
             }
-            }
+             }
             catch (Exception Er)
             {
                 KCDFAlert.ShowAlert(Er.Message);

@@ -85,7 +85,7 @@
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">ID/Passport Number:</asp:Label>
                         <div class="col-md-6">
-                            <asp:TextBox runat="server" ID="txtIDNo" CssClass="form-control" required="True" TextMode="Number" onkeypress="return validateID(event)" placeholder="ID/Passport/Admission Number"/>              
+                            <asp:TextBox runat="server" ID="txtIDNo" CssClass="form-control" required="True" placeholder="ID/Passport/Admission Number"/>              
                               <asp:RequiredFieldValidator ID="RequiredFieldValidator4" ErrorMessage="First name is mandatory"
                     ControlToValidate="txtIDNo" runat="server" ForeColor="Red" Display="Dynamic" />  
                         </div> <span class="required">*</span>
@@ -115,7 +115,7 @@
                   <div class="col-md-3"></div>
                     <div class="col-md-6">
                       <div class="form-group">
-                        <asp:Button ID="btnEditProf" runat="server" Text="Update Data" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditProf_Click" CausesValidation="False" />          
+                        <asp:Button ID="btnEditProf" runat="server" Text="Update Profile" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditProf_Click" CausesValidation="False" />          
                      </div>
                   </div> 
                 <div class="col-md-3"></div>
@@ -157,57 +157,6 @@
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Select your primary school:</asp:Label>
                     <div class="col-md-6">
-                <%--<asp:ListView ID="lvCustomers" runat="server" GroupPlaceholderID="groupPlaceHolder1"
-                    ItemPlaceholderID="itemPlaceHolder1" OnPagePropertiesChanging="OnPagePropertiesChanging" OnSelectedIndexChanged="lvCustomers_OnSelectedIndexChanged" OnSelectedIndexChanging="lvCustomers_OnSelectedIndexChanging" DataKeyNames="School Name">
-                    <LayoutTemplate>
-                        <table cellpadding="0" cellspacing="0">
-                            <tr>
-                                <th>
-                                    School Name
-                                </th>
-                            </tr>
-                            <asp:PlaceHolder runat="server" ID="groupPlaceHolder1"></asp:PlaceHolder>
-                            <tr>
-                                <td colspan = "3">
-                                    <asp:DataPager ID="DataPager1" runat="server" PagedControlID="lvCustomers" PageSize="10">
-                                        <Fields>
-                                            <asp:NextPreviousPagerField ButtonType="Link" ShowFirstPageButton="false" ShowPreviousPageButton="true"
-                                                ShowNextPageButton="false" />
-                                            <asp:NumericPagerField ButtonType="Link" />
-                                            <asp:NextPreviousPagerField ButtonType="Link" ShowNextPageButton="true" ShowLastPageButton="false" ShowPreviousPageButton = "false" />
-                                        </Fields>
-                                    </asp:DataPager>
-                                </td>
-                            </tr>
-                        </table>
-                    </LayoutTemplate>
-                    <GroupTemplate>
-                        <tr>
-                            <asp:PlaceHolder runat="server" ID="itemPlaceHolder1"></asp:PlaceHolder>
-                        </tr>
-                    </GroupTemplate>
-                    <ItemTemplate>
-                        <tr class="item" runat="server">
-                          <td>
-                              <asp:LinkButton runat="server" 
-                                ID="SelectButton" 
-                                Text="Select"
-                                CommandName="Select" />
-                            </td>
-                            <td>
-                              <asp:Label runat="server" ID="NameLabel" Text='<%#Eval("School Name") %>' />
-                            </td>
-                        </tr>
-                    </ItemTemplate>
-                     <SelectedItemTemplate>
-                          <tr class="selection" runat="server">
-                            <td>&nbsp;</td>
-                            <td>
-                              <asp:Label runat="server" ID="NameLabel" Text='<%#Eval("School Name") %>' />
-                            </td>
-                          </tr>
-                        </SelectedItemTemplate>
-                    </asp:ListView>--%>
                         
                         <asp:GridView ID="grdViewMySchoolIs" runat="server" HeaderStyle-BackColor="#3AC0F2" HeaderStyle-ForeColor="White"
                                 AutoGenerateColumns="false" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
@@ -224,7 +173,7 @@
                             </asp:GridView>
                             <br />
                            <div id="myPrimaryIs" style="display: none;">
-                               <label>My Primary School is:&nbsp;</label><asp:Label ID="lblValues" runat="server" Text=""></asp:Label>
+                               <label>My Primary School is:&nbsp;</label><asp:Label ID="lblValues" runat="server"></asp:Label>
                            </div>
                             
                         </div>
@@ -239,7 +188,14 @@
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Out of:</asp:Label>
                     <div class="col-md-6">
-                        <asp:TextBox runat="server" ID="txtTotalMarks" CssClass="form-control" required="True" TextMode="Number" onkeypress="return validateID(event)" placeholder="Total Marks"/>
+                        <asp:TextBox runat="server" ID="txtTotalMarks" CssClass="form-control" required="True" TextMode="Number" placeholder="Total Marks"/>
+                    </div> <span class="required">*</span>
+                </div>
+                
+                <div class="form-group">
+                    <asp:Label runat="server" CssClass="col-md-3 control-label">Primary School:</asp:Label>
+                    <div class="col-md-6">
+                        <asp:TextBox runat="server" ID="txtMyPrimo" CssClass="form-control" required="True"  placeholder="primary sch" Enabled="False"/>
                     </div> <span class="required">*</span>
                 </div>
                  <div class="form-group">
@@ -303,19 +259,26 @@
 
                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Admission:</asp:Label>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                        <div class="input-group date">
                            <input type="text" id="txtYrofAdmsn" runat="server" class="form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
-                    </div></div><span class="required">*</span> 
+                    </div>
+                    </div>
+                    <div class="col-md-3">
+                        <asp:TextBox runat="server" ID="txtYoAdmn" placeholder="year of admission" CssClass="form-control" Enabled="False"></asp:TextBox>
+                    </div><span class="required">*</span> 
                 </div>
               
                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Completion:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-5">
                        <div class="input-group date">
                            <input type="text" id="txtYrofCompltn" runat="server" class="form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                        </div>      
-                    </div> 
+                       </div> 
+                    <div class="col-md-3">
+                        <asp:TextBox runat="server" ID="txtYofcomplt" placeholder="year of completion" CssClass="form-control" Enabled="False"></asp:TextBox>
+                    </div>
                 </div>
               
                <div class="form-group">

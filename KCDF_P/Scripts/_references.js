@@ -5,6 +5,7 @@
 /// <reference path="../DatePicker/bootstrap/js/bootstrap.js" />
 /// <reference path="../datepicker/bootstrap/js/bootstrap-datepicker.js" />
 /// <reference path="../datepicker/bootstrap/js/bootstrap-datetimepicker.js" />
+/// <reference path="../datepicker/bootstrap/js/year-select.js" />
 /// <reference path="../datepicker/jquery/jquery-1.8.3.min.js" />
 /// <reference path="ai.0.22.9-build00167.js" />
 /// <reference path="angular.min.js" />

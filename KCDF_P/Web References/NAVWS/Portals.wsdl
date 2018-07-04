@@ -28,17 +28,14 @@
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="gender" type="int" />
             <element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="date" />
-            <element minOccurs="1" maxOccurs="1" name="myMarks" type="int" />
-            <element minOccurs="1" maxOccurs="1" name="myGrade" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="secondary" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="primary" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="totalKCPEMarks" type="int" />
           </sequence>
         </complexType>
       </element>
       <element name="FnRegisterStudent_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnCreateAccount">
@@ -78,12 +75,17 @@
             <element minOccurs="1" maxOccurs="1" name="parentGuardian_Email" type="string" />
             <element minOccurs="1" maxOccurs="1" name="parentGuardian_Address" type="string" />
             <element minOccurs="1" maxOccurs="1" name="degree" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="mymarks" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="totalmarks" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="myGrade" type="string" />
           </sequence>
         </complexType>
       </element>
       <element name="FnEducatBg_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnAddReferee">
@@ -214,6 +216,7 @@
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
             <element minOccurs="1" maxOccurs="1" name="callrefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="attached" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -230,14 +233,11 @@
             <element minOccurs="1" maxOccurs="1" name="username" type="string" />
             <element minOccurs="1" maxOccurs="1" name="donor_name" type="string" />
             <element minOccurs="1" maxOccurs="1" name="amount_provided" type="decimal" />
-            <element minOccurs="1" maxOccurs="1" name="year_awarded" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="year_awarded" type="string" />
             <element minOccurs="1" maxOccurs="1" name="grant_objective" type="string" />
             <element minOccurs="1" maxOccurs="1" name="target_county" type="string" />
             <element minOccurs="1" maxOccurs="1" name="target_beneficiary" type="string" />
             <element minOccurs="1" maxOccurs="1" name="target_benefs_number" type="int" />
-            <element minOccurs="1" maxOccurs="1" name="year_of_funding" type="date" />
-            <element minOccurs="1" maxOccurs="1" name="amount_received" type="decimal" />
-            <element minOccurs="1" maxOccurs="1" name="intervention_supported" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_status" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_refNo" type="string" />
             <element minOccurs="1" maxOccurs="1" name="kcdfgrantsB4" type="boolean" />
@@ -268,6 +268,7 @@
             <element minOccurs="1" maxOccurs="1" name="grant_scale" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
             <element minOccurs="1" maxOccurs="1" name="callRefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="objective" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -440,15 +441,12 @@
             <element minOccurs="1" maxOccurs="1" name="project_number" type="string" />
             <element minOccurs="1" maxOccurs="1" name="username" type="string" />
             <element minOccurs="1" maxOccurs="1" name="donor_name" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="amount_provided" type="decimal" />
-            <element minOccurs="1" maxOccurs="1" name="year_awarded" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="year_awarded" type="string" />
             <element minOccurs="1" maxOccurs="1" name="grant_objective" type="string" />
             <element minOccurs="1" maxOccurs="1" name="target_county" type="string" />
             <element minOccurs="1" maxOccurs="1" name="target_beneficiary" type="string" />
             <element minOccurs="1" maxOccurs="1" name="target_benefs_number" type="int" />
-            <element minOccurs="1" maxOccurs="1" name="year_of_funding" type="date" />
             <element minOccurs="1" maxOccurs="1" name="amount_received" type="decimal" />
-            <element minOccurs="1" maxOccurs="1" name="intervention_supported" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_status" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
           </sequence>
@@ -626,6 +624,7 @@
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
             <element minOccurs="1" maxOccurs="1" name="scholarshipRefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="attached" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -722,6 +721,201 @@
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
           </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddConsultantApplication">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="regIdNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="consult_project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="consult_projectRefNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddConsultantApplication_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckIfApplied">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="refNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckIfApplied_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachmentConsultant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grant_type" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="callrefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="attached" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachmentConsultant_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSubmitConsultApp">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="entryNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSubmitConsultApp_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnValidatSubmitConsultant">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_number" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnValidatSubmitConsultant_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnConsultantPasswordReset">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="myOrgUsername" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newPassword" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnConsultantPasswordReset_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnConsultant_PasswordChange">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="oldPassword" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="newPassword" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnConsultant_PasswordChange_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteUploadConsult">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="iD" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteUploadConsult_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachMatrixx">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="link" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="grant_type" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="callrefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="attached" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachMatrixx_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnRetrieveSavedPic">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="photo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnRetrieveSavedPic_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="photo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddProfPic">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="photoBLOB" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddProfPic_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnExportBLOB">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="no" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnExportBLOB_Result">
+        <complexType>
+          <sequence />
         </complexType>
       </element>
     </schema>
@@ -966,6 +1160,78 @@
   <message name="FnEditConsultant_Result">
     <part name="parameters" element="tns:FnEditConsultant_Result" />
   </message>
+  <message name="FnAddConsultantApplication">
+    <part name="parameters" element="tns:FnAddConsultantApplication" />
+  </message>
+  <message name="FnAddConsultantApplication_Result">
+    <part name="parameters" element="tns:FnAddConsultantApplication_Result" />
+  </message>
+  <message name="FnCheckIfApplied">
+    <part name="parameters" element="tns:FnCheckIfApplied" />
+  </message>
+  <message name="FnCheckIfApplied_Result">
+    <part name="parameters" element="tns:FnCheckIfApplied_Result" />
+  </message>
+  <message name="FnAttachmentConsultant">
+    <part name="parameters" element="tns:FnAttachmentConsultant" />
+  </message>
+  <message name="FnAttachmentConsultant_Result">
+    <part name="parameters" element="tns:FnAttachmentConsultant_Result" />
+  </message>
+  <message name="FnSubmitConsultApp">
+    <part name="parameters" element="tns:FnSubmitConsultApp" />
+  </message>
+  <message name="FnSubmitConsultApp_Result">
+    <part name="parameters" element="tns:FnSubmitConsultApp_Result" />
+  </message>
+  <message name="FnValidatSubmitConsultant">
+    <part name="parameters" element="tns:FnValidatSubmitConsultant" />
+  </message>
+  <message name="FnValidatSubmitConsultant_Result">
+    <part name="parameters" element="tns:FnValidatSubmitConsultant_Result" />
+  </message>
+  <message name="FnConsultantPasswordReset">
+    <part name="parameters" element="tns:FnConsultantPasswordReset" />
+  </message>
+  <message name="FnConsultantPasswordReset_Result">
+    <part name="parameters" element="tns:FnConsultantPasswordReset_Result" />
+  </message>
+  <message name="FnConsultant_PasswordChange">
+    <part name="parameters" element="tns:FnConsultant_PasswordChange" />
+  </message>
+  <message name="FnConsultant_PasswordChange_Result">
+    <part name="parameters" element="tns:FnConsultant_PasswordChange_Result" />
+  </message>
+  <message name="FnDeleteUploadConsult">
+    <part name="parameters" element="tns:FnDeleteUploadConsult" />
+  </message>
+  <message name="FnDeleteUploadConsult_Result">
+    <part name="parameters" element="tns:FnDeleteUploadConsult_Result" />
+  </message>
+  <message name="FnAttachMatrixx">
+    <part name="parameters" element="tns:FnAttachMatrixx" />
+  </message>
+  <message name="FnAttachMatrixx_Result">
+    <part name="parameters" element="tns:FnAttachMatrixx_Result" />
+  </message>
+  <message name="FnRetrieveSavedPic">
+    <part name="parameters" element="tns:FnRetrieveSavedPic" />
+  </message>
+  <message name="FnRetrieveSavedPic_Result">
+    <part name="parameters" element="tns:FnRetrieveSavedPic_Result" />
+  </message>
+  <message name="FnAddProfPic">
+    <part name="parameters" element="tns:FnAddProfPic" />
+  </message>
+  <message name="FnAddProfPic_Result">
+    <part name="parameters" element="tns:FnAddProfPic_Result" />
+  </message>
+  <message name="FnExportBLOB">
+    <part name="parameters" element="tns:FnExportBLOB" />
+  </message>
+  <message name="FnExportBLOB_Result">
+    <part name="parameters" element="tns:FnExportBLOB_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -1126,6 +1392,54 @@
     <operation name="FnEditConsultant">
       <input name="FnEditConsultant" message="tns:FnEditConsultant" />
       <output name="FnEditConsultant_Result" message="tns:FnEditConsultant_Result" />
+    </operation>
+    <operation name="FnAddConsultantApplication">
+      <input name="FnAddConsultantApplication" message="tns:FnAddConsultantApplication" />
+      <output name="FnAddConsultantApplication_Result" message="tns:FnAddConsultantApplication_Result" />
+    </operation>
+    <operation name="FnCheckIfApplied">
+      <input name="FnCheckIfApplied" message="tns:FnCheckIfApplied" />
+      <output name="FnCheckIfApplied_Result" message="tns:FnCheckIfApplied_Result" />
+    </operation>
+    <operation name="FnAttachmentConsultant">
+      <input name="FnAttachmentConsultant" message="tns:FnAttachmentConsultant" />
+      <output name="FnAttachmentConsultant_Result" message="tns:FnAttachmentConsultant_Result" />
+    </operation>
+    <operation name="FnSubmitConsultApp">
+      <input name="FnSubmitConsultApp" message="tns:FnSubmitConsultApp" />
+      <output name="FnSubmitConsultApp_Result" message="tns:FnSubmitConsultApp_Result" />
+    </operation>
+    <operation name="FnValidatSubmitConsultant">
+      <input name="FnValidatSubmitConsultant" message="tns:FnValidatSubmitConsultant" />
+      <output name="FnValidatSubmitConsultant_Result" message="tns:FnValidatSubmitConsultant_Result" />
+    </operation>
+    <operation name="FnConsultantPasswordReset">
+      <input name="FnConsultantPasswordReset" message="tns:FnConsultantPasswordReset" />
+      <output name="FnConsultantPasswordReset_Result" message="tns:FnConsultantPasswordReset_Result" />
+    </operation>
+    <operation name="FnConsultant_PasswordChange">
+      <input name="FnConsultant_PasswordChange" message="tns:FnConsultant_PasswordChange" />
+      <output name="FnConsultant_PasswordChange_Result" message="tns:FnConsultant_PasswordChange_Result" />
+    </operation>
+    <operation name="FnDeleteUploadConsult">
+      <input name="FnDeleteUploadConsult" message="tns:FnDeleteUploadConsult" />
+      <output name="FnDeleteUploadConsult_Result" message="tns:FnDeleteUploadConsult_Result" />
+    </operation>
+    <operation name="FnAttachMatrixx">
+      <input name="FnAttachMatrixx" message="tns:FnAttachMatrixx" />
+      <output name="FnAttachMatrixx_Result" message="tns:FnAttachMatrixx_Result" />
+    </operation>
+    <operation name="FnRetrieveSavedPic">
+      <input name="FnRetrieveSavedPic" message="tns:FnRetrieveSavedPic" />
+      <output name="FnRetrieveSavedPic_Result" message="tns:FnRetrieveSavedPic_Result" />
+    </operation>
+    <operation name="FnAddProfPic">
+      <input name="FnAddProfPic" message="tns:FnAddProfPic" />
+      <output name="FnAddProfPic_Result" message="tns:FnAddProfPic_Result" />
+    </operation>
+    <operation name="FnExportBLOB">
+      <input name="FnExportBLOB" message="tns:FnExportBLOB" />
+      <output name="FnExportBLOB_Result" message="tns:FnExportBLOB_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -1490,10 +1804,118 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
+    <operation name="FnAddConsultantApplication">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddConsultantApplication" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddConsultantApplication">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddConsultantApplication_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCheckIfApplied">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCheckIfApplied" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCheckIfApplied">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCheckIfApplied_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAttachmentConsultant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAttachmentConsultant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAttachmentConsultant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAttachmentConsultant_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnSubmitConsultApp">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSubmitConsultApp" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSubmitConsultApp">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSubmitConsultApp_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnValidatSubmitConsultant">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnValidatSubmitConsultant" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnValidatSubmitConsultant">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnValidatSubmitConsultant_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnConsultantPasswordReset">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnConsultantPasswordReset" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnConsultantPasswordReset">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnConsultantPasswordReset_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnConsultant_PasswordChange">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnConsultant_PasswordChange" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnConsultant_PasswordChange">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnConsultant_PasswordChange_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDeleteUploadConsult">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteUploadConsult" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDeleteUploadConsult">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDeleteUploadConsult_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAttachMatrixx">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAttachMatrixx" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAttachMatrixx">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAttachMatrixx_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnRetrieveSavedPic">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnRetrieveSavedPic" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnRetrieveSavedPic">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnRetrieveSavedPic_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddProfPic">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddProfPic" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddProfPic">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddProfPic_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnExportBLOB">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnExportBLOB" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnExportBLOB">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnExportBLOB_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
   </binding>
   <service name="Portals">
     <port name="Portals_Port" binding="tns:Portals_Binding">
-      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF%20TEST%20NEW/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

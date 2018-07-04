@@ -116,27 +116,20 @@
             </div>
 
             <!--logo start-->
-            <a href="../Grantee_Dashboard.aspx" class="logo" style="font-weight:bold">KCDF<span class="lite" style="font-weight:bold"> Web Portal</span></a>
+            <a href="../Consultancy_Page.aspx" class="logo" style="font-weight:bold">KCDF<span class="lite" style="font-weight:bold"> Web Portal</span></a>
             <!--logo end-->    
             
             <div class="collapse navbar-collapse" id="shrink">
                     <ul class="nav navbar-nav navbar-right">                       
-                      <%-- <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Forms<b class="caret"></b></a>
+                       <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download KCDF Documents<b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
-                                <li><a href="UploadFiles_Grants.aspx">Application Forms Downloads</a></li>
+                                <li><a href="Consultancy_Downloads.aspx">Consultancy Downloads</a></li>
                                 <li class="divider"></li>                                
                             </ul>
                         </li>
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Apply for Grant<b class="caret"></b></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a href="/Gran_Application.aspx">Grants Application</a></li>
-                                 <li class="divider"></li>
-                            </ul>
-                        </li>--%>
+                       
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;
                                 <asp:Label runat="server" ID="lblSessionUsername" Visible="False"></asp:Label><% =ConsultantClass.Username %> </a>
@@ -200,12 +193,7 @@
 
      <!-- Datepicker  -->
     <script type="text/javascript" src="/DatePicker/bootstrap/js/bootstrap-datepicker.js" charset="UTF-8"></script>
-        
-   <%-- <script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
-    <script>
-        var $i = jQuery.noConflict();
-    </script>--%> 
-
+     
     <script>
 	    function toggleIcon(e) {
             $(e.target)
@@ -216,7 +204,7 @@
         $('.panel-group').on('hidden.bs.collapse', toggleIcon);
         $('.panel-group').on('shown.bs.collapse', toggleIcon);
     </script>
-    
+
     <script type="text/javascript">
         $('.input-group.date').datepicker({
             format: "mm/dd/yy",
@@ -228,6 +216,7 @@
             toggleActive: true
         });
     </script>
+
   	<script type="text/javascript">
 	      $(document).ready(function() {
 	          $("select").searchable();
@@ -269,6 +258,7 @@
 	          );
 	      }
 	  </script> 
+
 </form>
 </body>
 </html>

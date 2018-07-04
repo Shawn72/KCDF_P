@@ -27,7 +27,7 @@ namespace KCDF_P
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public string Company_Name = "KCDF TEST NEW";
+        public string Company_Name = "KCDF";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)

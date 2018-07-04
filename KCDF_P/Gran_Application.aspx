@@ -26,11 +26,13 @@
     </asp:Panel>
      </div>--%>
         <div class="panel-body" style="font-family:Trebuchet MS">
+         <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
             <div class="row">
                 <div class="col-md-12">
                     <h4 style="align-content:center; font-family:Trebuchet MS; color:#0094ff">Manage Grants Applications</h4><br /></div>
             </div>
             <div class="form-horizontal">
+                         
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">KCDF Project:</asp:Label>
                     <div class="col-md-4">
@@ -40,18 +42,17 @@
                     <div class="col-md-5">
                         <asp:TextBox runat="server" ID="txtPrefNo" CssClass="form-control" Enabled="False" placeholder="Project Reference No"></asp:TextBox>
                     </div>
-                    
                 </div>
             </div>
             <br/>
             <%
-        var selProj = ddlAccountType.SelectedValue;
-        var proFtures = nav.call_for_Proposal.ToList().Where(bf => bf.Call_Ref_Number == selProj);
-        var itswhats = proFtures.Select(f => f.Basic_Features).SingleOrDefault();
+            var selProj = ddlAccountType.SelectedValue;
+            var proFtures = nav.call_for_Proposal.ToList().Where(bf => bf.Call_Ref_Number == selProj);
+            var itswhats = proFtures.Select(f => f.Basic_Features).SingleOrDefault();
 
-        if (itswhats == false)
-        {
-         %>
+            if (itswhats == false)
+            {
+             %>
             <header class="panel-heading tab-bg-info">
                 <asp:Menu ID="OrgInfoMenu" Orientation="Horizontal" StaticMenuItemStyle-CssClass="tab" StaticSelectedStyle-CssClass="selectedtab" CssClass="tabs" runat="server" OnMenuItemClick="studentInfoMenu_OnMenuItemClick">
                     <Items>
@@ -65,7 +66,7 @@
                     </Items>
                 </asp:Menu>
             </header>
-        <% }
+            <% }
         else if (itswhats == true)
         {
          %>
@@ -135,6 +136,7 @@
                             <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Contact Information of applying organization:</label> 
                         </div>
                          <br />
+                           
                             <div class="form-group">
                             <asp:Label runat="server" CssClass="col-md-3 control-label">Name of Contact Person:</asp:Label>
                                 <div class="col-md-6">
@@ -216,37 +218,12 @@
                                 </div> 
                             </div>
 
-                            <%-- <div class="form-group">
-                                <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Profitable:</asp:Label>
-                                    <div class="col-md-6">
-                                        <asp:TextBox ID="txtNonProfit" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
-                                </div> 
-                            </div>--%>
-                               <div class="form-group">
-                                <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">4</span>Proposal Alignment to call Objectives</asp:Label>
-                                    <div class="col-md-4">
-                                        <asp:DropDownList ID="ddlObjectives" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
-                                                data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlObjectives_OnSelectedIndexChanged" AutoPostBack="True">
-                                        </asp:DropDownList>
-                                    </div> 
-                                   <div class="col-md-2">
-                                        <div class="form-group">
-                                            <asp:TextBox id="txtAreaObjs" TextMode="multiline" 
-                                                Columns="10" Width="100%" Rows="2" runat="server" Visible="False" ReadOnly="True"
-                                                CssClass="form-control" MaxLength="250" />
-                                        </div>
-                                   </div>
-                                </div>
-                   
-                             <div class="form-group">
+                                <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">5</span>Type Of Registration:</asp:Label>
                                     <div class="col-md-6">
                                        <asp:TextBox ID="txtTypeofOrg" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                     </div>
-                                 <div class="col-md-3"><asp:Button runat="server" ID="btnSaveObjectives" Text="Save Information" CausesValidation="False" OnClick="btnSaveObjectives_OnClick" CssClass="btn btn-primary pull-left btn-sm"/></div> 
-                            </div>
-                           <br/>                                 
-               
+                                </div>
                          </div>
                          <br/>
                     </asp:View>
@@ -258,7 +235,10 @@
                                     <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">1</span>Grants Management History.</label>
                                 </div>
                                 <br/>
+                                
                                 <div class="col-md-6">
+                                      <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional">
+                                         <ContentTemplate>
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Have you Received KCDF funding before?</asp:Label><span class="required">*</span>
                                             <div class="col-md-6">
@@ -270,6 +250,7 @@
                                                 </asp:RadioButtonList>
                                             </div> 
                                     </div>
+
                                     <div id="idKCDFyes" style="display:none">
                                          <div class="form-group">
                                             <asp:Label runat="server" CssClass="col-md-3 control-label">If Yes what is the status of the grant?</asp:Label><span class="required">*</span>
@@ -282,16 +263,19 @@
                                                 </div> 
                                         </div>
                                     </div>
+
                                      <div class="col-md-12">
                                         <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>History of grants received</label>
                                     </div>
                                     <br/>
+                                    
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Name of the Donor:</asp:Label>
                                         <div class="col-md-6">
                                             <asp:TextBox runat="server" ID="txtDonor" CssClass="form-control" style="text-transform:uppercase" />
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Grant Amount Provided:</asp:Label>
                                         <div class="col-md-6">
@@ -300,15 +284,17 @@
                                             <asp:TextBox runat="server" ID="txtAmount" CssClass="form-control" required="True" TextMode="Number" onKeyUp="javascript:CheckView2(this, 9);" onChange="javascript:CheckView2(this, 9);"/>
                                         </div>
                                     </div>
+
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Year of Award:</asp:Label>
                                         <div class="col-md-6">
-                                            <div class="input-group date">
-                                                <input type="text" id="yrofAward" runat="server" class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                            <div class="input-group">
+                                                 <asp:DropDownList ID="ddlYears" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlYears_OnSelectedIndexChanged">
+                                                </asp:DropDownList><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                                             </div>
                                         </div>
                                     </div>
-
+                                       
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Objective of grant :</asp:Label>
                                         <div class="col-md-6">
@@ -329,15 +315,34 @@
                                                 <asp:TextBox id="txtAreaCounties" TextMode="multiline" 
                                                     Columns="10" Width="100%" Rows="2" runat="server" 
                                                     placeholder="Counties Here" Visible="False" 
-                                                    ReadOnly="True" CssClass="form-control" />
+                                                    ReadOnly="False" CssClass="form-control" />
                                             </div>
                                         </div>
                                     </div>
-
+                                    
                                     <div class="form-group">
                                         <asp:Label runat="server" CssClass="col-md-3 control-label">Type of beneficiaries reached/targeted:</asp:Label>
                                         <div class="col-md-6">
-                                            <asp:TextBox runat="server" ID="TextTypeBeneficiary" CssClass="form-control" style="text-transform:uppercase" />
+                                            <asp:DropDownList ID="ddlBenType" runat="server" class="selectpicker form-control" data-live-search-style="begins"
+                                                 data-live-search="true" AppendDataBoundItems="true" 
+                                                AutoPostBack="True" OnSelectedIndexChanged="ddlBenType_OnSelectedIndexChanged">
+                                                <asp:ListItem Selected="True">--Choose Beneficiary--</asp:ListItem>
+                                                <asp:ListItem>Children</asp:ListItem>
+                                                <asp:ListItem>Adults</asp:ListItem>
+                                                <asp:ListItem>Teachers</asp:ListItem>
+                                                <asp:ListItem>Farmers</asp:ListItem>
+                                                <asp:ListItem>Youth</asp:ListItem>
+                                                <asp:ListItem>Pastoral Community</asp:ListItem>
+                                                <asp:ListItem>Persons with Disability</asp:ListItem>
+                                            </asp:DropDownList>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <asp:TextBox id="TextTypeBeneficiary" TextMode="multiline" 
+                                                    Columns="10" Width="100%" Rows="2" runat="server" 
+                                                    placeholder="Beneficiaries here" Visible="False" 
+                                                    ReadOnly="False" CssClass="form-control" />
+                                            </div>
                                         </div>
                                     </div>
 
@@ -347,31 +352,6 @@
                                              <label id="lblCharLeft3" title=""></label>
                                             <br/>
                                             <asp:TextBox runat="server" ID="TextNoBeneficiary" CssClass="form-control" onKeyUp="javascript:CheckView3(this, 5);" onChange="javascript:CheckView3(this, 5);"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <asp:Label runat="server" CssClass="col-md-3 control-label">Year of funding:</asp:Label>
-                                        <div class="col-md-6">
-                                            <div class="input-group date">
-                                                <input type="text" id="yrofFunding" runat="server" class="form-control" /><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <asp:Label runat="server" CssClass="col-md-3 control-label">Grant amount received:</asp:Label>
-                                        <div class="col-md-6">
-                                            <label id="lblCharLeft4" title=""></label>
-                                            <br/>
-                                            <asp:TextBox runat="server" ID="TextAmount" CssClass="form-control" onKeyUp="javascript:CheckView4(this, 9);" onChange="javascript:CheckView4(this, 9);" />
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <asp:Label runat="server" CssClass="col-md-3 control-label">Intervention supported:</asp:Label>
-                                        <div class="col-md-6">
-                                            <asp:TextBox runat="server" ID="TextIntspprt" CssClass="form-control" />
                                         </div>
                                     </div>
 
@@ -386,41 +366,59 @@
                                             </asp:DropDownList>
                                         </div>
                                     </div>
+                                    <br/>
+                                        </ContentTemplate>
+                                     </asp:UpdatePanel>
 
+                                     <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                                         <ContentTemplate>
                                     <div class="row">
                                         <div class="col-md-3"></div>
                                         <div class="col-md-6">
                                             <div class="form-group">
-                                                <asp:Button ID="btnSaveGrantHisto" runat="server" Text="Update Grants History" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveGrantHisto_OnClick" />
+                                                <asp:Button ID="btnSaveGrantHisto" runat="server" Text="Update Grants History" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveGrantHisto_OnClick" CausesValidation="True" />
                                             </div>
                                         </div>
                                         <div class="col-md-3"></div>
                                     </div>
+                                     </ContentTemplate>
+                                           <Triggers>
+                                                <asp:AsyncPostBackTrigger ControlID = "btnSaveGrantHisto" EventName = "Click" />
+                                            </Triggers>
+                                     </asp:UpdatePanel>
+
                                 </div>
+                        <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                                <ContentTemplate>
                                 <div class="col-md-6">
-                                    <asp:GridView ID="tblGrantsManager" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" EmptyDataText="No Grant History Found!" AlternatingRowStyle-BackColor="#C2D69B" DataKeyNames="No" OnRowDeleting="tblGrantsManager_OnRowDeleting"
-                                        OnRowDataBound="tblGrantsManager_OnRowDataBound" AllowSorting="True">
+                                    <asp:GridView ID="tblGrantsManager" runat="server" 
+                                        CssClass="table table-condensed table-responsive table-bordered footable" 
+                                        Width="100%" AutoGenerateSelectButton="false" EmptyDataText="No Grant History Found!" 
+                                        AlternatingRowStyle-BackColor="#C2D69B" DataKeyNames="No" OnRowDeleting="tblGrantsManager_OnRowDeleting"
+                                         AllowSorting="True">
                                         <Columns>
                                             <asp:BoundField DataField="No" HeaderText="S/No:" />
                                             <asp:BoundField DataField="Project_Name" HeaderText="Project Name" />
                                             <asp:BoundField DataField="Name_Of_the_Donor" HeaderText="Donor" />
-                                            <asp:BoundField DataField="Grant_Amount_Recieved" HeaderText="Grant Amount Received:" DataFormatString="{0:N2}" />
+                                            <asp:BoundField DataField="Amount_Provided" HeaderText="Grant Amount Provided:" DataFormatString="{0:N2}" />
                                             <asp:BoundField DataField="Project_Status" HeaderText="Project Status:" />
                                             <asp:CommandField ShowDeleteButton="True" ButtonType="Button"/>
                                         </Columns>
                                         <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" />
                                     </asp:GridView>
                                 </div>
+                                </ContentTemplate>
+                        </asp:UpdatePanel>
+                                    
                             </div>
                         </div>
                         <br/>
-
                     </asp:View>
 
                     <asp:View runat="server" ID="Projectoverview">
                         <div class="form-horizontal">
                             <div class="col-md-12">
-                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">1</span>Project Title:</label>
+                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">*</span>Project Title:</label>
                             </div>
                             <br />
                             <div class="form-group">
@@ -429,6 +427,28 @@
                                     <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style="text-transform:uppercase" />
                                 </div>
                             </div>
+                            
+                             <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
+                                <ContentTemplate>
+                                  <div class="form-group">
+                                    <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">*</span>Proposal Alignment to call Objectives</asp:Label>
+                                        <div class="col-md-6">
+                                            <asp:DropDownList ID="ddlObjectives" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                                                    data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlObjectives_OnSelectedIndexChanged" AutoPostBack="True">
+                                            </asp:DropDownList>
+                                        </div> 
+                                       <div class="col-md-2">
+                                            <div class="form-group">
+                                                <asp:TextBox id="txtAreaObjs" TextMode="multiline" 
+                                                    Columns="10" Width="100%" Rows="2" runat="server" Visible="False" ReadOnly="False"
+                                                    CssClass="form-control" MaxLength="250" />
+                                            </div>
+                                       </div>
+                                 
+                                    </div>
+                                    </ContentTemplate>
+                                </asp:UpdatePanel>
+                            <br/> 
 
                             <div class="form-group">
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Project Start Date:</asp:Label>
@@ -443,44 +463,31 @@
                                 <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Project Area:</label>
                             </div>
                             <br />
-                            <div class="form-group">
-                                <asp:Label runat="server" CssClass="col-md-3 control-label">County:</asp:Label>
-                                <div class="col-md-6">
-                                    <asp:DropDownList ID="ddlSelCounty" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="True" OnSelectedIndexChanged="ddlSelCounty_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
-                                </div>
-                            </div>
                             
-                          <%--  <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
-                            <asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                                <ContentTemplate>
-                                     <div class="form-group">
-                                        <asp:Label runat="server" CssClass="col-md-3 control-label">County:</asp:Label>
-                                        <div class="col-md-6">
-                                            <asp:DropDownList ID="ddlmycountyIS" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="True" 
-                                                OnSelectedIndexChanged="ddlmycountyIS_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
-                                         </div>
-                                     </div>
+                             <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
+                                    <ContentTemplate>
+                                <div class="form-group">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">County:</asp:Label>
+                                    <div class="col-md-6">
+                                        <asp:DropDownList ID="ddlSelCounty" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="True" OnSelectedIndexChanged="ddlSelCounty_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">Constituency:</asp:Label>
+                                    <div class="col-md-6">
+                                        <asp:DropDownList ID="ddlConstituency" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="False"></asp:DropDownList>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">Description of areas where you plan to implement your project</asp:Label>
+                                    <div class="col-md-6">
+                                        <asp:TextBox id="txtAreaTargetSettmnt" TextMode="multiline" Columns="100" Width="100%" Rows="5" runat="server" class="max" />
+                                    </div>
+                                </div>
                                 </ContentTemplate>
-                                <Triggers>
-                                    <asp:AsyncPostBackTrigger ControlID="ddlmycountyIS" EventName="SelectedIndexChanged" />
-                                </Triggers>
-                            </asp:UpdatePanel>--%>
-
-
-                            <div class="form-group">
-                                <asp:Label runat="server" CssClass="col-md-3 control-label">Constituency:</asp:Label>
-                                <div class="col-md-6">
-                                    <asp:DropDownList ID="ddlConstituency" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="False"></asp:DropDownList>
-                                </div>
-                            </div>
-
-                            <div class="form-group">
-                                <asp:Label runat="server" CssClass="col-md-3 control-label">Description of areas where you plan to implement your project</asp:Label>
-                                <div class="col-md-6">
-                                    <asp:TextBox id="txtAreaTargetSettmnt" TextMode="multiline" Columns="100" Width="100%" Rows="5" runat="server" class="max" />
-                                </div>
-                            </div>
-
+                        </asp:UpdatePanel>
                             <div class="col-md-12">
                                 <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">3</span>Project Duration:</label>
                             </div>
@@ -572,17 +579,25 @@
                                 </div>
                             </div>
                             <br />
-
-                            <div class="row">
-                                <div class="col-md-3"></div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <asp:Button ID="btnUpdatePOverview" runat="server" Text="Update Project Overview" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnUpdatePOverview_OnClick" Enabled="false"/>
-                                    </div>
-                                </div>
-                                <div class="col-md-3"></div>
-                            </div>
-                            <br/>
+                            
+                            
+                             <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                                <ContentTemplate>
+                                    <div class="row">
+                                        <div class="col-md-3"></div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <asp:Button ID="btnUpdatePOverview" runat="server" Text="Update Project Overview" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnUpdatePOverview_OnClick" Enabled="false"/>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3"></div>
+                                     </div>
+                                 </ContentTemplate>
+                               <Triggers>
+                                  <asp:PostBackTrigger ControlID = "btnUpdatePOverview"/>
+                               </Triggers>
+                            </asp:UpdatePanel>
+                     <br/>
 
                         </div>
                     </asp:View>
@@ -815,6 +830,7 @@
                                     <br/>
                                 </div>
                             </div>
+
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
@@ -896,7 +912,7 @@
                                         <asp:BoundField DataField="Document_type" HeaderText="File Type" />
                                          <asp:BoundField DataField="Grant_No" HeaderText="Grant Number" />
                                         <asp:BoundField DataField="Project_Name" HeaderText="Grant Name"/>
-                                        <asp:CommandField ShowDeleteButton="True" ButtonType="Button" />
+                                        <%--<asp:CommandField ShowDeleteButton="True" ButtonType="Button" />--%>
                                     </Columns>
                                 </asp:GridView>
                                 </div>
@@ -1009,29 +1025,30 @@
                     }
                 }
             </script>
-             <script type="text/javascript">
-        function SessionExpireAlert(timeout) {
-            var seconds = timeout / 1000;
-            document.getElementsByName("secondsIdle").innerHTML = seconds;
-            document.getElementsByName("seconds").innerHTML = seconds;
-            setInterval(function () {
-                seconds--;
-                document.getElementById("seconds").innerHTML = seconds;
-                document.getElementById("secondsIdle").innerHTML = seconds;
-            }, 1000);
-            setTimeout(function () {
-                //Show Popup before 20 seconds of timeout.
-                $find("mpeTimeout").show();
-            }, timeout - 20 * 1000);
-            setTimeout(function () {
-                window.location = "Expired.aspx";
-            }, timeout);
-        };
-        function ResetSession() {
-            //Redirect to refresh Session.
-            window.location = window.location.href;
-        }
-    </script>  
+
+            <script type="text/javascript">
+            function SessionExpireAlert(timeout) {
+                var seconds = timeout / 1000;
+                document.getElementsByName("secondsIdle").innerHTML = seconds;
+                document.getElementsByName("seconds").innerHTML = seconds;
+                setInterval(function () {
+                    seconds--;
+                    document.getElementById("seconds").innerHTML = seconds;
+                    document.getElementById("secondsIdle").innerHTML = seconds;
+                }, 1000);
+                setTimeout(function () {
+                    //Show Popup before 20 seconds of timeout.
+                    $find("mpeTimeout").show();
+                }, timeout - 20 * 1000);
+                setTimeout(function () {
+                    window.location = "Expired.aspx";
+                }, timeout);
+            };
+            function ResetSession() {
+                //Redirect to refresh Session.
+                window.location = window.location.href;
+            }
+           </script>  
 
             <script type="text/javascript">
                 $(function() {
@@ -1187,12 +1204,14 @@
               
             </script>
             
-   <script type="text/javascript" >
-      function IfYesIts() {
-           var ifYsId = document.getElementById("idKCDFyes");
-           ifYsId.style.display = "block";
-      }
-    </script> 
-           
+            <script type="text/javascript" >
+              function IfYesIts() {
+                   var ifYsId = document.getElementById("idKCDFyes");
+                   ifYsId.style.display = "block";
+              }
+              function pageLoad() {
+                  $('.selectpicker').selectpicker();
+              } 
+            </script> 
         </div>
     </asp:Content>

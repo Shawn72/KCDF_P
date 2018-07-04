@@ -28,7 +28,7 @@ namespace KCDF_P.Account
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public string Company_Name = "KCDF TEST NEW";
+        public string Company_Name = "KCDF";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -39,7 +39,6 @@ namespace KCDF_P.Account
 
                 }
                 loadList();
-
             }
         }
 
@@ -444,6 +443,25 @@ namespace KCDF_P.Account
                     return;
                 }
             }
+           
+        }
+       
+
+        protected void rdoBtnListYesNo_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            //Session["yesOrno"] = rdoBtnListYesNo.SelectedIndex;
+            //int selindex = Convert.ToInt32(Session["yesOrno"].ToString());
+            //switch (selindex)
+            //{
+            //    case 0:
+            //        ScriptManager.RegisterStartupScript(this, this.GetType(), "text", "IfAccepted()", true);
+            //        //KCDFAlert.ShowAlert("clicked: "+ selindex);
+            //        break;
+            //    default:
+            //        KCDFAlert.ShowAlert("Non KCDF grant!");
+            //        break;
+            //}
+
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -27,7 +28,7 @@ namespace KCDF_P.Account
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public static string Company_Name = "KCDF TEST NEW";
+        public static string Company_Name = "KCDF";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -64,32 +65,25 @@ namespace KCDF_P.Account
             return new Students(Session["username"].ToString());
         }
 
-        //protected void CustomddlPrimoDataBound()
-        //{
-        //    ddlPrimo.Items.Insert(0, new ListItem("..Select Primary School..", ""));
-        //    ddlPrimo.SelectedIndex = 0;
-        //}
-        //protected void CustomddlSecoDataBound()
-        //{
-        //    ddlSeco.Items.Insert(0, new ListItem("..Select Secondary School..", ""));
-        //    ddlSeco.SelectedIndex = 0;
-        //}
-        //protected void CustomddlUnivCollgDataBound()
-        //{
-        //    ddlUnivCollg.Items.Insert(0, new ListItem("..Select University/College..", ""));
-        //    ddlUnivCollg.SelectedIndex = 0;
-        //}
+       
         protected void editProfile()
         {
-            try
-            {
+            //try
+            //{
                 var MobileString = txtPhoneNo.Text.Trim();
                 var mobileBuilder = new StringBuilder(MobileString);
                 mobileBuilder.Remove(0, 1); //Trim one character from position 1
                 mobileBuilder.Insert(0, "+254"); // replace position 0 with +254
                 MobileString = mobileBuilder.ToString();
 
+                DateTime dTOfBth;
                 var gentype = 0;
+                var usname = Session["username"].ToString();
+                var fname = txtfNname.Text.Trim();
+                var mname = txtMname.Text.Trim();
+                var lname = txtLname.Text.Trim();
+                var idno = txtIDNo.Text.Trim();
+                var resid = txtResidence.Text.Trim();
                 var gender = lstGender.SelectedItem.Text;
 
                 if (gender.Equals("..Select Gender.."))
@@ -105,46 +99,50 @@ namespace KCDF_P.Account
                 {
                     gentype = 1;
                 }
-                var dtofBirth = dateOFBirth.Value.Trim();
-                var dTOfBth = Convert.ToDateTime(dtofBirth);
-
-                var usname = Session["username"].ToString();
-                var fname = txtfNname.Text.Trim();
-                var mname = txtMname.Text.Trim();
-                var lname = txtLname.Text.Trim();
-                var idno = txtIDNo.Text.Trim();
-                var resid = txtResidence.Text.Trim();
-                int marks = Convert.ToInt32(txtMarks.Text);
-                int ttMarks = Convert.ToInt32(txtTotalMarks.Text);
-                var mygradeIs = Session["myGrade"].ToString();
-                var primary = txtSearch.Text;
-                var sec = ddlSeco.SelectedItem.Text;
-
-
-                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-                var sup = new Portals();
-                sup.Credentials = credentials;
-                sup.PreAuthenticate = true;
-
-                if (string.IsNullOrEmpty(idno))
+                var dtofBirth = dateOFBirth.Value;
+                if (string.IsNullOrWhiteSpace(dtofBirth))
                 {
-                    KCDFAlert.ShowAlert("Fill in ID Number!");
-                }
-                if (string.IsNullOrEmpty(MobileString))
-                {
-                    KCDFAlert.ShowAlert("Fill in Mobile Number!");
+                dateOFBirth.Focus();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select valid date');", true);
+                return;
                 }
                 else
                 {
-                    sup.FnRegisterStudent(fname, mname, lname, idno, resid, MobileString, usname, gentype, dTOfBth,marks,mygradeIs, sec, primary, ttMarks);
-                    KCDFAlert.ShowAlert("Your account succcessfully Edited");
+                  dTOfBth = DateTime.Parse(dtofBirth);
                 }
-            }
-            catch (Exception ex)
-            {
-                KCDFAlert.ShowAlert("Select Valid Date");
-            }
+
+                if (string.IsNullOrEmpty(idno))
+                {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Fill in ID Number!');", true);
+                txtIDNo.Focus();
+                txtIDNo.BorderColor = Color.Red;
+                return;
+                }
+                if (string.IsNullOrEmpty(MobileString))
+                {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Fill in Mobile Number!');", true);
+                txtPhoneNo.Focus();
+                    txtPhoneNo.BorderColor = Color.Red;
+                return;
+                }
+               
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                   ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                var sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                if (sup.FnRegisterStudent(fname, mname, lname, idno, resid, MobileString, usname, gentype, dTOfBth) == true)
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Your account succcessfully Edited!');", true);
+                }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    KCDFAlert.ShowAlert("Select Valid Date");
+           // ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Error!');", true);
+
+            //}
         }
 
         protected void btnEditProf_Click(object sender, EventArgs e)
@@ -180,15 +178,9 @@ namespace KCDF_P.Account
             txtResidence.Text = studData.Select(r => r.Residence).SingleOrDefault();
             txtIDNo.Text = studData.Select(id => id.ID_No).SingleOrDefault();
             txtEmailAdd.Text = studData.Select(em => em.Email).SingleOrDefault();
-            int marsk = studData.Select(mk => Convert.ToInt32(mk.KCPE_Marks)).SingleOrDefault();
-            var fGrade = studData.Select(grd => grd.KCSE_Grade).SingleOrDefault();
             var dtB = studData.Select(dtoB => dtoB.Date_of_Birth).SingleOrDefault().ToString();
-            var ttMks = studData.Select(ttm => Convert.ToInt32(ttm.KCPE_Total_Marks));
             var dt1 = DateTime.Parse(dtB);
             dateOFBirth.Value = dt1.ToShortDateString();
-            txtMarks.Text = Convert.ToString(marsk);
-            txtTotalMarks.Text = Convert.ToString(ttMks);
-            rdoBtnListGrade.SelectedValue = fGrade;
             var gent = studData.Select(g => g.Gender).SingleOrDefault();
             if (gent == "Male")
             {
@@ -218,20 +210,67 @@ namespace KCDF_P.Account
 
         protected void editEducation()
         {
+            DateTime yearOfAdmn;
+            DateTime yrofCompln;
+            int marks = 0;
+            int ttMarks = 0;
+            var mygradeIs = Session["myGrade"].ToString();
+
             var usname = Session["username"].ToString();
-            var primo = Session["primarySch"].ToString();
+            var primo = lblValues.Text;
             var seco = ddlSeco.SelectedItem.Text.Trim();
             var uni = ddlUnivCollg.SelectedItem.Text.Trim();
             var course = txtDegree.Text.Trim();
             var YroStd = ddlYearofStudy.Text.Trim();
-
-            var YoAdm = txtYrofAdmsn.Value.Trim();
-            var yearOfAdmn = DateTime.Parse(YoAdm);
-            var YoComptn = txtYrofCompltn.Value.Trim();
-            var yrofCompln = DateTime.Parse(YoComptn);
-
             var grdEmail = txtGuardianEmail.Text.Trim();
             var grdAddr = txtGuardianAddress.Text.Trim();
+
+            var YoAdm = txtYrofAdmsn.Value;
+            if (string.IsNullOrWhiteSpace(YoAdm))
+            {
+                txtYrofAdmsn.Focus();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select valid date');", true);
+                return;
+            }
+            else
+            {
+                yearOfAdmn = DateTime.Parse(YoAdm);
+            }
+            
+            var YoComptn = txtYrofCompltn.Value;
+            if (string.IsNullOrWhiteSpace(YoComptn))
+            {
+                txtYrofCompltn.Focus();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select valid date');", true);
+                return;
+            }
+            else
+            {
+                yrofCompln = DateTime.Parse(YoComptn);
+            }
+
+            if (string.IsNullOrWhiteSpace(txtMarks.Text))
+            {
+               ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please Fill in your marks');", true);
+                txtMarks.Focus();
+                txtMarks.BorderColor = Color.Red;
+                return;
+            }
+            else
+            {
+                marks = Convert.ToInt32(txtMarks.Text);
+            }
+            if (string.IsNullOrWhiteSpace(txtTotalMarks.Text))
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please Fill in total marks');", true);
+                txtTotalMarks.Focus();
+                txtTotalMarks.BorderColor = Color.Red;
+                return;
+            }
+            else
+            {
+                ttMarks = Convert.ToInt32(txtTotalMarks.Text);
+            }
 
             var grdPhne = txtGuardianPhone.Text.Trim();
             var mobileBuilder = new StringBuilder(grdPhne);
@@ -239,11 +278,11 @@ namespace KCDF_P.Account
             mobileBuilder.Insert(0, "+254"); // replace position 0 with +254
             grdPhne = mobileBuilder.ToString();
 
-            try
+            try                                
             {
                 if (yrofCompln < yearOfAdmn)
                 {
-                    KCDFAlert.ShowAlert("Admision Date should be later than Completion Date!");
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Admision Date should be later than Completion Date!');", true);
                     txtYrofAdmsn.Value = "";
                     txtYrofCompltn.Value = "";
                     return;
@@ -251,66 +290,29 @@ namespace KCDF_P.Account
             }
             catch (Exception ec)
             {
-                KCDFAlert.ShowAlert("Please select correct dates!");
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select correct dates!');", true);
+                
             }
 
             try
             {
-                if (txtYrofAdmsn.Value == "" || txtYrofCompltn.Value == "")
-                {
-                }
-                //if (primo == "..Select Primary School..")
-                //{
-                //    KCDFAlert.ShowAlert("Please Select Valid Primary School!");
-                //}
-                //if (seco == "..Select Secondary School..")
-                //{
-                //    KCDFAlert.ShowAlert("Please Select Valid Secondary School!");
-                //}
-                //if (uni == "..Select University/College..")
-                //{
-                //    KCDFAlert.ShowAlert("Please Select Valid University/College!");
-                //}
-                //if (course == "..Select Course/Degree Programme..")
-                //{
-                //    KCDFAlert.ShowAlert("Please Select Valid Course!");
-                //}
-                //if (YroStd == "..Select Year of Study..")
-                //{
-                //    KCDFAlert.ShowAlert("Please Select Valid Year of study!");
-                //}
-                //if (string.IsNullOrEmpty(YoAdm.ToString()))
-                //{
-                //    KCDFAlert.ShowAlert("Choose valid year of Admision");
-                //}
-                //if (string.IsNullOrEmpty(YoComptn.ToString()))
-                //{
-                //    KCDFAlert.ShowAlert("Choose valid year of Completion");
-                //}
-                //if (string.IsNullOrEmpty(grdPhne))
-                //{
-                //    KCDFAlert.ShowAlert("Fill in your Guardian Mobile Number");
-                //}
-                //if (string.IsNullOrEmpty(grdAddr))
-                //{
-                //    KCDFAlert.ShowAlert("Fill in your Guardian Address");
-                //}
-                else
-                {
                     var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                         ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
                     var sup = new Portals();
                     sup.Credentials = credentials;
                     sup.PreAuthenticate = true;
-                    sup.FnEducatBg(usname, primo, seco, uni, yearOfAdmn, YroStd, yrofCompln, grdPhne, grdEmail, grdAddr,
-                        course);
-                    KCDFAlert.ShowAlert("Your Education Data Updated Successfully");
+                if (sup.FnEducatBg(usname, primo, seco, uni, yearOfAdmn, YroStd, yrofCompln, grdPhne, grdEmail, grdAddr,
+                    course, marks, ttMarks, mygradeIs) == true)
+                {
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Your Education Data Updated Successfully!');", true);
                     readEducBgData();
                 }
+                    
+                
             }
             catch (Exception exc)
             {
-                KCDFAlert.ShowAlert(exc.Message);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('"+ exc.Message + "');", true);
             }
         }
 
@@ -336,17 +338,24 @@ namespace KCDF_P.Account
             }
             try
             {
-
-                txtSearch.Text = edctnData.Select(pr => pr.Primary_School).SingleOrDefault();
+            
             var secsh = edctnData.Select(se => se.Secondary_School).SingleOrDefault();
             var unv = edctnData.Select(un => un.University_or_College).SingleOrDefault();
-                txtDegree.Text = edctnData.Select(fc => fc.Course).SingleOrDefault();
+            txtDegree.Text = edctnData.Select(fc => fc.Course).SingleOrDefault();
             var yoS = edctnData.Select(yos => yos.Year_of_Study).Single();
             var yoAd = edctnData.Select(yoa => Convert.ToDateTime(yoa.Year_of_Admission)).SingleOrDefault();
             var yoC = edctnData.Select(yoc => Convert.ToDateTime(yoc.Year_of_Completion)).SingleOrDefault();
             txtGuardianEmail.Text = edctnData.Select(em => em.Parent_or_Guardian_Email).SingleOrDefault();
             txtGuardianAddress.Text = edctnData.Select(ad => ad.Parent_or_Guardian_Address).SingleOrDefault();
-           
+
+            int marsk = edctnData.Select(mk => Convert.ToInt32(mk.KCPE_Marks)).SingleOrDefault();
+            var fGrade = edctnData.Select(grd => grd.KCSE_Grade).SingleOrDefault();
+            var ttMks = edctnData.Select(ttm => Convert.ToInt32(ttm.KCPE_Total_Marks));
+            txtMarks.Text = Convert.ToString(marsk);
+            txtTotalMarks.Text = Convert.ToString(ttMks);
+            rdoBtnListGrade.SelectedValue = fGrade;
+
+            txtMyPrimo.Text = edctnData.Select(pr => pr.Primary_School).SingleOrDefault();
 
             if (string.IsNullOrWhiteSpace(secsh))
             {
@@ -379,7 +388,7 @@ namespace KCDF_P.Account
             else
             {
                 var dtAd = DateTime.Parse(yoAd.ToString());
-                txtYrofAdmsn.Value = dtAd.ToShortDateString();
+                txtYoAdmn.Text = dtAd.ToShortDateString();
             }
 
             if ((yoC.ToString().Equals(null)))
@@ -389,7 +398,7 @@ namespace KCDF_P.Account
             else
             {
                 var dtCmp = DateTime.Parse(yoC.ToString());
-                txtYrofCompltn.Value = dtCmp.ToShortDateString();
+                txtYofcomplt.Text = dtCmp.ToShortDateString();
             }
             }
             catch (Exception exr)

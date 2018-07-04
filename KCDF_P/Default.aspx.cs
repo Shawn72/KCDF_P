@@ -25,7 +25,7 @@ namespace KCDF_P
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public string Company_Name = "KCDF TEST NEW";
+        public string Company_Name = "KCDF";
        
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -141,9 +141,6 @@ namespace KCDF_P
                     return;
                 }
                 CheckExistsSql(userName, userPassword);
-
-
-
                 }
                 catch (Exception exception)
                 {
@@ -172,7 +169,6 @@ namespace KCDF_P
                 {
                     //System.Web.UI.HtmlControls.HtmlGenericControl lblMastersession =
                     //    (System.Web.UI.HtmlControls.HtmlGenericControl) Master.FindControl("lblSessionUsername");
-
                     //lblMastersession.InnerText = eml;
                     Grantees.SessionUsername = eml;
                     Session["username"] = Grantees.SessionUsername;
@@ -326,7 +322,7 @@ namespace KCDF_P
 
         protected void rememberMeYeah(string cookieuser, string cookiepasswd)
         {
-            if (chkRememberMe.Checked || checkRemMegrant.Checked)
+            if (chkRememberMe.Checked || checkRemMegrant.Checked || chckMeConsult.Checked)
             {
                 Response.Cookies["username"].Expires = DateTime.Now.AddDays(30);
                 Response.Cookies["pwd"].Expires = DateTime.Now.AddDays(30);

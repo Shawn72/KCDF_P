@@ -13,6 +13,15 @@ namespace KCDF_P {
     public partial class Gran_Application {
         
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        
+        /// <summary>
         /// ddlAccountType control.
         /// </summary>
         /// <remarks>
@@ -211,24 +220,6 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.CheckBoxList nonProfitOR;
         
         /// <summary>
-        /// ddlObjectives control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlObjectives;
-        
-        /// <summary>
-        /// txtAreaObjs control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtAreaObjs;
-        
-        /// <summary>
         /// txtTypeofOrg control.
         /// </summary>
         /// <remarks>
@@ -238,15 +229,6 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox txtTypeofOrg;
         
         /// <summary>
-        /// btnSaveObjectives control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnSaveObjectives;
-        
-        /// <summary>
         /// grantsMgt control.
         /// </summary>
         /// <remarks>
@@ -254,6 +236,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View grantsMgt;
+        
+        /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
         /// RequiredFieldValidator3 control.
@@ -301,13 +292,13 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox txtAmount;
         
         /// <summary>
-        /// yrofAward control.
+        /// ddlYears control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText yrofAward;
+        protected global::System.Web.UI.WebControls.DropDownList ddlYears;
         
         /// <summary>
         /// TextObj control.
@@ -337,6 +328,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox txtAreaCounties;
         
         /// <summary>
+        /// ddlBenType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlBenType;
+        
+        /// <summary>
         /// TextTypeBeneficiary control.
         /// </summary>
         /// <remarks>
@@ -355,33 +355,6 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox TextNoBeneficiary;
         
         /// <summary>
-        /// yrofFunding control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText yrofFunding;
-        
-        /// <summary>
-        /// TextAmount control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextAmount;
-        
-        /// <summary>
-        /// TextIntspprt control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextIntspprt;
-        
-        /// <summary>
         /// ddlPrjStatus control.
         /// </summary>
         /// <remarks>
@@ -391,6 +364,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.DropDownList ddlPrjStatus;
         
         /// <summary>
+        /// UpdatePanel3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel3;
+        
+        /// <summary>
         /// btnSaveGrantHisto control.
         /// </summary>
         /// <remarks>
@@ -398,6 +380,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSaveGrantHisto;
+        
+        /// <summary>
+        /// UpdatePanel5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel5;
         
         /// <summary>
         /// tblGrantsManager control.
@@ -427,6 +418,33 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.TextBox TextBoxtitle;
         
         /// <summary>
+        /// UpdatePanel2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
+        
+        /// <summary>
+        /// ddlObjectives control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlObjectives;
+        
+        /// <summary>
+        /// txtAreaObjs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtAreaObjs;
+        
+        /// <summary>
         /// txtDateofStart control.
         /// </summary>
         /// <remarks>
@@ -434,6 +452,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtDateofStart;
+        
+        /// <summary>
+        /// UpdatePanel4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel4;
         
         /// <summary>
         /// ddlSelCounty control.
@@ -515,6 +542,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxrequested;
+        
+        /// <summary>
+        /// UpdatePanel6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel6;
         
         /// <summary>
         /// btnUpdatePOverview control.

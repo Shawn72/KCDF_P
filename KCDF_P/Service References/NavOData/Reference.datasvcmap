@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="fd3f92a1-10fd-441e-b969-9e9be83bd8ea" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6867041c-915c-4200-9c8e-68a5ef5954f2" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
   <MetadataSources>
     <MetadataSource Address="http://192.168.0.249:2443/PORTAL/OData/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="b7790fa7-b50d-48ed-aeb0-f0d49e5d9ec3" SourceId="1" SourceUrl="http://192.168.0.249:2443/PORTAL/OData/" />
+    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="dc21c347-85e9-4e40-bc1b-cc5eab5173b6" SourceId="1" SourceUrl="http://192.168.0.249:2443/PORTAL/OData/" />
   </Metadata>
   <Extensions />
   <Parameters>

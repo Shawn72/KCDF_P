@@ -22,6 +22,42 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Label lblErrMsg;
         
         /// <summary>
+        /// ScriptManager1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.ScriptManager ScriptManager1;
+        
+        /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// ddlAccountType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAccountType;
+        
+        /// <summary>
+        /// txtPrefNo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtPrefNo;
+        
+        /// <summary>
         /// multiVDlds control.
         /// </summary>
         /// <remarks>
@@ -49,21 +85,48 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.GridView gridViewUploads;
         
         /// <summary>
-        /// scholarshipViewId control.
+        /// FileUploadPOCA control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View scholarshipViewId;
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadPOCA;
         
         /// <summary>
-        /// gridViewScholarUploads control.
+        /// btnUploadPOCA control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridViewScholarUploads;
+        protected global::System.Web.UI.WebControls.Button btnUploadPOCA;
+        
+        /// <summary>
+        /// FileUploadMatrix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadMatrix;
+        
+        /// <summary>
+        /// btnUploadMatrix control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUploadMatrix;
+        
+        /// <summary>
+        /// grViewMyDocs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView grViewMyDocs;
     }
 }

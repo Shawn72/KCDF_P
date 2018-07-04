@@ -178,9 +178,23 @@
 			    
                </div>
         </asp:View>
+
         <asp:View runat="server" ID="regConsults">
              <div class="form-horizontal">
-			         <div class="form-group">
+                  <div class="form-group">
+                        <div class="col-md-3">
+                        </div>
+                        &nbsp;
+                        <div class="col-md-6">
+                            <div class="input-group">
+                               <input type="checkbox" id="readTOR" onclick="ifItsAccepted()"/>
+                                <label for="readTOR">Read and Accept our <a href="../ToRDownload.aspx">Terms of Reference</a>&nbsp; first
+                               </label>
+                            </div>
+                           </div>
+                       </div>
+                 <div id="iAccepted" style="display:none">
+			        <div class="form-group">
                         <asp:Label runat="server" CssClass="col-md-3 control-label">Name:</asp:Label>
                         <div class="col-md-6">
                             <asp:TextBox runat="server" ID="txtConsName" CssClass="form-control" required="True" placeholder="Organization Name" MaxLength="250" />              
@@ -217,7 +231,7 @@
                     </div><span class="required">*</span> 
                     </div>
                
-              <div class="form-group">
+                    <div class="form-group">
                 <asp:Label runat="server" CssClass="col-md-3 control-label">Password:</asp:Label>
                 <div class="col-md-6">
                     <asp:TextBox runat="server" ID="txtConsPass1" CssClass="form-control" required="True" TextMode="Password" placeholder="Your password"/>              
@@ -226,7 +240,7 @@
                 </div><span class="required">*</span> 
                </div>
           
-                <div class="form-group">
+                    <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Confirm Password:</asp:Label>
                     <div class="col-md-6">
                         <asp:TextBox runat="server" ID="txtConsPass2" CssClass="form-control" required="True" TextMode="Password" placeholder="Confirm password"/>              
@@ -235,7 +249,7 @@
                     </div><span class="required">*</span> 
                     </div> 
                  
-                <div class="row">
+                    <div class="row">
                     <div class="col-md-3"></div>
                     <div class="col-md-4">
                         <div class="form-group">            
@@ -245,6 +259,7 @@
                     </div>
                     <div class="col-md-3"></div>
                 </div> 	
+                 </div>
 			    
                </div>
         </asp:View>
@@ -284,6 +299,23 @@
             }
         }
     </script>
+
+    <script type="text/javascript" >
+        function ifItsAccepted() {
+            var myCheckBoxAss = document.getElementById("readTOR").checked;
+            if (myCheckBoxAss == true) {
+                alert('I have Read the Terms');
+                var ifYsId = document.getElementById("iAccepted");
+                ifYsId.style.display = "block";
+
+            } else if (myCheckBoxAss == false) {
+                alert("I did'nt read the Terms");
+                var ifYsId = document.getElementById("iAccepted");
+                ifYsId.style.display = "none";
+            }
+        }    
+
+    </script>         
 
   </div>
     

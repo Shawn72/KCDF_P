@@ -3442,7 +3442,7 @@
         <Property Name="No" Type="Edm.String" Nullable="false" />
         <Property Name="Organization_No" Type="Edm.String" />
         <Property Name="Name_Of_the_Donor" Type="Edm.String" />
-        <Property Name="Year_Of_Award" Type="Edm.DateTime" />
+        <Property Name="Year_Of_Award" Type="Edm.String" />
         <Property Name="Objective_of_Grant" Type="Edm.String" />
         <Property Name="Counties_Target" Type="Edm.String" />
         <Property Name="Type_of_Beneficiary_Targeted" Type="Edm.String" />
@@ -3580,14 +3580,32 @@
       </EntityType>
       <EntityType Name="myConsultations">
         <Key>
-          <PropertyRef Name="AuxiliaryIndex1" />
+          <PropertyRef Name="No" />
         </Key>
         <Property Name="Consultant_RegIDNo" Type="Edm.String" />
         <Property Name="Consultant_Username" Type="Edm.String" />
         <Property Name="Application_Submitted" Type="Edm.Boolean" />
         <Property Name="Application_Date" Type="Edm.DateTime" />
         <Property Name="Approval_Status" Type="Edm.String" />
-        <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+        <Property Name="Project_RefNo" Type="Edm.String" />
+        <Property Name="Project_Name" Type="Edm.String" />
+        <Property Name="No" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="myConsultsUploads">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.String" Nullable="false" />
+        <Property Name="Scholarship_No" Type="Edm.String" />
+        <Property Name="Grant_Type" Type="Edm.String" />
+        <Property Name="Document_type" Type="Edm.String" />
+        <Property Name="link" Type="Edm.String" />
+        <Property Name="Document_Name" Type="Edm.String" />
+        <Property Name="Document_Kind" Type="Edm.String" />
+        <Property Name="Username" Type="Edm.String" />
+        <Property Name="Project_Name" Type="Edm.String" />
+        <Property Name="CallReferenceNumber" Type="Edm.String" />
+        <Property Name="Date_Uploaded" Type="Edm.DateTime" />
       </EntityType>
       <EntityType Name="mycountyIs">
         <Key>
@@ -3596,6 +3614,21 @@
         <Property Name="County_Code" Type="Edm.String" />
         <Property Name="County_Name" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="myPOCAMatrixxUploads">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Grant_Type" Type="Edm.String" />
+        <Property Name="Document_type" Type="Edm.String" />
+        <Property Name="Document_Name" Type="Edm.String" />
+        <Property Name="Document_Kind" Type="Edm.String" />
+        <Property Name="link" Type="Edm.String" />
+        <Property Name="Username" Type="Edm.String" />
+        <Property Name="Id" Type="Edm.String" Nullable="false" />
+        <Property Name="Grant_No" Type="Edm.String" />
+        <Property Name="Project_Name" Type="Edm.String" />
+        <Property Name="ProjCallRefNo" Type="Edm.String" />
       </EntityType>
       <EntityType Name="myReferees">
         <Key>
@@ -4771,7 +4804,9 @@
         <NavigationProperty Name="my_unisOrCollegs" Relationship="NAV.Company_my_unisOrCollegs" ToRole="my_unisOrCollegs" FromRole="Company" />
         <NavigationProperty Name="myConsultants" Relationship="NAV.Company_myConsultants" ToRole="myConsultants" FromRole="Company" />
         <NavigationProperty Name="myConsultations" Relationship="NAV.Company_myConsultations" ToRole="myConsultations" FromRole="Company" />
+        <NavigationProperty Name="myConsultsUploads" Relationship="NAV.Company_myConsultsUploads" ToRole="myConsultsUploads" FromRole="Company" />
         <NavigationProperty Name="mycountyIs" Relationship="NAV.Company_mycountyIs" ToRole="mycountyIs" FromRole="Company" />
+        <NavigationProperty Name="myPOCAMatrixxUploads" Relationship="NAV.Company_myPOCAMatrixxUploads" ToRole="myPOCAMatrixxUploads" FromRole="Company" />
         <NavigationProperty Name="myReferees" Relationship="NAV.Company_myReferees" ToRole="myReferees" FromRole="Company" />
         <NavigationProperty Name="myScholaruploads" Relationship="NAV.Company_myScholaruploads" ToRole="myScholaruploads" FromRole="Company" />
         <NavigationProperty Name="mysubCountyIs" Relationship="NAV.Company_mysubCountyIs" ToRole="mysubCountyIs" FromRole="Company" />
@@ -5119,8 +5154,16 @@
         <End Type="NAV.myConsultations" Role="myConsultations" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_myConsultsUploads">
+        <End Type="NAV.myConsultsUploads" Role="myConsultsUploads" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_mycountyIs">
         <End Type="NAV.mycountyIs" Role="mycountyIs" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_myPOCAMatrixxUploads">
+        <End Type="NAV.myPOCAMatrixxUploads" Role="myPOCAMatrixxUploads" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_myReferees">
@@ -5401,7 +5444,9 @@
         <EntitySet Name="my_unisOrCollegs" EntityType="NAV.my_unisOrCollegs" />
         <EntitySet Name="myConsultants" EntityType="NAV.myConsultants" />
         <EntitySet Name="myConsultations" EntityType="NAV.myConsultations" />
+        <EntitySet Name="myConsultsUploads" EntityType="NAV.myConsultsUploads" />
         <EntitySet Name="mycountyIs" EntityType="NAV.mycountyIs" />
+        <EntitySet Name="myPOCAMatrixxUploads" EntityType="NAV.myPOCAMatrixxUploads" />
         <EntitySet Name="myReferees" EntityType="NAV.myReferees" />
         <EntitySet Name="myScholaruploads" EntityType="NAV.myScholaruploads" />
         <EntitySet Name="mysubCountyIs" EntityType="NAV.mysubCountyIs" />
@@ -5749,9 +5794,17 @@
           <End Role="Company" EntitySet="Company" />
           <End Role="myConsultations" EntitySet="myConsultations" />
         </AssociationSet>
+        <AssociationSet Name="Company_myConsultsUploads_myConsultsUploads" Association="NAV.Company_myConsultsUploads">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="myConsultsUploads" EntitySet="myConsultsUploads" />
+        </AssociationSet>
         <AssociationSet Name="Company_mycountyIs_mycountyIs" Association="NAV.Company_mycountyIs">
           <End Role="Company" EntitySet="Company" />
           <End Role="mycountyIs" EntitySet="mycountyIs" />
+        </AssociationSet>
+        <AssociationSet Name="Company_myPOCAMatrixxUploads_myPOCAMatrixxUploads" Association="NAV.Company_myPOCAMatrixxUploads">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="myPOCAMatrixxUploads" EntitySet="myPOCAMatrixxUploads" />
         </AssociationSet>
         <AssociationSet Name="Company_myReferees_myReferees" Association="NAV.Company_myReferees">
           <End Role="Company" EntitySet="Company" />

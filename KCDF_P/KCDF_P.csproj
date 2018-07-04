@@ -253,6 +253,7 @@
     <Content Include="Account\VerifyPhoneNumber.aspx" />
     <Content Include="Account\Activate_Consultant.aspx" />
     <Content Include="CheckSessionExpiry.aspx" />
+    <Content Include="Consultancy_Downloads.aspx" />
     <Content Include="Consultancy_Page.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\animate.css" />
@@ -329,8 +330,13 @@
     <Content Include="DatePicker\bootstrap\js\bootstrap-datetimepicker.min.js" />
     <Content Include="DatePicker\bootstrap\js\bootstrap.js" />
     <Content Include="DatePicker\bootstrap\js\bootstrap.min.js" />
+    <Content Include="DatePicker\bootstrap\js\year-select.js" />
     <Content Include="DatePicker\jquery\jquery-1.8.3.min.js" />
     <Content Include="EditMyProject.aspx" />
+    <Content Include="ErrorPages\404.html" />
+    <Content Include="ErrorPages\ApplicationError.html" />
+    <Content Include="ErrorPages\BaseError.html" />
+    <Content Include="ErrorPages\GenericError.html" />
     <Content Include="Expired.aspx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Grantee_Dashboard.aspx" />
@@ -433,6 +439,12 @@
     <Content Include="Downloads_Scholarship\Grants Application Form  -Updated May 2018.doc" />
     <Content Include="Downloads_Scholarship\KCDF  Indicator Result Matrix Nov 2016 to Oct 2017-1 Edited in 2018 - Navision.xlsx" />
     <Content Include="Consultants.Master" />
+    <Content Include="Downloads_Consultants\Building Navision Indicator Matrix.docx" />
+    <Content Include="Downloads_Consultants\Consutltancy Application Form  -Updated May 2018.doc" />
+    <Content Include="Downloads_Consultants\Grants Application Form  -Updated May 2018.doc" />
+    <Content Include="Downloads_Consultants\Wangari Maathai Scholarship Fund  Application Form _28062017.doc" />
+    <Content Include="POCAMatrix\Building Navision Indicator Matrix.docx" />
+    <Content Include="POCAMatrix\Consutltancy Application Form  -Updated May 2018.doc" />
     <None Include="Properties\PublishProfiles\KCDF_p.pubxml" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -1299,6 +1311,8 @@
     <Content Include="Site.Master" />
     <Content Include="siteimages\favicon.ico" />
     <Content Include="siteimages\kcdflogo.jpg" />
+    <Content Include="siteimages\loader.gif" />
+    <Content Include="ToRDownload.aspx" />
     <Content Include="UploadFiles_Grants.aspx" />
     <Content Include="UploadFiles_Scholarships.aspx" />
     <Content Include="ViewSwitcher.ascx" />
@@ -1496,6 +1510,13 @@
     <Compile Include="CheckSessionExpiry.aspx.designer.cs">
       <DependentUpon>CheckSessionExpiry.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Consultancy_Downloads.aspx.cs">
+      <DependentUpon>Consultancy_Downloads.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Consultancy_Downloads.aspx.designer.cs">
+      <DependentUpon>Consultancy_Downloads.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Consultancy_Page.aspx.cs">
       <DependentUpon>Consultancy_Page.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1657,6 +1678,13 @@
     </Compile>
     <Compile Include="Startup.cs" />
     <Compile Include="Students.cs" />
+    <Compile Include="ToRDownload.aspx.cs">
+      <DependentUpon>ToRDownload.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ToRDownload.aspx.designer.cs">
+      <DependentUpon>ToRDownload.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UploadFiles_Grants.aspx.cs">
       <DependentUpon>UploadFiles_Grants.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1698,6 +1726,7 @@
     <Folder Include="NavBar\js\" />
     <Folder Include="ProfilePics\Grantees\" />
     <Folder Include="ProfilePics\Scholarship\" />
+    <Folder Include="ToRUploaded\" />
     <Folder Include="Uploaded Documents\" />
   </ItemGroup>
   <ItemGroup>
@@ -1707,10 +1736,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://192.168.0.249:2442/PORTAL/WS/KCDF%2520TEST%2520NEW/Codeunit/Portals">
+    <WebReferenceUrl Include="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\NAVWS\</RelPath>
-      <UpdateFromURL>http://192.168.0.249:2442/PORTAL/WS/KCDF%2520TEST%2520NEW/Codeunit/Portals</UpdateFromURL>
+      <UpdateFromURL>http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>
@@ -1765,10 +1794,14 @@
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.8\build\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
+       Other similar extension points exist, see Microsoft.Common.targets. 
   <Target Name="AfterBuild">
   </Target>
   -->
+  <Target Name="BeforeBuild">
+    <!-- Remove obj folder -->
+    <RemoveDir Directories="$(BaseIntermediateOutputPath)" />
+    <!-- Remove bin folder -->
+    <RemoveDir Directories="$(BaseOutputPath)" />
+  </Target>
 </Project>

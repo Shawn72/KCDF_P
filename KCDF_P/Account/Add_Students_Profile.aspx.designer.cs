@@ -256,6 +256,15 @@ namespace KCDF_P.Account {
         protected global::System.Web.UI.WebControls.TextBox txtTotalMarks;
         
         /// <summary>
+        /// txtMyPrimo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMyPrimo;
+        
+        /// <summary>
         /// ddlSeco control.
         /// </summary>
         /// <remarks>
@@ -319,6 +328,15 @@ namespace KCDF_P.Account {
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtYrofAdmsn;
         
         /// <summary>
+        /// txtYoAdmn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtYoAdmn;
+        
+        /// <summary>
         /// txtYrofCompltn control.
         /// </summary>
         /// <remarks>
@@ -326,6 +344,15 @@ namespace KCDF_P.Account {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlInputText txtYrofCompltn;
+        
+        /// <summary>
+        /// txtYofcomplt control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtYofcomplt;
         
         /// <summary>
         /// txtGuardianPhone control.

@@ -16,7 +16,7 @@
                         <div class="col-md-6">
                             <asp:Image ID="profPic" runat="server"  class="img-circle img-responsive" />
                            <%-- <img src="ProfilePics/<%=Students.Username %>.png" class="img-circle img-responsive" alt="Upload Picture"/>--%>
-                            <asp:Button  ID="btnUploadPic" runat="server" CssClass="btn btn-primary center btn-sm" OnClick="btnUploadPic_OnClick" Text="Change Picture" ></asp:Button>
+                            <asp:Button  ID="btnUploadPic" runat="server" CssClass="btn btn-primary center btn-sm" OnClick="btnUploadPic_OnClick" Text="Change Picture" CausesValidation="False" UseSubmitBehavior="False" ></asp:Button>
                         </div>
                         <div class="col-md-3"></div>                        
                     </div>
@@ -94,6 +94,7 @@
                     <tr>
                         <th colspan="2" style="font-size: large" ><i class="glyphicon glyphicon-list-alt"></i> Contact Information</th>
                     </tr>
+
                     <tr>
                         <td>Email:</td>
                         <td><%=Students.Email %></td>
@@ -157,7 +158,6 @@
 	</div>
 
     </div>
-    
    <script runat="server">
        protected void btnUploadMe_OnClick(object sender, EventArgs e)
        {

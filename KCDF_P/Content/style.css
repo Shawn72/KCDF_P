@@ -6613,6 +6613,9 @@ img {
     border: none;
     display: block;
 }
+.ui-datepicker-calendar
+ { display: none; }
+
 .footer {
    position: fixed;
    left: 0;

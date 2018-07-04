@@ -77,7 +77,7 @@
                     <cc1:CaptchaControl ID="cptCaptcha" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
                         CaptchaHeight="60" CaptchaWidth="250" 
-                        CaptchaLineNoise="None" CaptchaMinTimeout="10" 
+                        CaptchaLineNoise="None" CaptchaMinTimeout="5" 
                         CaptchaMaxTimeout="240" FontColor = "#529E00" />
                     </div>
                     <br/>
@@ -116,7 +116,7 @@
                     <cc1:CaptchaControl ID="captchaGrantee" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
                         CaptchaHeight="60" CaptchaWidth="250" 
-                        CaptchaLineNoise="None" CaptchaMinTimeout="10" 
+                        CaptchaLineNoise="None" CaptchaMinTimeout="5" 
                         CaptchaMaxTimeout="240" FontColor = "#529E00" />
                     </div>
                     <br/>
@@ -156,7 +156,7 @@
                     <cc1:CaptchaControl ID="CaptchaControl1" runat="server" 
                         CaptchaBackgroundNoise="Low" CaptchaLength="5" 
                         CaptchaHeight="60" CaptchaWidth="250" 
-                        CaptchaLineNoise="None" CaptchaMinTimeout="10" 
+                        CaptchaLineNoise="None" CaptchaMinTimeout="5" 
                         CaptchaMaxTimeout="240" FontColor = "#529E00" />
                     </div>
                     <br/>
