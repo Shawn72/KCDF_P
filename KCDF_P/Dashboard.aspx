@@ -4,7 +4,9 @@
 <%@ Import Namespace="KCDF_P" %>
 <%@ Import Namespace="KCDF_P.NAVWS" %>
 <asp:Content ID="userDashBd" ContentPlaceHolderID="MainContent" runat="server">
-<meta http-equiv="refresh" content="200;url=Dashboard.aspx"> 
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
+<asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+    <div class="panel-body" style="font-family:Trebuchet MS">
     <div class="row" style="height: 20px">&nbsp;</div>
     <div class="row">
         <div class="col-md-5">
@@ -89,7 +91,8 @@
                         </tr>
                     </table> 
                </div>
-             <div class="col-md-3">
+
+        <div class="col-md-3">
                  <table class="table table-bordered table-condensed table-striped" style="font-family:Trebuchet MS">
                     <tr>
                         <th colspan="2" style="font-size: large" ><i class="glyphicon glyphicon-list-alt"></i> Contact Information</th>
@@ -110,29 +113,7 @@
                         <td><%=Students.Address %></td>
                     </tr>
                 </table> 
-                 
-             <%--  <asp:GridView ID="tblmyScholarships" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
-                EmptyDataText="No projects Found!" DataKeyNames="No"
-                 AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
-                <Columns>
-                    <asp:BoundField DataField="No" HeaderText="S/No:"/>
-                    <asp:BoundField DataField="Project_Name" HeaderText="Project" />
-                    <asp:BoundField DataField="Project_Start_Date" HeaderText="Project Start Year" DataFormatString="{0:dd/MM/yyyy}" />
-                    <asp:BoundField DataField="Total_Project_Cost_KES" HeaderText="Total Project Cost" DataFormatString="{0:N2}" />
-                    <asp:BoundField DataField="Your_Cash_Contribution_KES" HeaderText="Organization Contribution" DataFormatString="{0:N2}" />
-                    <asp:BoundField DataField="Requested_KCDF_Amount_KES" HeaderText="Requested Grant Amount"  DataFormatString="{0:N2}"/>
-                    <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status"/>
-                    <asp:TemplateField HeaderText="Edit">
-                        <ItemTemplate>
-                            <asp:LinkButton ID="lnkEdit" Text="Edit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEdit" runat="server" OnClick="lnkEdit_OnClick"></asp:LinkButton>
-                        </ItemTemplate>
-                    </asp:TemplateField>
-                    <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />
-                </Columns>
-                <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
-            </asp:GridView> --%>
               </div>
-     <%-- <a href="angularTest.html">Link to Angular</a>--%>
         
         <div class="modal fade" id="pageUploadlink">
 		<div class="modal-dialog" runat="server">
@@ -158,7 +139,8 @@
 	</div>
 
     </div>
-   <script runat="server">
+        
+        <script runat="server">
        protected void btnUploadMe_OnClick(object sender, EventArgs e)
        {
            string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\Scholarship\\";
@@ -173,12 +155,11 @@
            {
                FileUpload.SaveAs(uploadsFolder + filenameO);
                saveProfToNav(uploadsFolder + filenameO, filenameO);
-               Session["imgFullPath"] = uploadsFolder + filenameO;
                refreSH();
            }
            else
            {
-               KCDFAlert.ShowAlert("File Format is: "+ext+"Allowed picture formats are: JPG, JPEG, PNG only!");
+               KCDFAlert.ShowAlert("File Format is: " +ext+"Allowed picture formats are: JPG, JPEG, PNG only!");
 
            }
            if (!FileUpload.HasFile)
@@ -187,46 +168,45 @@
                return;
            }
        }
-         protected void refreSH()
+       protected void refreSH()
        {
            HttpResponse.RemoveOutputCacheItem("/Dashboard.aspx");
-          // Response.Redirect(Request.RawUrl);
+           // Response.Redirect(Request.RawUrl);
            Page.Response.Redirect(Page.Request.Url.ToString(), true);
        }
        protected void ToPNG(string imgFormat)
        {
-           string extn = imgFormat;
-           string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
-           string filenameO = Students.Username + extn;
-           System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
-           image.Save(uploadsFolder +Students.Username +".png", System.Drawing.Imaging.ImageFormat.Png);
-           KCDFAlert.ShowAlert("Picture: " + filenameO + " uploaded successfully");
+           //string extn = imgFormat;
+           //string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
+           //string filenameO = Students.Username + extn;
+           //System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
+           //image.Save(uploadsFolder +Students.Username +".png", System.Drawing.Imaging.ImageFormat.Png);
+           //KCDFAlert.ShowAlert("Picture: " + filenameO + " uploaded successfully");
            //  File.Delete(filenameO);
            //  Response.Redirect("Dashboard.aspx");
        }
 
        protected void DeleteDups()
        {
-           string namepart = Session["username"].ToString();
-           DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/Scholarship/"));
-           FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
-           foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
-           {
-               gotcha.Delete();
+           //string namepart = Session["username"].ToString();
+           //DirectoryInfo filepath = new DirectoryInfo(Server.MapPath("~/ProfilePics/Scholarship/"));
+           //FileInfo[] flInf = filepath.GetFiles("*" + namepart + ".");
+           //foreach (FileInfo gotcha in flInf.OrderByDescending(fil=>fil.CreationTime).Skip(1))
+           //{
+           //    gotcha.Delete();
 
-           }
-
+           //}
        }
 
        protected void saveProfToNav(string piclink, string fileNme)
        {
            var usrnm = Session["username"].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            sup.FnSaveProfP(usrnm, piclink,fileNme);
-            KCDFAlert.ShowAlert("Picture saved!");
+           var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+           Portals sup = new Portals();
+           sup.Credentials = credentials;
+           sup.PreAuthenticate = true;
+           sup.FnSaveProfP(usrnm, piclink,fileNme);
+           KCDFAlert.ShowAlert("Picture saved!");
        }
 
    </script>
@@ -257,4 +237,31 @@
         
        
    </div>
+    
+    <div class="row">
+        <div class="form-horizontal">
+           
+         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+             <ContentTemplate>
+                  <label class="form-control alert alert-info" style="font-weight: bold;">My Scholarships Applications</label> 
+        
+                <asp:GridView ID="tblmyApplications" runat="server" 
+                    CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" 
+                    AutoGenerateSelectButton="false" 
+                    EmptyDataText="No Applications yet!" DataKeyNames="No"
+                    AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True" OnRowDeleting="tblmyApplications_OnRowDeleting">
+                <Columns>
+                    <asp:BoundField DataField="No" HeaderText="S/No:"/>
+                    <asp:BoundField DataField="Scholarship_Title" HeaderText="Scholarship Name" />
+                    <asp:BoundField DataField="Date_of_Application" HeaderText="Application Date" DataFormatString="{0:dd/MM/yyyy}" />
+                    <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status"/>
+                    <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />
+                </Columns>
+                <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
+                </asp:GridView>   
+         </ContentTemplate>
+       </asp:UpdatePanel>
+   </div>
+    </div>
+ </div>
 </asp:Content>

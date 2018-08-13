@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Web;
 using System.Web.Services;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -31,6 +32,7 @@ namespace KCDF_P.Account
         public static string Company_Name = "KCDF";
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (!IsPostBack)
             {
                 ReturnStudent();
@@ -39,7 +41,7 @@ namespace KCDF_P.Account
                 readEducBgData();
                 loadRefs();
                 loadAllMySchools();
-               
+                myCountyIs();
             }
         }
 
@@ -64,8 +66,13 @@ namespace KCDF_P.Account
 
             return new Students(Session["username"].ToString());
         }
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        }
 
-       
         protected void editProfile()
         {
             //try
@@ -86,12 +93,37 @@ namespace KCDF_P.Account
                 var resid = txtResidence.Text.Trim();
                 var gender = lstGender.SelectedItem.Text;
 
-                if (gender.Equals("..Select Gender.."))
+                var mycounty = "";
+                var mysubcounty = "";
+
+                if (ddlSelCounty.SelectedIndex == 0)
+                {
+                    ddlSelCounty.Focus();
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select your county!');", true);
+                    return;
+                }
+                else
+                {
+                    mycounty = ddlSelCounty.SelectedItem.Text;
+                }
+
+                if (ddlConstituency.SelectedIndex == 0)
+                {
+                    ddlConstituency.Focus();
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select your subcounty!');", true);
+                    return;
+                }
+                else
+                {
+                    mysubcounty = ddlConstituency.SelectedItem.Text;
+                }
+
+                if (lstGender.SelectedIndex==0)
                 {
                     KCDFAlert.ShowAlert("Please select a valid gender type!");
                     return;
                 }
-                if (gender.Equals("Male"))
+                if(gender.Equals("Male"))
                 {
                     gentype = 0;
                 }
@@ -122,7 +154,7 @@ namespace KCDF_P.Account
                 {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Fill in Mobile Number!');", true);
                 txtPhoneNo.Focus();
-                    txtPhoneNo.BorderColor = Color.Red;
+                txtPhoneNo.BorderColor = Color.Red;
                 return;
                 }
                
@@ -131,9 +163,9 @@ namespace KCDF_P.Account
                 var sup = new Portals();
                 sup.Credentials = credentials;
                 sup.PreAuthenticate = true;
-                if (sup.FnRegisterStudent(fname, mname, lname, idno, resid, MobileString, usname, gentype, dTOfBth) == true)
+                if (sup.FnRegisterStudent(fname, mname, lname, idno, resid, MobileString, usname, gentype, dTOfBth,mycounty, mysubcounty) == true)
                 {
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Your account succcessfully Edited!');", true);
+                   ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Your account succcessfully Edited!');", true);
                 }
 
             //}
@@ -149,7 +181,6 @@ namespace KCDF_P.Account
         {
             editProfile();
         }
-
         protected void readData()
         {
             var studData = nav.studentsRegister.ToList().Where(r => r.Username == Session["username"].ToString());
@@ -178,19 +209,21 @@ namespace KCDF_P.Account
             txtResidence.Text = studData.Select(r => r.Residence).SingleOrDefault();
             txtIDNo.Text = studData.Select(id => id.ID_No).SingleOrDefault();
             txtEmailAdd.Text = studData.Select(em => em.Email).SingleOrDefault();
+            txtCounty.Text = studData.Select(em => em.County).SingleOrDefault();
+            txtSubCounty.Text = studData.Select(em => em.SubCounty).SingleOrDefault();
             var dtB = studData.Select(dtoB => dtoB.Date_of_Birth).SingleOrDefault().ToString();
             var dt1 = DateTime.Parse(dtB);
             dateOFBirth.Value = dt1.ToShortDateString();
             var gent = studData.Select(g => g.Gender).SingleOrDefault();
-            if (gent == "Male")
-            {
-                lstGender.SelectedIndex = 1;
+                if (gent == "Male")
+                {
+                    lstGender.SelectedIndex = 1;
+                }
+                else
+                {
+                    lstGender.SelectedIndex = 2;
+                }
             }
-            else
-            {
-                lstGender.SelectedIndex = 2;
-            }
-           }
             catch (Exception exr)
             {
                 KCDFAlert.ShowAlert("Your Data is Incomplete, please fill all your information");
@@ -210,20 +243,62 @@ namespace KCDF_P.Account
 
         protected void editEducation()
         {
+          try
+            {
             DateTime yearOfAdmn;
             DateTime yrofCompln;
             int marks = 0;
             int ttMarks = 0;
-            var mygradeIs = Session["myGrade"].ToString();
-
+            string mygradeIs;
+            string uni;
+            string seco;
+            string YroStd;
             var usname = Session["username"].ToString();
             var primo = lblValues.Text;
-            var seco = ddlSeco.SelectedItem.Text.Trim();
-            var uni = ddlUnivCollg.SelectedItem.Text.Trim();
-            var course = txtDegree.Text.Trim();
-            var YroStd = ddlYearofStudy.Text.Trim();
             var grdEmail = txtGuardianEmail.Text.Trim();
             var grdAddr = txtGuardianAddress.Text.Trim();
+            var course = txtDegree.Text.Trim();
+
+            if (ddlSeco.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select secondary school');", true);
+                return;
+            }
+            else
+            {
+              seco = ddlSeco.SelectedItem.Text.Trim();
+            }
+           
+            if (ddlUnivCollg.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select College or University');", true);
+                return;
+             }
+            else
+            {
+              uni = ddlUnivCollg.SelectedItem.Text.Trim();
+            }
+
+            if (rdoBtnListGrade.SelectedIndex == -1)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select a grade');", true);
+                return;
+            }
+            else
+            {
+                mygradeIs = rdoBtnListGrade.SelectedValue;
+            }
+
+             if (ddlYearofStudy.SelectedIndex == 0)
+            {
+            ddlYearofStudy.Focus();
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please select an option');", true);
+            return;
+             }
+            else
+            {
+              YroStd = ddlYearofStudy.SelectedItem.Text;
+             }
 
             var YoAdm = txtYrofAdmsn.Value;
             if (string.IsNullOrWhiteSpace(YoAdm))
@@ -296,11 +371,11 @@ namespace KCDF_P.Account
 
             try
             {
-                    var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                        ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-                    var sup = new Portals();
-                    sup.Credentials = credentials;
-                    sup.PreAuthenticate = true;
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                var sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
                 if (sup.FnEducatBg(usname, primo, seco, uni, yearOfAdmn, YroStd, yrofCompln, grdPhne, grdEmail, grdAddr,
                     course, marks, ttMarks, mygradeIs) == true)
                 {
@@ -313,6 +388,11 @@ namespace KCDF_P.Account
             catch (Exception exc)
             {
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('"+ exc.Message + "');", true);
+            }
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
             }
         }
 
@@ -336,70 +416,34 @@ namespace KCDF_P.Account
             {
                 txtGuardianPhone.Text = "";
             }
+
             try
             {
-            
+
             var secsh = edctnData.Select(se => se.Secondary_School).SingleOrDefault();
-            var unv = edctnData.Select(un => un.University_or_College).SingleOrDefault();
+            txtSecon.Text = secsh;
+            txtCollg.Text = edctnData.Select(un => un.University_or_College).SingleOrDefault();
             txtDegree.Text = edctnData.Select(fc => fc.Course).SingleOrDefault();
-            var yoS = edctnData.Select(yos => yos.Year_of_Study).Single();
+            txtFaculty.Text= edctnData.Select(fc => fc.Course).SingleOrDefault();
+            txtYearofStd.Text = edctnData.Select(yos => yos.Year_of_Study).Single();
             var yoAd = edctnData.Select(yoa => Convert.ToDateTime(yoa.Year_of_Admission)).SingleOrDefault();
             var yoC = edctnData.Select(yoc => Convert.ToDateTime(yoc.Year_of_Completion)).SingleOrDefault();
             txtGuardianEmail.Text = edctnData.Select(em => em.Parent_or_Guardian_Email).SingleOrDefault();
             txtGuardianAddress.Text = edctnData.Select(ad => ad.Parent_or_Guardian_Address).SingleOrDefault();
 
+            txtYoAdmn.Text = yoAd.ToShortDateString();
+            txtYofcomplt.Text = yoC.ToShortDateString();
+
             int marsk = edctnData.Select(mk => Convert.ToInt32(mk.KCPE_Marks)).SingleOrDefault();
             var fGrade = edctnData.Select(grd => grd.KCSE_Grade).SingleOrDefault();
-            var ttMks = edctnData.Select(ttm => Convert.ToInt32(ttm.KCPE_Total_Marks));
+            int ttMks = edctnData.Select(ttm => Convert.ToInt32(ttm.KCPE_Total_Marks)).SingleOrDefault();
             txtMarks.Text = Convert.ToString(marsk);
             txtTotalMarks.Text = Convert.ToString(ttMks);
             rdoBtnListGrade.SelectedValue = fGrade;
 
             txtMyPrimo.Text = edctnData.Select(pr => pr.Primary_School).SingleOrDefault();
 
-            if (string.IsNullOrWhiteSpace(secsh))
-            {
-                ddlSeco.SelectedIndex = 0;
-            }
-            else
-            {
-                ddlSeco.SelectedItem.Text = secsh;
-            }
-            if (string.IsNullOrWhiteSpace(unv))
-            {
-                ddlUnivCollg.SelectedIndex = 0;
-            }
-            else
-            {
-                ddlUnivCollg.SelectedItem.Text = unv;
-            }
-            if (string.IsNullOrWhiteSpace(yoS))
-            {
-                ddlYearofStudy.SelectedIndex = 0;
-            }
-            else
-            {
-                ddlYearofStudy.SelectedItem.Text = yoS;
-            }
-            if ((yoAd.ToString().Equals(null)))
-            {
-                txtYrofAdmsn.Value = yoAd.ToShortDateString();
-            }
-            else
-            {
-                var dtAd = DateTime.Parse(yoAd.ToString());
-                txtYoAdmn.Text = dtAd.ToShortDateString();
-            }
 
-            if ((yoC.ToString().Equals(null)))
-            {
-                txtYrofCompltn.Value = yoC.ToShortDateString();
-            }
-            else
-            {
-                var dtCmp = DateTime.Parse(yoC.ToString());
-                txtYofcomplt.Text = dtCmp.ToShortDateString();
-            }
             }
             catch (Exception exr)
             {
@@ -575,6 +619,61 @@ namespace KCDF_P.Account
             ScriptManager.RegisterStartupScript(this, this.GetType(), "text", "whatSchool()", true);
             lblValues.Text =  myschoolIs;
             Session["primarySch"] = myschoolIs;
+        }
+
+        protected void tblRefs_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            try
+            {
+                var del_id = tblRefs.DataKeys[e.RowIndex].Values[0].ToString();
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                if (sup.FnDeleteReferee(Session["username"].ToString(),del_id) == true)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "alert('Application Entry deleted successfully!');", true);
+                    loadRefs();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //KCDFAlert.ShowAlert(ex.Message);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "alert('" + ex.Message + "');", true);
+                loadRefs();
+            }
+        }
+
+        protected void ddlSelCounty_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selIndex = ddlSelCounty.SelectedIndex;
+            switch (selIndex)
+            {
+                case 0:
+                    KCDFAlert.ShowAlert("Invalid County selection");
+                    break;
+                default:
+                    var sbCntysplit00 = ddlSelCounty.SelectedValue;
+                    var subCnty = nav.mysubCountyIs.Where(sc => sc.County_Code == sbCntysplit00).ToList();
+                    ddlConstituency.DataSource = subCnty;
+                    ddlConstituency.DataTextField = "Sub_County_Name";
+                    ddlConstituency.DataValueField = "Sub_County_Name";
+                    ddlConstituency.DataBind();
+                    ddlConstituency.Items.Insert(0, "--Select your Sub County--");
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+                    //KCDFAlert.ShowAlert(sbCntysplit00);
+                    break;
+            }
+        }
+        protected void myCountyIs()
+        {
+            var mycounty = nav.mycountyIs.ToList();
+            ddlSelCounty.DataSource = mycounty;
+            ddlSelCounty.DataTextField = "County_Name";
+            ddlSelCounty.DataValueField = "County_Code";
+            ddlSelCounty.DataBind();
+            ddlSelCounty.Items.Insert(0, "--Select your County--");
         }
     }
  }

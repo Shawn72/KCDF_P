@@ -146,7 +146,7 @@
             });
         });
     </script>
-        <script type="text/javascript">
+    <script type="text/javascript">
     function CheckAvailability() {
         var admNoo = $('[id*=txtIDorRegNo]').val();
         $.ajax({

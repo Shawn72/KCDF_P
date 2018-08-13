@@ -1,0 +1,71 @@
+﻿<html>
+<head>
+    <title></title>
+</head>
+<body>
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.9/angular.min.js"></script>
+<!--<script type="text/javascript" src="~/Scripts/angular.js"></script>-->
+<script type="text/javascript">
+    var app = angular.module('MyApp', []);
+    app.controller('MyController', function($scope) {
+        //This will hide the DIV by default.
+        $scope.IsVisible = false;
+        $scope.ShowPassport = function(value) {
+            //If DIV is visible it will be hidden and vice versa.
+            $scope.IsVisible = value == "Y";
+        }
+    });
+</script>
+    <script type="text/javascript">
+        var app = angular.module('MyAppe', [])
+        app.controller('MyController', function ($scope, $window) {
+            $scope.Fruits = [{
+                FruitId: 1,
+                Name: 'Apple'
+            }, {
+                FruitId: 2,
+                Name: 'Mango'
+            }, {
+                FruitId: 3,
+                Name: 'Orange'
+            }];
+            $scope.GetValue = function () {
+                var fruitId = $scope.SelectedFruitId;
+                var fruitName;
+                for (var i = 0; i < $scope.Fruits.length; i++) {
+                    if ($scope.Fruits[i].FruitId == fruitId) {
+                        fruitName = $scope.Fruits[i].Name;
+                        break;
+                    }
+                }
+                var message = "Value: " + fruitId + " Text: " + fruitName + "\n";
+                $window.alert(message);
+            }
+        });
+    </script>
+<div ng-app="MyApp" ng-controller="MyController">
+    <label for="chkPassport">
+        Do you have Passport?
+        Yes <input type="radio" name="Passport" ng-click="ShowPassport('Y')"/>
+        No <input type="radio" name="Passport" ng-click="ShowPassport('N')"/>
+    </label>
+    <hr/>
+    <div ng-show="IsVisible">
+        Passport Number:
+        <input type="text" id="txtPassportNumber"/>
+    </div>
+</div>
+    <div ng-app="MyAppe" ng-controller="MyController">
+        <div ng-repeat="fruit in Fruits">
+            <label for="rbCustomer_{{fruit.FruitId}}">
+                <input id="rbCustomer_{{fruit.FruitId}}" type="radio" ng-model="$parent.SelectedFruitId"
+                       value="{{fruit.FruitId}}" />
+                {{fruit.Name}}
+            </label>
+        </div>
+        <br />
+        <br />
+        <input type="button" value="Get" ng-click="GetValue()" />
+    </div>
+</body>
+</html>

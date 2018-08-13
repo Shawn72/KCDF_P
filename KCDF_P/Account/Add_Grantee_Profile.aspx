@@ -1,6 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Grantee_Profile.aspx.cs" MasterPageFile="~/Account/AddGranteeProfile_Master.Master" Inherits="KCDF_P.Account.Add_Grantee_Profile" %>
 <asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
-<%--<meta http-equiv="refresh" content="200;url=Add_Grantee_Profile.aspx"> --%>
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <div class="panel-body" style="font-family:Trebuchet MS">
     <div class="row">
         <div class="col-md-12">
@@ -10,49 +10,21 @@
     <header class="panel-heading tab-bg-info">
              <asp:Menu ID="OrgInfoMenu" Orientation="Horizontal"  StaticMenuItemStyle-CssClass="tab" StaticSelectedStyle-CssClass="selectedtab" CssClass="tabs" runat="server" OnMenuItemClick="OrgInfoMenu_OnMenuItemClick">
                 <Items>
-                    <asp:MenuItem Text="Organization Profile |" Value="0" Selected="true" runat="server"/>
-                    <asp:MenuItem Text="Applicant Information |" Value="1" runat="server"/>     
+                    <asp:MenuItem Text="Applicant Information |" Value="0" runat="server" Selected="true"/>
+                    <asp:MenuItem Text="Organization Profile |" Value="1"  runat="server"/>
+                        
                 </Items>
             </asp:Menu>
     </header>
  <section class="panel">
  <div class="panel panel-primary">
- 
+  <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
       <asp:MultiView ID="orgPMultiview" runat="server" ActiveViewIndex="0">
-         <asp:View runat="server" ID="orgDView">
-            <div class="form-horizontal">
+          <asp:View runat="server" ID="ContactInfoofApplyingOrg">
+             <div class="form-horizontal">
             <br/>
-            
-            <div class="form-group">
-                <asp:Label runat="server" CssClass="col-md-3 control-label">Organization Name:</asp:Label>
-                    <div class="col-md-6">
-                        <asp:TextBox runat="server" ID="txOrgname" CssClass="form-control" style="text-transform:uppercase" Enabled="False"/>               
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Email Address:</asp:Label>
-                        <div class="col-md-6">
-                            <asp:TextBox runat="server" ID="txEmailAdd" CssClass="form-control" Enabled="False" />              
-                        </div> 
-                    </div>
-      
-                <div class="form-group">
-                    <asp:Label runat="server" CssClass="col-md-3 control-label">Mobile Number:</asp:Label>
-                       <div class="col-md-6">
-                        <asp:TextBox runat="server" ID="txPhoneNo" CssClass="form-control"  Enabled="False"  />              
-                               
-                         </div> 
-                    </div>
-                      
-              </div>
-              <br/>
-              
-         </asp:View>
-         
-         <asp:View runat="server" ID="ContactInfoofApplyingOrg">
-               <div class="form-horizontal">
-            <br/>
+            <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                 <ContentTemplate>
             <div class="col-md-12">
                 <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">1</span>Contact Information of applying organization:</label> 
             </div>
@@ -126,7 +98,7 @@
                         <div class="col-md-4">
                             <asp:DropDownList ID="ddlOrgType" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true">
-                                <asp:ListItem Selected="True">..Select Organization Type..</asp:ListItem>
+                                <asp:ListItem Selected="True">--Select Organization Type--</asp:ListItem>
                                 <asp:ListItem>NO</asp:ListItem>
                                 <asp:ListItem>YES</asp:ListItem>
                             </asp:DropDownList>
@@ -158,7 +130,7 @@
                 </div>
 
                  <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Profitable:</asp:Label>
+                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Non -Profit:</asp:Label>
                         <div class="col-md-4">
                             <asp:DropDownList ID="ddlNonProfitable" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" >
@@ -192,7 +164,7 @@
                         <div class="col-md-4">
                             <asp:DropDownList ID="ddlRegtype" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true" >
-                                <asp:ListItem>--Select--</asp:ListItem>
+                                <asp:ListItem Selected="True">--Select--</asp:ListItem>
                                 <asp:ListItem>SHG</asp:ListItem>
                                 <asp:ListItem>CBO</asp:ListItem>
                                 <asp:ListItem>NGO</asp:ListItem>
@@ -233,13 +205,64 @@
                     </div> 
                 <div class="col-md-3"></div>
                 </div>
+                     </ContentTemplate>
+                    <Triggers>
+                        <asp:PostBackTrigger ControlID = "btnSave"/>
+                    </Triggers>
+                </asp:UpdatePanel>
                <br/>                                 
                
              </div>
               <br/>
           </asp:View>
-        </asp:MultiView>
+
+          <asp:View runat="server" ID="orgDView">
+                    <div class="form-horizontal">
+                    <br/>
+            
+                    <div class="form-group">
+                        <asp:Label runat="server" CssClass="col-md-3 control-label">Organization Name:</asp:Label>
+                            <div class="col-md-6">
+                                <asp:TextBox runat="server" ID="txOrgname" CssClass="form-control" style="text-transform:uppercase" Enabled="False"/>               
+                            </div>
+                        </div>
+                
+                        <div class="form-group">
+                            <asp:Label runat="server"  CssClass="col-md-3 control-label">Email Address:</asp:Label>
+                                <div class="col-md-6">
+                                    <asp:TextBox runat="server" ID="txEmailAdd" CssClass="form-control" Enabled="False" />              
+                                </div> 
+                            </div>
+      
+                        <div class="form-group">
+                            <asp:Label runat="server" CssClass="col-md-3 control-label">Mobile Number:</asp:Label>
+                               <div class="col-md-6">
+                                <asp:TextBox runat="server" ID="txPhoneNo" CssClass="form-control"  Enabled="False"  />              
+                               
+                                 </div> 
+                            </div>
+                      
+                      </div>
+                      <br/>
+              
+                 </asp:View>
+
+      </asp:MultiView>
      </div>
 </section>
 </div>
+<script>
+    function pageLoad() {
+        $('.selectpicker').selectpicker();
+        $('.input-group.date').datepicker({
+            format: "mm/dd/yy",
+            maxViewMode: 3,
+            todayBtn: true,
+            clearBtn: true,
+            autoclose: true,
+            calendarWeeks: true,
+            toggleActive: true
+        });
+    }
+</script>
 </asp:Content>

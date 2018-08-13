@@ -67,6 +67,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Label lbError;
         
         /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
+        
+        /// <summary>
         /// lblUsernameIS control.
         /// </summary>
         /// <remarks>
@@ -92,24 +101,6 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.MultiView orgPMultiview;
-        
-        /// <summary>
-        /// viewUploads control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View viewUploads;
-        
-        /// <summary>
-        /// gridVGrantsDownloads control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridVGrantsDownloads;
         
         /// <summary>
         /// myApplicantInfo control.
@@ -227,6 +218,42 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTypeofOrg;
+        
+        /// <summary>
+        /// btnGoNext1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnGoNext1;
+        
+        /// <summary>
+        /// viewUploads control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View viewUploads;
+        
+        /// <summary>
+        /// gridVGrantsDownloads control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridVGrantsDownloads;
+        
+        /// <summary>
+        /// btnNext2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNext2;
         
         /// <summary>
         /// grantsMgt control.
@@ -382,6 +409,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnSaveGrantHisto;
         
         /// <summary>
+        /// btnNext3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNext3;
+        
+        /// <summary>
         /// UpdatePanel5 control.
         /// </summary>
         /// <remarks>
@@ -472,6 +508,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.DropDownList ddlSelCounty;
         
         /// <summary>
+        /// txtCounty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCounty;
+        
+        /// <summary>
         /// ddlConstituency control.
         /// </summary>
         /// <remarks>
@@ -479,6 +524,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlConstituency;
+        
+        /// <summary>
+        /// txtSubCounty control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSubCounty;
         
         /// <summary>
         /// txtAreaTargetSettmnt control.
@@ -499,6 +553,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.DropDownList ddlMonths;
         
         /// <summary>
+        /// txtLength control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtLength;
+        
+        /// <summary>
         /// ddlEstScale control.
         /// </summary>
         /// <remarks>
@@ -508,6 +571,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.DropDownList ddlEstScale;
         
         /// <summary>
+        /// txtScale control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtScale;
+        
+        /// <summary>
         /// TextBoxcost control.
         /// </summary>
         /// <remarks>
@@ -515,15 +587,6 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxcost;
-        
-        /// <summary>
-        /// btnRefreshScript control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnRefreshScript;
         
         /// <summary>
         /// TextBoxcont control.
@@ -560,6 +623,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUpdatePOverview;
+        
+        /// <summary>
+        /// btnNext4 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNext4;
         
         /// <summary>
         /// targetGroup control.
@@ -868,6 +940,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnSaveTarget;
         
         /// <summary>
+        /// btnNext5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNext5;
+        
+        /// <summary>
         /// uploadDocs control.
         /// </summary>
         /// <remarks>
@@ -904,6 +985,69 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUpload;
         
         /// <summary>
+        /// appFm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl appFm;
+        
+        /// <summary>
+        /// FileUploadProjectBudget control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadProjectBudget;
+        
+        /// <summary>
+        /// btnProjectBudget control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnProjectBudget;
+        
+        /// <summary>
+        /// lblPB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblPB;
+        
+        /// <summary>
+        /// FileUploadtheBill control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadtheBill;
+        
+        /// <summary>
+        /// btnBillofQTY control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnBillofQTY;
+        
+        /// <summary>
+        /// lblBill control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblBill;
+        
+        /// <summary>
         /// FileUploadID control.
         /// </summary>
         /// <remarks>
@@ -920,6 +1064,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUploadID;
+        
+        /// <summary>
+        /// lblID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblID;
         
         /// <summary>
         /// FileUploadConst control.
@@ -940,6 +1093,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUploadConstitution;
         
         /// <summary>
+        /// lblOC control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblOC;
+        
+        /// <summary>
         /// FileUploadList control.
         /// </summary>
         /// <remarks>
@@ -956,6 +1118,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnUploadList;
+        
+        /// <summary>
+        /// lblUL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblUL;
         
         /// <summary>
         /// FileUploadFinRePo control.
@@ -976,6 +1147,42 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnFinReport;
         
         /// <summary>
+        /// lblFR control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblFR;
+        
+        /// <summary>
+        /// FileUploadAudit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadAudit;
+        
+        /// <summary>
+        /// btnAudit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAudit;
+        
+        /// <summary>
+        /// lblAudit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblAudit;
+        
+        /// <summary>
         /// gridViewUploads control.
         /// </summary>
         /// <remarks>
@@ -983,6 +1190,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridViewUploads;
+        
+        /// <summary>
+        /// btnNext6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnNext6;
         
         /// <summary>
         /// finalSubmit control.
@@ -1010,6 +1226,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gridSubmitApps;
+        
+        /// <summary>
+        /// btnSumbitFinal control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSumbitFinal;
         
         /// <summary>
         /// lblProjNb control.

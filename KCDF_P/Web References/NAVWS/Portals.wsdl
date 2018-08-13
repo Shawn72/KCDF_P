@@ -28,6 +28,8 @@
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="gender" type="int" />
             <element minOccurs="1" maxOccurs="1" name="dateOfBirth" type="date" />
+            <element minOccurs="1" maxOccurs="1" name="county" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="subcounty" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -259,7 +261,6 @@
             <element minOccurs="1" maxOccurs="1" name="counties" type="string" />
             <element minOccurs="1" maxOccurs="1" name="subcounties" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_title" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="target_geog_area" type="string" />
             <element minOccurs="1" maxOccurs="1" name="project_months" type="int" />
             <element minOccurs="1" maxOccurs="1" name="total_project_cost" type="decimal" />
             <element minOccurs="1" maxOccurs="1" name="your_cash_contribution" type="decimal" />
@@ -289,7 +290,9 @@
       </element>
       <element name="FnDeleteReferee_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnSaveProfP">
@@ -380,6 +383,7 @@
             <element minOccurs="1" maxOccurs="1" name="teacher" type="int" />
             <element minOccurs="1" maxOccurs="1" name="farmer" type="int" />
             <element minOccurs="1" maxOccurs="1" name="project_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="refNo" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -500,7 +504,9 @@
       </element>
       <element name="FnSaveUniBankDetails_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnCheckIfActive_Grantee">
@@ -540,6 +546,8 @@
             <element minOccurs="1" maxOccurs="1" name="year_of_Application" type="date" />
             <element minOccurs="1" maxOccurs="1" name="applicants_College" type="string" />
             <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarship_budget" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="required_date" type="date" />
           </sequence>
         </complexType>
       </element>
@@ -918,6 +926,172 @@
           <sequence />
         </complexType>
       </element>
+      <element name="FnSavePersonalBankDetails">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="my_bank_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="my_bank_branch" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="student_username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="my_account_no" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="students_idno" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="myaccount_name" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSavePersonalBankDetails_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteScholarship">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="code" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnDeleteScholarship_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddXstingGrantee">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="password" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activationCode" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddXstingGrantee_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddXstingScholar">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="password" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activationCode" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddXstingScholar_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddXstingConsult">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="email" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="password" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="activationCode" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAddXstingConsult_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckGranteeProfileUpdated">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="grantNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckGranteeProfileUpdated_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachReportForms">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="user_No" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_type" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="document_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_type" type="int" />
+            <element minOccurs="1" maxOccurs="1" name="document_kind" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="project_title" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="callrefNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="attached" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="year" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="quarter" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnAttachReportForms_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnFetchNavPicture">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="thePicture" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnFetchNavPicture_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="thePicture" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckScholarProfileUpdated">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="scolarNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCheckScholarProfileUpdated_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSumbitScholarshipApp">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="username" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="callNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnSumbitScholarshipApp_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="FnActivateAc">
@@ -1232,6 +1406,66 @@
   <message name="FnExportBLOB_Result">
     <part name="parameters" element="tns:FnExportBLOB_Result" />
   </message>
+  <message name="FnSavePersonalBankDetails">
+    <part name="parameters" element="tns:FnSavePersonalBankDetails" />
+  </message>
+  <message name="FnSavePersonalBankDetails_Result">
+    <part name="parameters" element="tns:FnSavePersonalBankDetails_Result" />
+  </message>
+  <message name="FnDeleteScholarship">
+    <part name="parameters" element="tns:FnDeleteScholarship" />
+  </message>
+  <message name="FnDeleteScholarship_Result">
+    <part name="parameters" element="tns:FnDeleteScholarship_Result" />
+  </message>
+  <message name="FnAddXstingGrantee">
+    <part name="parameters" element="tns:FnAddXstingGrantee" />
+  </message>
+  <message name="FnAddXstingGrantee_Result">
+    <part name="parameters" element="tns:FnAddXstingGrantee_Result" />
+  </message>
+  <message name="FnAddXstingScholar">
+    <part name="parameters" element="tns:FnAddXstingScholar" />
+  </message>
+  <message name="FnAddXstingScholar_Result">
+    <part name="parameters" element="tns:FnAddXstingScholar_Result" />
+  </message>
+  <message name="FnAddXstingConsult">
+    <part name="parameters" element="tns:FnAddXstingConsult" />
+  </message>
+  <message name="FnAddXstingConsult_Result">
+    <part name="parameters" element="tns:FnAddXstingConsult_Result" />
+  </message>
+  <message name="FnCheckGranteeProfileUpdated">
+    <part name="parameters" element="tns:FnCheckGranteeProfileUpdated" />
+  </message>
+  <message name="FnCheckGranteeProfileUpdated_Result">
+    <part name="parameters" element="tns:FnCheckGranteeProfileUpdated_Result" />
+  </message>
+  <message name="FnAttachReportForms">
+    <part name="parameters" element="tns:FnAttachReportForms" />
+  </message>
+  <message name="FnAttachReportForms_Result">
+    <part name="parameters" element="tns:FnAttachReportForms_Result" />
+  </message>
+  <message name="FnFetchNavPicture">
+    <part name="parameters" element="tns:FnFetchNavPicture" />
+  </message>
+  <message name="FnFetchNavPicture_Result">
+    <part name="parameters" element="tns:FnFetchNavPicture_Result" />
+  </message>
+  <message name="FnCheckScholarProfileUpdated">
+    <part name="parameters" element="tns:FnCheckScholarProfileUpdated" />
+  </message>
+  <message name="FnCheckScholarProfileUpdated_Result">
+    <part name="parameters" element="tns:FnCheckScholarProfileUpdated_Result" />
+  </message>
+  <message name="FnSumbitScholarshipApp">
+    <part name="parameters" element="tns:FnSumbitScholarshipApp" />
+  </message>
+  <message name="FnSumbitScholarshipApp_Result">
+    <part name="parameters" element="tns:FnSumbitScholarshipApp_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -1440,6 +1674,46 @@
     <operation name="FnExportBLOB">
       <input name="FnExportBLOB" message="tns:FnExportBLOB" />
       <output name="FnExportBLOB_Result" message="tns:FnExportBLOB_Result" />
+    </operation>
+    <operation name="FnSavePersonalBankDetails">
+      <input name="FnSavePersonalBankDetails" message="tns:FnSavePersonalBankDetails" />
+      <output name="FnSavePersonalBankDetails_Result" message="tns:FnSavePersonalBankDetails_Result" />
+    </operation>
+    <operation name="FnDeleteScholarship">
+      <input name="FnDeleteScholarship" message="tns:FnDeleteScholarship" />
+      <output name="FnDeleteScholarship_Result" message="tns:FnDeleteScholarship_Result" />
+    </operation>
+    <operation name="FnAddXstingGrantee">
+      <input name="FnAddXstingGrantee" message="tns:FnAddXstingGrantee" />
+      <output name="FnAddXstingGrantee_Result" message="tns:FnAddXstingGrantee_Result" />
+    </operation>
+    <operation name="FnAddXstingScholar">
+      <input name="FnAddXstingScholar" message="tns:FnAddXstingScholar" />
+      <output name="FnAddXstingScholar_Result" message="tns:FnAddXstingScholar_Result" />
+    </operation>
+    <operation name="FnAddXstingConsult">
+      <input name="FnAddXstingConsult" message="tns:FnAddXstingConsult" />
+      <output name="FnAddXstingConsult_Result" message="tns:FnAddXstingConsult_Result" />
+    </operation>
+    <operation name="FnCheckGranteeProfileUpdated">
+      <input name="FnCheckGranteeProfileUpdated" message="tns:FnCheckGranteeProfileUpdated" />
+      <output name="FnCheckGranteeProfileUpdated_Result" message="tns:FnCheckGranteeProfileUpdated_Result" />
+    </operation>
+    <operation name="FnAttachReportForms">
+      <input name="FnAttachReportForms" message="tns:FnAttachReportForms" />
+      <output name="FnAttachReportForms_Result" message="tns:FnAttachReportForms_Result" />
+    </operation>
+    <operation name="FnFetchNavPicture">
+      <input name="FnFetchNavPicture" message="tns:FnFetchNavPicture" />
+      <output name="FnFetchNavPicture_Result" message="tns:FnFetchNavPicture_Result" />
+    </operation>
+    <operation name="FnCheckScholarProfileUpdated">
+      <input name="FnCheckScholarProfileUpdated" message="tns:FnCheckScholarProfileUpdated" />
+      <output name="FnCheckScholarProfileUpdated_Result" message="tns:FnCheckScholarProfileUpdated_Result" />
+    </operation>
+    <operation name="FnSumbitScholarshipApp">
+      <input name="FnSumbitScholarshipApp" message="tns:FnSumbitScholarshipApp" />
+      <output name="FnSumbitScholarshipApp_Result" message="tns:FnSumbitScholarshipApp_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -1912,10 +2186,100 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>
+    <operation name="FnSavePersonalBankDetails">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSavePersonalBankDetails" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSavePersonalBankDetails">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSavePersonalBankDetails_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnDeleteScholarship">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteScholarship" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnDeleteScholarship">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnDeleteScholarship_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddXstingGrantee">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddXstingGrantee" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddXstingGrantee">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddXstingGrantee_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddXstingScholar">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddXstingScholar" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddXstingScholar">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddXstingScholar_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAddXstingConsult">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddXstingConsult" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAddXstingConsult">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAddXstingConsult_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCheckGranteeProfileUpdated">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCheckGranteeProfileUpdated" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCheckGranteeProfileUpdated">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCheckGranteeProfileUpdated_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnAttachReportForms">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnAttachReportForms" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnAttachReportForms">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnAttachReportForms_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnFetchNavPicture">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnFetchNavPicture" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnFetchNavPicture">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnFetchNavPicture_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCheckScholarProfileUpdated">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCheckScholarProfileUpdated" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCheckScholarProfileUpdated">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCheckScholarProfileUpdated_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnSumbitScholarshipApp">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnSumbitScholarshipApp" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnSumbitScholarshipApp">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnSumbitScholarshipApp_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
   </binding>
   <service name="Portals">
     <port name="Portals_Port" binding="tns:Portals_Binding">
-      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

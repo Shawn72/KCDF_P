@@ -22,6 +22,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Label lblSessionUsername;
         
         /// <summary>
+        /// lnkDashboard control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkDashboard;
+        
+        /// <summary>
         /// lnkbtnEdit control.
         /// </summary>
         /// <remarks>
@@ -38,6 +47,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lnkBtnChangeP;
+        
+        /// <summary>
+        /// lnkLogout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkLogout;
         
         /// <summary>
         /// MainContent control.

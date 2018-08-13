@@ -1,13 +1,12 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Grantee_Dashboard.aspx.cs" MasterPageFile="~/Gran_Master.Master" Inherits="KCDF_P.Grantee_Dashboard" %>
-
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <%@Import namespace="System.IO" %>
 <%@ Import Namespace="System.Net" %>
 <%@ Import Namespace="KCDF_P" %>
 <%@ Import Namespace="KCDF_P.NAVWS" %>
 <asp:Content ID="userDashBd" ContentPlaceHolderID="MainContent" runat="server">
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
-
-<%--<meta http-equiv="refresh" content="500;url=Grantee_Dashboard.aspx">--%> 
+ 
     <div class="row" style="height: 20px">&nbsp;</div>
      <div class="col-md-12">
          <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
@@ -43,7 +42,7 @@
                         <div class="col-md-3"></div>
                         <div class="col-md-6">
                             <asp:Image ID="profPic" runat="server"  class="img-circle img-responsive" />
-                            <asp:Button  ID="btnUploadPic" runat="server" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnUploadPic_OnClick" Text="Change Picture" CausesValidation="False" UseSubmitBehavior="False" ></asp:Button>
+                            <asp:Button  ID="btnUploadPic" runat="server" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnUploadPic_OnClick" Text="Change Logo" CausesValidation="False" UseSubmitBehavior="False" ></asp:Button>
                         </div>
                        <div class="col-md-3"></div>
                     </div>
@@ -71,6 +70,7 @@
         </div>
              
         <div class="col-md-8">
+            <label style="font-weight: bold">My Applications</label>
         <asp:GridView ID="tblMyProjects" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
             EmptyDataText="No projects Found!" OnRowDeleting="tblMyProjects_OnRowDeleting" DataKeyNames="No"
              AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
@@ -81,7 +81,7 @@
             <asp:BoundField DataField="Total_Project_Cost_KES" HeaderText="Total Project Cost" DataFormatString="{0:N2}" />
             <asp:BoundField DataField="Your_Cash_Contribution_KES" HeaderText="Organization Contribution" DataFormatString="{0:N2}" />
             <asp:BoundField DataField="Requested_KCDF_Amount_KES" HeaderText="Requested Grant Amount"  DataFormatString="{0:N2}"/>
-            <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status"/>
+            <asp:BoundField DataField="Grant_Approval" HeaderText="Approval Status"/>
             <asp:TemplateField HeaderText="Edit">
                 <ItemTemplate>
                     <asp:LinkButton ID="lnkEdit" Text="Edit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEdit" runat="server" OnClick="lnkEdit_OnClick"></asp:LinkButton>

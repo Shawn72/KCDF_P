@@ -21,6 +21,7 @@ namespace KCDF_P
         };
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (Session["username"] == null)
             {
                 Response.Redirect("/Default.aspx");
@@ -41,6 +42,12 @@ namespace KCDF_P
             Response.AppendHeader("Content-Disposition", "attachment; filename=" + Path.GetFileName(filePath));
             Response.WriteFile(filePath);
             Response.End();
+        }
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
         }
 
         protected void loadView()

@@ -1,5 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PasswordReset.aspx.cs" MasterPageFile="~/PasswordReset_Master.Master" Inherits="KCDF_P.PasswordReset" %>
-
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="row" style="height: 20px">&nbsp;</div>
     <div class="row">

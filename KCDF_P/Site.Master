@@ -1,8 +1,4 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="KCDF_P.SiteMaster" %>
-<%
-    Response.Cache.SetNoStore();
-    //Response.Write (DateTime.Now.ToLongTimeString ());
-%>
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -61,22 +57,23 @@
             <!--logo end-->    
             
             <div class="collapse navbar-collapse" id="shrink">
-                    <ul class="nav navbar-nav navbar-right">                       
+                    <ul class="nav navbar-nav navbar-right">  
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Download Forms<b class="caret"></b></a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reporting<b class="caret"></b></a>
 
                             <ul class="dropdown-menu">
-                                <li><a href="UploadFiles_Scholarships.aspx">Application Forms Downloads</a></li>
+                                <li><a href="../Report_Form.aspx">Upload Reporting Documents</a></li>
                                 <li class="divider"></li>                                
                             </ul>
                         </li>
 
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Application Forms<b class="caret"></b></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a href="../Scholarship_Application.aspx">Scholarship Application</a></li>
-                                <li class="divider"></li>                                
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Apply for Scholarship<b class="caret"></b></a>
+                          <ul class="dropdown-menu">
+                                <li><a href="../UploadFiles_Scholarships.aspx"> Download Application Forms</a></li>
+                                <li class="divider"></li> 
+                                <li><a href="../Scholarship_Application.aspx">Application Details</a></li>
+                                <li class="divider"></li> 
                             </ul>
                         </li>
                         <li>
@@ -128,9 +125,6 @@
            </footer>
 
       </section>
-   
-    <script src="Scripts/jquery.scrollTo.min.js"></script>
-    <script src="Scripts/jquery.nicescroll.js" type="text/javascript"></script>
              
    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <%--  <script src="Scripts/jquery-3.3.1.min.js"></script>

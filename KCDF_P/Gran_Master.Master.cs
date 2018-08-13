@@ -17,13 +17,24 @@ namespace KCDF_P
         protected void lnkBtnChangeP_OnClick(object sender, EventArgs e)
         {
             Session["userType"] = "grantee";
-            Response.Redirect("PasswordReset.aspx");
+            Response.Redirect("~/PasswordReset.aspx");
         }
 
         protected void lnkbtnEdit_OnClick(object sender, EventArgs e)
         {
             // Response.Redirect("Account/Add_Grantee_Profile.aspx");
             Server.Transfer("~/Account/Add_Grantee_Profile.aspx");
+            
+        }
+        protected void lnkDashboard_OnClick(object sender, EventArgs e)
+        {
+            Response.ApplyAppPathModifier("~/Grantee_Dashboard.aspx");
+        }
+
+        protected void lnkLogout_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("~/Logout.aspx");
+            //Response.ApplyAppPathModifier("~/Default.aspx");
         }
     }
 }

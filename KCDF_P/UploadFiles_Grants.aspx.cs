@@ -22,6 +22,7 @@ namespace KCDF_P
         };
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (Session["username"] == null)
             {
                 Response.Redirect("/Default.aspx");
@@ -91,6 +92,12 @@ namespace KCDF_P
             }
            
         }
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        }
 
         protected void UploadFile(object sender, EventArgs e)
         {
@@ -151,88 +158,6 @@ namespace KCDF_P
 
         }
 
-        protected void GetProjects()
-        {
-            var projs = nav.call_for_Proposal.ToList().Where(pty => pty.Proposal_Type == "Grant");
-            ddlAccountType.DataSource = projs;
-            ddlAccountType.DataTextField = "Project";
-            ddlAccountType.DataValueField = "Call_Ref_Number";
-            ddlAccountType.DataBind();
-            ddlAccountType.Items.Insert(0, "--Select Project--");
-        }
-
-        protected void btnUploadMatrix_OnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                var documentKind = "INDICATOR MATRIX";
-                var refNoIs = txtPrefNo.Text;
-
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
-                string fileName = Path.GetFileName(FileUploadMatrix.PostedFile.FileName);
-                string ext = Path.GetExtension(FileUploadMatrix.PostedFile.FileName);
-                if (!Directory.Exists(uploadsFolder))
-                {
-                    //if the folder doesnt exist create it
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                if (FileUploadMatrix.PostedFile.ContentLength > 5000000)
-                {
-                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
-                    return;
-                }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
-                {
-                    string filename = Grantees.No + "_" + fileName;
-                    FileUploadMatrix.SaveAs(uploadsFolder + filename);
-                    // file path to read file
-                    string filePath = uploadsFolder + filename;
-
-                    FileStream file = File.OpenRead(filePath);
-                    byte[] buffer = new byte[file.Length];
-                    file.Read(buffer, 0, buffer.Length);
-                    file.Close();
-                    string attachedDoc = Convert.ToBase64String(buffer);
-
-                    saveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
-                    LoadMyMatrixUploads();
-                }
-                else
-                {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: XLS XLSX only!");
-                }
-                if (!FileUploadMatrix.HasFile)
-                {
-                    KCDFAlert.ShowAlert("Select Document before uploading");
-                    return;
-                }
-
-            }
-            catch (Exception ex)
-            {
-                // KCDFAlert.ShowAlert("Unkown Error Occured!");
-                KCDFAlert.ShowAlert(ex.Message);
-            }
-        }
-
-        protected void ddlAccountType_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            int slVal = ddlAccountType.SelectedIndex;
-            switch (slVal)
-            {
-                case 0:
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Select valid project from dropdownlist!');", true);
-                    txtPrefNo.Text = "";
-                    break;
-                default:
-                    txtPrefNo.Text = ddlAccountType.SelectedValue;
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
-                    break;
-            }
-           
-        }
-        
         protected void saveAttachment(string filName, string extension, string docKind, string callRefNo, string attachedBLOB)
         {
             var usNo = nav.grantees_Register.ToList().Where(usr => usr.Organization_Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
@@ -294,6 +219,70 @@ namespace KCDF_P
             //}
           }
 
+        protected void btnUploadMatrix_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var documentKind = "INDICATOR MATRIX";
+                var refNoIs = txtPrefNo.Text;
+
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string fileName = Path.GetFileName(FileUploadMatrix.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadMatrix.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                if (FileUploadMatrix.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".xls") || (ext == ".xlsx"))
+                {
+                    string filename = Grantees.No + "_" + fileName;
+                    FileUploadMatrix.SaveAs(uploadsFolder + filename);
+                    // file path to read file
+                    string filePath = uploadsFolder + filename;
+
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
+
+                    saveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
+                    LoadMyMatrixUploads();
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: XLS XLSX only!");
+                }
+                if (!FileUploadMatrix.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                // KCDFAlert.ShowAlert("Unkown Error Occured!");
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+        }
+        protected void GetProjects()
+        {
+            var projs = nav.call_for_Proposal.ToList().Where(pty => pty.Proposal_Type == "Grant");
+            ddlAccountType.DataSource = projs;
+            ddlAccountType.DataTextField = "Project";
+            ddlAccountType.DataValueField = "Call_Ref_Number";
+            ddlAccountType.DataBind();
+            ddlAccountType.Items.Insert(0, "--Select Project--");
+        }
+         
         protected void LoadMyMatrixUploads()
         {
             try
@@ -324,7 +313,23 @@ namespace KCDF_P
                 grViewMyDocs.EmptyDataText = "No Uploads found!";
             }
         }
-
+        protected void ddlAccountType_OnSelectedIndexChanged(object sender, EventArgs e)
+                {
+                    int slVal = ddlAccountType.SelectedIndex;
+                    switch (slVal)
+                    {
+                        case 0:
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Select valid project from dropdownlist!');", true);
+                            txtPrefNo.Text = "";
+                            break;
+                        default:
+                            txtPrefNo.Text = ddlAccountType.SelectedValue;
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+                            break;
+                    }
+           
+                }
+       
     }
 
 }

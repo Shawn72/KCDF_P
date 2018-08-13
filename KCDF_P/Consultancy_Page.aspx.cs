@@ -38,6 +38,7 @@ namespace KCDF_P
         [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (!IsPostBack)
             {
                 if (Session["username"] == null)
@@ -60,6 +61,13 @@ namespace KCDF_P
             }
            
         }
+
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        }
         public void checkSessX()
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
@@ -74,7 +82,8 @@ namespace KCDF_P
         }
         protected ConsultantClass returnConsultancy()
         {
-            return new ConsultantClass(Session["username"].ToString());
+            return new ConsultantClass(User.Identity.Name);
+            //return new ConsultantClass(Session["username"].ToString());
         }
         protected void loadProfPic()
         {
@@ -608,30 +617,20 @@ namespace KCDF_P
             try
             {
                 var userNM = Session["username"].ToString();
-                var openP = nav.myConsultations.ToList().Where(up => up.Consultant_Username == userNM && up.Approval_Status == "Open" && up.Application_Submitted==false).Select(pn => pn.No).SingleOrDefault();
+                var openP = nav.myConsultations.ToList().Where(up => up.Consultant_Username == userNM && up.Approval_Status == "Open").Select(pn => pn.No).SingleOrDefault();
 
-               // KCDFAlert.ShowAlert(openP);
+                //KCDFAlert.ShowAlert(openP);
                 var upsFiles = nav.myConsultsUploads.ToList().Where(un => un.Username == userNM && un.Scholarship_No == openP);
                 gridViewUploads.AutoGenerateColumns = false;
                 gridViewUploads.DataSource = upsFiles;
                 gridViewUploads.DataBind();
 
-                gridViewUploads.UseAccessibleHeader = true;
-                gridViewUploads.HeaderRow.TableSection = TableRowSection.TableHeader;
-                TableCellCollection cells = gridViewUploads.HeaderRow.Cells;
-                cells[0].Attributes.Add("data-class", "expand");
-                cells[2].Attributes.Add("data-hide", "phone,tablet");
-                cells[3].Attributes.Add("data-hide", "phone,tablet");
-                cells[4].Attributes.Add("data-hide", "phone, tablet");
+                }
+                  catch (Exception ex){
+                        // KCDFAlert.ShowAlert("You have not uploaded documents yet!");
+                        KCDFAlert.ShowAlert(ex.Message);
+                        //gridViewUploads.EmptyDataText = "No Uploads found!";
             }
-            catch (Exception ex)
-            {
-                // KCDFAlert.ShowAlert("You have not uploaded documents yet!");
-                //KCDFAlert.ShowAlert(ex.Message);
-                gridViewUploads.EmptyDataText = "No Uploads found!";
-
-            }
-
         }
 
         //protected void FtpUpload()

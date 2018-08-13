@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
+using KCDF_P.NAVWS;
 
 namespace KCDF_P
 {
@@ -23,6 +24,7 @@ namespace KCDF_P
        
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (!IsPostBack)
             {
                 if (Session["username"] == null)
@@ -32,13 +34,19 @@ namespace KCDF_P
                 }
                 returnCustomer();
                 loadProfPic();
-                // checkUser();
-                // checkExtension();
+                LoadMyApplications();
             }
+        }
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
         }
         protected Students returnCustomer()
         {
-            return new Students(Session["username"].ToString());
+            return new Students(User.Identity.Name);
+            //return new Students(Session["username"].ToString());
         }
         protected void loadProfPic()
         {
@@ -55,45 +63,17 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Upload a profile picture");
                 }
                 else
-                {
-                    profPic.ImageUrl = "ProfilePics/"+pic;
-                   // KCDFAlert.ShowAlert("ProfilePics/ "+pic);
+                {   
+                   profPic.ImageUrl = "ProfilePics/Scholarship/" + pic;
+                   HttpResponse.RemoveOutputCacheItem("/Dashboard.aspx");
+                   
                 }
             }
             catch (Exception ex)
             {
-                
               
             }
            
-        }
-
-        protected void CopyFilesToDir(object sender, EventArgs eventArgs)
-        {
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
-            string destPath = @"http://192.168.0.249:801/";
-
-            foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
-              SearchOption.AllDirectories))
-                Directory.CreateDirectory(dirPath.Replace(uploadsFolder, destPath));
-
-            //Copy all the files & Replaces any files with the same name
-            foreach (string newPath in Directory.GetFiles(uploadsFolder, "*.*",
-                SearchOption.AllDirectories))
-                File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
-            KCDFAlert.ShowAlert("Copied!");
-        }
-        protected void checkUser()
-        {
-            var edituser = nav.studentsRegister.ToList().Where(r => r.Username == Session["username"].ToString()).Select(r => r.First_name).SingleOrDefault();
-            //HotelFactory.ShowAlert("User: "+edituser);
-
-            if (string.IsNullOrEmpty(edituser))
-            {
-                KCDFAlert.ShowAlert("null user");
-                // ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
-            }
-
         }
 
         protected void checkExtension()
@@ -131,6 +111,38 @@ namespace KCDF_P
             image.Save(uploadsFolder + "dre2.png", System.Drawing.Imaging.ImageFormat.Png);
             KCDFAlert.ShowAlert("Converted to png");
         }
-        
+
+        protected void tblmyApplications_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            try
+            {
+                var del_id = tblmyApplications.DataKeys[e.RowIndex].Values[0].ToString();
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                if (sup.FnDeleteScholarship(del_id) == true)
+                {
+                    ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "alert('Application Entry deleted successfully!');", true);
+                    LoadMyApplications();
+                }
+               
+            }
+            catch (Exception ex)
+            {
+                //KCDFAlert.ShowAlert(ex.Message);
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "alert('"+ ex.Message + "');", true);
+                LoadMyApplications();
+            }
+        }
+
+        protected void LoadMyApplications()
+        {
+            var myapps =
+                nav.scholarshipApplications.ToList().Where(u => u.Student_Username == Session["username"].ToString());
+            tblmyApplications.AutoGenerateColumns = false;
+            tblmyApplications.DataSource = myapps;
+            tblmyApplications.DataBind();
+        }
     }
 }

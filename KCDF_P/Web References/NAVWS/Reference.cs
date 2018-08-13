@@ -133,6 +133,26 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnExportBLOBOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnSavePersonalBankDetailsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnDeleteScholarshipOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnAddXstingGranteeOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnAddXstingScholarOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnAddXstingConsultOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnCheckGranteeProfileUpdatedOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnAttachReportFormsOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnFetchNavPictureOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnCheckScholarProfileUpdatedOperationCompleted;
+        
+        private System.Threading.SendOrPostCallback FnSumbitScholarshipAppOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -328,6 +348,36 @@ namespace KCDF_P.NAVWS {
         public event FnExportBLOBCompletedEventHandler FnExportBLOBCompleted;
         
         /// <remarks/>
+        public event FnSavePersonalBankDetailsCompletedEventHandler FnSavePersonalBankDetailsCompleted;
+        
+        /// <remarks/>
+        public event FnDeleteScholarshipCompletedEventHandler FnDeleteScholarshipCompleted;
+        
+        /// <remarks/>
+        public event FnAddXstingGranteeCompletedEventHandler FnAddXstingGranteeCompleted;
+        
+        /// <remarks/>
+        public event FnAddXstingScholarCompletedEventHandler FnAddXstingScholarCompleted;
+        
+        /// <remarks/>
+        public event FnAddXstingConsultCompletedEventHandler FnAddXstingConsultCompleted;
+        
+        /// <remarks/>
+        public event FnCheckGranteeProfileUpdatedCompletedEventHandler FnCheckGranteeProfileUpdatedCompleted;
+        
+        /// <remarks/>
+        public event FnAttachReportFormsCompletedEventHandler FnAttachReportFormsCompleted;
+        
+        /// <remarks/>
+        public event FnFetchNavPictureCompletedEventHandler FnFetchNavPictureCompleted;
+        
+        /// <remarks/>
+        public event FnCheckScholarProfileUpdatedCompletedEventHandler FnCheckScholarProfileUpdatedCompleted;
+        
+        /// <remarks/>
+        public event FnSumbitScholarshipAppCompletedEventHandler FnSumbitScholarshipAppCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
         public bool FnActivateAc(string activationCode) {
@@ -360,7 +410,7 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnRegisterStudent", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnRegisterStudent_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public bool FnRegisterStudent(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime dateOfBirth) {
+        public bool FnRegisterStudent(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime dateOfBirth, string county, string subcounty) {
             object[] results = this.Invoke("FnRegisterStudent", new object[] {
                         fName,
                         mName,
@@ -370,17 +420,19 @@ namespace KCDF_P.NAVWS {
                         phone_Num,
                         userName,
                         gender,
-                        dateOfBirth});
+                        dateOfBirth,
+                        county,
+                        subcounty});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth) {
-            this.FnRegisterStudentAsync(fName, mName, lName, iD_Noa46, residence, phone_Num, userName, gender, dateOfBirth, null);
+        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, string county, string subcounty) {
+            this.FnRegisterStudentAsync(fName, mName, lName, iD_Noa46, residence, phone_Num, userName, gender, dateOfBirth, county, subcounty, null);
         }
         
         /// <remarks/>
-        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, object userState) {
+        public void FnRegisterStudentAsync(string fName, string mName, string lName, string iD_Noa46, string residence, string phone_Num, string userName, int gender, System.DateTime dateOfBirth, string county, string subcounty, object userState) {
             if ((this.FnRegisterStudentOperationCompleted == null)) {
                 this.FnRegisterStudentOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnRegisterStudentOperationCompleted);
             }
@@ -393,7 +445,9 @@ namespace KCDF_P.NAVWS {
                         phone_Num,
                         userName,
                         gender,
-                        dateOfBirth}, this.FnRegisterStudentOperationCompleted, userState);
+                        dateOfBirth,
+                        county,
+                        subcounty}, this.FnRegisterStudentOperationCompleted, userState);
         }
         
         private void OnFnRegisterStudentOperationCompleted(object arg) {
@@ -914,13 +968,12 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnProjectOverview", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnProjectOverview_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public bool FnProjectOverview(string username, string counties, string subcounties, string project_title, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime start_date, string grant_scale, string project_name, string callRefNo, string objective) {
+        public bool FnProjectOverview(string username, string counties, string subcounties, string project_title, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime start_date, string grant_scale, string project_name, string callRefNo, string objective) {
             object[] results = this.Invoke("FnProjectOverview", new object[] {
                         username,
                         counties,
                         subcounties,
                         project_title,
-                        target_geog_area,
                         project_months,
                         total_project_cost,
                         your_cash_contribution,
@@ -934,12 +987,12 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
-        public void FnProjectOverviewAsync(string username, string counties, string subcounties, string project_title, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, System.DateTime start_date, string grant_scale, string project_name, string callRefNo, string objective) {
-            this.FnProjectOverviewAsync(username, counties, subcounties, project_title, target_geog_area, project_months, total_project_cost, your_cash_contribution, kcdf_amount_requested, start_date, grant_scale, project_name, callRefNo, objective, null);
+        public void FnProjectOverviewAsync(string username, string counties, string subcounties, string project_title, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, System.DateTime start_date, string grant_scale, string project_name, string callRefNo, string objective) {
+            this.FnProjectOverviewAsync(username, counties, subcounties, project_title, project_months, total_project_cost, your_cash_contribution, kcdf_amount_requested, start_date, grant_scale, project_name, callRefNo, objective, null);
         }
         
         /// <remarks/>
-        public void FnProjectOverviewAsync(string username, string counties, string subcounties, string project_title, string target_geog_area, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, System.DateTime start_date, string grant_scale, string project_name, string callRefNo, string objective, object userState) {
+        public void FnProjectOverviewAsync(string username, string counties, string subcounties, string project_title, int project_months, decimal total_project_cost, decimal your_cash_contribution, decimal kcdf_amount_requested, System.DateTime start_date, string grant_scale, string project_name, string callRefNo, string objective, object userState) {
             if ((this.FnProjectOverviewOperationCompleted == null)) {
                 this.FnProjectOverviewOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnProjectOverviewOperationCompleted);
             }
@@ -948,7 +1001,6 @@ namespace KCDF_P.NAVWS {
                         counties,
                         subcounties,
                         project_title,
-                        target_geog_area,
                         project_months,
                         total_project_cost,
                         your_cash_contribution,
@@ -969,10 +1021,12 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteReferee", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnDeleteReferee_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnDeleteReferee(string username, string no) {
-            this.Invoke("FnDeleteReferee", new object[] {
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnDeleteReferee(string username, string no) {
+            object[] results = this.Invoke("FnDeleteReferee", new object[] {
                         username,
                         no});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -993,7 +1047,7 @@ namespace KCDF_P.NAVWS {
         private void OnFnDeleteRefereeOperationCompleted(object arg) {
             if ((this.FnDeleteRefereeCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.FnDeleteRefereeCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.FnDeleteRefereeCompleted(this, new FnDeleteRefereeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1168,7 +1222,8 @@ namespace KCDF_P.NAVWS {
                     int sexworker, 
                     int teacher, 
                     int farmer, 
-                    string project_name) {
+                    string project_name, 
+                    string refNo) {
             object[] results = this.Invoke("FnSaveToGargetGroup", new object[] {
                         username,
                         households,
@@ -1187,7 +1242,8 @@ namespace KCDF_P.NAVWS {
                         sexworker,
                         teacher,
                         farmer,
-                        project_name});
+                        project_name,
+                        refNo});
             return ((bool)(results[0]));
         }
         
@@ -1210,8 +1266,9 @@ namespace KCDF_P.NAVWS {
                     int sexworker, 
                     int teacher, 
                     int farmer, 
-                    string project_name) {
-            this.FnSaveToGargetGroupAsync(username, households, schools, organization, youth, women, men, childold, old, children, orphan, illness, marginalised, drug, sexworker, teacher, farmer, project_name, null);
+                    string project_name, 
+                    string refNo) {
+            this.FnSaveToGargetGroupAsync(username, households, schools, organization, youth, women, men, childold, old, children, orphan, illness, marginalised, drug, sexworker, teacher, farmer, project_name, refNo, null);
         }
         
         /// <remarks/>
@@ -1234,6 +1291,7 @@ namespace KCDF_P.NAVWS {
                     int teacher, 
                     int farmer, 
                     string project_name, 
+                    string refNo, 
                     object userState) {
             if ((this.FnSaveToGargetGroupOperationCompleted == null)) {
                 this.FnSaveToGargetGroupOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnSaveToGargetGroupOperationCompleted);
@@ -1256,7 +1314,8 @@ namespace KCDF_P.NAVWS {
                         sexworker,
                         teacher,
                         farmer,
-                        project_name}, this.FnSaveToGargetGroupOperationCompleted, userState);
+                        project_name,
+                        refNo}, this.FnSaveToGargetGroupOperationCompleted, userState);
         }
         
         private void OnFnSaveToGargetGroupOperationCompleted(object arg) {
@@ -1480,8 +1539,9 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnSaveUniBankDetails", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnSaveUniBankDetails_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnSaveUniBankDetails(string university_name, string university_bank_name, string university_bank_branch, string student_username, string university_account_no, string students_idno, string account_name) {
-            this.Invoke("FnSaveUniBankDetails", new object[] {
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnSaveUniBankDetails(string university_name, string university_bank_name, string university_bank_branch, string student_username, string university_account_no, string students_idno, string account_name) {
+            object[] results = this.Invoke("FnSaveUniBankDetails", new object[] {
                         university_name,
                         university_bank_name,
                         university_bank_branch,
@@ -1489,6 +1549,7 @@ namespace KCDF_P.NAVWS {
                         university_account_no,
                         students_idno,
                         account_name});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
@@ -1514,7 +1575,7 @@ namespace KCDF_P.NAVWS {
         private void OnFnSaveUniBankDetailsOperationCompleted(object arg) {
             if ((this.FnSaveUniBankDetailsCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.FnSaveUniBankDetailsCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.FnSaveUniBankDetailsCompleted(this, new FnSaveUniBankDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -1581,24 +1642,26 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddScholarship", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnAddScholarship_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public bool FnAddScholarship(string scholarship_RefNo, string admn_or_IDNo, string applicant_FullName, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime year_of_Application, string applicants_College, string username) {
+        public bool FnAddScholarship(string scholarship_RefNo, string admn_or_IDNo, string applicant_FullName, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime year_of_Application, string applicants_College, string username, decimal scholarship_budget, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime required_date) {
             object[] results = this.Invoke("FnAddScholarship", new object[] {
                         scholarship_RefNo,
                         admn_or_IDNo,
                         applicant_FullName,
                         year_of_Application,
                         applicants_College,
-                        username});
+                        username,
+                        scholarship_budget,
+                        required_date});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void FnAddScholarshipAsync(string scholarship_RefNo, string admn_or_IDNo, string applicant_FullName, System.DateTime year_of_Application, string applicants_College, string username) {
-            this.FnAddScholarshipAsync(scholarship_RefNo, admn_or_IDNo, applicant_FullName, year_of_Application, applicants_College, username, null);
+        public void FnAddScholarshipAsync(string scholarship_RefNo, string admn_or_IDNo, string applicant_FullName, System.DateTime year_of_Application, string applicants_College, string username, decimal scholarship_budget, System.DateTime required_date) {
+            this.FnAddScholarshipAsync(scholarship_RefNo, admn_or_IDNo, applicant_FullName, year_of_Application, applicants_College, username, scholarship_budget, required_date, null);
         }
         
         /// <remarks/>
-        public void FnAddScholarshipAsync(string scholarship_RefNo, string admn_or_IDNo, string applicant_FullName, System.DateTime year_of_Application, string applicants_College, string username, object userState) {
+        public void FnAddScholarshipAsync(string scholarship_RefNo, string admn_or_IDNo, string applicant_FullName, System.DateTime year_of_Application, string applicants_College, string username, decimal scholarship_budget, System.DateTime required_date, object userState) {
             if ((this.FnAddScholarshipOperationCompleted == null)) {
                 this.FnAddScholarshipOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnAddScholarshipOperationCompleted);
             }
@@ -1608,7 +1671,9 @@ namespace KCDF_P.NAVWS {
                         applicant_FullName,
                         year_of_Application,
                         applicants_College,
-                        username}, this.FnAddScholarshipOperationCompleted, userState);
+                        username,
+                        scholarship_budget,
+                        required_date}, this.FnAddScholarshipOperationCompleted, userState);
         }
         
         private void OnFnAddScholarshipOperationCompleted(object arg) {
@@ -2400,6 +2465,357 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnSavePersonalBankDetails", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnSavePersonalBankDetails_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnSavePersonalBankDetails(string my_bank_name, string my_bank_branch, string student_username, string my_account_no, string students_idno, string myaccount_name) {
+            object[] results = this.Invoke("FnSavePersonalBankDetails", new object[] {
+                        my_bank_name,
+                        my_bank_branch,
+                        student_username,
+                        my_account_no,
+                        students_idno,
+                        myaccount_name});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnSavePersonalBankDetailsAsync(string my_bank_name, string my_bank_branch, string student_username, string my_account_no, string students_idno, string myaccount_name) {
+            this.FnSavePersonalBankDetailsAsync(my_bank_name, my_bank_branch, student_username, my_account_no, students_idno, myaccount_name, null);
+        }
+        
+        /// <remarks/>
+        public void FnSavePersonalBankDetailsAsync(string my_bank_name, string my_bank_branch, string student_username, string my_account_no, string students_idno, string myaccount_name, object userState) {
+            if ((this.FnSavePersonalBankDetailsOperationCompleted == null)) {
+                this.FnSavePersonalBankDetailsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnSavePersonalBankDetailsOperationCompleted);
+            }
+            this.InvokeAsync("FnSavePersonalBankDetails", new object[] {
+                        my_bank_name,
+                        my_bank_branch,
+                        student_username,
+                        my_account_no,
+                        students_idno,
+                        myaccount_name}, this.FnSavePersonalBankDetailsOperationCompleted, userState);
+        }
+        
+        private void OnFnSavePersonalBankDetailsOperationCompleted(object arg) {
+            if ((this.FnSavePersonalBankDetailsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnSavePersonalBankDetailsCompleted(this, new FnSavePersonalBankDetailsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnDeleteScholarship", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnDeleteScholarship_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnDeleteScholarship(string code) {
+            object[] results = this.Invoke("FnDeleteScholarship", new object[] {
+                        code});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnDeleteScholarshipAsync(string code) {
+            this.FnDeleteScholarshipAsync(code, null);
+        }
+        
+        /// <remarks/>
+        public void FnDeleteScholarshipAsync(string code, object userState) {
+            if ((this.FnDeleteScholarshipOperationCompleted == null)) {
+                this.FnDeleteScholarshipOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnDeleteScholarshipOperationCompleted);
+            }
+            this.InvokeAsync("FnDeleteScholarship", new object[] {
+                        code}, this.FnDeleteScholarshipOperationCompleted, userState);
+        }
+        
+        private void OnFnDeleteScholarshipOperationCompleted(object arg) {
+            if ((this.FnDeleteScholarshipCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnDeleteScholarshipCompleted(this, new FnDeleteScholarshipCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddXstingGrantee", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnAddXstingGrantee_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnAddXstingGrantee(string email, string username, string password, string activationCode) {
+            object[] results = this.Invoke("FnAddXstingGrantee", new object[] {
+                        email,
+                        username,
+                        password,
+                        activationCode});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnAddXstingGranteeAsync(string email, string username, string password, string activationCode) {
+            this.FnAddXstingGranteeAsync(email, username, password, activationCode, null);
+        }
+        
+        /// <remarks/>
+        public void FnAddXstingGranteeAsync(string email, string username, string password, string activationCode, object userState) {
+            if ((this.FnAddXstingGranteeOperationCompleted == null)) {
+                this.FnAddXstingGranteeOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnAddXstingGranteeOperationCompleted);
+            }
+            this.InvokeAsync("FnAddXstingGrantee", new object[] {
+                        email,
+                        username,
+                        password,
+                        activationCode}, this.FnAddXstingGranteeOperationCompleted, userState);
+        }
+        
+        private void OnFnAddXstingGranteeOperationCompleted(object arg) {
+            if ((this.FnAddXstingGranteeCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnAddXstingGranteeCompleted(this, new FnAddXstingGranteeCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddXstingScholar", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnAddXstingScholar_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnAddXstingScholar(string email, string username, string password, string activationCode) {
+            object[] results = this.Invoke("FnAddXstingScholar", new object[] {
+                        email,
+                        username,
+                        password,
+                        activationCode});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnAddXstingScholarAsync(string email, string username, string password, string activationCode) {
+            this.FnAddXstingScholarAsync(email, username, password, activationCode, null);
+        }
+        
+        /// <remarks/>
+        public void FnAddXstingScholarAsync(string email, string username, string password, string activationCode, object userState) {
+            if ((this.FnAddXstingScholarOperationCompleted == null)) {
+                this.FnAddXstingScholarOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnAddXstingScholarOperationCompleted);
+            }
+            this.InvokeAsync("FnAddXstingScholar", new object[] {
+                        email,
+                        username,
+                        password,
+                        activationCode}, this.FnAddXstingScholarOperationCompleted, userState);
+        }
+        
+        private void OnFnAddXstingScholarOperationCompleted(object arg) {
+            if ((this.FnAddXstingScholarCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnAddXstingScholarCompleted(this, new FnAddXstingScholarCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddXstingConsult", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnAddXstingConsult_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnAddXstingConsult(string email, string username, string password, string activationCode) {
+            object[] results = this.Invoke("FnAddXstingConsult", new object[] {
+                        email,
+                        username,
+                        password,
+                        activationCode});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnAddXstingConsultAsync(string email, string username, string password, string activationCode) {
+            this.FnAddXstingConsultAsync(email, username, password, activationCode, null);
+        }
+        
+        /// <remarks/>
+        public void FnAddXstingConsultAsync(string email, string username, string password, string activationCode, object userState) {
+            if ((this.FnAddXstingConsultOperationCompleted == null)) {
+                this.FnAddXstingConsultOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnAddXstingConsultOperationCompleted);
+            }
+            this.InvokeAsync("FnAddXstingConsult", new object[] {
+                        email,
+                        username,
+                        password,
+                        activationCode}, this.FnAddXstingConsultOperationCompleted, userState);
+        }
+        
+        private void OnFnAddXstingConsultOperationCompleted(object arg) {
+            if ((this.FnAddXstingConsultCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnAddXstingConsultCompleted(this, new FnAddXstingConsultCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnCheckGranteeProfileUpdated", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnCheckGranteeProfileUpdated_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnCheckGranteeProfileUpdated(string grantNo) {
+            object[] results = this.Invoke("FnCheckGranteeProfileUpdated", new object[] {
+                        grantNo});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnCheckGranteeProfileUpdatedAsync(string grantNo) {
+            this.FnCheckGranteeProfileUpdatedAsync(grantNo, null);
+        }
+        
+        /// <remarks/>
+        public void FnCheckGranteeProfileUpdatedAsync(string grantNo, object userState) {
+            if ((this.FnCheckGranteeProfileUpdatedOperationCompleted == null)) {
+                this.FnCheckGranteeProfileUpdatedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnCheckGranteeProfileUpdatedOperationCompleted);
+            }
+            this.InvokeAsync("FnCheckGranteeProfileUpdated", new object[] {
+                        grantNo}, this.FnCheckGranteeProfileUpdatedOperationCompleted, userState);
+        }
+        
+        private void OnFnCheckGranteeProfileUpdatedOperationCompleted(object arg) {
+            if ((this.FnCheckGranteeProfileUpdatedCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnCheckGranteeProfileUpdatedCompleted(this, new FnCheckGranteeProfileUpdatedCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnAttachReportForms", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnAttachReportForms_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnAttachReportForms(string user_No, string document_type, string document_name, int project_type, string document_kind, string userName, string project_title, string callrefNo, string attached, string year, string quarter) {
+            object[] results = this.Invoke("FnAttachReportForms", new object[] {
+                        user_No,
+                        document_type,
+                        document_name,
+                        project_type,
+                        document_kind,
+                        userName,
+                        project_title,
+                        callrefNo,
+                        attached,
+                        year,
+                        quarter});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnAttachReportFormsAsync(string user_No, string document_type, string document_name, int project_type, string document_kind, string userName, string project_title, string callrefNo, string attached, string year, string quarter) {
+            this.FnAttachReportFormsAsync(user_No, document_type, document_name, project_type, document_kind, userName, project_title, callrefNo, attached, year, quarter, null);
+        }
+        
+        /// <remarks/>
+        public void FnAttachReportFormsAsync(string user_No, string document_type, string document_name, int project_type, string document_kind, string userName, string project_title, string callrefNo, string attached, string year, string quarter, object userState) {
+            if ((this.FnAttachReportFormsOperationCompleted == null)) {
+                this.FnAttachReportFormsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnAttachReportFormsOperationCompleted);
+            }
+            this.InvokeAsync("FnAttachReportForms", new object[] {
+                        user_No,
+                        document_type,
+                        document_name,
+                        project_type,
+                        document_kind,
+                        userName,
+                        project_title,
+                        callrefNo,
+                        attached,
+                        year,
+                        quarter}, this.FnAttachReportFormsOperationCompleted, userState);
+        }
+        
+        private void OnFnAttachReportFormsOperationCompleted(object arg) {
+            if ((this.FnAttachReportFormsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnAttachReportFormsCompleted(this, new FnAttachReportFormsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnFetchNavPicture", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnFetchNavPicture_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void FnFetchNavPicture(string userName, ref string thePicture) {
+            object[] results = this.Invoke("FnFetchNavPicture", new object[] {
+                        userName,
+                        thePicture});
+            thePicture = ((string)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnFetchNavPictureAsync(string userName, string thePicture) {
+            this.FnFetchNavPictureAsync(userName, thePicture, null);
+        }
+        
+        /// <remarks/>
+        public void FnFetchNavPictureAsync(string userName, string thePicture, object userState) {
+            if ((this.FnFetchNavPictureOperationCompleted == null)) {
+                this.FnFetchNavPictureOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnFetchNavPictureOperationCompleted);
+            }
+            this.InvokeAsync("FnFetchNavPicture", new object[] {
+                        userName,
+                        thePicture}, this.FnFetchNavPictureOperationCompleted, userState);
+        }
+        
+        private void OnFnFetchNavPictureOperationCompleted(object arg) {
+            if ((this.FnFetchNavPictureCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnFetchNavPictureCompleted(this, new FnFetchNavPictureCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnCheckScholarProfileUpdated", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnCheckScholarProfileUpdated_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnCheckScholarProfileUpdated(string scolarNo) {
+            object[] results = this.Invoke("FnCheckScholarProfileUpdated", new object[] {
+                        scolarNo});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnCheckScholarProfileUpdatedAsync(string scolarNo) {
+            this.FnCheckScholarProfileUpdatedAsync(scolarNo, null);
+        }
+        
+        /// <remarks/>
+        public void FnCheckScholarProfileUpdatedAsync(string scolarNo, object userState) {
+            if ((this.FnCheckScholarProfileUpdatedOperationCompleted == null)) {
+                this.FnCheckScholarProfileUpdatedOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnCheckScholarProfileUpdatedOperationCompleted);
+            }
+            this.InvokeAsync("FnCheckScholarProfileUpdated", new object[] {
+                        scolarNo}, this.FnCheckScholarProfileUpdatedOperationCompleted, userState);
+        }
+        
+        private void OnFnCheckScholarProfileUpdatedOperationCompleted(object arg) {
+            if ((this.FnCheckScholarProfileUpdatedCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnCheckScholarProfileUpdatedCompleted(this, new FnCheckScholarProfileUpdatedCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnSumbitScholarshipApp", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnSumbitScholarshipApp_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnSumbitScholarshipApp(string username, string callNo) {
+            object[] results = this.Invoke("FnSumbitScholarshipApp", new object[] {
+                        username,
+                        callNo});
+            return ((bool)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnSumbitScholarshipAppAsync(string username, string callNo) {
+            this.FnSumbitScholarshipAppAsync(username, callNo, null);
+        }
+        
+        /// <remarks/>
+        public void FnSumbitScholarshipAppAsync(string username, string callNo, object userState) {
+            if ((this.FnSumbitScholarshipAppOperationCompleted == null)) {
+                this.FnSumbitScholarshipAppOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnSumbitScholarshipAppOperationCompleted);
+            }
+            this.InvokeAsync("FnSumbitScholarshipApp", new object[] {
+                        username,
+                        callNo}, this.FnSumbitScholarshipAppOperationCompleted, userState);
+        }
+        
+        private void OnFnSumbitScholarshipAppOperationCompleted(object arg) {
+            if ((this.FnSumbitScholarshipAppCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnSumbitScholarshipAppCompleted(this, new FnSumbitScholarshipAppCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2670,7 +3086,29 @@ namespace KCDF_P.NAVWS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
-    public delegate void FnDeleteRefereeCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    public delegate void FnDeleteRefereeCompletedEventHandler(object sender, FnDeleteRefereeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnDeleteRefereeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnDeleteRefereeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
@@ -2810,7 +3248,29 @@ namespace KCDF_P.NAVWS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
-    public delegate void FnSaveUniBankDetailsCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    public delegate void FnSaveUniBankDetailsCompletedEventHandler(object sender, FnSaveUniBankDetailsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnSaveUniBankDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnSaveUniBankDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
@@ -3439,6 +3899,266 @@ namespace KCDF_P.NAVWS {
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
     public delegate void FnExportBLOBCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnSavePersonalBankDetailsCompletedEventHandler(object sender, FnSavePersonalBankDetailsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnSavePersonalBankDetailsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnSavePersonalBankDetailsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnDeleteScholarshipCompletedEventHandler(object sender, FnDeleteScholarshipCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnDeleteScholarshipCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnDeleteScholarshipCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnAddXstingGranteeCompletedEventHandler(object sender, FnAddXstingGranteeCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnAddXstingGranteeCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnAddXstingGranteeCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnAddXstingScholarCompletedEventHandler(object sender, FnAddXstingScholarCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnAddXstingScholarCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnAddXstingScholarCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnAddXstingConsultCompletedEventHandler(object sender, FnAddXstingConsultCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnAddXstingConsultCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnAddXstingConsultCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnCheckGranteeProfileUpdatedCompletedEventHandler(object sender, FnCheckGranteeProfileUpdatedCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnCheckGranteeProfileUpdatedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnCheckGranteeProfileUpdatedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnAttachReportFormsCompletedEventHandler(object sender, FnAttachReportFormsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnAttachReportFormsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnAttachReportFormsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnFetchNavPictureCompletedEventHandler(object sender, FnFetchNavPictureCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnFetchNavPictureCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnFetchNavPictureCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public string thePicture {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((string)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnCheckScholarProfileUpdatedCompletedEventHandler(object sender, FnCheckScholarProfileUpdatedCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnCheckScholarProfileUpdatedCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnCheckScholarProfileUpdatedCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnSumbitScholarshipAppCompletedEventHandler(object sender, FnSumbitScholarshipAppCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnSumbitScholarshipAppCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnSumbitScholarshipAppCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
 }
 
 #pragma warning restore 1591

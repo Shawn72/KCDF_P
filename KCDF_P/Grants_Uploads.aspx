@@ -1,4 +1,5 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Grants_Uploads.aspx.cs" Inherits="KCDF_P.Grants_Uploads" MasterPageFile="Gran_Master.Master"  %>
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
 
     <asp:Label ID="lblErrMsg" runat="server" CssClass="text-left hidden" Visible="false"></asp:Label> 

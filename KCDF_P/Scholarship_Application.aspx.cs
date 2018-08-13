@@ -19,9 +19,10 @@ namespace KCDF_P
         public NAV nav = new NAV(new Uri(ConfigurationManager.AppSettings["ODATA_URI"]))
         {
             Credentials =
-                 new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                     ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
+                new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -39,8 +40,31 @@ namespace KCDF_P
                 loadProjectWorkplan();
                 getScholarship();
                 loadUploads();
+                MyBankIs();
+                MyUniCollege();
+                MyCollegBankDs();
+                MyPersonalBankDs();
+
+
+                Wizard1.Visible = true;
+                Wizard1.ActiveStepIndex = 0;
+
             }
 
+        }
+        protected void btnstart_Click(object sender, EventArgs e)
+        {
+            btnstart.Visible = false;
+            Wizard1.Visible = true;
+            Wizard1.ActiveStepIndex = 0;
+        }
+        protected void OnFinish(object sender, WizardNavigationEventArgs e)
+        {
+            WizardStepType t = Wizard1.WizardSteps[e.NextStepIndex].StepType;
+            if (t == WizardStepType.Finish)
+            {
+                Wizard1.Visible = false;
+            }
         }
         protected Students ReturnStudent()
         {
@@ -69,7 +93,7 @@ namespace KCDF_P
             }
             if (index == 4)
             {
-              profileMultiview.SetActiveView(bankDetails);
+                profileMultiview.SetActiveView(bankDetails);
             }
         }
 
@@ -82,15 +106,15 @@ namespace KCDF_P
         {
 
         }
+
         protected void loadRefs()
         {
             try
             {
-                var allmyrefs = nav.myReferees.ToList().Where(us => us.Username == Session["username"].ToString());
-                tblRefs.AutoGenerateColumns = false;
-                tblRefs.DataSource = allmyrefs;
-                tblRefs.DataBind();
-
+                //var allmyrefs = nav.myReferees.ToList().Where(us => us.Username == Session["username"].ToString());
+                //tblRefs.AutoGenerateColumns = false;
+                //tblRefs.DataSource = allmyrefs;
+                //tblRefs.DataBind();
 
             }
             catch (Exception ex)
@@ -98,6 +122,7 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert(ex.Message);
             }
         }
+
         protected void readData()
         {
             var studData = nav.studentsRegister.ToList().Where(r => r.Username == Session["username"].ToString());
@@ -158,8 +183,7 @@ namespace KCDF_P
             {
                 txtGuardianPhone.Text = "";
             }
-            var pry = edctnData.Select(pr => pr.Primary_School).SingleOrDefault();
-            var secsh = edctnData.Select(se => se.Secondary_School).SingleOrDefault();
+            
             var unv = edctnData.Select(un => un.University_or_College).SingleOrDefault();
             var faclty = edctnData.Select(fc => fc.Course).SingleOrDefault();
             var yoS = edctnData.Select(yos => yos.Year_of_Study).Single();
@@ -172,10 +196,9 @@ namespace KCDF_P
             txtYearofStudy.Text = yoS;
             txtAdmittedWhen.Text = yoAd.ToShortDateString();
             txtYearofCompltn.Text = yoC.ToShortDateString();
-           
+            txtIDNo.Text = edctnData.Select(iD => iD.ID_No).SingleOrDefault();
         }
-
-
+        
         protected void btnAddSupport_OnClick(object sender, EventArgs e)
         {
             var studentNo =
@@ -229,6 +252,7 @@ namespace KCDF_P
             ddlScolarshipType.DataBind();
             ddlScolarshipType.Items.Insert(0, "--Select Scholarship--");
         }
+
         protected void loadProjectWorkplan()
         {
             var prjItem = nav.workplanQ.ToList().Where(un => un.Username == Session["username"].ToString());
@@ -236,11 +260,12 @@ namespace KCDF_P
             tblWorkplan.DataSource = prjItem;
             tblWorkplan.DataBind();
         }
-       
+
         protected void btnAddWorkplan_OnClick(object sender, EventArgs e)
         {
             var userNm = Session["username"].ToString();
-            var studnumber = nav.studentsRegister.ToList().Where(sN => sN.Username == userNm).Select(no => no.No).SingleOrDefault();
+            var studnumber =
+                nav.studentsRegister.ToList().Where(sN => sN.Username == userNm).Select(no => no.No).SingleOrDefault();
             string objtv = txtObj.Text.Trim();
             string actvty = txtActivity.Text.Trim();
             string actvitytarget = txtTargets.Text.Trim();
@@ -250,7 +275,7 @@ namespace KCDF_P
             string scholname = ddlScolarshipType.SelectedItem.Text;
             if (!string.IsNullOrEmpty(txtTimeFrame.Text))
             {
-                timeFrme= Int32.Parse(txtTimeFrame.Text);
+                timeFrme = Int32.Parse(txtTimeFrame.Text);
             }
             else
             {
@@ -260,7 +285,7 @@ namespace KCDF_P
             if (!string.IsNullOrEmpty(txtAmount.Text))
             {
                 amnt = Convert.ToDecimal(txtAmount.Text);
-               
+
             }
             else
             {
@@ -272,7 +297,8 @@ namespace KCDF_P
             Portals naws = new Portals();
             naws.Credentials = credentials;
             naws.PreAuthenticate = true;
-            naws.FnAddWorkplanItem(userNm, studnumber, objtv, actvty, actvitytarget, meanofVer, amnt, timeFrme, scholname);
+            naws.FnAddWorkplanItem(userNm, studnumber, objtv, actvty, actvitytarget, meanofVer, amnt, timeFrme,
+                scholname);
             KCDFAlert.ShowAlert("Workplan Item Saved Successfully!");
             loadProjectWorkplan();
             txtObj.Text = "";
@@ -283,10 +309,12 @@ namespace KCDF_P
             txtTimeFrame.Text = "";
             txtAmount.Text = "";
         }
+
         protected void grdViewScholarS_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             var del_id = grdViewScholarS.DataKeys[e.RowIndex].Values[0].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
@@ -298,7 +326,8 @@ namespace KCDF_P
         protected void tblWorkplan_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             var del_id = tblWorkplan.DataKeys[e.RowIndex].Values[0].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
@@ -316,10 +345,9 @@ namespace KCDF_P
                 var openPrj = nav.scholarshipApplications.ToList()
                     .Where(up => up.Student_Username == userNM && up.Approval_Status == "Open")
                     .Select(pn => pn.No).SingleOrDefault();
-
-                KCDFAlert.ShowAlert(openPrj);
-
-                var upsFiles = nav.myScholaruploads.ToList().Where(un => un.Username == userNM && un.Scholarship_No == openPrj);
+                
+                var upsFiles =
+                    nav.myScholaruploads.ToList().Where(un => un.Username == userNM && un.Scholarship_No == openPrj);
                 gridmyViewUploads.AutoGenerateColumns = false;
                 gridmyViewUploads.DataSource = upsFiles;
                 gridmyViewUploads.DataBind();
@@ -332,16 +360,22 @@ namespace KCDF_P
             }
 
         }
-        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo, string AttachedBlob)
+
+        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo,string AttachedBlob)
         {
-            var usNo = nav.studentsRegister.ToList().Where(usr => usr.Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
+            var usNo =
+                nav.studentsRegister.ToList()
+                    .Where(usr => usr.Username == Session["username"].ToString())
+                    .Select(nu => nu.No)
+                    .SingleOrDefault();
             var usaname = Session["username"].ToString();
             var prjct = ddlScolarshipType.SelectedItem.Text;
 
             string navfilePath = @"D:\All_Portal_Uploaded\" + filName;
 
-           // string fullFPath = Request.PhysicalApplicationPath + Students.No + @"\" + filName;
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            // string fullFPath = Request.PhysicalApplicationPath + Students.No + @"\" + filName;
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             int granttype = 0;
             string docType = "";
 
@@ -349,8 +383,7 @@ namespace KCDF_P
             {
                 docType = "Picture";
             }
-            else
-            if ((extension == ".pdf"))
+            else if ((extension == ".pdf"))
             {
                 docType = "PDF";
             }
@@ -366,7 +399,9 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            if (sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo, AttachedBlob) == true)
+            if (
+                sup.FnAttachements_Scholarship(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct,
+                    callRefNo, AttachedBlob) == true)
             {
                 KCDFAlert.ShowAlert("Attached!");
             }
@@ -376,7 +411,7 @@ namespace KCDF_P
             }
 
         }
-        
+
         protected void CopyFilesToDir()
         {
             //string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
@@ -392,53 +427,69 @@ namespace KCDF_P
             //    File.Copy(newPath, newPath.Replace(uploadsFolder, destPath), true);
         }
 
+        protected void gridmyViewUploads_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+
+            var del_id = gridmyViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            sup.FnDeleteUpload(del_id);
+            KCDFAlert.ShowAlert("Deleted Successfully!");
+            loadUploads();
+        }
+
         protected void btnUploadSDc_OnClick(object sender, EventArgs e)
         {
             try
             {
-            var documentKind = "Scholarship Form";
-            var schlRefNo = ddlScolarshipType.SelectedValue;
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
-            string fileName = Path.GetFileName(FileUploadSDoc.PostedFile.FileName);
-            string ext = Path.GetExtension(FileUploadSDoc.PostedFile.FileName);
-            if (!Directory.Exists(uploadsFolder))
-            {
-                //if the folder doesnt exist create it
-                Directory.CreateDirectory(uploadsFolder);
-            }
-            if (FileUploadSDoc.PostedFile.ContentLength > 5000000)
-            {
-                KCDFAlert.ShowAlert("Select a file less than 5MB!");
-                return;
-            }
-            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
-            {
+                var documentKind = "Scholarship Form";
+                var schlRefNo = ddlScolarshipType.SelectedValue;
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string fileName = Path.GetFileName(FileUploadSDoc.PostedFile.FileName);
+                string ext = Path.GetExtension(FileUploadSDoc.PostedFile.FileName);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    //if the folder doesnt exist create it
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                if (FileUploadSDoc.PostedFile.ContentLength > 5000000)
+                {
+                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                    return;
+                }
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                    (ext == ".doc") || (ext == ".xlsx"))
+                {
 
-                string filename = Students.No + "_" + fileName;
+                    string filename = Students.No + "_" + fileName;
+                    FileUploadSDoc.SaveAs(uploadsFolder + filename);
 
-                //file path to read file
-                string filePath = uploadsFolder + filename;
-                FileStream file = File.OpenRead(filePath);
-                byte[] buffer = new byte[file.Length];
-                file.Read(buffer, 0, buffer.Length);
-                file.Close();
-                string attachedDoc = Convert.ToBase64String(buffer);
+                    //file path to read file
+                    string filePath = uploadsFolder + filename;
+                    FileStream file = File.OpenRead(filePath);
+                    byte[] buffer = new byte[file.Length];
+                    file.Read(buffer, 0, buffer.Length);
+                    file.Close();
+                    string attachedDoc = Convert.ToBase64String(buffer);
 
-                FileUploadSDoc.SaveAs(uploadsFolder + filename);
-                saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
-                loadUploads();
+                    saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
+                    loadUploads();
 
-            }
-            else
-            {
-                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                }
+                else
+                {
+                    KCDFAlert.ShowAlert("File Format is : " + ext +
+                                        "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
-            }
-            if (!FileUploadSDoc.HasFile)
-            {
-                KCDFAlert.ShowAlert("Select Document before uploading");
-                return;
-            }
+                }
+                if (!FileUploadSDoc.HasFile)
+                {
+                    KCDFAlert.ShowAlert("Select Document before uploading");
+                    return;
+                }
 
             }
             catch (Exception ex)
@@ -447,19 +498,6 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert(ex.Message);
             }
 
-        }
-
-        protected void gridmyViewUploads_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-
-            var del_id = gridmyViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            sup.FnDeleteUpload(del_id);
-            KCDFAlert.ShowAlert("Deleted Successfully!");
-            loadUploads();
         }
 
         protected void btnUploadCF_OnClick(object sender, EventArgs e)
@@ -482,10 +520,13 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Select a file less than 5MB!");
                     return;
                 }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                    (ext == ".doc") || (ext == ".xlsx"))
                 {
 
                     string filename = Students.No + "_" + fileName;
+                    FileUploadCF.SaveAs(uploadsFolder + filename);
+
                     //file path to read file
                     string filePath = uploadsFolder + filename;
                     FileStream file = File.OpenRead(filePath);
@@ -494,14 +535,14 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    FileUploadCF.SaveAs(uploadsFolder + filename);
                     saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
                 else
                 {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                    KCDFAlert.ShowAlert("File Format is : " + ext +
+                                        "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
                 }
                 if (!FileUploadCF.HasFile)
@@ -540,9 +581,12 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Select a file less than 5MB!");
                     return;
                 }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                    (ext == ".doc") || (ext == ".xlsx"))
                 {
                     string filename = Students.No + "_" + fileName;
+                    FileUploadSNID.SaveAs(uploadsFolder + filename);
+
                     //file path to read file
                     string filePath = uploadsFolder + filename;
                     FileStream file = File.OpenRead(filePath);
@@ -551,14 +595,14 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    FileUploadSNID.SaveAs(uploadsFolder + filename);
-                    saveAttachment(filename, ext, documentKind,schlRefNo, attachedDoc);
+                    saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
                 else
                 {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                    KCDFAlert.ShowAlert("File Format is : " + ext +
+                                        "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
                 }
                 if (!FileUploadSNID.HasFile)
@@ -574,7 +618,6 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert(ex.Message);
             }
         }
-
 
         protected void btnUploadPhoto_OnClick(object sender, EventArgs e)
         {
@@ -596,10 +639,13 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Select a file less than 5MB!");
                     return;
                 }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                    (ext == ".doc") || (ext == ".xlsx"))
                 {
 
                     string filename = Students.No + "_" + fileName;
+                    FileUploadPhoto.SaveAs(uploadsFolder + filename);
+
                     //file path to read file
                     string filePath = uploadsFolder + filename;
                     FileStream file = File.OpenRead(filePath);
@@ -608,14 +654,14 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    FileUploadPhoto.SaveAs(uploadsFolder + filename);
-                    saveAttachment(filename, ext, documentKind,schlRefNo,attachedDoc);
+                    saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
                 else
                 {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                    KCDFAlert.ShowAlert("File Format is : " + ext +
+                                        "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
                 }
                 if (!FileUploadPhoto.HasFile)
@@ -652,10 +698,13 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Select a file less than 5MB!");
                     return;
                 }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                    (ext == ".doc") || (ext == ".xlsx"))
                 {
 
                     string filename = Students.No + "_" + fileName;
+                    FileUploadGurdLeter.SaveAs(uploadsFolder + filename);
+
                     //file path to read file
                     string filePath = uploadsFolder + filename;
                     FileStream file = File.OpenRead(filePath);
@@ -664,14 +713,14 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    FileUploadGurdLeter.SaveAs(uploadsFolder + filename);
-                    saveAttachment(filename, ext, documentKind, schlRefNo,attachedDoc);
+                    saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
                 else
                 {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                    KCDFAlert.ShowAlert("File Format is : " + ext +
+                                        "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
                 }
                 if (!FileUploadGurdLeter.HasFile)
@@ -708,10 +757,13 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Select a file less than 5MB!");
                     return;
                 }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                    (ext == ".doc") || (ext == ".xlsx"))
                 {
 
                     string filename = Students.No + "_" + fileName;
+                    FileUploadDeansTest.SaveAs(uploadsFolder + filename);
+
                     //file path to read file
                     string filePath = uploadsFolder + filename;
                     FileStream file = File.OpenRead(filePath);
@@ -720,14 +772,14 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    FileUploadDeansTest.SaveAs(uploadsFolder + filename);
-                    saveAttachment(filename, ext, documentKind, schlRefNo,attachedDoc);
+                    saveAttachment(filename, ext, documentKind, schlRefNo, attachedDoc);
                     loadUploads();
 
                 }
                 else
                 {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                    KCDFAlert.ShowAlert("File Format is : " + ext +
+                                        "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
                 }
                 if (!FileUploadDeansTest.HasFile)
@@ -744,53 +796,175 @@ namespace KCDF_P
             }
         }
 
-        protected void gridViewUploads_OnRowDataBound(object sender, GridViewRowEventArgs e)
-        {
-
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                string smth = e.Row.Cells[0].Text;
-                foreach (Button button in e.Row.Cells[2].Controls.OfType<Button>())
-                {
-                    if (button.CommandName == "Delete")
-                    {
-                        button.Attributes["onclick"] = "if(!confirm('Do you want to delete" + smth + "?')){return false};";
-                    }
-                }
-            }
-        }
-
         protected void btnEditUniDetails_OnClick(object sender, EventArgs e)
         {
-            var uniVNm = ddlUniversity.SelectedItem.Text;
-            var uniBank = ddlBankUni.SelectedItem.Text;
-            var bankBrnch = ddlbankBranchUni.SelectedItem.Text;
+            string bankBrnch;
+            string uniBank;
+            string uniVNm;
             var accName = txtUniAccName.Text;
             var accNo = txtUniAccNumber.Text;
             var regNo = txtRegNumber.Text;
             var idNo = txtIDNumber.Text;
 
+            if (ddlUniversity.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select College or University');", true);
+                ddlUniversity.Focus();
+                return;
+            }
+            else
+            {
+              uniVNm =ddlUniversity.SelectedItem.Text;
+            }
+            if (ddlBankUni.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select Bank!');", true);
+                ddlBankUni.Focus();
+                return;
+            }
+            else
+            {
+              uniBank = ddlBankUni.SelectedItem.Text;
+            }
+            if (ddlbankBranchUni.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select Bank Branch!');", true);
+                ddlbankBranchUni.Focus();
+                return;
+            }
+            else
+            {
+               bankBrnch = ddlbankBranchUni.SelectedItem.Text;
+            }
 
-
-        }
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            if (sup.FnSaveUniBankDetails(uniVNm, uniBank, bankBrnch, Session["username"].ToString(), accNo,idNo, accName) ==true)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('College Bank details Saved Successfully!');", true);
+                MyCollegBankDs();
+            }
+         }
 
         protected void btnAddPersonalBankDs_OnClick(object sender, EventArgs e)
         {
-            var stdbank = ddlPersonaBank.Text;
-            var bBranch = ddlPersonaBranch.Text;
+            string stdbank;
+            string bBranch;
             var accBName = txtYourAccNAme.Text;
             var accNumber = txtYourAccNumber.Text;
             var stdIdno = txtYourIDNo.Text;
 
+            if (ddlPersonaBank.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select your Bank');", true);
+                ddlPersonaBank.Focus();
+                return;
+            }
+            else
+            {
+                stdbank = ddlPersonaBank.SelectedItem.Text;
+            }
+            if (ddlPersonaBranch.SelectedIndex == 0)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select your Bank Branch');", true);
+                ddlPersonaBranch.Focus();
+                return;
+            }
+            else
+            {
+                bBranch = ddlPersonaBranch.SelectedItem.Text;
+            }
+
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            if (sup.FnSavePersonalBankDetails(stdbank, bBranch, Session["username"].ToString(), accNumber, stdIdno, accBName) == true)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Your Personal Bank details Saved Successfully!');", true);
+                MyPersonalBankDs();
+            }
 
         }
-        
+        protected void MyBankIs()
+        {
+            var mybank = nav.myBanks.ToList();
+            ddlBankUni.DataSource = mybank;
+            ddlBankUni.DataTextField = "Bank_Name";
+            ddlBankUni.DataValueField = "Bank_Code";
+            ddlBankUni.DataBind();
+
+            ddlPersonaBank.DataSource = mybank;
+            ddlPersonaBank.DataTextField = "Bank_Name";
+            ddlPersonaBank.DataValueField = "Bank_Code";
+            ddlPersonaBank.DataBind();
+        }
+
+        protected void MyUniCollege()
+        {
+            var myUni = nav.my_unisOrCollegs.ToList();
+            ddlUniversity.DataSource = myUni;
+            ddlUniversity.DataTextField = "College_Name";
+            ddlUniversity.DataValueField = "College_Name";
+            ddlUniversity.DataBind();
+        }
+
+        protected void MyCollegBankDs()
+        {
+            var myuniBInf = nav.uniBanks.ToList().Where(un => un.Student_Username == Session["username"].ToString());
+            txtMyColleg.Text = myuniBInf.Select(cl => cl.University_Name).SingleOrDefault();
+            txtMyBank.Text = myuniBInf.Select(b => b.University_Bank_Name).SingleOrDefault();
+            txtBnkBrnch.Text = myuniBInf.Select(bb => bb.University_Bank_Branch).SingleOrDefault();
+            txtUniAccName.Text = myuniBInf.Select(an => an.Account_Name).SingleOrDefault();
+            txtUniAccNumber.Text = myuniBInf.Select(no => no.University_Account_No).SingleOrDefault();
+            txtRegNumber.Text = myuniBInf.Select(rg => rg.Student_No).SingleOrDefault();
+            txtIDNumber.Text = myuniBInf.Select(id => id.Students_IDNo).SingleOrDefault();
+        }
+
+        protected void MyPersonalBankDs()
+        {
+            var myBInf = nav.studeBanks.ToList().Where(un => un.Student_Username == Session["username"].ToString());
+            txtmyPsBank.Text = myBInf.Select(mb => mb.Student_Bank_Name).SingleOrDefault();
+            txtMyBbranch.Text = myBInf.Select(br => br.Student_Bank_Branch).SingleOrDefault();
+            txtYourAccNAme.Text = myBInf.Select(acn => acn.Account_Name).SingleOrDefault();
+            txtYourAccNumber.Text = myBInf.Select(acno => acno.Student_Bank_Account).SingleOrDefault();
+            txtYourIDNo.Text = myBInf.Select(mId => mId.Sudents_IdNo).SingleOrDefault();
+        }
+
         protected void btnSaveApplication_OnClick(object sender, EventArgs e)
         {
             var admNo = txtIDNo.Text;
             var fname = txtfNname.Text.Trim();
             var mname = txtMname.Text.Trim();
             var lname = txtLname.Text.Trim();
+            Decimal bugt;
+            DateTime dateRequired;
+            if (string.IsNullOrWhiteSpace(txtBudgetTotal.Text))
+            {
+                txtBudgetTotal.Focus();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Please enter total budget!');", true);
+                return;
+            }
+            else
+            {
+                bugt = Convert.ToDecimal(txtBudgetTotal.Text);
+            }
+
+            var reqDat = txtWorkplanDate.Value.Trim();
+            if (string.IsNullOrWhiteSpace(reqDat))
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Select a valid date!');", true);
+                txtWorkplanDate.Focus();
+                return;
+            }
+            else
+            {
+                dateRequired = DateTime.Parse(reqDat);
+            }
 
             var fullName = fname + " " + mname + " " + lname;
             DateTime todayIs = DateTime.Now;
@@ -806,23 +980,22 @@ namespace KCDF_P
             //Save application here
             try
             {
-                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            if (sup.FnAddScholarship(sclRefNo, admNo, fullName, todayIs, myColleIs, Session["username"].ToString()) ==
-                true)
-            {
-                KCDFAlert.ShowAlert("Application Saved Successfully! on :"+todayIs);
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                if (sup.FnAddScholarship(sclRefNo, admNo, fullName, todayIs, myColleIs, Session["username"].ToString(), bugt,dateRequired) ==true)
+                {
+                   // KCDFAlert.ShowAlert("Application Saved Successfully! on :" );
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "alert('Application Saved Successfully! on :"+ todayIs + "');", true);
+                }
+               
             }
-            else
-            {
-                KCDFAlert.ShowAlert("Error Occured!");
-            }
-             }
             catch (Exception Er)
             {
-                KCDFAlert.ShowAlert(Er.Message);
+                //KCDFAlert.ShowAlert(Er.Message);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "AlreadyIn();", true);
             }
         }
 
@@ -837,11 +1010,97 @@ namespace KCDF_P
                     break;
                 default:
                     Session["theScholarship"] = ddlScolarshipType.SelectedItem.Text;
-                    KCDFAlert.ShowAlert("You selected: "+ Session["theScholarship"] +" Ref Number: "+ddlScolarshipType.SelectedValue);
+                    KCDFAlert.ShowAlert("You selected: " + Session["theScholarship"] + " Ref Number: " +
+                                        ddlScolarshipType.SelectedValue);
                     btnSaveApplication.Enabled = true;
                     break;
-                    
+
             }
+        }
+
+        protected void ddlBankUni_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selIndex = ddlBankUni.SelectedIndex;
+            switch (selIndex)
+            {
+                case 0:
+                    KCDFAlert.ShowAlert("Invalid Bank selection, please choose");
+                    break;
+                default:
+                    var mybank = ddlBankUni.SelectedValue;
+
+                    var mybranch = nav.myBankBranch.Where(sc => sc.Bank_Code == mybank).ToList();
+
+                    ddlbankBranchUni.DataSource = mybranch;
+                    ddlbankBranchUni.DataTextField = "Branch_Name";
+                    ddlbankBranchUni.DataValueField = "Branch_Name";
+                    ddlbankBranchUni.DataBind();
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+                    break;
+            }
+        }
+
+        protected void ddlPersonaBank_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            int selIndex = ddlPersonaBank.SelectedIndex;
+            switch (selIndex)
+            {
+                case 0:
+                    KCDFAlert.ShowAlert("Invalid Bank selection, please choose");
+                    break;
+                default:
+                    var mybank = ddlPersonaBank.SelectedValue;
+
+                    var mybranch = nav.myBankBranch.Where(sc => sc.Bank_Code == mybank).ToList();
+
+                    ddlPersonaBranch.DataSource = mybranch;
+                    ddlPersonaBranch.DataTextField = "Branch_Name";
+                    ddlPersonaBranch.DataValueField = "Branch_Name";
+                    ddlPersonaBranch.DataBind();
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+                    break;
+            }
+        }
+
+        protected void btnSubmitApplication_OnClick(object sender, EventArgs e)
+        {
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                     ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            if (sup.FnSumbitScholarshipApp(Session["username"].ToString(), ddlScolarshipType.SelectedValue) == true)
+            {
+                KCDFAlert.ShowAlert("Application Submitted Successfully! Keep checking your dashboard for Updates!");
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please apply first before submitting!");
+            }
+        }
+        protected void btnGoNext1_OnClick(object sender, EventArgs e)
+        {
+            profileMultiview.SetActiveView(scholarSupport);
+        }
+
+        protected void btnGoNext3_OnClick(object sender, EventArgs e)
+        {
+            profileMultiview.SetActiveView(workplanView);
+        }
+
+        protected void btnGoNext4_OnClick(object sender, EventArgs e)
+        {
+            profileMultiview.SetActiveView(AttachDocs);
+        }
+
+        protected void btnGoNext5_OnClick(object sender, EventArgs e)
+        {
+            profileMultiview.SetActiveView(bankDetails);
+        }
+
+        protected void btnGoNext6_OnClick(object sender, EventArgs e)
+        {
+            profileMultiview.SetActiveView(finalSubmit);
         }
     }
 }

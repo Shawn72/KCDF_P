@@ -1,0 +1,179 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Uploads.master.cs" Inherits="KCDF_P.Uploads" %>
+
+<%
+    Response.Cache.SetNoStore();
+    //Response.Write (DateTime.Now.ToLongTimeString ());
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%: Page.Title %> - KCDF Web Portal</title>
+
+    <asp:PlaceHolder runat="server">
+        <%: Scripts.Render("~/bundles/modernizr") %>
+    </asp:PlaceHolder>
+    <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />
+    <link href="~/Content/elegant-icons-style.css" rel="stylesheet" />
+    <link href="~/Content/font-awesome.css" rel="stylesheet" />
+    <link href="~/Content/owl.carousel.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/fullcalendar.css" rel="stylesheet" />
+    <link href="~/Content/style.css" rel="stylesheet" />
+    <link href="~/Content/style-responsive.css" rel="stylesheet" />
+    <!-- Bootstrap Dropdown Hover CSS -->
+    <link href="~/Content/animate.css" rel="stylesheet" />
+    <link href="~/Content/bootstrap-dropdownhover.min.css" rel="stylesheet">
+    <link href="~/Content/jquery-ui.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap -->
+    <link href="~/Content/bootstrap.css" rel="stylesheet" />
+    
+     <%-- SearchDropdown --%>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" />
+
+    <%-- Datepicker --%>
+    <link href="~/DatePicker/bootstrap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+    
+     <%-- Datepicker --%>
+    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
+    <%-- NAvBar --%>
+    <link href="~/Content/navbar.css" rel="stylesheet">
+    
+    <style type="text/css">
+        .auto-style1 {height: 15px;width: 19px;}
+    </style>
+</head>
+<body>
+    <form runat="server">
+        <header class="header dark-bg">
+            <div class="toggle-nav hidden-lg">
+                <div class="icon-reorder" data-original-title="Toggle Navigation" data-placement="bottom" data-toggle="collapse" data-target="#shrink"><i class="fa fa-navicon"></i></div>
+            </div>
+
+            <!--logo start-->
+            <a href="#" class="logo hidden-xs" style="font-weight:bold">KCDF<span class="lite" style="font-weight:bold"> Web Portal</span></a>
+            <!--logo end-->    
+            
+            <div class="collapse navbar-collapse" id="shrink">
+                    <ul class="nav navbar-nav navbar-right">                       
+                      
+                    </ul>
+                </div><!--/.nav-collapse -->        
+            
+         <%--   <div class="collapse navbar-collapse">
+                <%--  <div class="top-nav notification-row">             
+                <!-- notificatoin dropdown start-->
+              
+                <ul class="nav navbar-nav navbar-right">
+                      <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Hello :<%=Students.Username %> <span class="caret"></span></a>
+                        <ul class="dropdown-menu dropdownhover-bottom" role="menu">
+                          <li><a href="/Account/Add_Students_Profile.aspx" >Edit Profile</a></li>
+                            <li class="divider"></li>
+                          <li><a href="#">Manage Password</a></li>
+                            <li class="divider"></li>                         
+                        </ul>
+                      </li>
+                    </ul>
+               
+                <!-- notificatoin dropdown end-->
+            </div>--%>
+      </header>      
+      
+        <section id="main-content">
+          <section class="wrapper">
+		    <asp:ContentPlaceHolder ID="MainContent" runat="server">
+            </asp:ContentPlaceHolder>
+          </section>        
+            
+          <footer>
+            <p align="center"><span>Copyright &copy; <%: DateTime.Now.Year %> <a target="_blank" href="http://www.kcdf.or.ke/" style="padding-left:5px"> KCDF </a></span><span> | </span>
+            <span> Powered by: <a target ="_blank" href="http://surestep.co.ke" style="padding-right:5px">Surestep Systems and Solutions</a></span></p>
+           </footer>
+
+      </section>
+   
+    <script src="Scripts/jquery.scrollTo.min.js"></script>
+    <script src="Scripts/jquery.nicescroll.js" type="text/javascript"></script>
+             
+   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <%--  <script src="Scripts/jquery-3.3.1.min.js"></script>
+    <script src="Scripts/bootstrap.min.js"></script>--%>
+        
+    <script src="https://code.jquery.com/jquery-3.1.1.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <%-- DropdownMenu JS --%>
+    <script src="Scripts/navbar.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/js-cookie/2.2.0/js.cookie.min.js"></script>
+
+    <!-- Bootstrap Dropdown Hover JS -->
+   <%-- <script src="Scripts/bootstrap-dropdownhover.min.js"></script>--%>
+
+     <!-- Datepicker  -->
+    <script type="text/javascript" src="/DatePicker/bootstrap/js/bootstrap-datepicker.js" charset="UTF-8"></script>
+
+    <script type="text/javascript">
+        $('.input-group.date').datepicker({
+            format: "mm/dd/yy",
+            maxViewMode: 3,
+            todayBtn: true,
+            clearBtn: true,
+            autoclose: true,
+            calendarWeeks: true,
+            toggleActive: true
+        });
+    </script>
+  	<script type="text/javascript">
+		$(document).ready(function() {
+			$("select").searchable();
+		});
+	
+	
+		// demo functions
+		$(document).ready(function() {
+			$("#value").html($("#myselect :selected").text() + " (VALUE: " + $("#myselect").val() + ")");
+			$("select").change(function(){
+				$("#value").html(this.options[this.selectedIndex].text + " (VALUE: " + this.value + ")");
+			});
+		});
+	
+		function modifySelect() {
+			$("select").get(0).selectedIndex = 5;
+		}
+	
+		function appendSelectOption(str) {
+			$("select").append("<option value=\"" + str + "\">" + str + "</option>");
+		}
+	
+		function applyOptions() {			  
+			$("select").searchable({
+				maxListSize: $("#maxListSize").val(),
+				maxMultiMatch: $("#maxMultiMatch").val(),
+				latency: $("#latency").val(),
+				exactMatch: $("#exactMatch").get(0).checked,
+				wildcards: $("#wildcards").get(0).checked,
+				ignoreCase: $("#ignoreCase").get(0).checked
+			});
+	
+			alert(
+				"OPTIONS\n---------------------------\n" + 
+				"maxListSize: " + $("#maxListSize").val() + "\n" +
+				"maxMultiMatch: " + $("#maxMultiMatch").val() + "\n" +
+				"exactMatch: " + $("#exactMatch").get(0).checked + "\n"+
+				"wildcards: " + $("#wildcards").get(0).checked + "\n" +
+				"ignoreCase: " + $("#ignoreCase").get(0).checked + "\n" +
+				"latency: " + $("#latency").val()
+			);
+		}
+	</script> 
+   
+
+  
+</form>
+</body>
+</html>

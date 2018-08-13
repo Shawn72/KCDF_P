@@ -15,8 +15,5 @@ Global
 		{8EA19EFA-2576-4530-A276-2063A9FB9589}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EA19EFA-2576-4530-A276-2063A9FB9589}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8EA19EFA-2576-4530-A276-2063A9FB9589}.Release|Any CPU.Build.0 = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
-	EndGlobalSection
+	EndGlobalSection	
 EndGlobal

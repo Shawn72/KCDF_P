@@ -66,7 +66,16 @@
 /// <reference path="navbar.js" />
 /// <reference path="popper.min.js" />
 /// <reference path="popper-utils.min.js" />
-/// <reference path="respond.js" />
+/// <reference path="respond.min.js" />
 /// <reference path="umd/popper.min.js" />
 /// <reference path="umd/popper-utils.min.js" />
+/// <reference path="../SmartWizard/dist/js/jquery.smartWizard.js" />
+/// <reference path="../SmartWizard/src/js/jquery.smartWizard.js" />
+/// <reference path="../smartwizard/test/test.js" />
+/// <reference path="../steps/build/jquery.steps.js" />
+/// <reference path="../steps/lib/jquery.cookie-1.3.1.js" />
+/// <reference path="../steps/lib/jquery-1.10.2.min.js" />
+/// <reference path="../steps/lib/jquery-1.11.1.min.js" />
+/// <reference path="../steps/lib/jquery-1.9.1.min.js" />
+/// <reference path="../steps/lib/modernizr-2.6.2.min.js" />
 

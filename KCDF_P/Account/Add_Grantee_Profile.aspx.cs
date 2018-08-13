@@ -22,19 +22,32 @@ namespace KCDF_P.Account
         };
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            NoCache();
             if (!IsPostBack)
             {
-                checkSessionExists();
+                returnGrantee();
+                if (Session["username"] == null)
+                {
+                    Response.Redirect("~/Default.aspx");
+
+                }
                 readData();
                 loadApplicationInfo();
                 getPostaCodes();
-                //getURL();
-                //readLabelfromDashboard();
+                SelectedOptions();
             }
             
         }
-
+        protected Grantees returnGrantee()
+        {
+            return new Grantees(Session["username"].ToString());
+        }
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        }
         protected void getURL()
         {
             string path = HttpContext.Current.Request.Url.AbsolutePath;
@@ -54,11 +67,7 @@ namespace KCDF_P.Account
         {
             try
             {
-                if (Session["username"] == null)
-                {
-                    Response.Redirect("~/Default.aspx");
-
-                }
+                
             }
             catch (Exception errEx)
             {
@@ -236,7 +245,8 @@ namespace KCDF_P.Account
                     postaddress, postcode, tao, ngo, notpartisan, nonprofit,
                     legally, physicAddre, regType, yearOfAdmn, webs, registrationNum, nonPartisanTxtA))
                 {
-                    KCDFAlert.ShowAlert("Organization Information updated successfully!");
+                  //  KCDFAlert.ShowAlert("Organization Information updated successfully!");
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "thisBitchcode", "alert('Organization Information updated successfully!');", true);
                     loadApplicationInfo();
                 }
              }
@@ -341,13 +351,22 @@ namespace KCDF_P.Account
             {
                 txtAreaPartisan.Visible = true;
                 txtAreaPartisan.Focus();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
             }
             else
             {
                 txtAreaPartisan.Visible = false;
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
             }
         }
 
+        protected void SelectedOptions()
+        {
+            ddlnonPartisan.SelectedIndex = 0;
+            ddlNonProfitable.SelectedIndex = 0;
+            ddlLegal.SelectedIndex = 0;
+            ddlRegtype.SelectedIndex = 0;
+        }
         protected void ddlPostalCode_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             var pCode = ddlPostalCode.SelectedItem.Text;
@@ -357,6 +376,7 @@ namespace KCDF_P.Account
                     .Select(pT => pT.Postal_Town)
                     .SingleOrDefault();
             txtPostalTown.Text = postaTown;
+            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
         }
 
         protected void getPostaCodes()

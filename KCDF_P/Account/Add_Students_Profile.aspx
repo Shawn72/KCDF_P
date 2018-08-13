@@ -1,7 +1,9 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Add_Students_Profile.aspx.cs" MasterPageFile="~/Site.Master" Inherits="KCDF_P.Account.Add_Students_Profile" %>
 <%@ Register Assembly="EditableDropDownList" Namespace="EditableControls" TagPrefix="editable" %>
 <asp:Content ID="studentRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <div class="panel-body" style="font-family:Trebuchet MS">
+<asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
     <div class="row">
             <div class="col-md-12">
             <h4 style="align-content:center; font-family:Trebuchet MS; color:#0094ff">Manage Profile</h4><br /></div>
@@ -31,6 +33,9 @@
                 </div>
                 </div>
             <br/>
+                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                <ContentTemplate>
+                      
                 <div class="form-group">
                 <asp:Label runat="server" CssClass="col-md-3 control-label">First Name:</asp:Label>
                     <div class="col-md-6">
@@ -90,19 +95,50 @@
                     ControlToValidate="txtIDNo" runat="server" ForeColor="Red" Display="Dynamic" />  
                         </div> <span class="required">*</span>
                 </div>
-
-                <div class="form-group">
-                    <asp:Label runat="server" CssClass="col-md-3 control-label">Gender:</asp:Label>
-                        <div class="col-md-6">
-                            <asp:DropDownList ID="lstGender" runat="server" CssClass="form-control">
-                                <asp:ListItem>..Select Gender..</asp:ListItem>
-                                <asp:ListItem>Male</asp:ListItem>
-                                <asp:ListItem>Female</asp:ListItem>
-                            </asp:DropDownList>              
-                        </div> 
-                </div>
                 
-               <div class="form-group">
+                  <asp:UpdatePanel ID="UpdatePanel4" runat="server" UpdateMode="Conditional">
+                          <ContentTemplate>
+                                <div class="form-group">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">Gender:</asp:Label>
+                                        <div class="col-md-6">
+                                            <asp:DropDownList ID="lstGender" runat="server" CssClass="form-control">
+                                                <asp:ListItem>--Select Gender--</asp:ListItem>
+                                                <asp:ListItem>Male</asp:ListItem>
+                                                <asp:ListItem>Female</asp:ListItem>
+                                            </asp:DropDownList>              
+                                        </div> 
+                                </div>
+                                <br/>
+                      
+                                <div class="form-group">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">County:</asp:Label>
+                                    <div class="col-md-4">
+                                        <asp:DropDownList ID="ddlSelCounty" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true"
+                                             AppendDataBoundItems="True" OnSelectedIndexChanged="ddlSelCounty_OnSelectedIndexChanged" AutoPostBack="True">
+                                            
+                                        </asp:DropDownList>
+                                    </div>
+                                     <div class="col-md-2">
+                                        <asp:TextBox runat="server" ID="txtCounty" CssClass="form-control"  Enabled="False" placeholder="County?" />              
+                                     </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">Constituency:</asp:Label>
+                                    <div class="col-md-4">
+                                        <asp:DropDownList ID="ddlConstituency" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="False"></asp:DropDownList>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <asp:TextBox runat="server" ID="txtSubCounty" CssClass="form-control"  Enabled="False" placeholder="County?" />              
+                                     </div>
+                                </div>
+
+                               
+                                </ContentTemplate>
+                        </asp:UpdatePanel>
+                    <br/>
+                
+                <div class="form-group">
                 <asp:Label runat="server" CssClass="col-md-3 control-label">Date of Birth:</asp:Label>
                     <div class="col-md-6">
                        <div class="input-group date" id="dpcker">
@@ -120,8 +156,12 @@
                   </div> 
                 <div class="col-md-3"></div>
                 </div>
+                </ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID = "btnEditProf" EventName="Click"/>
+                    </Triggers>
+                </asp:UpdatePanel>
                 <br/>
-                   
               </div>
               
          </asp:View>
@@ -134,14 +174,7 @@
                 </div>
              </div>
             <br/>
-               <%--  <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Primary School:</asp:Label>
-                        <div class="col-md-6">
-                            <asp:DropDownList ID="ddlPrimo" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
-                                    data-live-search="true" AppendDataBoundItems="true">
-                            </asp:DropDownList>
-                        </div> 
-                </div>--%>
+               
                 
                  <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Search your primary School:</asp:Label>
@@ -179,12 +212,13 @@
                         </div>
                     </div>
                 
-                 <div class="form-group">
+                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Marks:</asp:Label>
                     <div class="col-md-6">
                         <asp:TextBox runat="server" ID="txtMarks" CssClass="form-control" required="True" TextMode="Number" onkeypress="return validateID(event)" placeholder="My Marks"/>
                     </div> <span class="required">*</span> 
                  </div>
+
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Out of:</asp:Label>
                     <div class="col-md-6">
@@ -195,24 +229,30 @@
                 <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Primary School:</asp:Label>
                     <div class="col-md-6">
-                        <asp:TextBox runat="server" ID="txtMyPrimo" CssClass="form-control" required="True"  placeholder="primary sch" Enabled="False"/>
+                        <asp:TextBox runat="server" ID="txtMyPrimo" CssClass="form-control"  placeholder="primary sch" Enabled="False"/>
                     </div> <span class="required">*</span>
                 </div>
-                 <div class="form-group">
+               
+                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Secondary:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlSeco" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true">
                             </asp:DropDownList>
                         </div> 
+                     <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtSecon" CssClass="form-control" Enabled="False" placeholder="Secondary Sch?"/>
+                    </div>
                 </div>
-                
-                   <div class="form-group">
+                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                  <ContentTemplate>
+                <div class="form-group">
                     <asp:Label runat="server" CssClass="col-md-3 control-label">Grade:</asp:Label><span class="required">*</span>
                         <div class="col-md-6">
                              <asp:RequiredFieldValidator ID="RequiredFieldValidator6" ErrorMessage="Please select your Grade.<br />"
                     ControlToValidate="rdoBtnListGrade" runat="server" ForeColor="Red" Display="Dynamic" />
-                             <asp:RadioButtonList ID="rdoBtnListGrade" runat="server" OnSelectedIndexChanged="rdoBtnListGrade_OnSelectedIndexChanged" AutoPostBack="True">
+                             <asp:RadioButtonList ID="rdoBtnListGrade" runat="server" 
+                                 OnSelectedIndexChanged="rdoBtnListGrade_OnSelectedIndexChanged" AutoPostBack="True" RepeatDirection="Horizontal" >
                                 <asp:ListItem Text="A." Value="A." Selected="False"></asp:ListItem>
                                 <asp:ListItem Text="A-" Value="A-" Selected="False"></asp:ListItem>
                                 <asp:ListItem Text="B+" Value="B+" Selected="False"></asp:ListItem>
@@ -226,26 +266,35 @@
                             </asp:RadioButtonList>
                         </div> 
                 </div>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+                <br/>
 
-               <div class="form-group">
+                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Name of University/College:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlUnivCollg" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="true">
                             </asp:DropDownList>
                         </div> 
-                </div>
-              
-               <div class="form-group">
-                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Faculty & Degree of Study:</asp:Label>
-                       <div class="col-md-6">
-                           <asp:TextBox runat="server" ID="txtDegree" placeholder="Enter your Degree/Course Name" CssClass="form-control"></asp:TextBox>
+                       <div class="col-md-2">
+                            <asp:TextBox runat="server" ID="txtCollg" CssClass="form-control" Enabled="False" placeholder="College?"/>
                         </div><span class="required">*</span> 
                 </div>
               
-               <div class="form-group">
+                <div class="form-group">
+                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Faculty & Degree of Study:</asp:Label>
+                       <div class="col-md-4">
+                           <asp:TextBox runat="server" ID="txtDegree" placeholder="Enter your Degree/Course Name" CssClass="form-control"></asp:TextBox>
+                        </div>
+                   <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtFaculty" CssClass="form-control" placeholder="Faculty?" Enabled="False"/>
+                    </div> <span class="required">*</span> 
+                </div>
+              
+                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Study:</asp:Label>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <asp:DropDownList ID="ddlYearofStudy" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="True">
                                 <asp:ListItem Selected="True">..Select Year of Study..</asp:ListItem>
@@ -255,30 +304,33 @@
                                 <asp:ListItem>Fourth Year</asp:ListItem>
                             </asp:DropDownList>
                         </div> 
+                        <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtYearofStd" CssClass="form-control" placeholder="Year of study?" Enabled="False"/>
+                    </div><span class="required">*</span> 
                 </div>
 
-               <div class="form-group">
+                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Admission:</asp:Label>
-                    <div class="col-md-5">
+                    <div class="col-md-4">
                        <div class="input-group date">
                            <input type="text" id="txtYrofAdmsn" runat="server" class="form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
                     </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <asp:TextBox runat="server" ID="txtYoAdmn" placeholder="year of admission" CssClass="form-control" Enabled="False"></asp:TextBox>
                     </div><span class="required">*</span> 
                 </div>
               
-               <div class="form-group">
+                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Completion:</asp:Label>
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                        <div class="input-group date">
                            <input type="text" id="txtYrofCompltn" runat="server" class="form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
                        </div>      
                        </div> 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                         <asp:TextBox runat="server" ID="txtYofcomplt" placeholder="year of completion" CssClass="form-control" Enabled="False"></asp:TextBox>
-                    </div>
+                    </div><span class="required">*</span>
                 </div>
               
                <div class="form-group">
@@ -368,24 +420,23 @@
                     <div class="col-sm-3"></div>
                 </div>
 
-            
-                <asp:GridView ID="tblRefs" runat="server" CssClass="table table-condensed" Width="100%" AutoGenerateSelectButton="True" 
-                 EmptyDataText="No Referees Found!" OnSelectedIndexChanged="tblRefs_OnSelectedIndexChanged" >
+             <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+             <ContentTemplate>
+                <asp:GridView ID="tblRefs" runat="server" CssClass="table table-condensed" Width="100%"
+                 EmptyDataText="No Referees Found!" OnSelectedIndexChanged="tblRefs_OnSelectedIndexChanged"  DataKeyNames="No"
+                    AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True" OnRowDeleting="tblRefs_OnRowDeleting">
                 <Columns>
                     <asp:BoundField DataField="No" HeaderText="Ref No." />
                     <asp:BoundField DataField="firstname" HeaderText="First Name" />
                     <asp:BoundField DataField="secondname" HeaderText="Middle Name:" />
                     <asp:BoundField DataField="lastname" HeaderText="Last Name:" />
                     <asp:BoundField DataField="phoneNumber" HeaderText="Phone Number:" />
-                    <asp:TemplateField HeaderText="Actions">
-                        <ItemTemplate>
-                           <asp:LinkButton runat="server" ID="lnkDelete" OnClick="lnkDelete_OnClick" >Delete Referee
-                           </asp:LinkButton>
-                        </ItemTemplate>                        
-                    </asp:TemplateField>
+                      <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />
                 </Columns>
                 <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
-                 </asp:GridView>
+                </asp:GridView>   
+         </ContentTemplate>
+       </asp:UpdatePanel>
            
             </div>
           </asp:View>
@@ -415,6 +466,10 @@
          function whatSchool() {
              var myPrimois = document.getElementById("myPrimaryIs");
              myPrimois.style.display = "block";
+         }
+
+         function pageLoad() {
+             $('.selectpicker').selectpicker();
          }
     </script>
   <%--  <script type="text/javascript">

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -19,6 +21,12 @@ namespace KCDF_P
             new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"],
                 ConfigurationManager.AppSettings["DOMAIN"])
         };
+        public readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+                                ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
+                                ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
+                                ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
+
+        public string Company_Name = "KCDF";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -31,12 +39,14 @@ namespace KCDF_P
                     sup.Credentials = credentials;
                     sup.PreAuthenticate = true;
                     string activationCode = Request.QueryString["ActivationCode"]; Guid.Empty.ToString();
+                    string myusername = Request.QueryString["username"];
 
                     var activatem = nav.consActivationQuery.ToList().Where(r => r.Activation_Code == activationCode);
                     string activatemyASS = activatem.Select(r => r.Activation_Code).SingleOrDefault();
                     if (sup.FnActivateConsultant(activatemyASS) == true)
                     {
                         ltMessage.Text = "Your Acount has been activated successfully!";
+                        InsertToActivationDB(myusername, activationCode);
                     }
                     else
                     {
@@ -58,6 +68,27 @@ namespace KCDF_P
             string ActivationUrl = string.Empty;
             ActivationUrl = System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) +"/Default.aspx";
             Response.Redirect(ActivationUrl);
+        }
+        public void InsertToActivationDB(string userName, string ActvCode)
+        {
+            using (SqlConnection con = new SqlConnection(strSQLConn))
+            {
+                using (SqlCommand cmd = new SqlCommand("INSERT INTO UserActivation VALUES(@UserId, @ActivationCode)"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@UserId", userName);
+                        cmd.Parameters.AddWithValue("@ActivationCode", ActvCode);
+                        cmd.Connection = con;
+                        con.Open();
+                        cmd.ExecuteNonQuery();
+                        con.Close();
+                    }
+                }
+            }
+
+
         }
     }
 }

@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="6867041c-915c-4200-9c8e-68a5ef5954f2" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="5259aa9f-68f9-4439-87e3-562eaf07ce14" xmlns="urn:schemas-microsoft-com:xml-dataservicemap">
   <MetadataSources>
-    <MetadataSource Address="http://192.168.0.249:2443/PORTAL/OData/" Protocol="http" SourceId="1" />
+    <MetadataSource Address="http://sngutu:7048/DynamicsNAV110/OData/" Protocol="http" SourceId="1" />
   </MetadataSources>
   <Metadata>
-    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="dc21c347-85e9-4e40-bc1b-cc5eab5173b6" SourceId="1" SourceUrl="http://192.168.0.249:2443/PORTAL/OData/" />
+    <MetadataFile FileName="service.edmx" MetadataType="Edmx" ID="a9e7efd7-2cd7-4238-81e7-28b07d689905" SourceId="1" SourceUrl="http://sngutu:7048/DynamicsNAV110/OData/" />
   </Metadata>
   <Extensions />
   <Parameters>

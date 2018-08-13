@@ -50,7 +50,7 @@ namespace KCDF_P
                 var client = new SmtpClient
                 {
                     UseDefaultCredentials = false,
-                    Credentials = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*"),
+                    Credentials = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*~"),
                     Port = 587,
                     Host = "smtp.gmail.com",
                     DeliveryMethod = SmtpDeliveryMethod.Network,

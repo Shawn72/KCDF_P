@@ -13,5 +13,11 @@ namespace KCDF_P
         {
 
         }
+
+        protected void lnkBtnChgP_OnClick(object sender, EventArgs e)
+        {
+            Session["userType"] = "scholarship";
+            Response.Redirect("~/PasswordReset.aspx");
+        }
     }
 }

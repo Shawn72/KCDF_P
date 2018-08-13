@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="KCDF_P_NAVWS_Portals" Type="(Web Service URL)" Scope="Application">
-      <Value Profile="(Default)">http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals</Value>
+      <Value Profile="(Default)">http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals</Value>
     </Setting>
   </Settings>
 </SettingsFile>

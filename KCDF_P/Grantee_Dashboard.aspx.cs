@@ -11,6 +11,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Configuration;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
@@ -35,30 +36,53 @@ namespace KCDF_P
         [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (!IsPostBack)
             {
-                if (Session["username"] == null)
+                //if (Session["username"] == null)
+                //{
+                //    Response.Redirect("~/Default.aspx");
+                //}
+                if (!this.Page.User.Identity.IsAuthenticated)
                 {
-                    Response.Redirect("~/Default.aspx");
-
+                    FormsAuthentication.RedirectToLoginPage();
                 }
-                checkSessX();
-                returnGrantee();
-                loadMyProjects();
-                myCountyIs();
-                loadProfPic();
-                //fetchPicture();
-                clearCache();
-                lblUsernameIS.Text = Convert.ToString(Session["username"]);
-                lblSessionfromMAster();
+
+                //Check if the user is logged in or not
+                if (Session["Logged"].Equals("No"))
+                {
+                    //Redirect the user to the Login.aspx
+                    Response.Redirect("~/Default.aspx");
+                }
+                else
+                {
+                    checkSessX();
+                    returnGrantee();
+                    loadMyProjects();
+                    myCountyIs();
+                    loadProfPic();
+                    //fetchPicture();
+                    clearCache();
+                    lblUsernameIS.Text = Convert.ToString(Session["username"]);
+                    lblSessionfromMAster();
+                }
+                
             }
 
         }
         protected Grantees returnGrantee()
         {
-            return new Grantees(Session["username"].ToString());
+            //string username = User.Identity.Name;
+            // return new Grantees(Session["username"].ToString());
+            return new Grantees(User.Identity.Name);
+           
         }
-
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
+        }
 
         public void StoreToDatabase(string fileNme)
         {
@@ -222,9 +246,7 @@ namespace KCDF_P
 
             }
         }
-
-
-
+        
         protected void myCountyIs()
         {
             var mycounty = nav.mycountyIs.ToList();
@@ -433,15 +455,7 @@ namespace KCDF_P
 
             }
         }
-        
-        //protected void loadAllcountries() 
-        //{
-        //    var myList = CultureInfo.GetCultures(CultureTypes.SpecificCultures)
-        //        .Select(c => new RegionInfo(c.Name).EnglishName)
-        //        .Distinct().OrderBy(s => s).ToList();
-        //    ddlCountry.DataSource = myList;
-        //    ddlCountry.DataBind();
-        //}
+   
         protected void Copy()
         {
             ProcessStartInfo processInfo;
@@ -454,27 +468,8 @@ namespace KCDF_P
             processInfo.RedirectStandardError = true;
             processInfo.RedirectStandardOutput = true;
             process = Process.Start(processInfo);
-
             process.WaitForExit();
         }
-
-        protected void copyMyBat()
-        {
-            try
-            {
-                //do your code here 
-                var proc = new Process();
-                proc.StartInfo.FileName = @"E:\AdvancedPortals\KCDF_P\KCDF_P\DCopy\DCopier.bat";
-                proc.StartInfo.Arguments = "-v -s -a";
-                System.IO.File.Create(Environment.CurrentDirectory + "Copierstart.txt");
-                proc.Start();
-                proc.WaitForExit();
-                proc.Close();
-                //  Thread.Sleep(3000);
-            }
-            catch (Exception e)
-            {
-            }
-        }
+        
     }
 }

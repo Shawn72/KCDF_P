@@ -1,5 +1,6 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Gran_Application.aspx.cs" MasterPageFile="~/Gran_Master.Master"Inherits="KCDF_P.Gran_Application" %>
 <%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit, Version=3.5.7.123, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e" %>
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <asp:Content ID="OrganizationRegistrationForm" ContentPlaceHolderID="MainContent" runat="server">
   <%--   <div class="col-md-12">
          <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
@@ -56,8 +57,8 @@
             <header class="panel-heading tab-bg-info">
                 <asp:Menu ID="OrgInfoMenu" Orientation="Horizontal" StaticMenuItemStyle-CssClass="tab" StaticSelectedStyle-CssClass="selectedtab" CssClass="tabs" runat="server" OnMenuItemClick="studentInfoMenu_OnMenuItemClick">
                     <Items>
-                        <asp:MenuItem Text="KCDF Downloads |" Value="0" runat="server" />
-                        <asp:MenuItem Text="Applicant Information |" Value="1" runat="server" />
+                        <asp:MenuItem Text="Applicant Information |" Value="0" runat="server" />
+                        <asp:MenuItem Text="KCDF Downloads |" Value="1" runat="server" />
                         <asp:MenuItem Text="Grants Management |" Value="2" runat="server" />
                         <asp:MenuItem Text="Project Overview |" Value="3" runat="server" />
                         <asp:MenuItem Text="Target Information |" Value="4" runat="server" />
@@ -73,8 +74,8 @@
             <header class="panel-heading tab-bg-info">
                 <asp:Menu ID="orgInfoMenu2" Orientation="Horizontal" StaticMenuItemStyle-CssClass="tab" StaticSelectedStyle-CssClass="selectedtab" CssClass="tabs" runat="server" OnMenuItemClick="orgInfoMenu2_OnMenuItemClick">
                     <Items>
-                        <asp:MenuItem Text="KCDF Downloads |" Value="0" runat="server" />
-                        <asp:MenuItem Text="Applicant Information |" Value="1" runat="server" />
+                        <asp:MenuItem Text="Applicant Information |" Value="0" runat="server" />
+                        <asp:MenuItem Text="KCDF Downloads |" Value="1" runat="server" />
                         <asp:MenuItem Text="Project Overview |" Value="2" runat="server" />
                         <asp:MenuItem Text="Target Information |" Value="3" runat="server" />
                         <asp:MenuItem Text="Upload Project Documents |" Value="4" runat="server" />
@@ -86,9 +87,16 @@
         <asp:Label ID="lbError" runat="server" ForeColor="#FF3300" CssClass="text-left hidden"></asp:Label>
         <section class="panel">
             <div class="panel panel-primary">
-                <span class="text-center text-danger"><small><%=lbError.Text %></small></span>
+            
+            <div class="col-md-3"></div>
+            <div class="col-md-6">
+                <asp:Label ID="lblError" runat="server" ForeColor="#FF3300" CssClass="text-left hidden"></asp:Label>
+                <span class="text-center text-danger"><small><%=lblError.Text %></small></span>
+            </div>
+            <div class="col-md-3"></div>
+                
                 <br/>
-                 <asp:Label ID="lblUsernameIS" runat="server" Visible="False"></asp:Label>
+                <asp:Label ID="lblUsernameIS" runat="server" Visible="False"></asp:Label>
                 <div class="col-md-12">
                      <div class="form-group">
                        <label class="control-label alert alert-info col-md-3" style="font-weight: bold;"><span class="badge alert-danger">1</span>Registration of applying organization:</label> 
@@ -103,32 +111,6 @@
                 <br/>
                 <asp:MultiView ID="orgPMultiview" runat="server" ActiveViewIndex="0">
                 
-                    <asp:View runat="server" ID="viewUploads">
-                        <div class="form-horizontal">
-                        <div class="row">
-                        <div class="col-md-12">
-                          <p class="form-control alert alert-info" style="font-weight: bold;"> Download KCDF Grant files here</p> 
-                        </div>
-                            <br/>
-                            <div class="col-md-12">
-                                 <asp:GridView ID="gridVGrantsDownloads" runat="server" CssClass="table table-striped table-advance table-hover" GridLines="None" AutoGenerateColumns="false" EmptyDataText = "No files available for download">
-                                    <Columns>
-                                        <asp:BoundField DataField="Text" HeaderText="File Name" />
-                                        <asp:TemplateField>
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lnkDownload" Text = "Download" CommandArgument = '<%# Eval("Value") %>' runat="server" OnClick = "DownloadFile"></asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        <asp:TemplateField>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                </asp:GridView>
-                            </div>
-                           
-                            </div>
-                          </div>
-                    </asp:View>
-
                     <asp:View runat="server" ID="myApplicantInfo">
                          <div class="form-horizontal">
                         <br/>
@@ -144,7 +126,7 @@
                                 </div>
                             </div>
 
-                               <div class="form-group">
+                            <div class="form-group">
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Organization Name:</asp:Label>
                                     <div class="col-md-6">
                                         <asp:TextBox runat="server" ID="txOrgname" CssClass="form-control" style="text-transform:uppercase" Enabled="False"/>               
@@ -204,7 +186,7 @@
                         </div>
                          <br /> 
                              <div class="form-group">
-                                <asp:Label runat="server"  CssClass="col-md-3 control-label">Type of Organization:</asp:Label>
+                                <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">4</span>Type of Organization:</asp:Label>
                                     <div class="col-md-6">
                                         <asp:CheckBoxList ID="checkIFNgO"  RepeatDirection="Horizontal" runat="server" >
                                             <asp:ListItem Text="Government" Value="GV" Enabled="False" />
@@ -220,14 +202,46 @@
 
                                 <div class="form-group">
                                 <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">5</span>Type Of Registration:</asp:Label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                        <asp:TextBox ID="txtTypeofOrg" runat="server" CssClass="form-control" Enabled="False"></asp:TextBox>
                                     </div>
+                                     <div class="col-md-3">
+                                          <asp:Button ID="btnGoNext1" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnGoNext1_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                                     </div>
                                 </div>
                          </div>
                          <br/>
                     </asp:View>
-
+                
+                    <asp:View runat="server" ID="viewUploads">
+                        <div class="form-horizontal">
+                        <div class="row">
+                        <div class="col-md-12">
+                          <p class="form-control alert alert-info" style="font-weight: bold;"> Download KCDF Grant files here</p> 
+                        </div>
+                            <br/>
+                            <div class="col-md-12">
+                                 <asp:GridView ID="gridVGrantsDownloads" runat="server" CssClass="table table-striped table-advance table-hover" GridLines="None" AutoGenerateColumns="false" EmptyDataText = "No files available for download">
+                                    <Columns>
+                                        <asp:BoundField DataField="Text" HeaderText="File Name" />
+                                        <asp:TemplateField>
+                                            <ItemTemplate>
+                                                <asp:LinkButton ID="lnkDownload" Text = "Download" CommandArgument = '<%# Eval("Value") %>' runat="server" OnClick = "DownloadFile"></asp:LinkButton>
+                                            </ItemTemplate>
+                                        </asp:TemplateField>
+                                        <asp:TemplateField>
+                                        </asp:TemplateField>
+                                    </Columns>
+                                </asp:GridView>
+                            </div>
+                           
+                            </div>
+                          </div>
+                        <div class="col-md-12 form-group">
+                            <asp:Button ID="btnNext2" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext2_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                        </div>
+                    </asp:View>
+                    
                     <asp:View runat="server" ID="grantsMgt">
                         <div class="form-horizontal">
                             <div class="row">
@@ -265,7 +279,7 @@
                                     </div>
 
                                      <div class="col-md-12">
-                                        <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>History of grants received</label>
+                                        <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>History of grants received: You Can Add More than one grants history</label>
                                     </div>
                                     <br/>
                                     
@@ -369,26 +383,31 @@
                                     <br/>
                                         </ContentTemplate>
                                      </asp:UpdatePanel>
-
+                                    
+                                     <div class="row">
                                      <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
                                          <ContentTemplate>
-                                    <div class="row">
+                                   
                                         <div class="col-md-3"></div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group">
-                                                <asp:Button ID="btnSaveGrantHisto" runat="server" Text="Update Grants History" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveGrantHisto_OnClick" CausesValidation="True" />
+                                                <asp:Button ID="btnSaveGrantHisto" runat="server" Text="Save Grants History"
+                                                     CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveGrantHisto_OnClick"
+                                                     CausesValidation="True"/>
                                             </div>
-                                        </div>
-                                        <div class="col-md-3"></div>
                                     </div>
                                      </ContentTemplate>
                                            <Triggers>
-                                                <asp:AsyncPostBackTrigger ControlID = "btnSaveGrantHisto" EventName = "Click" />
+                                                <asp:PostBackTrigger ControlID = "btnSaveGrantHisto"/>
                                             </Triggers>
                                      </asp:UpdatePanel>
-
+                                         
+                                    <div class="col-md-3">
+                                            <asp:Button ID="btnNext3" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext3_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                                     </div>
+                                   </div>
                                 </div>
-                        <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                         <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
                                 <ContentTemplate>
                                 <div class="col-md-6">
                                     <asp:GridView ID="tblGrantsManager" runat="server" 
@@ -424,24 +443,25 @@
                             <div class="form-group">
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Proposed short title of your project:</asp:Label>
                                 <div class="col-md-6">
-                                    <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style="text-transform:uppercase" />
+                                    <asp:TextBox runat="server" ID="TextBoxtitle" CssClass="form-control" style=" text-transform:uppercase" />
                                 </div>
                             </div>
                             
                              <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional">
                                 <ContentTemplate>
                                   <div class="form-group">
-                                    <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">*</span>Proposal Alignment to call Objectives</asp:Label>
+                                    <asp:Label runat="server"  CssClass="col-md-3 control-label"><span class="badge alert-danger">*</span>Proposal Alignment to call Objectives as per project guidelines</asp:Label>
                                         <div class="col-md-6">
                                             <asp:DropDownList ID="ddlObjectives" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                                     data-live-search="true" AppendDataBoundItems="true" OnSelectedIndexChanged="ddlObjectives_OnSelectedIndexChanged" AutoPostBack="True">
                                             </asp:DropDownList>
+                                            <label style=" font-weight: bold;">You can select several objectives</label>
                                         </div> 
                                        <div class="col-md-2">
                                             <div class="form-group">
                                                 <asp:TextBox id="txtAreaObjs" TextMode="multiline" 
                                                     Columns="10" Width="100%" Rows="2" runat="server" Visible="False" ReadOnly="False"
-                                                    CssClass="form-control" MaxLength="250" />
+                                                    CssClass="form-control" MaxLength="250" ForeColor="Red" />
                                             </div>
                                        </div>
                                  
@@ -460,7 +480,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Project Area:</label>
+                                <label class="form-control alert alert-info" style=" font-weight: bold;"><span class="badge alert-danger">2</span>Project Area:</label>
                             </div>
                             <br />
                             
@@ -468,33 +488,47 @@
                                     <ContentTemplate>
                                 <div class="form-group">
                                     <asp:Label runat="server" CssClass="col-md-3 control-label">County:</asp:Label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <asp:DropDownList ID="ddlSelCounty" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="True" OnSelectedIndexChanged="ddlSelCounty_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList>
                                     </div>
+                                     <div class="col-md-2">
+                                        <asp:TextBox runat="server" ID="txtCounty" CssClass="form-control"  Enabled="False" placeholder="County?" />              
+                                     </div>
                                 </div>
 
                                 <div class="form-group">
                                     <asp:Label runat="server" CssClass="col-md-3 control-label">Constituency:</asp:Label>
-                                    <div class="col-md-6">
+                                    <div class="col-md-4">
                                         <asp:DropDownList ID="ddlConstituency" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="False"></asp:DropDownList>
                                     </div>
+                                    <div class="col-md-2">
+                                        <asp:TextBox runat="server" ID="txtSubCounty" CssClass="form-control"  Enabled="False" placeholder="County?" />              
+                                     </div>
                                 </div>
 
-                                <div class="form-group">
-                                    <asp:Label runat="server" CssClass="col-md-3 control-label">Description of areas where you plan to implement your project</asp:Label>
+                                <div class="form-group" style="display: none;">
+                                    <asp:Label runat="server" CssClass="col-md-3 control-label">Description of areas where you plan to implement your project<br/> <b>(Max: 250 Chars)</b></asp:Label>
                                     <div class="col-md-6">
-                                        <asp:TextBox id="txtAreaTargetSettmnt" TextMode="multiline" Columns="100" Width="100%" Rows="5" runat="server" class="max" />
+                                        <div class="row">
+                                            <div class="col-md-3"></div>
+                                             <div class="col-md-6">
+                                               <label id="lblCharleftTextarea" title=""></label>
+                                             </div>
+                                           <div class="col-md-3"></div>
+                                        </div>
+                                        <asp:TextBox id="txtAreaTargetSettmnt" TextMode="multiline" Columns="100"
+                                             Width="100%" Rows="5" runat="server" onKeyUp="javascript:CheckTextArea(this, 250);" onChange="javascript:CheckTextArea(this, 250);" />
                                     </div>
                                 </div>
                                 </ContentTemplate>
                         </asp:UpdatePanel>
                             <div class="col-md-12">
-                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">3</span>Project Duration:</label>
+                                <label class="form-control alert alert-info" style=" font-weight: bold;"><span class="badge alert-danger">3</span>Project Duration:</label>
                             </div>
                             <br />
                             <div class="form-group">
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Expected length of your project (max is 24 months):</asp:Label>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <asp:DropDownList ID="ddlMonths" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="true">
                                         <asp:ListItem Selected="True">..Select project Length..</asp:ListItem>
                                         <asp:ListItem>1</asp:ListItem>
@@ -523,6 +557,9 @@
                                         <asp:ListItem>24</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
+                                <div class="col-md-2">
+                                    <asp:TextBox runat="server" ID="txtLength" CssClass="form-control"  Enabled="False" placeholder="project length" />              
+                                </div>
                             </div>
 
                             <div class="col-md-12">
@@ -531,18 +568,21 @@
                             <br />
                             <div class="form-group">
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Please Select an estimated scale of the grant funding needed for the implementation of the proposed project :</asp:Label>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <asp:DropDownList ID="ddlEstScale" runat="server" class="selectpicker form-control" data-live-search-style="begins" data-live-search="true" AppendDataBoundItems="true">
-                                        <asp:ListItem Selected="True">..Select Estimated Scale..</asp:ListItem>
+                                        <asp:ListItem Selected="True">--Select Estimated Scale--</asp:ListItem>
                                         <asp:ListItem>KES 1,000,001 to 2,000,000</asp:ListItem>
                                         <asp:ListItem>KES 2,000,001 to 3,000,000</asp:ListItem>
                                         <asp:ListItem>KES 3,000,001 to 4,000,000</asp:ListItem>
                                     </asp:DropDownList>
                                 </div>
+                                <div class="col-md-2">
+                                    <asp:TextBox runat="server" ID="txtScale" CssClass="form-control"  Enabled="False" placeholder="Scale" />              
+                                </div>
                             </div>
 
                             <div class="col-md-12">
-                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">5</span>Breakdown of the cost of your proposed project in KES:Refer to Application contribution <a href="http://www.kcdf.or.ke/index.php/work/call-for-proposal">Guidelines</a></label>
+                                <label class="form-control alert alert-info" style="font-weight: bold;}"><span class="badge alert-danger">5</span>Breakdown of the cost of your proposed project in KES:Refer to Application contribution <a href="http://www.kcdf.or.ke/index.php/work/call-for-proposal">Guidelines</a></label>
                             </div>
                             <br />
                             
@@ -559,9 +599,6 @@
                                 <asp:Label runat="server" CssClass="col-md-3 control-label">Total project cost in cash -(KES):</asp:Label>
                                 <div class="col-md-6">
                                     <asp:TextBox runat="server" ID="TextBoxcost" CssClass="form-control" TextMode="Number" onKeyUp="javascript:Check(this, 9);" onChange="javascript:Check(this, 9);"/>
-                                </div>
-                                <div class="col-md-3" >
-                                    <asp:Button runat="server" ID="btnRefreshScript" Enabled="False" CssClass="btn btn-primary pull-left btn-sm" Text="Refresh" OnClick="btnRefreshScript_OnClick"/>
                                 </div>
                             </div>
 
@@ -580,25 +617,28 @@
                             </div>
                             <br />
                             
-                            
+                             <div class="row">
                              <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
                                 <ContentTemplate>
-                                    <div class="row">
+                                   
                                         <div class="col-md-3"></div>
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <div class="form-group">
-                                                <asp:Button ID="btnUpdatePOverview" runat="server" Text="Update Project Overview" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnUpdatePOverview_OnClick" Enabled="false"/>
+                                                <asp:Button ID="btnUpdatePOverview" runat="server" Text="Save Information" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnUpdatePOverview_OnClick" Enabled="false"/>
                                             </div>
                                         </div>
-                                        <div class="col-md-3"></div>
-                                     </div>
+
+                                     
                                  </ContentTemplate>
                                <Triggers>
                                   <asp:PostBackTrigger ControlID = "btnUpdatePOverview"/>
                                </Triggers>
                             </asp:UpdatePanel>
-                     <br/>
-
+                            <div class="col-md-3">
+                                    <asp:Button ID="btnNext4" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext4_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                              </div>
+                         </div>
+                        <br/>
                         </div>
                     </asp:View>
 
@@ -644,6 +684,16 @@
                                         </div>
                                     </div>
                                 </div>
+                             <%--    <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                                    <ContentTemplate>
+                                    <div class="form-group">
+                                            <asp:Button ID="testBtn" runat="server" Text="Test Fields" CssClass="btn btn-primary pull-left btn-sm" OnClick="testBtn_OnClick"  OnSubmitBehavior="False" CausesValidation="False"/>
+                                        </div>
+                                         </ContentTemplate>
+                                   <Triggers>
+                                      <asp:AsyncPostBackTrigger ControlID = "testBtn"/>
+                                   </Triggers>
+                                </asp:UpdatePanel>--%>
 
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -795,13 +845,15 @@
                             </div><br />
 
                             <div class="row">
-                                <div class="col-md-9"></div>
-                                <div class="col-md-3">
+                                <div class="col-md-3"></div>
+                                <div class="col-md-5">
                                     <div class="form-group">
                                         <asp:Button ID="btnSaveTarget" runat="server" Text="Save Target Information" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnSaveTarget_Click" />
-                                    </div>
+                                   </div>
                                 </div>
-                                <%-- <div class="col-md-3"></div>--%>
+                                 <div class="col-md-3">
+                                         <asp:Button ID="btnNext5" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext5_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                                 </div>
                             </div>
                             <br />
                         </div>
@@ -812,20 +864,59 @@
                         <span class="text-center text-danger"><small><%=lblErrMsg.Text %></small></span>
                         <div class="row">
                             <div class="col-md-12">
-                                <label class="control-label form-control alert-info" style="font-weight: bold;">Select Documents from your computer to upload</label>
+                                <label class="control-label form-control alert-info" style="font-weight: bold">Select Documents from your computer to upload</label>
                             </div>
                             <br/>
 
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-5">
-                                            <label class="control-label form-control alert-info" style="font-weight: bold;">Project Proposal</label>
+                                        <div class="col-md-4">
+                                            <label class="control-label form-control alert-info" style=" font-weight: bold;">Application Form</label>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <asp:FileUpload ID="FileUpload" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                                             <asp:Button ID="btnUpload" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="UploadFile" />
                                         </div>
+                                        <div class="col-md-2">
+                                            <label style=" color: green; font-weight:bold" runat="server" id="appFm"></label>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label form-control alert-info" style="font-weight: bold;">Proposed Budget</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <asp:FileUpload ID="FileUploadProjectBudget" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                            <asp:Button ID="btnProjectBudget" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnProjectBudget_OnClick" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label style="color: green; font-weight:bold" runat="server" id="lblPB"></label>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                            
+                             <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label form-control alert-info" style=" font-weight:bold;">Bill of Quantities (Optional)</label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <asp:FileUpload ID="FileUploadtheBill" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                            <asp:Button ID="btnBillofQTY" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnBillofQTY_OnClick" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label style="color: green; font-weight:bold" runat="server" id="lblBill"></label>
+                                        </div>
                                     </div>
                                     <br/>
                                 </div>
@@ -834,13 +925,16 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="control-label form-control alert-info" style="font-weight: bold;">Registration Certificate</label>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <asp:FileUpload ID="FileUploadID" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                                             <asp:Button ID="btnUploadID" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadID_OnClick" />
                                         </div>
+                                        <div class="col-md-2">
+                                            <label style="color: green; font-weight:bold" runat="server" id="lblID"></label>
+                                        </div>
                                     </div>
                                     <br/>
                                 </div>
@@ -849,13 +943,16 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-5">
-                                            <label class="control-label form-control alert-info" style="font-weight: bold;">Organizational Constitution </label>
+                                        <div class="col-md-4">
+                                            <label class="control-label form-control alert-info" style="font-weight: bold;">Organizational Constitution/Strategy </label>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <asp:FileUpload ID="FileUploadConst" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                                             <asp:Button ID="btnUploadConstitution" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadConstitution_OnClick" />
                                         </div>
+                                         <div class="col-md-2">
+                                            <label style="color: green; font-weight:bold" runat="server" id="lblOC"></label>
+                                        </div>
                                     </div>
                                     <br/>
                                 </div>
@@ -864,13 +961,16 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="control-label form-control alert-info" style="font-weight: bold;">Ordinary /committee members List:  </label>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <asp:FileUpload ID="FileUploadList" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                                             <asp:Button ID="btnUploadList" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadList_OnClick" />
                                         </div>
+                                        <div class="col-md-2">
+                                            <label style="color: green; font-weight: bold;" runat="server" id="lblUL"></label>
+                                        </div>
                                     </div>
                                     <br/>
                                 </div>
@@ -879,12 +979,33 @@
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="form-group">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <label class="control-label form-control alert-info" style="font-weight: bold;">Recent Financial Report  </label>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <asp:FileUpload ID="FileUploadFinRePo" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
                                             <asp:Button ID="btnFinReport" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnFinReport_OnClick" />
+                                        </div>
+                                        <div class="col-md-2">
+                                            <label style="color: green; font-weight: bold;" runat="server" id="lblFR"></label>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                </div>
+                            </div>
+                            
+                             <div class="col-md-12">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <div class="col-md-4">
+                                            <label class="control-label form-control alert-info" style=" font-weight: bold;">Audited Accounts (optional)  </label>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <asp:FileUpload ID="FileUploadAudit" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                            <asp:Button ID="btnAudit" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnAudit_OnClick" />
+                                        </div>
+                                         <div class="col-md-2">
+                                            <label style="color: green; font-weight:bold" runat="server" id="lblAudit"></label>
                                         </div>
                                     </div>
                                     <br/>
@@ -917,6 +1038,12 @@
                                 </asp:GridView>
                                 </div>
                             </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                              <asp:Button ID="btnNext6" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext6_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                           </div>
+                        </div>
+                                    
                     </asp:View>
 
                     <asp:View ID="finalSubmit" runat="server">
@@ -952,7 +1079,14 @@
                                 </asp:GridView>
                             </div>
                             </div>
+                            
+                            
                         </div>
+                        <div class="col-md-12">
+                                <div class="form-group">
+                                    <asp:Button ID="btnSumbitFinal" runat="server" Text="Submit Application" CssClass="btn btn-primary pull-left btn-sm" OnClick="lnkConfirm_OnClick" CausesValidation="False" UseSubmitBehavior="False" Visible="False" Enabled="False" />          
+                                </div>
+                            </div>
                     </asp:View>
 
                     </asp:MultiView>
@@ -1027,28 +1161,28 @@
             </script>
 
             <script type="text/javascript">
-            function SessionExpireAlert(timeout) {
-                var seconds = timeout / 1000;
-                document.getElementsByName("secondsIdle").innerHTML = seconds;
-                document.getElementsByName("seconds").innerHTML = seconds;
-                setInterval(function () {
-                    seconds--;
-                    document.getElementById("seconds").innerHTML = seconds;
-                    document.getElementById("secondsIdle").innerHTML = seconds;
-                }, 1000);
-                setTimeout(function () {
-                    //Show Popup before 20 seconds of timeout.
-                    $find("mpeTimeout").show();
-                }, timeout - 20 * 1000);
-                setTimeout(function () {
-                    window.location = "Expired.aspx";
-                }, timeout);
-            };
-            function ResetSession() {
-                //Redirect to refresh Session.
-                window.location = window.location.href;
-            }
-           </script>  
+                function SessionExpireAlert(timeout) {
+                    var seconds = timeout / 1000;
+                    document.getElementsByName("secondsIdle").innerHTML = seconds;
+                    document.getElementsByName("seconds").innerHTML = seconds;
+                    setInterval(function () {
+                        seconds--;
+                        document.getElementById("seconds").innerHTML = seconds;
+                        document.getElementById("secondsIdle").innerHTML = seconds;
+                    }, 1000);
+                    setTimeout(function () {
+                        //Show Popup before 20 seconds of timeout.
+                        $find("mpeTimeout").show();
+                    }, timeout - 20 * 1000);
+                    setTimeout(function () {
+                        window.location = "Expired.aspx";
+                    }, timeout);
+                };
+                function ResetSession() {
+                    //Redirect to refresh Session.
+                    window.location = window.location.href;
+                }
+            </script>  
 
             <script type="text/javascript">
                 $(function() {
@@ -1098,7 +1232,6 @@
                         document.getElementById("lblCharLeft").innerHTML = "Invalid Entry!, Click Refresh";
                         document.getElementById('<%= TextBoxrequested.ClientID %>').value = "";
                         document.getElementById('<%= TextBoxrequested.ClientID %>').style.color = "red";
-                        document.getElementById('<%=btnRefreshScript.ClientID%>').disabled = false;
                     }
                 }
 
@@ -1107,7 +1240,7 @@
                     document.getElementById("lblCharLeft").innerHTML = maxLength - textBox.value.length + " characters left";
                     var subs = maxLength - textBox.value.length;
                     if (subs === 0) {
-                        document.getElementById("lblCharLeft").innerHTML = "Input error!";
+                        //document.getElementById("lblCharLeft").innerHTML = "Input error!";
                         document.getElementById("lblCharLeft").style.color = "red";
                         document.getElementById('<%= TextBoxrequested.ClientID %>').disabled = true;
                     }
@@ -1172,27 +1305,7 @@
             </script>
             
             <script>
-                jQuery.fn.getNum = function () {
-                    var val = $.trim($(this).val());
-                    if (val.indexOf(',') > -1) {
-                        val = val.replace(',', '.');
-                    }
-                    var num = parseFloat(val);
-                    var num = num.toFixed(2);
-                    if (isNaN(num)) {
-                        num = '';
-                    }
-                    return num;
-                }
-
-                $(function() {
-
-                    $('<%= TextBoxcost.ClientID %>').blur(function () {
-                        $(this).val($(this).getNum());
-                    });
-                });
-
-                function ConfirmDelete() {
+            function ConfirmDelete() {
                     var Delet_Confirm = confirm("Do you really want to delete this record ?");
                     if (Delet_Confirm == true) {
                         return true;
@@ -1201,17 +1314,80 @@
                         return false;
                     }
                 }
-              
+
             </script>
             
             <script type="text/javascript" >
-              function IfYesIts() {
-                   var ifYsId = document.getElementById("idKCDFyes");
-                   ifYsId.style.display = "block";
-              }
-              function pageLoad() {
-                  $('.selectpicker').selectpicker();
-              } 
+                function IfYesIts() {
+                    var ifYsId = document.getElementById("idKCDFyes");
+                    ifYsId.style.display = "block";
+                }
+                function pageLoad() {
+                    $('.selectpicker').selectpicker();
+                } 
+                function ClearOverviewFields() {
+                    document.getElementById('<%= txtDonor.ClientID %>').value = '';
+                    document.getElementById('<%= txtAmount.ClientID %>').value = '';
+                    document.getElementById('<%= TextObj.ClientID %>').value = '';
+                    document.getElementById('<%= txtAreaCounties.ClientID %>').value = '';
+                    document.getElementById('<%= TextTypeBeneficiary.ClientID %>').value = '';
+                    document.getElementById('<%= TextNoBeneficiary.ClientID %>').value = '';
+                }
+                function ErrorLabel1() {
+                    document.getElementById('<%= appFm.ClientID %>').style.color = 'Red';
+                }
+                function ErrorLabel2() {
+                    document.getElementById('<%= lblPB.ClientID %>').style.color = 'Red';
+                }
+                function ErrorLabel3() {
+                     document.getElementById('<%= lblBill.ClientID %>').style.color = 'Red';
+                }
+                function ErrorLabel3() {
+                    document.getElementById('<%= lblID.ClientID %>').style.color = 'Red';
+                }
+                function ErrorLabel4() {
+                    document.getElementById('<%= lblOC.ClientID %>').style.color = 'Red';
+                }
+                function ErrorLabel5() {
+                     document.getElementById('<%= lblUL.ClientID %>').style.color = 'Red';
+                }
+                 function ErrorLabel6() {
+                     document.getElementById('<%= lblFR.ClientID %>').style.color = 'Red';
+                }
+                function ErrorLabel7() {
+                     document.getElementById('<%= lblAudit.ClientID %>').style.color = 'Red';
+                }
             </script> 
+         
+            <script>
+                function CheckTextArea(textArea, maxLength) {
+                    document.getElementById("lblCharleftTextarea").innerHTML = maxLength - textArea.value.length + " characters left";
+                    if (textArea.value.length > maxLength) {
+                        document.getElementById("lblCharleftTextarea").style.color = "red";
+                        textArea.value = textArea.value.substr(0, maxLength);
+                        document.getElementById("lblCharleftTextarea").innerHTML = maxLength - textArea.value.length + " characters left";
+                    }
+                    else if (textArea.value.length < maxLength) {
+                        document.getElementById("lblCharleftTextarea").style.color = "Black";
+                    }
+                    else {
+                        document.getElementById("lblCharleftTextarea").style.color = "red";
+                    }
+                }
+            </script>
+            <script>
+                function TesctEmpty() {
+                    if (document.getElementById('<%= TextBxcont.ClientID %>').value == "" ||
+                        document.getElementById('<%= txtRegNo.ClientID %>').value == "" ||
+                        document.getElementById('<%= txOrgname.ClientID %>').value == "" ||
+                        document.getElementById('<%= TextBoposition.ClientID %>').value == "" ||
+                        document.getElementById('<%= TextBoxphone.ClientID %>').value == "" ||
+                        document.getElementById('<%= TextBoxorg.ClientID %>').value == "") {
+                        alert("Please complete your user profile before proceeding!");
+                        window.location.href = "/Account/Add_Grantee_Profile.aspx";
+                    }
+                }
+                
+            </script>
         </div>
     </asp:Content>

@@ -12,9 +12,21 @@ namespace KCDF_P
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             Session.Abandon();
+            Session["Logged"] = "No";
+            Session["username"] = "";
             FormsAuthentication.SignOut();
-            Response.Redirect("Default.aspx");
+            Response.Redirect("~/Default.aspx");
+
+            Response.Buffer = true;
+            Response.CacheControl = "no-cache";
+            Response.Cache.SetNoStore();
+            Response.AppendHeader("Pragma", "no-cache");
+            Response.AppendHeader("Cache-Control", "no-cache");
+            Response.CacheControl = "no-cache";
+            Response.ExpiresAbsolute = new DateTime(1900, 1, 1);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
 
         }
     }

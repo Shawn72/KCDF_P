@@ -3,6 +3,7 @@
 <%@ Import Namespace="System.Net" %>
 <%@ Import Namespace="KCDF_P" %>
 <%@ Import Namespace="KCDF_P.NAVWS" %>
+<%@ OutputCache NoStore="true" Duration="1" VaryByParam="*"   %>
 <asp:Content ID="userDashBd" ContentPlaceHolderID="MainContent" runat="server">
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
 <div class="row" style="height: 20px">&nbsp;</div>

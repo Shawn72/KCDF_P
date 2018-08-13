@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -44,6 +46,16 @@ namespace KCDF_P
                     break;
             }
         }
+        static string EncryptP(string mypass)
+        {
+            //encryptpassword:
+            using (MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider())
+            {
+                UTF8Encoding utf8 = new UTF8Encoding();
+                byte[] data = md5.ComputeHash(utf8.GetBytes(mypass));
+                return Convert.ToBase64String(data);
+            }
+        }
 
         public void ChangeStudentPassword()
         {
@@ -64,8 +76,8 @@ namespace KCDF_P
                 try
                 {
                     if (WSConfig.ObjNav.FnStudent_PasswordChange(Session["username"].ToString(),
-                        txtPasswordOld.Text.Trim(),
-                        txtPasswordConfirm.Text.Trim()))
+                       EncryptP(txtPasswordOld.Text.Trim()),
+                        EncryptP(txtPasswordConfirm.Text.Trim())))
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "myFunctionLoadScolars();",
                             true);
@@ -101,8 +113,8 @@ namespace KCDF_P
                 try
                 {
                     if (WSConfig.ObjNav.FnGrantee_PasswordChange(Session["username"].ToString(),
-                        txtPasswordOld.Text.Trim(),
-                        txtPasswordConfirm.Text.Trim()))
+                       EncryptP(txtPasswordOld.Text.Trim()),
+                        EncryptP(txtPasswordConfirm.Text.Trim())))
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "myFunctionLoadGrantees();",
                             true);
@@ -138,8 +150,8 @@ namespace KCDF_P
                 try
                 {
                     if (WSConfig.ObjNav.FnConsultant_PasswordChange(Session["username"].ToString(),
-                        txtPasswordOld.Text.Trim(),
-                        txtPasswordConfirm.Text.Trim()))
+                        EncryptP(txtPasswordOld.Text.Trim()),
+                        EncryptP(txtPasswordConfirm.Text.Trim())))
                     {
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "myFunctionLoadConsultants();",
                             true);

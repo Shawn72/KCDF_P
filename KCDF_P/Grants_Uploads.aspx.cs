@@ -22,11 +22,18 @@ namespace KCDF_P
         };
         protected void Page_Load(object sender, EventArgs e)
         {
+            NoCache();
             if (Session["username"] == null)
             {
                 Response.Redirect("/Default.aspx");
             }
             loadUploads();
+        }
+        public void NoCache()
+        {
+            Response.CacheControl = "private";
+            Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
+            Response.Cache.SetCacheability(HttpCacheability.NoCache);
         }
         protected void UploadFile(object sender, EventArgs e)
         {
