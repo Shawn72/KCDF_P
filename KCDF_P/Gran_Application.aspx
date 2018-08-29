@@ -63,7 +63,6 @@
                         <asp:MenuItem Text="Project Overview |" Value="3" runat="server" />
                         <asp:MenuItem Text="Target Information |" Value="4" runat="server" />
                         <asp:MenuItem Text="Upload Project Documents |" Value="5" runat="server" />
-                        <asp:MenuItem Text="Submit Application |" Value="6" runat="server" />
                     </Items>
                 </asp:Menu>
             </header>
@@ -79,7 +78,6 @@
                         <asp:MenuItem Text="Project Overview |" Value="2" runat="server" />
                         <asp:MenuItem Text="Target Information |" Value="3" runat="server" />
                         <asp:MenuItem Text="Upload Project Documents |" Value="4" runat="server" />
-                        <asp:MenuItem Text="Submit Application |" Value="5" runat="server" />
                     </Items>
                 </asp:Menu>
             </header>
@@ -1040,87 +1038,15 @@
                             </div>
                         <div class="col-md-12">
                             <div class="form-group">
-                              <asp:Button ID="btnNext6" runat="server" Text="Next Tab" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext6_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
+                              <asp:Button ID="btnNext6" runat="server" Text="Go to Submit" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnNext6_OnClick" CausesValidation="False" UseSubmitBehavior="False" />          
                            </div>
                         </div>
                                     
                     </asp:View>
 
-                    <asp:View ID="finalSubmit" runat="server">
-                        <div class="form-horizontal">
-                            <asp:HiddenField ID="hdnTxtValidit" runat="server" />
-                            <div class="col-md-12">
-                                <label class="form-control alert alert-info" style="font-weight: bold;"><span class="badge alert-danger">2</span>Validate and submit your application:</label>
-                            </div>
-                            <br />
-
-                            <div class="row">
-                                <div class="col-md-12">
-                                <asp:GridView ID="gridSubmitApps" runat="server" CssClass="table table-condensed footable" Width="100%" AutoGenerateSelectButton="false"
-                                     EmptyDataText="No unsubmitted application" AlternatingRowStyle-BackColor="#C2D69B" DataKeyNames="No"
-                                   >
-                                    <Columns>
-                                        <asp:BoundField DataField="No" HeaderText="S/No:" />
-                                        <asp:BoundField DataField="Project_Name" HeaderText="Project Name" />
-                                        <asp:BoundField DataField="Approval_Status" HeaderText="Approval Status" />
-                                         <asp:TemplateField HeaderText="Confirm Attachments">
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lnkEditMe" Text="Confirm Attachments" CommandArgument='<%# Eval("No") %>' CommandName="lnkEditMe" runat="server" OnClick="lnkEditMe_OnClick"></asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                        
-                                         <asp:TemplateField HeaderText="Submit Application" >
-                                            <ItemTemplate>
-                                                <asp:LinkButton ID="lnkConfirm" Text="Submit Application" CommandArgument='<%# Eval("No") %>' CommandName="lnkConfirm" runat="server" OnClick="lnkConfirm_OnClick"></asp:LinkButton>
-                                            </ItemTemplate>
-                                        </asp:TemplateField>
-                                    </Columns>
-                                    <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" />
-                                </asp:GridView>
-                            </div>
-                            </div>
-                            
-                            
-                        </div>
-                        <div class="col-md-12">
-                                <div class="form-group">
-                                    <asp:Button ID="btnSumbitFinal" runat="server" Text="Submit Application" CssClass="btn btn-primary pull-left btn-sm" OnClick="lnkConfirm_OnClick" CausesValidation="False" UseSubmitBehavior="False" Visible="False" Enabled="False" />          
-                                </div>
-                            </div>
-                    </asp:View>
-
                     </asp:MultiView>
                 </div>
-            
-              <div class="modal fade" id="pageApplications" data-backdrop="static">
-		        <div class="modal-dialog" runat="server">
-			        <div class="modal-content" runat="server">
-                            <div class="panel-heading" style="text-align:left; background: #00bfff; color: #f0f8ff">Submit your projects</div>
-			            <div class="modal-header" runat="server">
-					            <strong>Confirm Submission for Project:</strong>&nbsp;&nbsp;<asp:Label runat="server" ID="lblProjNb">&nbsp;</asp:Label>
-					            <button type="button" class="close" data-dismiss="modal">&times;</button>
-				            </div>
-			            <div class="modal-body">
-                        <div class="form-horizontal">
-                             <div class="row">
-                                <div class="col-md-3">
-                                    <asp:Button ID="btnValidateInfo" runat="server" Text="Click to Validate" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnValidateInfo_OnClick" />&nbsp;&nbsp;
-
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <asp:TextBox runat="server" ID="txtValidate" CssClass="form-control" Enabled="False" /> &nbsp;&nbsp;
-                                    </div>
-                                </div>
-                                <div class="col-md-3">
-                                    <asp:Button ID="btnFinalSubmit" runat="server" Text="Final Submission" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnFinalSubmit_OnClick" Enabled="False" />
-                                </div>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
-                </div>
-                </div>
+             
             </section>
 
             <script type="text/javascript">
@@ -1197,10 +1123,6 @@
                     var parts = x.toString().split(".");
                     parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
                     return parts.join(".");
-                }
-
-                function openModalSubmit() {
-                    $('#pageApplications').modal('show');
                 }
 
                 function Check(textBox, maxLength) {

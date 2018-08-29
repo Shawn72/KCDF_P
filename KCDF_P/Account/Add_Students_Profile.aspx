@@ -33,9 +33,7 @@
                 </div>
                 </div>
             <br/>
-                <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
-                <ContentTemplate>
-                      
+
                 <div class="form-group">
                 <asp:Label runat="server" CssClass="col-md-3 control-label">First Name:</asp:Label>
                     <div class="col-md-6">
@@ -132,8 +130,6 @@
                                         <asp:TextBox runat="server" ID="txtSubCounty" CssClass="form-control"  Enabled="False" placeholder="County?" />              
                                      </div>
                                 </div>
-
-                               
                                 </ContentTemplate>
                         </asp:UpdatePanel>
                     <br/>
@@ -149,21 +145,24 @@
              
                 <div class="row">
                   <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                      <div class="form-group">
-                        <asp:Button ID="btnEditProf" runat="server" Text="Update Profile" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditProf_Click" CausesValidation="False" />          
-                     </div>
-                  </div> 
-                <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                        <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                            <ContentTemplate>
+                                <div class="form-group">
+                                    <asp:Button ID="btnEditProf" runat="server" Text="Update Profile" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditProf_Click" CausesValidation="False" />          
+                                </div>
+                        </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID = "btnEditProf" EventName="Click"/>
+                            </Triggers>
+                        </asp:UpdatePanel>
+                        <br/>
+                    </div>
+                     <div class="col-md-2">
+                        <asp:Button runat="server" ID="btnNext1" CssClass="btn btn-primary pull-left btn-sm" Text="Next Tab >>" OnClick="btnNext1_OnClick" CausesValidation="False"/>
+                    </div>
                 </div>
-                </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID = "btnEditProf" EventName="Click"/>
-                    </Triggers>
-                </asp:UpdatePanel>
-                <br/>
-              </div>
-              
+               </div>
          </asp:View>
           
           <asp:View runat="server" ID="edubackGrd">
@@ -244,6 +243,75 @@
                         <asp:TextBox runat="server" ID="txtSecon" CssClass="form-control" Enabled="False" placeholder="Secondary Sch?"/>
                     </div>
                 </div>
+                
+                <asp:UpdatePanel ID="UpdatePanel3" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                  <ContentTemplate>
+                        <div class="form-group">
+                            <asp:Label runat="server" CssClass="col-md-3 control-label">Current Level of Study</asp:Label><span class="required">*</span>
+                                <div class="col-md-6">
+                                        <asp:RadioButtonList ID="rdoBtnListEdLevel" runat="server" 
+                                            OnSelectedIndexChanged="rdoBtnListEdLevel_OnSelectedIndexChanged" AutoPostBack="True" RepeatDirection="Vertical">
+                                        <asp:ListItem Text="Secondary" Value="0" Selected="False"></asp:ListItem>
+                                        <asp:ListItem Text="Higher Education" Value="1" Selected="False"></asp:ListItem>
+                                    </asp:RadioButtonList>
+                                </div> 
+                        </div>
+                  </ContentTemplate>
+                </asp:UpdatePanel>
+                <br/>
+                
+                <div id="idLevelSeco" style="display:none">
+                <asp:UpdatePanel ID="UpdatePanel6" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                  <ContentTemplate>
+              
+                <div class="form-group">
+                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Study:</asp:Label>
+                        <div class="col-md-4">
+                            <asp:DropDownList ID="ddlFormwhat" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                                    data-live-search="true" AppendDataBoundItems="True">
+                                <asp:ListItem Selected="True">--Select Year of Study--</asp:ListItem>
+                                <asp:ListItem>Form 1</asp:ListItem>
+                                <asp:ListItem>Form 2</asp:ListItem>
+                                <asp:ListItem>Form 3</asp:ListItem>
+                                <asp:ListItem>Form 4</asp:ListItem>
+                            </asp:DropDownList>
+                        </div> 
+                        <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtForm" CssClass="form-control" placeholder="Year of study?" Enabled="False"/>
+                    </div><span class="required">*</span> 
+                </div>
+
+                <div class="form-group">
+                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Admission:</asp:Label>
+                    <div class="col-md-4">
+                       <div class="input-group date">
+                           <input type="text" id="doAdm" runat="server" class="form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span> 
+                    </div>
+                    </div>
+                    <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtSecoYofAdm" placeholder="year of admission" CssClass="form-control" Enabled="False"></asp:TextBox>
+                    </div><span class="required">*</span> 
+                </div>
+              
+                <div class="form-group">
+                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Year of Completion:</asp:Label>
+                        <div class="col-md-4">
+                       <div class="input-group date">
+                           <input type="text" id="doEnd" runat="server" class="form-control"/><span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                       </div>      
+                       </div> 
+                    <div class="col-md-2">
+                        <asp:TextBox runat="server" ID="txtSecoEndYear" placeholder="year of completion" CssClass="form-control" Enabled="False"></asp:TextBox>
+                    </div><span class="required">*</span>
+                </div>
+                      
+                  </ContentTemplate>
+                </asp:UpdatePanel>
+                <br/>
+                </div>
+                
+                 <div id="idLevelHigher" style="display:none">
+                     
                 <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
                   <ContentTemplate>
                 <div class="form-group">
@@ -265,10 +333,24 @@
                                 <asp:ListItem Text="D-" Value="D-" Selected="False"></asp:ListItem>
                             </asp:RadioButtonList>
                         </div> 
-                </div>
+                    </div>
                     </ContentTemplate>
                 </asp:UpdatePanel>
                 <br/>
+                <asp:UpdatePanel ID="UpdatePanel7" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
+                  <ContentTemplate>
+                           <div class="form-group">
+                    <asp:Label runat="server"  CssClass="col-md-3 control-label">Program</asp:Label>
+                        <div class="col-md-6">
+                            <asp:DropDownList ID="ddlProgram" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
+                                    data-live-search="true" AppendDataBoundItems="true" >
+                                <asp:ListItem Selected="True">--Choose Education Program--</asp:ListItem>
+                                <asp:ListItem>Certificate</asp:ListItem>
+                                <asp:ListItem>Diploma</asp:ListItem>
+                                <asp:ListItem>Degree</asp:ListItem>
+                            </asp:DropDownList>
+                    </div> 
+                </div>
 
                 <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Name of University/College:</asp:Label>
@@ -297,11 +379,13 @@
                         <div class="col-md-4">
                             <asp:DropDownList ID="ddlYearofStudy" runat="server"  class="selectpicker form-control" data-live-search-style="begins"
                                     data-live-search="true" AppendDataBoundItems="True">
-                                <asp:ListItem Selected="True">..Select Year of Study..</asp:ListItem>
+                                <asp:ListItem Selected="True">--Select Year of Study--</asp:ListItem>
                                 <asp:ListItem>First Year</asp:ListItem>
                                 <asp:ListItem>Second Year</asp:ListItem>
                                 <asp:ListItem>Third Year</asp:ListItem>
-                                <asp:ListItem>Fourth Year</asp:ListItem>
+                                <asp:ListItem>Fifth Year</asp:ListItem>
+                                <asp:ListItem>Sixth Year</asp:ListItem>
+                                <asp:ListItem>Seventh Year</asp:ListItem>
                             </asp:DropDownList>
                         </div> 
                         <div class="col-md-2">
@@ -332,6 +416,11 @@
                         <asp:TextBox runat="server" ID="txtYofcomplt" placeholder="year of completion" CssClass="form-control" Enabled="False"></asp:TextBox>
                     </div><span class="required">*</span>
                 </div>
+                      
+                   </ContentTemplate>
+                </asp:UpdatePanel>
+                <br/>
+                </div>
               
                <div class="form-group">
                     <asp:Label runat="server"  CssClass="col-md-3 control-label">Parent/Guardian Phone:</asp:Label>
@@ -355,12 +444,17 @@
                 </div>
                  <div class="row">
                   <div class="col-md-3"></div>
-                    <div class="col-md-6">
-                  <div class="form-group">
-                    <asp:Button ID="btnEditEductn" runat="server" Text="Update Data" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditEductn_OnClick" CausesValidation="False" />          
-                 </div>
-              </div> 
-               <div class="col-md-3"></div>
+                    <div class="col-md-5">
+                      <div class="form-group" id="btnEdS" style="display: none">
+                            <asp:Button ID ="btnEdSecLevel" runat="server" Text="Save Data" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEdSecLevel_OnClick" CausesValidation="False" />
+                      </div>
+                    <div class="form-group" id="btnEdH" style="display: none">
+                         <asp:Button ID="btnEditEductn" runat="server" Text="Update Data" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnEditEductn_OnClick" CausesValidation="False"  />          
+                     </div>
+                  </div> 
+               <div class="col-md-3">
+                   <asp:Button runat="server" ID="btnNext2" CssClass="btn btn-primary pull-left btn-sm" Text="Next Tab >>" OnClick="btnNext2_OnClick" CausesValidation="False"/>
+               </div>
                 </div>
                 <br/>
                   
@@ -417,7 +511,9 @@
                             <asp:Button ID="btnAddRefer" runat="server" Text="Add Referee" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnAddRefer_OnClick" CausesValidation="False" />          
                         </div>
                      </div>
-                    <div class="col-sm-3"></div>
+                    <div class="col-sm-3">
+                        <asp:Button runat="server" ID="btntoApplyF" CssClass="btn btn-primary pull-left btn-sm" Text="Go to Application >>" OnClick="btntoApplyF_OnClick" CausesValidation="False" UseSubmitBehavior="False"/>
+                    </div>
                 </div>
 
              <asp:UpdatePanel ID="UpdatePanel5" runat="server" UpdateMode="Conditional" ChildrenAsTriggers="True">
@@ -470,6 +566,31 @@
 
          function pageLoad() {
              $('.selectpicker').selectpicker();
+         }
+
+         function LevelWhatSeco() {
+             var ifYsId = document.getElementById("idLevelSeco");
+             var akouni = document.getElementById("idLevelHigher");
+             var hidSeco = document.getElementById("btnEdS");
+             var hideHigher = document.getElementById("btnEdH");
+
+             ifYsId.style.display = "block";
+             akouni.style.display = "none";
+             hideHigher.style.display = "none";
+             hidSeco.style.display = "block";
+         }
+
+         function LevelWhatHigher() {
+             var ifYsId = document.getElementById("idLevelHigher");
+             var akoseco = document.getElementById("idLevelSeco");
+             var hideHigher = document.getElementById("btnEdH");
+             var hidSeco = document.getElementById("btnEdS");
+
+             ifYsId.style.display = "block";
+             akoseco.style.display = "none";
+             hideHigher.style.display = "block";
+             hidSeco.style.display = "none";
+             
          }
     </script>
   <%--  <script type="text/javascript">

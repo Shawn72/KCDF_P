@@ -80,6 +80,7 @@
             <element minOccurs="1" maxOccurs="1" name="mymarks" type="int" />
             <element minOccurs="1" maxOccurs="1" name="totalmarks" type="int" />
             <element minOccurs="1" maxOccurs="1" name="myGrade" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="educationLevel" type="int" />
           </sequence>
         </complexType>
       </element>
@@ -111,19 +112,25 @@
       <element name="FnAddScholasticSupport">
         <complexType>
           <sequence>
-            <element minOccurs="1" maxOccurs="1" name="description" type="string" />
             <element minOccurs="1" maxOccurs="1" name="studentNo" type="string" />
             <element minOccurs="1" maxOccurs="1" name="year_of_Study" type="string" />
-            <element minOccurs="1" maxOccurs="1" name="cost" type="decimal" />
-            <element minOccurs="1" maxOccurs="1" name="rank" type="string" />
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
             <element minOccurs="1" maxOccurs="1" name="scholarship_name" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="tuitionFee" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="academicFee" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="upkeepFee" type="decimal" />
+            <element minOccurs="1" maxOccurs="1" name="refNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="semester" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="class" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="scholarstic_materials" type="decimal" />
           </sequence>
         </complexType>
       </element>
       <element name="FnAddScholasticSupport_Result">
         <complexType>
-          <sequence />
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="boolean" />
+          </sequence>
         </complexType>
       </element>
       <element name="FnAddWorkplanItem">
@@ -1092,6 +1099,20 @@
           </sequence>
         </complexType>
       </element>
+      <element name="FnCountGrantsNotifications">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="userNumber" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnCountGrantsNotifications_Result">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="return_value" type="int" />
+          </sequence>
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="FnActivateAc">
@@ -1466,6 +1487,12 @@
   <message name="FnSumbitScholarshipApp_Result">
     <part name="parameters" element="tns:FnSumbitScholarshipApp_Result" />
   </message>
+  <message name="FnCountGrantsNotifications">
+    <part name="parameters" element="tns:FnCountGrantsNotifications" />
+  </message>
+  <message name="FnCountGrantsNotifications_Result">
+    <part name="parameters" element="tns:FnCountGrantsNotifications_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -1714,6 +1741,10 @@
     <operation name="FnSumbitScholarshipApp">
       <input name="FnSumbitScholarshipApp" message="tns:FnSumbitScholarshipApp" />
       <output name="FnSumbitScholarshipApp_Result" message="tns:FnSumbitScholarshipApp_Result" />
+    </operation>
+    <operation name="FnCountGrantsNotifications">
+      <input name="FnCountGrantsNotifications" message="tns:FnCountGrantsNotifications" />
+      <output name="FnCountGrantsNotifications_Result" message="tns:FnCountGrantsNotifications_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -2273,6 +2304,15 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
       <output name="FnSumbitScholarshipApp_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnCountGrantsNotifications">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnCountGrantsNotifications" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnCountGrantsNotifications">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnCountGrantsNotifications_Result">
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>

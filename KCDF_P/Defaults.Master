@@ -10,14 +10,13 @@
         <title>
             <%: Page.Title %> - KCDF Web Portal</title>
         
-          <%-- SearchDropdown --%>
-   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" />
+        <%-- SearchDropdown --%>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css" />
 
-    <%-- Datepicker --%>
-    <link href="~/DatePicker/bootstrap/css/bootstrap-datepicker3.css" rel="stylesheet" />
-    
-     <%-- Datepicker --%>
-    <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+        <%-- Datepicker --%>
+        <link href="~/DatePicker/bootstrap/css/bootstrap-datepicker3.css" rel="stylesheet" />
+        <link href="~/Content/jquery-ui.css" rel="stylesheet" />
+
 
         <link href="~/Content/bootstrap.css" rel="stylesheet" />
         <link href="~/Content/bootstrap-theme.css" rel="stylesheet" />

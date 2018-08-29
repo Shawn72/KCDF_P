@@ -69,7 +69,7 @@
                          <asp:MultiView ID="switchUserView" runat="server">
                              
                                 <asp:View runat="server" ID="amGrantee">
-                                     <div class="col-md-12">
+                                     <div class="col-md-12" runat="server" ID="myNarrative" Visible="false">
                                               <div class="form-group">
                                             <div class="col-md-4">
                                                 <label class="control-label alert-info" style="font-weight: bold;">Narrative</label>
@@ -85,7 +85,7 @@
                                         <br/>
                                      </div>
                                     
-                                     <div class="col-md-12">
+                                     <div class="col-md-12" runat="server" ID="myFinancial" Visible="False">
                                               <div class="form-group">
                                             <div class="col-md-4">
                                                 <label class="control-label alert-info" style="font-weight: bold;">Financial</label>
@@ -101,7 +101,7 @@
                                         <br/>
                                      </div>
 
-                                   <div class="col-md-12">
+                                   <div class="col-md-12" runat="server" ID="myData" Visible="False">
                                            <div class="form-group">
                                                 <div class="col-md-4">
                                                     <label class="control-label alert-info" style="font-weight: bold;">Data</label>

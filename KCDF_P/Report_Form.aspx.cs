@@ -17,11 +17,12 @@ namespace KCDF_P
         public NAV nav = new NAV(new Uri(ConfigurationManager.AppSettings["ODATA_URI"]))
         {
             Credentials =
-               new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                   ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
+                new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
 
-        public string userNo;
+        public string UserNo;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             Response.CacheControl = "private";
@@ -36,13 +37,15 @@ namespace KCDF_P
 
                 }
                 SwitchAllmyProjects();
-                getmeYears();
-                loadList();
+                GetmeYears();
+                LoadList();
+                SetMySessionItemView();
                 //loadUploads();
 
             }
         }
-        protected void loadList()
+
+        protected void LoadList()
         {
             ddlQuarter.Items.Add("--Select Quarter--");
             ddlQuarter.Items.Add("Jan - March");
@@ -58,12 +61,13 @@ namespace KCDF_P
             switch (slVal)
             {
                 case 0:
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Select valid project from dropdownlist!');", true);
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything",
+                        "alert('Select valid project from dropdownlist!');", true);
                     txtPrefNo.Text = "";
                     break;
                 default:
                     txtPrefNo.Text = ddlAccountType.SelectedValue;
-                  //  loadUploads();
+                    //  loadUploads();
                     break;
             }
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
@@ -76,20 +80,29 @@ namespace KCDF_P
             {
                 case "iamGrantee":
                     MyGrantProjects();
-                    userNo =
-                       nav.grantees_Register.ToList().Where(u => u.Organization_Username == Session["username"].ToString()).Select(u => u.No).SingleOrDefault();
-                   switchUserView.SetActiveView(amGrantee);
+                    UserNo =
+                        nav.grantees_Register.ToList()
+                            .Where(u => u.Organization_Username == Session["username"].ToString())
+                            .Select(u => u.No)
+                            .SingleOrDefault();
+                    switchUserView.SetActiveView(amGrantee);
                     break;
                 case "iamStudent":
                     MyScholarProjects();
-                    userNo =
-                       nav.studentsRegister.ToList().Where(u => u.Username == Session["username"].ToString()).Select(u => u.No).SingleOrDefault();
+                    UserNo =
+                        nav.studentsRegister.ToList()
+                            .Where(u => u.Username == Session["username"].ToString())
+                            .Select(u => u.No)
+                            .SingleOrDefault();
                     switchUserView.SetActiveView(amScholar);
                     break;
                 case "iamConsult":
                     MyConsultProjects();
-                    userNo =
-                        nav.myConsultants.ToList().Where(u => u.Organization_Username == Session["username"].ToString()).Select(u => u.No).SingleOrDefault();
+                    UserNo =
+                        nav.myConsultants.ToList()
+                            .Where(u => u.Organization_Username == Session["username"].ToString())
+                            .Select(u => u.No)
+                            .SingleOrDefault();
                     switchUserView.SetActiveView(amConsult);
                     break;
 
@@ -109,9 +122,11 @@ namespace KCDF_P
             ddlAccountType.Items.Insert(0, "--Select project--");
 
         }
+
         protected void MyScholarProjects()
         {
-            var mygrants = nav.scholarshipApplications.ToList().Where(u => u.Student_Username == Session["username"].ToString());
+            var mygrants =
+                nav.scholarshipApplications.ToList().Where(u => u.Student_Username == Session["username"].ToString());
             ddlAccountType.Items.Clear();
 
             ddlAccountType.DataSource = mygrants;
@@ -121,9 +136,11 @@ namespace KCDF_P
             ddlAccountType.Items.Insert(0, "--Select Scolarship--");
 
         }
+
         protected void MyConsultProjects()
         {
-            var mygrants = nav.myConsultations.ToList().Where(u => u.Consultant_Username == Session["username"].ToString());
+            var mygrants =
+                nav.myConsultations.ToList().Where(u => u.Consultant_Username == Session["username"].ToString());
             ddlAccountType.Items.Clear();
 
             ddlAccountType.DataSource = mygrants;
@@ -138,7 +155,8 @@ namespace KCDF_P
         {
             Session["yearofAwd"] = ddlYears.SelectedItem.Text;
         }
-        protected void getmeYears()
+
+        protected void GetmeYears()
         {
             // Clear items:    
             ddlYears.Items.Clear();
@@ -153,11 +171,12 @@ namespace KCDF_P
             }
 
         }
-       
-        protected Boolean saveAttachment(string usernumber, string filName, string extension, string docKind, string callRefNo, string attachedBlob)
+
+        protected bool SaveAttachment(string usernumber, string filName, string extension, string docKind,
+            string callRefNo, string attachedBlob)
         {
             var usaname = Session["username"].ToString();
-            int granttype=0;
+            int granttype = 0;
             var userNumber = "";
             var myyearP = "";
             var myquarter = "";
@@ -165,7 +184,8 @@ namespace KCDF_P
 
             if (ddlAccountType.SelectedIndex == 0)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please Select Project first');", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything",
+                    "alert('Please Select Project first');", true);
                 return false;
             }
             else
@@ -175,18 +195,20 @@ namespace KCDF_P
 
             if (ddlYears.SelectedIndex == 0)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please Choose Year');", true);
-                
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please Choose Year');",
+                    true);
+
                 return false;
             }
             else
             {
                 myyearP = ddlYears.SelectedItem.Text;
             }
-            
+
             if (ddlQuarter.SelectedIndex == 0)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please Choose Quarter');", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything",
+                    "alert('Please Choose Quarter');", true);
                 return false;
             }
             else
@@ -198,32 +220,41 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    granttype=0;
+                    granttype = 0;
                     userNumber =
-                        nav.grantees_Register.ToList().Where(u => u.Organization_Username == Session["username"].ToString()).Select(u=>u.No).SingleOrDefault();
+                        nav.grantees_Register.ToList()
+                            .Where(u => u.Organization_Username == Session["username"].ToString())
+                            .Select(u => u.No)
+                            .SingleOrDefault();
                     break;
                 case "iamStudent":
                     granttype = 1;
                     userNumber =
-                        nav.studentsRegister.ToList().Where(u => u.Username == Session["username"].ToString()).Select(u => u.No).SingleOrDefault();
+                        nav.studentsRegister.ToList()
+                            .Where(u => u.Username == Session["username"].ToString())
+                            .Select(u => u.No)
+                            .SingleOrDefault();
                     break;
                 case "iamConsult":
                     granttype = 2;
                     userNumber =
-                        nav.myConsultants.ToList().Where(u => u.Organization_Username == Session["username"].ToString()).Select(u => u.No).SingleOrDefault();
+                        nav.myConsultants.ToList()
+                            .Where(u => u.Organization_Username == Session["username"].ToString())
+                            .Select(u => u.No)
+                            .SingleOrDefault();
                     break;
             }
 
 
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+
             string docType = "";
             if ((extension == ".jpg") || (extension == ".jpeg") || (extension == ".png"))
             {
                 docType = "Picture";
             }
-            else
-            if ((extension == ".pdf"))
+            else if ((extension == ".pdf"))
             {
                 docType = "PDF";
             }
@@ -237,16 +268,19 @@ namespace KCDF_P
             }
             //try
             //{
-                Portals sup = new Portals();
-                sup.Credentials = credentials;
-                sup.PreAuthenticate = true;
-                if (sup.FnAttachReportForms(userNumber, docType, filName, granttype, docKind, usaname, prjct, callRefNo, attachedBlob, myyearP, myquarter) == true)
-                {
-                    // KCDFAlert.ShowAlert("Document: " + filName + " uploaded and Saved successfully!");
-                   // loadUploads();
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Document: '" + filName + "'successfully uploaded!');", true);
-                    return true;
-                }
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            if (
+                sup.FnAttachReportForms(userNumber, docType, filName, granttype, docKind, usaname, prjct, callRefNo,
+                    attachedBlob, myyearP, myquarter) == true)
+            {
+                // KCDFAlert.ShowAlert("Document: " + filName + " uploaded and Saved successfully!");
+                // loadUploads();
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything",
+                    "alert('Document: '" + filName + "'successfully uploaded!');", true);
+                return true;
+            }
             return false;
 
             //}
@@ -261,76 +295,80 @@ namespace KCDF_P
         {
             //try
             //{
-                var documentKind = "Narrative";
-                var refNoIs = txtPrefNo.Text;
-                var usnn = "";
+            const string documentKind = "Narrative";
+            var refNoIs = txtPrefNo.Text;
+            var usnn = "";
 
-                var sessx = Session["reportformUser"].ToString();
-                switch (sessx)
-                {
-                    case "iamGrantee":
-                        usnn = Grantees.No;
-                        break;
-                    case "iamStudent":
-                        usnn = Students.No;
-                        break;
-                    case "iamConsult":
-                        usnn = ConsultantClass.No;
+            var sessx = Session["reportformUser"].ToString();
+            switch (sessx)
+            {
+                case "iamGrantee":
+                    usnn = Grantees.No;
                     break;
-                }
-           
+                case "iamStudent":
+                    usnn = Students.No;
+                    break;
+                case "iamConsult":
+                    usnn = ConsultantClass.No;
+                    break;
+            }
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + usnn + @"\";
-                string fileName = Path.GetFileName(FileUploadNarrative.PostedFile.FileName);
-                string ext = Path.GetExtension(FileUploadNarrative.PostedFile.FileName);
-                if (!Directory.Exists(uploadsFolder))
+
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + usnn + @"\";
+            string fileName = Path.GetFileName(FileUploadNarrative.PostedFile.FileName);
+            string ext = Path.GetExtension(FileUploadNarrative.PostedFile.FileName);
+            if (!Directory.Exists(uploadsFolder))
+            {
+                //if the folder doesnt exist create it
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            if (FileUploadNarrative.PostedFile.ContentLength > 5000000)
+            {
+                KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                return;
+            }
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            {
+
+                string filenames = usnn + "_" + fileName;
+                FileUploadNarrative.SaveAs(uploadsFolder + filenames);
+
+                //file path to read file
+                string filePath = uploadsFolder + filenames;
+                FileStream file = File.OpenRead(filePath);
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+                file.Close();
+                string attachedDoc = Convert.ToBase64String(buffer);
+
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
                 {
-                    //if the folder doesnt exist create it
-                    Directory.CreateDirectory(uploadsFolder);
-                }
-
-                if (FileUploadNarrative.PostedFile.ContentLength > 5000000)
-                {
-                    KCDFAlert.ShowAlert("Select a file less than 5MB!");
-                    return;
-                }
-                if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
-                {
-
-                    string filenames = usnn + "_" + fileName;
-                    FileUploadNarrative.SaveAs(uploadsFolder + filenames);
-
-                    //file path to read file
-                    string filePath = uploadsFolder + filenames;
-                    FileStream file = File.OpenRead(filePath);
-                    byte[] buffer = new byte[file.Length];
-                    file.Read(buffer, 0, buffer.Length);
-                    file.Close();
-                    string attachedDoc = Convert.ToBase64String(buffer);
-
-                    if (saveAttachment(userNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
-                    {
-                        lblNarr.InnerText = "Uploaded!";
-                    }
-                    else
-                    {
-                    KCDFAlert.ShowAlert("not uploaded!");
-                    lblNarr.InnerText = "Not Uploaded!";
-                }
-                    
-                    //KCDFAlert.ShowAlert(filenames);
-                    // loadUploads();
+                    KCDFAlert.ShowAlert("Document uploaded!");
+                    lblNarr.InnerText = "Uploaded!";
+                    Session.Remove("typeoftask");
                 }
                 else
                 {
-                    KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                    KCDFAlert.ShowAlert("not uploaded!");
+                    lblNarr.InnerText = "Not Uploaded!";
+                }
 
-                }
-                if (!FileUploadNarrative.HasFile)
-                {
-                    KCDFAlert.ShowAlert("Select Document before uploading");
-                    return;
-                }
+                //KCDFAlert.ShowAlert(filenames);
+                // loadUploads();
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+            }
+            if (!FileUploadNarrative.HasFile)
+            {
+                KCDFAlert.ShowAlert("Select Document before uploading");
+                return;
+            }
 
             //}
             //catch (Exception ex)
@@ -344,7 +382,7 @@ namespace KCDF_P
         {
             //try
             //{
-            var documentKind = "Financial";
+            const string documentKind = "Financial";
             var refNoIs = txtPrefNo.Text;
             var usnn = "";
 
@@ -377,7 +415,8 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert("Select a file less than 5MB!");
                 return;
             }
-            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
             {
 
                 string filenames = usnn + "_" + fileName;
@@ -391,21 +430,23 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                if (saveAttachment(userNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
                 {
+                    KCDFAlert.ShowAlert("Document uploaaded!");
                     lblFin.InnerText = "Uploaded!";
-                // loadUploads();
+                    Session.Remove("typeoftask");
                 }
                 else
                 {
                     lblFin.InnerText = "Not Uploaded!";
                     KCDFAlert.ShowAlert("Not uploaaded!");
                 }
-                
+
             }
             else
             {
-                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
             }
             if (!FileUploadFinancial.HasFile)
@@ -426,7 +467,7 @@ namespace KCDF_P
         {
             //try
             //{
-            var documentKind = "Data";
+            const string documentKind = "Data";
             var refNoIs = txtPrefNo.Text;
             var usnn = "";
 
@@ -459,7 +500,8 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert("Select a file less than 5MB!");
                 return;
             }
-            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
             {
 
                 string filenames = usnn + "_" + fileName;
@@ -473,9 +515,11 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                if (saveAttachment(userNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
                 {
-                  lblData.InnerText = "Uploaded!";  
+                    KCDFAlert.ShowAlert("File Uploaded!");
+                    lblData.InnerText = "Uploaded!";
+                    Session.Remove("typeoftask");
                 }
                 else
                 {
@@ -485,7 +529,8 @@ namespace KCDF_P
             }
             else
             {
-                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
             }
             if (!FileUploadData.HasFile)
@@ -506,7 +551,7 @@ namespace KCDF_P
         {
             //try
             //{
-            var documentKind = "Community Report";
+            const string documentKind = "Community Report";
             var refNoIs = txtPrefNo.Text;
             var usnn = "";
 
@@ -539,7 +584,8 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert("Select a file less than 5MB!");
                 return;
             }
-            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
             {
 
                 string filenames = usnn + "_" + fileName;
@@ -553,14 +599,15 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                saveAttachment(userNo, filenames, ext, documentKind, refNoIs, attachedDoc);
+                SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc);
                 appComm.InnerText = "Uploaded!";
 
                 // loadUploads();
             }
             else
             {
-                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
             }
             if (!FileUploadComm.HasFile)
@@ -581,7 +628,7 @@ namespace KCDF_P
         {
             //try
             //{
-            var documentKind = "Scholarship Report";
+            const string documentKind = "Scholarship Report";
             var refNoIs = txtPrefNo.Text;
             var usnn = "";
 
@@ -614,7 +661,8 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert("Select a file less than 5MB!");
                 return;
             }
-            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
             {
 
                 string filenames = usnn + "_" + fileName;
@@ -628,14 +676,15 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                saveAttachment(userNo, filenames, ext, documentKind, refNoIs, attachedDoc);
+                SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc);
                 lblSchRepo.InnerText = "Uploaded!";
 
                 // loadUploads();
             }
             else
             {
-                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
             }
             if (!FileUploadSchRepo.HasFile)
@@ -689,7 +738,8 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert("Select a file less than 5MB!");
                 return;
             }
-            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
             {
 
                 string filenames = usnn + "_" + fileName;
@@ -703,14 +753,15 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                saveAttachment(userNo, filenames, ext, documentKind, refNoIs, attachedDoc);
+                SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc);
                 lblCons.InnerText = "Uploaded!";
 
                 // loadUploads();
             }
             else
             {
-                KCDFAlert.ShowAlert("File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
 
             }
             if (!FileUploadConsulRepo.HasFile)
@@ -725,6 +776,37 @@ namespace KCDF_P
             //    KCDFAlert.ShowAlert("Unkown Error Occured!");
             //    // KCDFAlert.ShowAlert(ex.Message);
             //}
+        }
+
+        protected void SetMySessionItemView()
+        {
+            var typeOpt = Session["typeoftask"].ToString();
+            switch (typeOpt)
+            {
+                case "Narrative":
+                    myNarrative.Visible = true;
+                    break;
+
+                case "Financial":
+                    myFinancial.Visible = true;
+                    break;
+
+                case "Data":
+                    myData.Visible = true;
+                    break;
+
+                case "Indicator Matrix":
+
+                    break;
+
+                case "POCA Tool":
+
+                    break;
+
+                case "Other":
+
+                    break;
+            }
         }
     }
 }

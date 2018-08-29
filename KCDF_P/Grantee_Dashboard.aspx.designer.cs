@@ -94,6 +94,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUploadPic;
         
         /// <summary>
+        /// hdnTxtValidit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdnTxtValidit;
+        
+        /// <summary>
         /// tblMyProjects control.
         /// </summary>
         /// <remarks>
@@ -101,6 +110,24 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView tblMyProjects;
+        
+        /// <summary>
+        /// gridviewUploadedRepos control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridviewUploadedRepos;
+        
+        /// <summary>
+        /// gridMatrixPocas control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gridMatrixPocas;
         
         /// <summary>
         /// FileUpload control.
@@ -236,5 +263,32 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnProjEdit;
+        
+        /// <summary>
+        /// lblProjNb control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblProjNb;
+        
+        /// <summary>
+        /// btnValidateInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnValidateInfo;
+        
+        /// <summary>
+        /// txtValidate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtValidate;
     }
 }

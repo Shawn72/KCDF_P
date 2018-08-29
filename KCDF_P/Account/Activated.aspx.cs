@@ -38,10 +38,16 @@ namespace KCDF_P.Account
                     string myusername = Request.QueryString["username"];
 
                     var activatem = nav.activationquery.ToList().Where(r => r.Activation_Code == activationCode);
-                    string activatemyASS = activatem.Select(r => r.Activation_Code).SingleOrDefault().ToString();
+                    string activatemyASS = activatem.Select(r => r.Activation_Code).SingleOrDefault();
                     if (sup.FnActivateAc(activatemyASS) == true)
                     {
                         ActivatedfromDB(activationCode);
+                    }
+                    else
+                    {
+                        //ltMessage.Text = ex.Message;
+                        ltMessage.Text = "Error in activation, Please try again later!!";
+                        return;
                     }
                     
                 }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
@@ -36,27 +38,20 @@ namespace KCDF_P
                 readData();
                 loadRefs();
                 readEducBgData();
-                loadScholarData();
-                loadProjectWorkplan();
-                getScholarship();
+                LoadScholarData();
+                LoadProjectWorkplan();
+                GetScholarship();
                 loadUploads();
-                MyBankIs();
-                MyUniCollege();
-                MyCollegBankDs();
-                MyPersonalBankDs();
+                GetEduBackG();
+                GetEducationLevel();
+                //MyBankIs();
+                //MyUniCollege();
+                //MyCollegBankDs();
+                //MyPersonalBankDs();
 
-
-                Wizard1.Visible = true;
-                Wizard1.ActiveStepIndex = 0;
 
             }
 
-        }
-        protected void btnstart_Click(object sender, EventArgs e)
-        {
-            btnstart.Visible = false;
-            Wizard1.Visible = true;
-            Wizard1.ActiveStepIndex = 0;
         }
         protected void OnFinish(object sender, WizardNavigationEventArgs e)
         {
@@ -68,8 +63,7 @@ namespace KCDF_P
         }
         protected Students ReturnStudent()
         {
-
-            return new Students(Session["username"].ToString());
+            return new Students(User.Identity.Name);
         }
 
         protected void scholarshipDataCollection_OnMenuItemClick(object sender, MenuEventArgs e)
@@ -89,22 +83,12 @@ namespace KCDF_P
             }
             if (index == 3)
             {
-                profileMultiview.SetActiveView(AttachDocs);
+            //profileMultiview.SetActiveView(AttachDocs);
             }
             if (index == 4)
             {
-                profileMultiview.SetActiveView(bankDetails);
+               // profileMultiview.SetActiveView(bankDetails);
             }
-        }
-
-        protected void lnkDelete_OnClick(object sender, EventArgs e)
-        {
-
-        }
-
-        protected void tblRefs_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-
         }
 
         protected void loadRefs()
@@ -201,49 +185,29 @@ namespace KCDF_P
         
         protected void btnAddSupport_OnClick(object sender, EventArgs e)
         {
-            var studentNo =
-                nav.studentsRegister.ToList()
-                    .Where(sn => sn.Username == Session["username"].ToString())
-                    .Select(n => n.No)
-                    .SingleOrDefault();
-            var usnm = Session["username"].ToString();
-            string scholname = ddlScolarshipType.SelectedItem.Text;
-            string descr = txtAreaItemDecription.Text.Trim();
-            string yrofStdy = txtYearofStudie.SelectedItem.Text;
-            string ranked = ddlRank.SelectedItem.Text;
-            decimal costSupport = 0;
-            if (!string.IsNullOrEmpty(txtCost.Text))
-            {
-                costSupport = Convert.ToDecimal(txtCost.Text);
-            }
-            else
-            {
-                KCDFAlert.ShowAlert("Please Fill in Valid Cost!");
-                return;
-            }
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals naws = new Portals();
-            naws.Credentials = credentials;
-            naws.PreAuthenticate = true;
-            naws.FnAddScholasticSupport(descr, studentNo, yrofStdy, costSupport, ranked, usnm, scholname);
-            KCDFAlert.ShowAlert("Scholarstic Support Data Saved Successfully!");
-            txtAreaItemDecription.Text = "";
-            txtYearofStudie.SelectedIndex = 0;
-            txtCost.Text = "";
-            ddlRank.SelectedIndex = 0;
-            loadScholarData();
+           
         }
 
-        protected void loadScholarData()
+        protected void LoadScholarData()
         {
-            var lodScolar = nav.Scholar_Support.ToList().Where(usn => usn.Username == Session["username"].ToString());
+            var lodScolar = nav.Scholar_Support.ToList().Where(usn => usn.Username == Session["username"].ToString() && usn.ScholarRefNo==ddlScolarshipType.SelectedValue);
             grdViewScholarS.AutoGenerateColumns = false;
             grdViewScholarS.DataSource = lodScolar;
             grdViewScholarS.DataBind();
+
+            gridViewAddThings.AutoGenerateColumns = false;
+            gridViewAddThings.DataSource = lodScolar;
+            gridViewAddThings.DataBind();
+
+
+
+            gridViewSecoDLevel.AutoGenerateColumns = false;
+            gridViewSecoDLevel.DataSource = lodScolar;
+            gridViewSecoDLevel.DataBind();
+
         }
 
-        protected void getScholarship()
+        protected void GetScholarship()
         {
             var projs = nav.call_for_Proposal.ToList().Where(pty => pty.Proposal_Type == "Scholarship");
             ddlScolarshipType.DataSource = projs;
@@ -253,62 +217,62 @@ namespace KCDF_P
             ddlScolarshipType.Items.Insert(0, "--Select Scholarship--");
         }
 
-        protected void loadProjectWorkplan()
+        protected void LoadProjectWorkplan()
         {
             var prjItem = nav.workplanQ.ToList().Where(un => un.Username == Session["username"].ToString());
-            tblWorkplan.AutoGenerateColumns = false;
-            tblWorkplan.DataSource = prjItem;
-            tblWorkplan.DataBind();
+            //tblWorkplan.AutoGenerateColumns = false;
+            //tblWorkplan.DataSource = prjItem;
+            //tblWorkplan.DataBind();
         }
 
-        protected void btnAddWorkplan_OnClick(object sender, EventArgs e)
-        {
-            var userNm = Session["username"].ToString();
-            var studnumber =
-                nav.studentsRegister.ToList().Where(sN => sN.Username == userNm).Select(no => no.No).SingleOrDefault();
-            string objtv = txtObj.Text.Trim();
-            string actvty = txtActivity.Text.Trim();
-            string actvitytarget = txtTargets.Text.Trim();
-            string meanofVer = txtMeansofVer.Text.Trim();
-            int timeFrme = 0;
-            decimal amnt = 0;
-            string scholname = ddlScolarshipType.SelectedItem.Text;
-            if (!string.IsNullOrEmpty(txtTimeFrame.Text))
-            {
-                timeFrme = Int32.Parse(txtTimeFrame.Text);
-            }
-            else
-            {
-                KCDFAlert.ShowAlert("Please fill in valid Time frame");
-                return;
-            }
-            if (!string.IsNullOrEmpty(txtAmount.Text))
-            {
-                amnt = Convert.ToDecimal(txtAmount.Text);
+        //protected void btnAddWorkplan_OnClick(object sender, EventArgs e)
+        //{
+        //    var userNm = Session["username"].ToString();
+        //    var studnumber =
+        //        nav.studentsRegister.ToList().Where(sN => sN.Username == userNm).Select(no => no.No).SingleOrDefault();
+        //    string objtv = txtObj.Text.Trim();
+        //    string actvty = txtActivity.Text.Trim();
+        //    string actvitytarget = txtTargets.Text.Trim();
+        //    string meanofVer = txtMeansofVer.Text.Trim();
+        //    int timeFrme = 0;
+        //    decimal amnt = 0;
+        //    string scholname = ddlScolarshipType.SelectedItem.Text;
+        //    if (!string.IsNullOrEmpty(txtTimeFrame.Text))
+        //    {
+        //        timeFrme = Int32.Parse(txtTimeFrame.Text);
+        //    }
+        //    else
+        //    {
+        //        KCDFAlert.ShowAlert("Please fill in valid Time frame");
+        //        return;
+        //    }
+        //    if (!string.IsNullOrEmpty(txtAmount.Text))
+        //    {
+        //        amnt = Convert.ToDecimal(txtAmount.Text);
 
-            }
-            else
-            {
-                KCDFAlert.ShowAlert("Please Fill in Valid Amount!");
-                return;
-            }
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals naws = new Portals();
-            naws.Credentials = credentials;
-            naws.PreAuthenticate = true;
-            naws.FnAddWorkplanItem(userNm, studnumber, objtv, actvty, actvitytarget, meanofVer, amnt, timeFrme,
-                scholname);
-            KCDFAlert.ShowAlert("Workplan Item Saved Successfully!");
-            loadProjectWorkplan();
-            txtObj.Text = "";
-            txtActivity.Text = "";
-            txtTargets.Text = "";
-            txtTargets.Text = "";
-            txtMeansofVer.Text = "";
-            txtTimeFrame.Text = "";
-            txtAmount.Text = "";
-        }
+        //    }
+        //    else
+        //    {
+        //        KCDFAlert.ShowAlert("Please Fill in Valid Amount!");
+        //        return;
+        //    }
+        //    var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+        //        ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+        //    Portals naws = new Portals();
+        //    naws.Credentials = credentials;
+        //    naws.PreAuthenticate = true;
+        //    naws.FnAddWorkplanItem(userNm, studnumber, objtv, actvty, actvitytarget, meanofVer, amnt, timeFrme,
+        //        scholname);
+        //    KCDFAlert.ShowAlert("Workplan Item Saved Successfully!");
+        //    loadProjectWorkplan();
+        //    txtObj.Text = "";
+        //    txtActivity.Text = "";
+        //    txtTargets.Text = "";
+        //    txtTargets.Text = "";
+        //    txtMeansofVer.Text = "";
+        //    txtTimeFrame.Text = "";
+        //    txtAmount.Text = "";
+        //}
 
         protected void grdViewScholarS_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -319,22 +283,22 @@ namespace KCDF_P
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
             sup.FnDelSchlSupport(del_id);
-            loadScholarData();
+            LoadScholarData();
             KCDFAlert.ShowAlert("Scholarship data deleted successfully");
         }
 
-        protected void tblWorkplan_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
-        {
-            var del_id = tblWorkplan.DataKeys[e.RowIndex].Values[0].ToString();
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            sup.FnDelWorkplan(del_id);
-            loadProjectWorkplan();
-            KCDFAlert.ShowAlert("Workplan deleted successfully");
-        }
+        //protected void tblWorkplan_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        //{
+        //    var del_id = tblWorkplan.DataKeys[e.RowIndex].Values[0].ToString();
+        //    var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+        //        ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+        //    Portals sup = new Portals();
+        //    sup.Credentials = credentials;
+        //    sup.PreAuthenticate = true;
+        //    sup.FnDelWorkplan(del_id);
+        //    loadProjectWorkplan();
+        //    KCDFAlert.ShowAlert("Workplan deleted successfully");
+        //}
 
         protected void loadUploads()
         {
@@ -796,144 +760,144 @@ namespace KCDF_P
             }
         }
 
-        protected void btnEditUniDetails_OnClick(object sender, EventArgs e)
-        {
-            string bankBrnch;
-            string uniBank;
-            string uniVNm;
-            var accName = txtUniAccName.Text;
-            var accNo = txtUniAccNumber.Text;
-            var regNo = txtRegNumber.Text;
-            var idNo = txtIDNumber.Text;
+        //protected void btnEditUniDetails_OnClick(object sender, EventArgs e)
+        //{
+        //    string bankBrnch;
+        //    string uniBank;
+        //    string uniVNm;
+        //    var accName = txtUniAccName.Text;
+        //    var accNo = txtUniAccNumber.Text;
+        //    var regNo = txtRegNumber.Text;
+        //    var idNo = txtIDNumber.Text;
 
-            if (ddlUniversity.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select College or University');", true);
-                ddlUniversity.Focus();
-                return;
-            }
-            else
-            {
-              uniVNm =ddlUniversity.SelectedItem.Text;
-            }
-            if (ddlBankUni.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select Bank!');", true);
-                ddlBankUni.Focus();
-                return;
-            }
-            else
-            {
-              uniBank = ddlBankUni.SelectedItem.Text;
-            }
-            if (ddlbankBranchUni.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select Bank Branch!');", true);
-                ddlbankBranchUni.Focus();
-                return;
-            }
-            else
-            {
-               bankBrnch = ddlbankBranchUni.SelectedItem.Text;
-            }
+        //    if (ddlUniversity.SelectedIndex == 0)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select College or University');", true);
+        //        ddlUniversity.Focus();
+        //        return;
+        //    }
+        //    else
+        //    {
+        //      uniVNm =ddlUniversity.SelectedItem.Text;
+        //    }
+        //    if (ddlBankUni.SelectedIndex == 0)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select Bank!');", true);
+        //        ddlBankUni.Focus();
+        //        return;
+        //    }
+        //    else
+        //    {
+        //      uniBank = ddlBankUni.SelectedItem.Text;
+        //    }
+        //    if (ddlbankBranchUni.SelectedIndex == 0)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select Bank Branch!');", true);
+        //        ddlbankBranchUni.Focus();
+        //        return;
+        //    }
+        //    else
+        //    {
+        //       bankBrnch = ddlbankBranchUni.SelectedItem.Text;
+        //    }
 
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            if (sup.FnSaveUniBankDetails(uniVNm, uniBank, bankBrnch, Session["username"].ToString(), accNo,idNo, accName) ==true)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('College Bank details Saved Successfully!');", true);
-                MyCollegBankDs();
-            }
-         }
+        //    var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+        //        ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+        //    Portals sup = new Portals();
+        //    sup.Credentials = credentials;
+        //    sup.PreAuthenticate = true;
+        //    if (sup.FnSaveUniBankDetails(uniVNm, uniBank, bankBrnch, Session["username"].ToString(), accNo,idNo, accName) ==true)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('College Bank details Saved Successfully!');", true);
+        //        MyCollegBankDs();
+        //    }
+        // }
 
-        protected void btnAddPersonalBankDs_OnClick(object sender, EventArgs e)
-        {
-            string stdbank;
-            string bBranch;
-            var accBName = txtYourAccNAme.Text;
-            var accNumber = txtYourAccNumber.Text;
-            var stdIdno = txtYourIDNo.Text;
+        //protected void btnAddPersonalBankDs_OnClick(object sender, EventArgs e)
+        //{
+        //    string stdbank;
+        //    string bBranch;
+        //    var accBName = txtYourAccNAme.Text;
+        //    var accNumber = txtYourAccNumber.Text;
+        //    var stdIdno = txtYourIDNo.Text;
 
-            if (ddlPersonaBank.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select your Bank');", true);
-                ddlPersonaBank.Focus();
-                return;
-            }
-            else
-            {
-                stdbank = ddlPersonaBank.SelectedItem.Text;
-            }
-            if (ddlPersonaBranch.SelectedIndex == 0)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select your Bank Branch');", true);
-                ddlPersonaBranch.Focus();
-                return;
-            }
-            else
-            {
-                bBranch = ddlPersonaBranch.SelectedItem.Text;
-            }
+        //    if (ddlPersonaBank.SelectedIndex == 0)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select your Bank');", true);
+        //        ddlPersonaBank.Focus();
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        stdbank = ddlPersonaBank.SelectedItem.Text;
+        //    }
+        //    if (ddlPersonaBranch.SelectedIndex == 0)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Please select your Bank Branch');", true);
+        //        ddlPersonaBranch.Focus();
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        bBranch = ddlPersonaBranch.SelectedItem.Text;
+        //    }
 
-            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            Portals sup = new Portals();
-            sup.Credentials = credentials;
-            sup.PreAuthenticate = true;
-            if (sup.FnSavePersonalBankDetails(stdbank, bBranch, Session["username"].ToString(), accNumber, stdIdno, accBName) == true)
-            {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Your Personal Bank details Saved Successfully!');", true);
-                MyPersonalBankDs();
-            }
+        //    var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+        //        ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+        //    Portals sup = new Portals();
+        //    sup.Credentials = credentials;
+        //    sup.PreAuthenticate = true;
+        //    if (sup.FnSavePersonalBankDetails(stdbank, bBranch, Session["username"].ToString(), accNumber, stdIdno, accBName) == true)
+        //    {
+        //        ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Your Personal Bank details Saved Successfully!');", true);
+        //        MyPersonalBankDs();
+        //    }
 
-        }
-        protected void MyBankIs()
-        {
-            var mybank = nav.myBanks.ToList();
-            ddlBankUni.DataSource = mybank;
-            ddlBankUni.DataTextField = "Bank_Name";
-            ddlBankUni.DataValueField = "Bank_Code";
-            ddlBankUni.DataBind();
+        //}
+        //protected void MyBankIs()
+        //{
+        //    var mybank = nav.myBanks.ToList();
+        //    ddlBankUni.DataSource = mybank;
+        //    ddlBankUni.DataTextField = "Bank_Name";
+        //    ddlBankUni.DataValueField = "Bank_Code";
+        //    ddlBankUni.DataBind();
 
-            ddlPersonaBank.DataSource = mybank;
-            ddlPersonaBank.DataTextField = "Bank_Name";
-            ddlPersonaBank.DataValueField = "Bank_Code";
-            ddlPersonaBank.DataBind();
-        }
+        //    ddlPersonaBank.DataSource = mybank;
+        //    ddlPersonaBank.DataTextField = "Bank_Name";
+        //    ddlPersonaBank.DataValueField = "Bank_Code";
+        //    ddlPersonaBank.DataBind();
+        //}
 
-        protected void MyUniCollege()
-        {
-            var myUni = nav.my_unisOrCollegs.ToList();
-            ddlUniversity.DataSource = myUni;
-            ddlUniversity.DataTextField = "College_Name";
-            ddlUniversity.DataValueField = "College_Name";
-            ddlUniversity.DataBind();
-        }
+        //protected void MyUniCollege()
+        //{
+        //    var myUni = nav.my_unisOrCollegs.ToList();
+        //    ddlUniversity.DataSource = myUni;
+        //    ddlUniversity.DataTextField = "College_Name";
+        //    ddlUniversity.DataValueField = "College_Name";
+        //    ddlUniversity.DataBind();
+        //}
 
-        protected void MyCollegBankDs()
-        {
-            var myuniBInf = nav.uniBanks.ToList().Where(un => un.Student_Username == Session["username"].ToString());
-            txtMyColleg.Text = myuniBInf.Select(cl => cl.University_Name).SingleOrDefault();
-            txtMyBank.Text = myuniBInf.Select(b => b.University_Bank_Name).SingleOrDefault();
-            txtBnkBrnch.Text = myuniBInf.Select(bb => bb.University_Bank_Branch).SingleOrDefault();
-            txtUniAccName.Text = myuniBInf.Select(an => an.Account_Name).SingleOrDefault();
-            txtUniAccNumber.Text = myuniBInf.Select(no => no.University_Account_No).SingleOrDefault();
-            txtRegNumber.Text = myuniBInf.Select(rg => rg.Student_No).SingleOrDefault();
-            txtIDNumber.Text = myuniBInf.Select(id => id.Students_IDNo).SingleOrDefault();
-        }
+        //protected void MyCollegBankDs()
+        //{
+        //    var myuniBInf = nav.uniBanks.ToList().Where(un => un.Student_Username == Session["username"].ToString());
+        //    txtMyColleg.Text = myuniBInf.Select(cl => cl.University_Name).SingleOrDefault();
+        //    txtMyBank.Text = myuniBInf.Select(b => b.University_Bank_Name).SingleOrDefault();
+        //    txtBnkBrnch.Text = myuniBInf.Select(bb => bb.University_Bank_Branch).SingleOrDefault();
+        //    txtUniAccName.Text = myuniBInf.Select(an => an.Account_Name).SingleOrDefault();
+        //    txtUniAccNumber.Text = myuniBInf.Select(no => no.University_Account_No).SingleOrDefault();
+        //    txtRegNumber.Text = myuniBInf.Select(rg => rg.Student_No).SingleOrDefault();
+        //    txtIDNumber.Text = myuniBInf.Select(id => id.Students_IDNo).SingleOrDefault();
+        //}
 
-        protected void MyPersonalBankDs()
-        {
-            var myBInf = nav.studeBanks.ToList().Where(un => un.Student_Username == Session["username"].ToString());
-            txtmyPsBank.Text = myBInf.Select(mb => mb.Student_Bank_Name).SingleOrDefault();
-            txtMyBbranch.Text = myBInf.Select(br => br.Student_Bank_Branch).SingleOrDefault();
-            txtYourAccNAme.Text = myBInf.Select(acn => acn.Account_Name).SingleOrDefault();
-            txtYourAccNumber.Text = myBInf.Select(acno => acno.Student_Bank_Account).SingleOrDefault();
-            txtYourIDNo.Text = myBInf.Select(mId => mId.Sudents_IdNo).SingleOrDefault();
-        }
+        //protected void MyPersonalBankDs()
+        //{
+        //    var myBInf = nav.studeBanks.ToList().Where(un => un.Student_Username == Session["username"].ToString());
+        //    txtmyPsBank.Text = myBInf.Select(mb => mb.Student_Bank_Name).SingleOrDefault();
+        //    txtMyBbranch.Text = myBInf.Select(br => br.Student_Bank_Branch).SingleOrDefault();
+        //    txtYourAccNAme.Text = myBInf.Select(acn => acn.Account_Name).SingleOrDefault();
+        //    txtYourAccNumber.Text = myBInf.Select(acno => acno.Student_Bank_Account).SingleOrDefault();
+        //    txtYourIDNo.Text = myBInf.Select(mId => mId.Sudents_IdNo).SingleOrDefault();
+        //}
 
         protected void btnSaveApplication_OnClick(object sender, EventArgs e)
         {
@@ -987,8 +951,13 @@ namespace KCDF_P
                 sup.PreAuthenticate = true;
                 if (sup.FnAddScholarship(sclRefNo, admNo, fullName, todayIs, myColleIs, Session["username"].ToString(), bugt,dateRequired) ==true)
                 {
-                   // KCDFAlert.ShowAlert("Application Saved Successfully! on :" );
+                   //KCDFAlert.ShowAlert("Application Saved Successfully! on :" );
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "alert('Application Saved Successfully! on :"+ todayIs + "');", true);
+                }
+                else
+                {
+                    //KCDFAlert.ShowAlert(Er.Message);
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "AlreadyIn();", true);
                 }
                
             }
@@ -1007,60 +976,65 @@ namespace KCDF_P
                 case 0:
                     KCDFAlert.ShowAlert("Select a valid Scholarship to continue!");
                     btnSaveApplication.Enabled = false;
+                    Wizard1.Visible = false;
                     break;
                 default:
                     Session["theScholarship"] = ddlScolarshipType.SelectedItem.Text;
                     KCDFAlert.ShowAlert("You selected: " + Session["theScholarship"] + " Ref Number: " +
                                         ddlScolarshipType.SelectedValue);
+                    profileMultiview.SetActiveView(applicationForm);
+                    Wizard1.Visible = true;
+                    Wizard1.ActiveStepIndex = 0;
+                    LoadScholarData();
                     btnSaveApplication.Enabled = true;
                     break;
 
             }
         }
 
-        protected void ddlBankUni_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            int selIndex = ddlBankUni.SelectedIndex;
-            switch (selIndex)
-            {
-                case 0:
-                    KCDFAlert.ShowAlert("Invalid Bank selection, please choose");
-                    break;
-                default:
-                    var mybank = ddlBankUni.SelectedValue;
+        //protected void ddlBankUni_OnSelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    int selIndex = ddlBankUni.SelectedIndex;
+        //    switch (selIndex)
+        //    {
+        //        case 0:
+        //            KCDFAlert.ShowAlert("Invalid Bank selection, please choose");
+        //            break;
+        //        default:
+        //            var mybank = ddlBankUni.SelectedValue;
 
-                    var mybranch = nav.myBankBranch.Where(sc => sc.Bank_Code == mybank).ToList();
+        //            var mybranch = nav.myBankBranch.Where(sc => sc.Bank_Code == mybank).ToList();
 
-                    ddlbankBranchUni.DataSource = mybranch;
-                    ddlbankBranchUni.DataTextField = "Branch_Name";
-                    ddlbankBranchUni.DataValueField = "Branch_Name";
-                    ddlbankBranchUni.DataBind();
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
-                    break;
-            }
-        }
+        //            ddlbankBranchUni.DataSource = mybranch;
+        //            ddlbankBranchUni.DataTextField = "Branch_Name";
+        //            ddlbankBranchUni.DataValueField = "Branch_Name";
+        //            ddlbankBranchUni.DataBind();
+        //            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+        //            break;
+        //    }
+        //}
 
-        protected void ddlPersonaBank_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            int selIndex = ddlPersonaBank.SelectedIndex;
-            switch (selIndex)
-            {
-                case 0:
-                    KCDFAlert.ShowAlert("Invalid Bank selection, please choose");
-                    break;
-                default:
-                    var mybank = ddlPersonaBank.SelectedValue;
+        //protected void ddlPersonaBank_OnSelectedIndexChanged(object sender, EventArgs e)
+        //{
+        //    int selIndex = ddlPersonaBank.SelectedIndex;
+        //    switch (selIndex)
+        //    {
+        //        case 0:
+        //            KCDFAlert.ShowAlert("Invalid Bank selection, please choose");
+        //            break;
+        //        default:
+        //            var mybank = ddlPersonaBank.SelectedValue;
 
-                    var mybranch = nav.myBankBranch.Where(sc => sc.Bank_Code == mybank).ToList();
+        //            var mybranch = nav.myBankBranch.Where(sc => sc.Bank_Code == mybank).ToList();
 
-                    ddlPersonaBranch.DataSource = mybranch;
-                    ddlPersonaBranch.DataTextField = "Branch_Name";
-                    ddlPersonaBranch.DataValueField = "Branch_Name";
-                    ddlPersonaBranch.DataBind();
-                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
-                    break;
-            }
-        }
+        //            ddlPersonaBranch.DataSource = mybranch;
+        //            ddlPersonaBranch.DataTextField = "Branch_Name";
+        //            ddlPersonaBranch.DataValueField = "Branch_Name";
+        //            ddlPersonaBranch.DataBind();
+        //            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+        //            break;
+        //    }
+        //}
 
         protected void btnSubmitApplication_OnClick(object sender, EventArgs e)
         {
@@ -1076,31 +1050,250 @@ namespace KCDF_P
             else
             {
                 KCDFAlert.ShowAlert("Please apply first before submitting!");
+                return;
             }
         }
-        protected void btnGoNext1_OnClick(object sender, EventArgs e)
+        protected void btnCancel_OnClick(object sender, EventArgs e)
         {
-            profileMultiview.SetActiveView(scholarSupport);
+           Response.Redirect("Scholarship_Application.aspx");
         }
 
-        protected void btnGoNext3_OnClick(object sender, EventArgs e)
+        protected void btnAdd_OnClick(object sender, EventArgs e)
         {
-            profileMultiview.SetActiveView(workplanView);
+            Control control = null;
+            if (gridViewAddThings.FooterRow != null)
+            {
+                control = gridViewAddThings.FooterRow;
+            }
+            else
+            {
+                control = gridViewAddThings.Controls[0].Controls[0];
+            }
+            string yearIs, semIs;
+            string tuitionFee = (control.FindControl("txtTuition") as TextBox).Text;
+            string academyFee = (control.FindControl("txtAcademic") as TextBox).Text;
+            string txtUpkeep = (control.FindControl("txtUpkeep") as TextBox).Text;
+            var sem = (control.FindControl("ddlSem") as DropDownList);
+            string txtscholarstcmat = (control.FindControl("txtScholarMat") as TextBox).Text;
+            var mwaka = (control.FindControl("ddlYearIS") as DropDownList);
+
+            decimal tuition, academic, upkeep, scholarsticmat;
+            var usnm = Session["username"].ToString();
+            var studentNo =
+               nav.studentsRegister.ToList()
+                   .Where(sn => sn.Username == usnm)
+                   .Select(n => n.No)
+                   .SingleOrDefault();
+            
+            string scholname = ddlScolarshipType.SelectedItem.Text;
+            string refNumber = ddlScolarshipType.SelectedValue;
+            string yrofStdy = lblYearofStdy.Text;
+
+
+            if (!string.IsNullOrEmpty(tuitionFee))
+            {
+                tuition = Convert.ToDecimal(tuitionFee);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in tuition Cost!");
+                return;
+            }
+            if (!string.IsNullOrEmpty(academyFee))
+            {
+                academic = Convert.ToDecimal(academyFee);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in academic Cost!");
+                return;
+            }
+
+            if (mwaka.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Please select a Year!");
+                return;
+            }
+            else
+            {
+                yearIs = mwaka.SelectedItem.Text;
+            }
+
+            if (!string.IsNullOrEmpty(txtscholarstcmat))
+            {
+                scholarsticmat = Convert.ToDecimal(txtscholarstcmat);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in Scholarstic material Cost!");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(txtUpkeep))
+            {
+                upkeep = Convert.ToDecimal(txtUpkeep);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in upkeep Cost!");
+                return;
+            }
+
+            if (sem.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Please select Semester!");
+                return;
+            }
+            else
+            {
+                semIs = sem.SelectedItem.Text;
+            }
+
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals naws = new Portals();
+            naws.Credentials = credentials;
+            naws.PreAuthenticate = true;
+            if (naws.FnAddScholasticSupport(studentNo, yrofStdy, usnm, scholname, tuition, academic, upkeep, refNumber, semIs, yearIs, scholarsticmat) == true)
+            {
+                KCDFAlert.ShowAlert("Scholarstic Support Data Saved Successfully!");
+                LoadScholarData();
+               // Response.Redirect(Request.Url.AbsoluteUri);
+            }
+            
         }
 
-        protected void btnGoNext4_OnClick(object sender, EventArgs e)
+        protected void GetEduBackG()
         {
-            profileMultiview.SetActiveView(AttachDocs);
+            var edctnData = nav.studentsRegister.ToList().Where(r => r.Username == User.Identity.Name);
+            lblYearofStdy.Text = edctnData.Select(yos => yos.Year_of_Study).Single();
         }
 
-        protected void btnGoNext5_OnClick(object sender, EventArgs e)
+        public void GetEducationLevel()
         {
-            profileMultiview.SetActiveView(bankDetails);
+            var nkowhichyear =
+                nav.studentsRegister.ToList().Where(us => us.Username == Session["username"].ToString())
+                    .Select(l => l.Education_Level)
+                    .SingleOrDefault();
+            //KCDFAlert.ShowAlert(nkowhichyear);
+            switch (nkowhichyear)
+            {
+                case "Secondary":
+                    //ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "ShowSecID()", true);
+                    idSecod.Visible = true;
+                    idHighEd.Visible = false;
+                    break;
+                case "Higher Education":
+                    // ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "ShowHighLevelID()", true);
+                    idHighEd.Visible = true;
+                    idSecod.Visible = false;
+                    break;
+            }
         }
 
-        protected void btnGoNext6_OnClick(object sender, EventArgs e)
+        protected void btnAddSecLevel_OnClick(object sender, EventArgs e)
         {
-            profileMultiview.SetActiveView(finalSubmit);
+            Control control = null;
+            if (gridViewSecoDLevel.FooterRow != null)
+            {
+                control = gridViewSecoDLevel.FooterRow;
+            }
+            else
+            {
+                control = gridViewSecoDLevel.Controls[0].Controls[0];
+            }
+            string yearIs,termIs;
+            string tuitionFee = (control.FindControl("txtTuition") as TextBox).Text;
+            string academyFee = (control.FindControl("txtAcademic") as TextBox).Text;
+            string txtUpkeep = (control.FindControl("txtUpkeep") as TextBox).Text;
+            string txtscholarstcmat = (control.FindControl("txtScholarMat") as TextBox).Text;
+            var mwaka = (control.FindControl("ddlForm") as DropDownList);
+            var term = (control.FindControl("ddlTerm") as DropDownList);
+
+            decimal tuition, academic, upkeep,scholarmaterials;
+
+            var usnm = Session["username"].ToString();
+            var studentNo =
+               nav.studentsRegister.ToList()
+                   .Where(sn => sn.Username == usnm)
+                   .Select(n => n.No)
+                   .SingleOrDefault();
+
+            string scholname = ddlScolarshipType.SelectedItem.Text;
+            string refNumber = ddlScolarshipType.SelectedValue;
+            string yrofStdy = lblYearofStdy.Text;
+
+
+            if (!string.IsNullOrEmpty(tuitionFee))
+            {
+                tuition = Convert.ToDecimal(tuitionFee);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in tuition Cost!");
+                return;
+            }
+            if (!string.IsNullOrEmpty(academyFee))
+            {
+                academic = Convert.ToDecimal(academyFee);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in academic Cost!");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(txtscholarstcmat))
+            {
+                scholarmaterials = Convert.ToDecimal(txtscholarstcmat);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in Scholarstic material Cost!");
+                return;
+            }
+
+            if (!string.IsNullOrEmpty(txtUpkeep))
+            {
+                upkeep = Convert.ToDecimal(txtUpkeep);
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("Please Fill in upkeep Cost!");
+                return;
+            }
+
+            if (mwaka.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Please select a Year!");
+                return;
+            }
+            else
+            {
+                yearIs = mwaka.SelectedItem.Text;
+            }
+
+            if (term.SelectedIndex == 0)
+            {
+                KCDFAlert.ShowAlert("Please select Semester!");
+                return;
+            }
+            else
+            {
+                termIs = term.SelectedItem.Text;
+            }
+
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals naws = new Portals();
+            naws.Credentials = credentials;
+            naws.PreAuthenticate = true;
+            if (naws.FnAddScholasticSupport(studentNo, yrofStdy, usnm, scholname, tuition, academic, upkeep, refNumber, termIs, yearIs, scholarmaterials) == true)
+            {
+                KCDFAlert.ShowAlert("Scholarstic Support Data Saved Successfully!");
+                LoadScholarData();
+                // Response.Redirect(Request.Url.AbsoluteUri);
+            }
         }
     }
 }

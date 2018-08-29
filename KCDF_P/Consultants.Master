@@ -140,14 +140,15 @@
                         </li>
                        
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;
-                                <asp:Label runat="server" ID="lblSessionUsername" Visible="False"></asp:Label><% =ConsultantClass.Username %> </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp; <% =ConsultantClass.Username %> </a>
+                                <%--<asp:Label runat="server" ID="lblSessionUsername" Visible="False"></asp:Label>--%>
+                               
                             <ul class="dropdown-menu">
                                 <li><a href="/Consultancy_Page.aspx">My Dashboard</a></li>
                                <%-- <li class="divider"></li>
                                 <asp:LinkButton ID="lnkbtnEdit" runat="server" OnClick="lnkbtnEdit_OnClick" style="align-content: center" PostBackUrl = "~/Account/Add_Grantee_Profile.aspx">Edit Profile</asp:LinkButton>--%>
                                  <li class="divider"></li>
-                                <asp:LinkButton ID="lnkBtnChangeP" runat="server" OnClick="lnkBtnChangeP_OnClick" style="align-content: center">Change Password</asp:LinkButton>
+                                <asp:LinkButton ID="lnkBtnChangeP" runat="server" OnClick="lnkBtnChangeP_OnClick" style="align-content: center" CausesValidation="false">Change Password</asp:LinkButton>
                                  <li class="divider"></li>
                                 <li><a href="/Logout.aspx">Log Out</a></li>
                                 <li class="divider"></li>

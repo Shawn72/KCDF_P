@@ -71,6 +71,8 @@
              
         <div class="col-md-8">
             <label style="font-weight: bold">My Applications</label>
+             <asp:HiddenField ID="hdnTxtValidit" runat="server" />
+            <br />
         <asp:GridView ID="tblMyProjects" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
             EmptyDataText="No projects Found!" OnRowDeleting="tblMyProjects_OnRowDeleting" DataKeyNames="No"
              AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
@@ -79,9 +81,20 @@
             <asp:BoundField DataField="Project_Name" HeaderText="Project" />
             <asp:BoundField DataField="Project_Start_Date" HeaderText="Project Start Year" DataFormatString="{0:dd/MM/yyyy}" />
             <asp:BoundField DataField="Total_Project_Cost_KES" HeaderText="Total Project Cost" DataFormatString="{0:N2}" />
-            <asp:BoundField DataField="Your_Cash_Contribution_KES" HeaderText="Organization Contribution" DataFormatString="{0:N2}" />
+            <asp:BoundField DataField="projectisSubmitted" HeaderText="Submitted?" />
             <asp:BoundField DataField="Requested_KCDF_Amount_KES" HeaderText="Requested Grant Amount"  DataFormatString="{0:N2}"/>
             <asp:BoundField DataField="Grant_Approval" HeaderText="Approval Status"/>
+               <asp:TemplateField HeaderText="Confirm Attachments">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkEditMe" Text="Confirm Attachments" CommandArgument='<%# Eval("No") %>' CommandName="lnkEditMe" runat="server" OnClick="lnkEditMe_OnClick"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+                                        
+                <asp:TemplateField HeaderText="Submit Application" >
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkConfirm" Text="Submit Application" CommandArgument='<%# Eval("No") %>' CommandName="lnkConfirm" runat="server" OnClick="lnkConfirm_OnClick"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
             <asp:TemplateField HeaderText="Edit">
                 <ItemTemplate>
                     <asp:LinkButton ID="lnkEdit" Text="Edit" CommandArgument='<%# Eval("No") %>' CommandName="lnkEdit" runat="server" OnClick="lnkEdit_OnClick"></asp:LinkButton>
@@ -90,7 +103,55 @@
            <%-- <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />--%>
         </Columns>
         <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
-            </asp:GridView>      
+        </asp:GridView>  
+        <br/>
+            
+        <label style="font-weight: bold">My Uploaded Reporting Documents</label>
+        <br />
+        <asp:GridView ID="gridviewUploadedRepos" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
+            EmptyDataText="No Uploads Found!" DataKeyNames="No"
+             AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
+        <Columns>
+            <asp:BoundField DataField="No" HeaderText="S/No:"/>
+            <asp:BoundField DataField="Project_Title" HeaderText="Project" />
+            <asp:BoundField DataField="Project_Year" HeaderText="Project Year" DataFormatString="{0:dd/MM/yyyy}" />
+            <asp:BoundField DataField="Project_Quarter" HeaderText="Quarter" />
+            <asp:BoundField DataField="Document_Kind" HeaderText="Document" />
+            <asp:BoundField DataField="Document_Name" HeaderText="Name"/>
+               <asp:TemplateField HeaderText="Action">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkReupload" Text="Re-Upload Document" CommandArgument='<%# Eval("No") %>' CommandName="lnkReupload" runat="server"  OnClick="lnkReupload_OnClick"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+               
+           <%-- <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />--%>
+        </Columns>
+        <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
+        </asp:GridView>  
+        <br/>
+            
+          <label style="font-weight: bold">My Indicator Matrix</label>
+        <br />
+        <asp:GridView ID="gridMatrixPocas" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
+            EmptyDataText="No Uploads Found!" DataKeyNames="Id"
+             AlternatingRowStyle-BackColor = "#C2D69B" AllowSorting="True">
+        <Columns>
+            <asp:BoundField DataField="Id" HeaderText="S/No:"/>
+            <asp:BoundField DataField="Project_Name" HeaderText="Project" />
+            <asp:BoundField DataField="Document_Kind" HeaderText="Document" />
+            <asp:BoundField DataField="Document_Name" HeaderText="File Name" />
+               <asp:TemplateField HeaderText="Action">
+                    <ItemTemplate>
+                        <asp:LinkButton ID="lnkReuploadMatr" Text="Re-Upload Document" runat="server" OnClick="lnkReuploadMatr_OnClick"></asp:LinkButton>
+                    </ItemTemplate>
+                </asp:TemplateField>
+               
+           <%-- <asp:CommandField ShowDeleteButton="True" ButtonType="Button" HeaderText="Actions" />--%>
+        </Columns>
+        <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" /> 
+        </asp:GridView>  
+        <br/>
+                
        </div>
         
          <%--<div class="form-group">
@@ -321,6 +382,36 @@
 	</div>
 
     </div>
+        
+ <div class="modal fade" id="pageApplications" data-backdrop="static">
+    <div class="modal-dialog" runat="server">
+	    <div class="modal-content" runat="server">
+                <div class="panel-heading" style="text-align:left; background: #00bfff; color: #f0f8ff">Submit your projects</div>
+		    <div class="modal-header" runat="server">
+				    <strong>Confirm Submission for Project:</strong>&nbsp;&nbsp;<asp:Label runat="server" ID="lblProjNb">&nbsp;</asp:Label>
+				    <button type="button" class="close" data-dismiss="modal">&times;</button>
+			    </div>
+		    <div class="modal-body">
+            <div class="form-horizontal">
+                    <div class="row">
+                    <div class="col-md-3">
+                        <asp:Button ID="btnValidateInfo" runat="server" Text="Click to Validate" CssClass="btn btn-primary pull-right btn-sm" OnClick="btnValidateInfo_OnClick" />&nbsp;&nbsp;
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <asp:TextBox runat="server" ID="txtValidate" CssClass="form-control" Enabled="False" /> &nbsp;&nbsp;
+                        </div>
+                    </div>
+                    <%--<div class="col-md-3">
+                        <asp:Button ID="btnFinalSubmit" runat="server" Text="Final Submission" CssClass="btn btn-primary pull-left btn-sm" OnClick="btnFinalSubmit_OnClick" Enabled="False" />
+                    </div>--%>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
  <script type="text/javascript">
         function SessionExpireAlert(timeout) {
             var seconds = timeout / 1000;
@@ -343,7 +434,7 @@
             //Redirect to refresh Session.
             window.location = window.location.href;
         }
-    </script>        
+  </script>        
 
 <script runat="server">
     protected void btnUploadMe_OnClick(object sender, EventArgs e)
@@ -426,6 +517,9 @@
     }
     function openEditProj() {
         $('#pageProjectEdit').modal('show');
+    }
+    function openModalSubmit() {
+        $('#pageApplications').modal('show');
     }
 </script>
         

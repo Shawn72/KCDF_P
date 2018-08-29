@@ -423,7 +423,7 @@ namespace KCDF_P.Account
                     Portals sup = new Portals();
                     sup.Credentials = credentials;
                     sup.PreAuthenticate = true;
-                    if (sup.FnCreateConsultant(fullname, email, regNo, username, confirPwd, activationCode
+                    if (sup.FnCreateConsultant(fullname, email, regNo, username, EncryptP(confirPwd), activationCode
                         ))
                     {
                         this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "getmeTohomeConfirm()", true);
@@ -567,6 +567,7 @@ namespace KCDF_P.Account
                         this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "getmeTohomeConfirm()", true);
 
                         //call goback to login to load Default page for user
+                        InsertToActivationDB(username, activationCode);
 
                         using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", email))
                         {
@@ -646,6 +647,7 @@ namespace KCDF_P.Account
                         this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "getmeTohomeConfirm()", true);
 
                         //call goback to login to load Default page for user
+                        InsertToActivationDB(username, activationCode);
 
                         using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", email))
                         {
@@ -726,6 +728,7 @@ namespace KCDF_P.Account
                         this.Page.ClientScript.RegisterStartupScript(this.GetType(), "alert", "getmeTohomeConfirm()", true);
 
                         //call goback to login to load Default page for user
+                        InsertToActivationDB(username, activationCode);
 
                         using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", email))
                         {

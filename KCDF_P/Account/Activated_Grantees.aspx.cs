@@ -51,7 +51,6 @@ namespace KCDF_P.Account
                        // ltMessage.Text = "Your Acount has been activated successfully.";
                         ActivatedfromDB(activationCode);
                     }
-                    
                 }
                 catch (Exception ex)
                 {
@@ -59,8 +58,6 @@ namespace KCDF_P.Account
                     //ltMessage.Text = "Error in activation, Please try again later!!";
                     return;
                 }
-
-
             }
 
         }

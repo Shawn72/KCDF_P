@@ -161,15 +161,14 @@ namespace KCDF_P
 
                 //try
                 //{
-                    if (string.IsNullOrWhiteSpace(userPassword))
+                if (string.IsNullOrWhiteSpace(userPassword))
                 {
                     lblError.Text = "Password Empty!";
                     KCDFAlert.ShowAlert("Password Empty!");
                     return;
                 }
                     //OK
-                    //CheckExistsSql(userName, enP);
-                    GetGranteePassword(userName, userPassword);
+                    CheckExistsSql(userName, userPassword);
                 //}
                 //catch (Exception exception)
                 //{
@@ -207,8 +206,8 @@ namespace KCDF_P
                     Session["reportformUser"] = "iamGrantee";
 
 
-                    FormsAuthentication.GetAuthCookie(eml, false);
-                    FormsAuthentication.SetAuthCookie(eml, false);
+                    FormsAuthentication.GetAuthCookie(eml, true);
+                    FormsAuthentication.SetAuthCookie(eml, true);
 
                     rememberMeYeah(eml, pass);
                     CheckUserProfileUpdates(eml);
@@ -230,7 +229,7 @@ namespace KCDF_P
             }
             else
             {
-                CheckIfActive(myUserName, passMyass);
+                GetGranteePassword(myUserName, passMyass);
                 // KCDFAlert.ShowAlert("I see u");
             }
 
@@ -413,18 +412,18 @@ namespace KCDF_P
             cptCaptcha.ValidateCaptcha(txtCaptcha3.Text.Trim());
             if (cptCaptcha.UserValidated)
             {
-                string userName = txtConsUsernameIS.Text.Trim().Replace("'", "");
-                string userPassword = txtConsPasswordIS.Text.Trim().Replace("'", "");
-
-                if (string.IsNullOrWhiteSpace(userPassword))
-                {
-                    lblError.Text = "Password Empty!";
-                    KCDFAlert.ShowAlert("Password Empty!");
-                    return;
-                }
-
                 try
                 {
+
+                    string userName = txtConsUsernameIS.Text.Trim().Replace("'", "");
+                    string userPassword = txtConsPasswordIS.Text.Trim().Replace("'", "");
+
+                    if (string.IsNullOrWhiteSpace(userPassword))
+                    {
+                        lblError.Text = "Password Empty!";
+                        KCDFAlert.ShowAlert("Password Empty!");
+                        return;
+                    }
                     if (nav.myConsultants.Where(r => r.Organization_Username == userName && r.Active == true && r.Password == EncryptP(userPassword)).FirstOrDefault() != null)
                     {
                         //Change the Session called "Logged" value into "Yes"
@@ -433,12 +432,13 @@ namespace KCDF_P
                         Session["pwd"] = EncryptP(userPassword);
                         rememberMeYeah(userName, EncryptP(userPassword));
                         Session["reportformUser"] = "iamConsult";
+                        FormsAuthentication.GetAuthCookie(userName, true);
+                        FormsAuthentication.SetAuthCookie(userName, true);
                         Response.Redirect("~/Consultancy_Page.aspx");
 
                     }
-                    else if (nav.myConsultants.Where(r => r.Organization_Username == userName && r.Active== false && r.Password == EncryptP(userPassword)).FirstOrDefault() != null)
+                    else if (nav.myConsultants.Where(r => r.Organization_Username == userName && r.Active == false && r.Password == EncryptP(userPassword)).FirstOrDefault() != null)
                     {
-                        //HotelFactory.ShowAlert("You Ain't Active!!");
                         lblError.Text = "Account not active, please activate!";
                         return;
                     }
@@ -473,10 +473,12 @@ namespace KCDF_P
                 switch (amupdated)
                 {
                     case true:
-                        Response.Redirect("~/Dashboard.aspx");
+                        //FormsAuthentication.RedirectFromLoginPage(userN, chkRememberMe.Checked);
+                       Response.Redirect("~/Dashboard.aspx");
                         break;
 
                     case false:
+                       // FormsAuthentication.RedirectFromLoginPage(userN, chkRememberMe.Checked);
                         Response.Redirect("Account/Add_Students_Profile.aspx");
                         break;
                 }
@@ -500,10 +502,12 @@ namespace KCDF_P
                 switch (amupdated)
                 {
                     case true:
+                        FormsAuthentication.RedirectFromLoginPage(userN, chkRememberMe.Checked);
                         Response.Redirect("~/Grantee_Dashboard.aspx");
                         break;
 
                     case false:
+                        FormsAuthentication.RedirectFromLoginPage(userN, chkRememberMe.Checked);
                         Response.Redirect("Account/Add_Grantee_Profile.aspx");
                         break;
                 }
@@ -547,7 +551,8 @@ namespace KCDF_P
                             lblError.Text = "Account has not been activated";
                             break;
                         default:
-                            //  FormsAuthentication.RedirectFromLoginPage(UserName, Login1.RememberMeSet);
+                            Session.Clear();
+                            FormsAuthentication.RedirectFromLoginPage(UserName, chkRememberMe.Checked);
                             Session["Logged"] = "Yes";
                             Grantees.SessionUsername = UserName;
                             Session["username"] = Grantees.SessionUsername;
@@ -604,21 +609,18 @@ namespace KCDF_P
                             lblError.Text = "Account has not been activated";
                             break;
                         default:
-                            //  FormsAuthentication.RedirectFromLoginPage(UserName, Login1.RememberMeSet);
+                            Session.Clear();
+                            FormsAuthentication.RedirectFromLoginPage(UserName, chkRememberMe.Checked);
                             //Change the Session called "Logged" value into "Yes"
                             Session["Logged"] = "Yes";
                             Session["username"] = UserName;
-                            FormsAuthentication.GetAuthCookie(UserName, false);
-                            FormsAuthentication.SetAuthCookie(UserName, false);
-
-                            //FormsAuthentication.SetAuthCookie(UserName, createPersistentCookie);
-                            //FormsAuthentication.RedirectFromLoginPage(userName, createPersistentCookie);
+                            FormsAuthentication.GetAuthCookie(UserName, true);
+                            FormsAuthentication.SetAuthCookie(UserName, true);
 
                             Session["pwd"] = Password;
                             rememberMeYeah(UserName, Password);
                             Session["reportformUser"] = "iamStudent";
                             CheckStudentsProfile(UserName);
-                            //Response.Redirect("~/Dashboard.aspx");
                             break;
                     }
                 }

@@ -85,6 +85,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.View amGrantee;
         
         /// <summary>
+        /// myNarrative control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl myNarrative;
+        
+        /// <summary>
         /// FileUploadNarrative control.
         /// </summary>
         /// <remarks>
@@ -112,6 +121,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblNarr;
         
         /// <summary>
+        /// myFinancial control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl myFinancial;
+        
+        /// <summary>
         /// FileUploadFinancial control.
         /// </summary>
         /// <remarks>
@@ -137,6 +155,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblFin;
+        
+        /// <summary>
+        /// myData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl myData;
         
         /// <summary>
         /// FileUploadData control.

@@ -153,6 +153,8 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnSumbitScholarshipAppOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnCountGrantsNotificationsOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -378,6 +380,9 @@ namespace KCDF_P.NAVWS {
         public event FnSumbitScholarshipAppCompletedEventHandler FnSumbitScholarshipAppCompleted;
         
         /// <remarks/>
+        public event FnCountGrantsNotificationsCompletedEventHandler FnCountGrantsNotificationsCompleted;
+        
+        /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
         public bool FnActivateAc(string activationCode) {
@@ -508,7 +513,7 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnEducatBg", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnEducatBg_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public bool FnEducatBg(string useRname, string primo_sch, string sec_sch, string univCollege, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime yearofAdmn, string yearofStudy, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime yearofCompltn, string parentGuardian_Phone, string parentGuardian_Email, string parentGuardian_Address, string degree, int mymarks, int totalmarks, string myGrade) {
+        public bool FnEducatBg(string useRname, string primo_sch, string sec_sch, string univCollege, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime yearofAdmn, string yearofStudy, [System.Xml.Serialization.XmlElementAttribute(DataType="date")] System.DateTime yearofCompltn, string parentGuardian_Phone, string parentGuardian_Email, string parentGuardian_Address, string degree, int mymarks, int totalmarks, string myGrade, int educationLevel) {
             object[] results = this.Invoke("FnEducatBg", new object[] {
                         useRname,
                         primo_sch,
@@ -523,17 +528,34 @@ namespace KCDF_P.NAVWS {
                         degree,
                         mymarks,
                         totalmarks,
-                        myGrade});
+                        myGrade,
+                        educationLevel});
             return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void FnEducatBgAsync(string useRname, string primo_sch, string sec_sch, string univCollege, System.DateTime yearofAdmn, string yearofStudy, System.DateTime yearofCompltn, string parentGuardian_Phone, string parentGuardian_Email, string parentGuardian_Address, string degree, int mymarks, int totalmarks, string myGrade) {
-            this.FnEducatBgAsync(useRname, primo_sch, sec_sch, univCollege, yearofAdmn, yearofStudy, yearofCompltn, parentGuardian_Phone, parentGuardian_Email, parentGuardian_Address, degree, mymarks, totalmarks, myGrade, null);
+        public void FnEducatBgAsync(string useRname, string primo_sch, string sec_sch, string univCollege, System.DateTime yearofAdmn, string yearofStudy, System.DateTime yearofCompltn, string parentGuardian_Phone, string parentGuardian_Email, string parentGuardian_Address, string degree, int mymarks, int totalmarks, string myGrade, int educationLevel) {
+            this.FnEducatBgAsync(useRname, primo_sch, sec_sch, univCollege, yearofAdmn, yearofStudy, yearofCompltn, parentGuardian_Phone, parentGuardian_Email, parentGuardian_Address, degree, mymarks, totalmarks, myGrade, educationLevel, null);
         }
         
         /// <remarks/>
-        public void FnEducatBgAsync(string useRname, string primo_sch, string sec_sch, string univCollege, System.DateTime yearofAdmn, string yearofStudy, System.DateTime yearofCompltn, string parentGuardian_Phone, string parentGuardian_Email, string parentGuardian_Address, string degree, int mymarks, int totalmarks, string myGrade, object userState) {
+        public void FnEducatBgAsync(
+                    string useRname, 
+                    string primo_sch, 
+                    string sec_sch, 
+                    string univCollege, 
+                    System.DateTime yearofAdmn, 
+                    string yearofStudy, 
+                    System.DateTime yearofCompltn, 
+                    string parentGuardian_Phone, 
+                    string parentGuardian_Email, 
+                    string parentGuardian_Address, 
+                    string degree, 
+                    int mymarks, 
+                    int totalmarks, 
+                    string myGrade, 
+                    int educationLevel, 
+                    object userState) {
             if ((this.FnEducatBgOperationCompleted == null)) {
                 this.FnEducatBgOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnEducatBgOperationCompleted);
             }
@@ -551,7 +573,8 @@ namespace KCDF_P.NAVWS {
                         degree,
                         mymarks,
                         totalmarks,
-                        myGrade}, this.FnEducatBgOperationCompleted, userState);
+                        myGrade,
+                        educationLevel}, this.FnEducatBgOperationCompleted, userState);
         }
         
         private void OnFnEducatBgOperationCompleted(object arg) {
@@ -603,41 +626,51 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnAddScholasticSupport", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnAddScholasticSupport_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnAddScholasticSupport(string description, string studentNo, string year_of_Study, decimal cost, string rank, string userName, string scholarship_name) {
-            this.Invoke("FnAddScholasticSupport", new object[] {
-                        description,
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public bool FnAddScholasticSupport(string studentNo, string year_of_Study, string userName, string scholarship_name, decimal tuitionFee, decimal academicFee, decimal upkeepFee, string refNo, string semester, string @class, decimal scholarstic_materials) {
+            object[] results = this.Invoke("FnAddScholasticSupport", new object[] {
                         studentNo,
                         year_of_Study,
-                        cost,
-                        rank,
                         userName,
-                        scholarship_name});
+                        scholarship_name,
+                        tuitionFee,
+                        academicFee,
+                        upkeepFee,
+                        refNo,
+                        semester,
+                        @class,
+                        scholarstic_materials});
+            return ((bool)(results[0]));
         }
         
         /// <remarks/>
-        public void FnAddScholasticSupportAsync(string description, string studentNo, string year_of_Study, decimal cost, string rank, string userName, string scholarship_name) {
-            this.FnAddScholasticSupportAsync(description, studentNo, year_of_Study, cost, rank, userName, scholarship_name, null);
+        public void FnAddScholasticSupportAsync(string studentNo, string year_of_Study, string userName, string scholarship_name, decimal tuitionFee, decimal academicFee, decimal upkeepFee, string refNo, string semester, string @class, decimal scholarstic_materials) {
+            this.FnAddScholasticSupportAsync(studentNo, year_of_Study, userName, scholarship_name, tuitionFee, academicFee, upkeepFee, refNo, semester, @class, scholarstic_materials, null);
         }
         
         /// <remarks/>
-        public void FnAddScholasticSupportAsync(string description, string studentNo, string year_of_Study, decimal cost, string rank, string userName, string scholarship_name, object userState) {
+        public void FnAddScholasticSupportAsync(string studentNo, string year_of_Study, string userName, string scholarship_name, decimal tuitionFee, decimal academicFee, decimal upkeepFee, string refNo, string semester, string @class, decimal scholarstic_materials, object userState) {
             if ((this.FnAddScholasticSupportOperationCompleted == null)) {
                 this.FnAddScholasticSupportOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnAddScholasticSupportOperationCompleted);
             }
             this.InvokeAsync("FnAddScholasticSupport", new object[] {
-                        description,
                         studentNo,
                         year_of_Study,
-                        cost,
-                        rank,
                         userName,
-                        scholarship_name}, this.FnAddScholasticSupportOperationCompleted, userState);
+                        scholarship_name,
+                        tuitionFee,
+                        academicFee,
+                        upkeepFee,
+                        refNo,
+                        semester,
+                        @class,
+                        scholarstic_materials}, this.FnAddScholasticSupportOperationCompleted, userState);
         }
         
         private void OnFnAddScholasticSupportOperationCompleted(object arg) {
             if ((this.FnAddScholasticSupportCompleted != null)) {
                 System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
-                this.FnAddScholasticSupportCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+                this.FnAddScholasticSupportCompleted(this, new FnAddScholasticSupportCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
             }
         }
         
@@ -2816,6 +2849,36 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnCountGrantsNotifications", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnCountGrantsNotifications_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
+        public int FnCountGrantsNotifications(string userNumber) {
+            object[] results = this.Invoke("FnCountGrantsNotifications", new object[] {
+                        userNumber});
+            return ((int)(results[0]));
+        }
+        
+        /// <remarks/>
+        public void FnCountGrantsNotificationsAsync(string userNumber) {
+            this.FnCountGrantsNotificationsAsync(userNumber, null);
+        }
+        
+        /// <remarks/>
+        public void FnCountGrantsNotificationsAsync(string userNumber, object userState) {
+            if ((this.FnCountGrantsNotificationsOperationCompleted == null)) {
+                this.FnCountGrantsNotificationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnCountGrantsNotificationsOperationCompleted);
+            }
+            this.InvokeAsync("FnCountGrantsNotifications", new object[] {
+                        userNumber}, this.FnCountGrantsNotificationsOperationCompleted, userState);
+        }
+        
+        private void OnFnCountGrantsNotificationsOperationCompleted(object arg) {
+            if ((this.FnCountGrantsNotificationsCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnCountGrantsNotificationsCompleted(this, new FnCountGrantsNotificationsCompletedEventArgs(invokeArgs.Results, invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -2944,7 +3007,29 @@ namespace KCDF_P.NAVWS {
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
-    public delegate void FnAddScholasticSupportCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
+    public delegate void FnAddScholasticSupportCompletedEventHandler(object sender, FnAddScholasticSupportCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnAddScholasticSupportCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnAddScholasticSupportCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public bool Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((bool)(this.results[0]));
+            }
+        }
+    }
     
     /// <remarks/>
     [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
@@ -4156,6 +4241,32 @@ namespace KCDF_P.NAVWS {
             get {
                 this.RaiseExceptionIfNecessary();
                 return ((bool)(this.results[0]));
+            }
+        }
+    }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnCountGrantsNotificationsCompletedEventHandler(object sender, FnCountGrantsNotificationsCompletedEventArgs e);
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    [System.Diagnostics.DebuggerStepThroughAttribute()]
+    [System.ComponentModel.DesignerCategoryAttribute("code")]
+    public partial class FnCountGrantsNotificationsCompletedEventArgs : System.ComponentModel.AsyncCompletedEventArgs {
+        
+        private object[] results;
+        
+        internal FnCountGrantsNotificationsCompletedEventArgs(object[] results, System.Exception exception, bool cancelled, object userState) : 
+                base(exception, cancelled, userState) {
+            this.results = results;
+        }
+        
+        /// <remarks/>
+        public int Result {
+            get {
+                this.RaiseExceptionIfNecessary();
+                return ((int)(this.results[0]));
             }
         }
     }

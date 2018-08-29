@@ -43,7 +43,7 @@ namespace KCDF_P
                 
                 LoadGrantsHistory();
                 getProjects();
-                loadIncompleteApplication();
+                //loadIncompleteApplication();
                 myCountyIs();
                // loadObjectivesHere();
                 loadGranteeUploads();
@@ -55,7 +55,7 @@ namespace KCDF_P
                 loadUploads();
                 LoadCurrentProject();
                 LoadMyTargets();
-                checkSubmitYeS();
+               // checkSubmitYeS();
             }
         }
         protected void lblSessionfromMAster()
@@ -476,7 +476,7 @@ namespace KCDF_P
                     KCDFAlert.ShowAlert("Document: " + filName + " uploaded and Saved successfully!");
                    // ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Document: '" + filName + "'successfully uploaded!');", true);
                     loadUploads();
-                    loadIncompleteApplication();
+                    //loadIncompleteApplication();
                     return true;
                 }
 
@@ -839,7 +839,7 @@ namespace KCDF_P
                    //KCDFAlert.ShowAlert("Deleted Successfully!" + uploadsGrantNo + " &&" + del_id);
                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Deleted Succesfully! '" + uploadsGrantNo + "'');", true);
                    loadUploads();
-                   loadIncompleteApplication();
+                   //loadIncompleteApplication();
                }
            //}
            //catch (Exception ex)
@@ -876,10 +876,7 @@ namespace KCDF_P
             {
                 orgPMultiview.SetActiveView(uploadDocs);
             }
-            if (index == 5)
-            {
-                orgPMultiview.SetActiveView(finalSubmit);
-            }
+           
         }
         protected void tblGrantsManager_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
@@ -1017,130 +1014,7 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert(ex.Message);
             }
         }
-        protected void btnValidateInfo_OnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                var tobevalidated = Session["edit_id"].ToString();
-                //KCDFAlert.ShowAlert(tobevalidated);
-                var prj = ddlAccountType.SelectedItem.Text;
-                var usNM = Session["username"].ToString();
-                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-                Portals sup = new Portals();
-                sup.Credentials = credentials;
-                sup.PreAuthenticate = true;
-                bool myValid = sup.FnValidateSubmission(usNM, tobevalidated);
-                switch (myValid)
-                {
-                    case true:
-                    txtValidate.Text = "ALL UPLOADS AVAILABLE";
-                    txtValidate.ForeColor = Color.GhostWhite;
-                    txtValidate.BackColor = Color.ForestGreen;
-                    btnFinalSubmit.Enabled = true;
-                    btnValidateInfo.Enabled = false;
-                    hdnTxtValidit.Value = "isValid";
-                    KCDFAlert.ShowAlert("All Uploads available, you can submit your application: " + hdnTxtValidit.Value);
-                    break;
-
-                    case false:
-                    txtValidate.Text = "PLEASE COMPLETE THE APPLICATION FIRST";
-                    txtValidate.BackColor = Color.Red;
-                    txtValidate.ForeColor = Color.GhostWhite;
-                    btnFinalSubmit.Enabled = false;
-                    hdnTxtValidit.Value = "isInValid";
-                    sup.FnChangeSubmitStatus(tobevalidated, usNM);
-                    KCDFAlert.ShowAlert("No uploads yet!, you cannot submit anything: " + hdnTxtValidit.Value);
-                    break;
-                }
-
-                }
-                    catch (Exception ex)
-                    {
-                        KCDFAlert.ShowAlert(ex.Message);
-                        txtValidate.Text = "PLEASE UPLOAD ALL DOCUMENTS";
-                        txtValidate.BackColor = Color.Red;
-                        txtValidate.ForeColor = Color.GhostWhite;
-                        btnFinalSubmit.Enabled = false;
-                    }
-                }
-        protected void btnFinalSubmit_OnClick(object sender, EventArgs e)
-        {
-            try
-            {
-                var usNM = Session["username"].ToString();
-                var projTtle = ddlAccountType.SelectedItem.Text;
-
-                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-                Portals sup = new Portals();
-                sup.Credentials = credentials;
-                sup.PreAuthenticate = true;
-                bool isSubmitted = sup.FnFinalSubmission(usNM, projTtle);
-
-                switch (isSubmitted)
-                {
-                    case true:
-                        KCDFAlert.ShowAlert("Your Application is Successfully submitted!" + isSubmitted);
-                        loadIncompleteApplication();
-                        break;
-
-                    case false:
-                        KCDFAlert.ShowAlert("Your Application could not submitted!" + isSubmitted);
-                        break;
-
-                }
-            }
-            catch (Exception ex)
-            {
-                KCDFAlert.ShowAlert(ex.Message);
-            }
-
-        }
-        protected void lnkEditMe_OnClick(object sender, EventArgs e)
-        {
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModalSubmit();", true);
-            Session["edit_id"] = (sender as LinkButton).CommandArgument;
-            var validMe = Session["edit_id"].ToString();
-            lblProjNb.Text = validMe;
-
-        }
-
-        protected void checkSubmitYeS()
-        {
-            var usn = Session["username"].ToString();
-            var msubmitted =
-                nav.projectOverview.ToList().Where(us => us.Username == usn && us.Grant_Approval == "Open")
-                    .Select(k =>k.projectisSubmitted).SingleOrDefault();
-            if (msubmitted == true)
-            {
-                btnSumbitFinal.Visible = false;
-                btnSumbitFinal.Enabled = false;
-            }
-            else
-            {
-                btnSumbitFinal.Visible = true;
-                btnSumbitFinal.Enabled = true;
-            }
-        }
-        private void loadIncompleteApplication()
-        {
-            checkSubmitYeS();
-            var usn = Session["username"].ToString();
-            try
-            {
-                var inComp = nav.projectOverview.Where(us=> us.Username == usn && us.Grant_Approval == "Open"  && (us.projectisSubmitted==false)).ToList();
-                gridSubmitApps.AutoGenerateColumns = false;
-                gridSubmitApps.DataSource = inComp;
-                gridSubmitApps.DataBind();
-                
-            }
-            catch (Exception ex)
-            {
-               // KCDFAlert.ShowAlert(ex.Message);
-                gridSubmitApps.EmptyDataText = "No Application data found!";
-            }
-
-        }
+       
         protected void myCountyIs()
         {
             var mycounty = nav.mycountyIs.ToList();
@@ -1367,57 +1241,6 @@ namespace KCDF_P
            // var doR = granteeInfo.Select(dr => Convert.ToDateTime(dr.Date_Registered)).SingleOrDefault();
             txtRegNo.Text = granteeInfo.Select(rg => rg.Registration_No).SingleOrDefault();
          
-        }
-        protected void lnkConfirm_OnClick(object sender, EventArgs e)
-        {
-            var subStatus = hdnTxtValidit.Value;
-            switch (subStatus)
-            {
-                case "isValid":
-                    submitProject();
-                    break;
-                case "isInValid":
-                    KCDFAlert.ShowAlert("You can't cubmit this application, because you have not uploaded all documents!");
-                    break;
-                default:
-                    KCDFAlert.ShowAlert("Please Confirm attachemnts first! " + hdnTxtValidit.Value);
-                    break;
-            }
-
-
-        }
-        protected void submitProject()
-        {
-            try
-            {
-                var usNM = Session["username"].ToString();
-                var projTtle = ddlAccountType.SelectedValue;
-
-                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
-                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-                Portals sup = new Portals();
-                sup.Credentials = credentials;
-                sup.PreAuthenticate = true;
-                bool isSubmitted = sup.FnFinalSubmission(usNM, projTtle);
-
-                switch (isSubmitted)
-                {
-                    case true:
-                        KCDFAlert.ShowAlert("Your Application is Successfully submitted!" + isSubmitted);
-                        loadIncompleteApplication();
-                        break;
-
-                    case false:
-                        KCDFAlert.ShowAlert("Your Application could not submitted!" + isSubmitted);
-                        break;
-
-                }
-            }
-            catch (Exception ex)
-            {
-                KCDFAlert.ShowAlert(ex.Message);
-            }
-
         }
         protected void loadObjectivesHere( string projName)
         {
@@ -1682,7 +1505,7 @@ namespace KCDF_P
 
         protected void btnNext6_OnClick(object sender, EventArgs e)
         {
-          orgPMultiview.SetActiveView(finalSubmit);
+          Response.Redirect("Grantee_Dashboard.aspx");
         }
     }
     }

@@ -45,8 +45,8 @@ namespace KCDF_P
                     string activatemyASS = activatem.Select(r => r.Activation_Code).SingleOrDefault();
                     if (sup.FnActivateConsultant(activatemyASS) == true)
                     {
-                        ltMessage.Text = "Your Acount has been activated successfully!";
-                        InsertToActivationDB(myusername, activationCode);
+                        //ltMessage.Text = "Your Acount has been activated successfully!";
+                        ActivatedfromDB(activationCode);
                     }
                     else
                     {
@@ -68,6 +68,33 @@ namespace KCDF_P
             string ActivationUrl = string.Empty;
             ActivationUrl = System.Web.HttpContext.Current.Request.Url.GetLeftPart(UriPartial.Authority) +"/Default.aspx";
             Response.Redirect(ActivationUrl);
+        }
+
+        public void ActivatedfromDB(string actiVCode)
+        {
+            using (SqlConnection con = new SqlConnection(strSQLConn))
+            {
+                using (SqlCommand cmd = new SqlCommand("DELETE FROM UserActivation WHERE ActivationCode = @ActivationCode"))
+                {
+                    using (SqlDataAdapter sda = new SqlDataAdapter())
+                    {
+                        cmd.CommandType = CommandType.Text;
+                        cmd.Parameters.AddWithValue("@ActivationCode", actiVCode);
+                        cmd.Connection = con;
+                        con.Open();
+                        int rowsAffected = cmd.ExecuteNonQuery();
+                        con.Close();
+                        if (rowsAffected == 1)
+                        {
+                            ltMessage.Text = "Your Acount has been activated successfully.";
+                        }
+                        else
+                        {
+                            ltMessage.Text = "Invalid Activation code.";
+                        }
+                    }
+                }
+            }
         }
         public void InsertToActivationDB(string userName, string ActvCode)
         {

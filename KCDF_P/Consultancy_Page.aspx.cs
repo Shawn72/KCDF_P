@@ -16,6 +16,7 @@ using KCDF_P.NAVWS;
 using System.IO;
 using System.Security.Principal;
 using System.Text;
+using System.Web.Security;
 
 namespace KCDF_P
 {
@@ -38,9 +39,13 @@ namespace KCDF_P
         [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
-            NoCache();
-            if (!IsPostBack)
+            if (!this.Page.User.Identity.IsAuthenticated)
             {
+                FormsAuthentication.RedirectToLoginPage();
+            }
+            else
+            {
+                NoCache();
                 if (Session["username"] == null)
                 {
                     Response.Redirect("~/Default.aspx");
@@ -48,10 +53,10 @@ namespace KCDF_P
                 }
                 if (!IsPostBack)
                 {
-                    loadProfPic();
-                    returnConsultancy();
+                    LoadProfPic();
+                    ReturnConsultancy();
                     getPostaCodes();
-                    checkSessX();
+                    CheckSessX();
                     getProjects();
                     LoadMYProfile();
                     LoadmyApplications();
@@ -68,7 +73,7 @@ namespace KCDF_P
             Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
         }
-        public void checkSessX()
+        public void CheckSessX()
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             if (!this.IsPostBack)
@@ -80,12 +85,12 @@ namespace KCDF_P
                 ClientScript.RegisterStartupScript(this.GetType(), "SessionAlert", "SessionExpireAlert(" + timeout + ");", true);
             }
         }
-        protected ConsultantClass returnConsultancy()
+        protected ConsultantClass ReturnConsultancy()
         {
             return new ConsultantClass(User.Identity.Name);
             //return new ConsultantClass(Session["username"].ToString());
         }
-        protected void loadProfPic()
+        protected void LoadProfPic()
         {
             try
             {

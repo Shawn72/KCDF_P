@@ -56,7 +56,7 @@ namespace KCDF_P
                 }
                 else
                 {
-                    checkSessX();
+                    CheckSessX();
                     returnGrantee();
                     loadMyProjects();
                     myCountyIs();
@@ -65,6 +65,8 @@ namespace KCDF_P
                     clearCache();
                     lblUsernameIS.Text = Convert.ToString(Session["username"]);
                     lblSessionfromMAster();
+                    MyReporting();
+                    GetMyMatrix();
                 }
                 
             }
@@ -112,7 +114,7 @@ namespace KCDF_P
             lblMastersession.Text = lblUsernameIS.Text;
         }
 
-        public void checkSessX()
+        public void CheckSessX()
         {
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             if (!this.IsPostBack)
@@ -470,6 +472,178 @@ namespace KCDF_P
             process = Process.Start(processInfo);
             process.WaitForExit();
         }
-        
+
+        protected void btnValidateInfo_OnClick(object sender, EventArgs e)
+        {
+            try
+            {
+                var tobevalidated = Session["edit_id"].ToString();
+                //KCDFAlert.ShowAlert(tobevalidated);var prj = ddlAccountType.SelectedItem.Text;
+                var usNM = Session["username"].ToString();
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                bool myValid = sup.FnValidateSubmission(usNM, tobevalidated);
+                switch (myValid)
+                {
+                    case true:
+                        txtValidate.Text = "ALL UPLOADS AVAILABLE";
+                        txtValidate.ForeColor = Color.GhostWhite;
+                        txtValidate.BackColor = Color.ForestGreen;
+                      //  btnFinalSubmit.Enabled = true;
+                        btnValidateInfo.Enabled = false;
+                        hdnTxtValidit.Value = "isValid";
+                        KCDFAlert.ShowAlert("All Uploads available, you can submit your application: " + hdnTxtValidit.Value);
+                        break;
+
+                    case false:
+                        txtValidate.Text = "PLEASE COMPLETE THE APPLICATION FIRST";
+                        txtValidate.BackColor = Color.Red;
+                        txtValidate.ForeColor = Color.GhostWhite;
+                      //  btnFinalSubmit.Enabled = false;
+                        hdnTxtValidit.Value = "isInValid";
+                        sup.FnChangeSubmitStatus(tobevalidated, usNM);
+                        KCDFAlert.ShowAlert("No uploads yet!, you cannot submit anything: " + hdnTxtValidit.Value);
+                        break;
+                }
+
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
+                txtValidate.Text = "PLEASE UPLOAD ALL DOCUMENTS";
+                txtValidate.BackColor = Color.Red;
+                txtValidate.ForeColor = Color.GhostWhite;
+                //btnFinalSubmit.Enabled = false;
+            }
+        }
+       protected void lnkEditMe_OnClick(object sender, EventArgs e)
+        {
+            ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModalSubmit();", true);
+            Session["edit_id"] = (sender as LinkButton).CommandArgument;
+            var validMe = Session["edit_id"].ToString();
+            lblProjNb.Text = validMe;
+
+        }
+
+        protected void lnkConfirm_OnClick(object sender, EventArgs e)
+        {
+            var subStatus = hdnTxtValidit.Value;
+            var projectRfN = (sender as LinkButton).CommandArgument;
+            switch (subStatus)
+            {
+                case "isValid":
+                    submitProject(projectRfN);
+                    break;
+                case "isInValid":
+                    KCDFAlert.ShowAlert("You can't submit this application, because you have not uploaded all documents!");
+                    break;
+                default:
+                    KCDFAlert.ShowAlert("Please Confirm attachments first! " + hdnTxtValidit.Value);
+                    break;
+            }
+
+
+        }
+        protected void submitProject(string projNo)
+        {
+            try
+            {
+                var usNM = Session["username"].ToString();
+
+                var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                    ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+                Portals sup = new Portals();
+                sup.Credentials = credentials;
+                sup.PreAuthenticate = true;
+                bool isSubmitted = sup.FnFinalSubmission(usNM, projNo);
+
+                switch (isSubmitted)
+                {
+                    case true:
+                        KCDFAlert.ShowAlert("Your Application is Successfully submitted!" + isSubmitted);
+                       // loadIncompleteApplication();
+                        break;
+
+                    case false:
+                        KCDFAlert.ShowAlert("Your Application could not submitted!" + isSubmitted);
+                        break;
+
+                }
+            }
+            catch (Exception ex)
+            {
+                KCDFAlert.ShowAlert(ex.Message);
+            }
+
+        }
+
+        protected void MyReporting()
+        {
+            var repo = nav.reportingDocs.ToList().Where(r => r.Username == Session["username"].ToString());
+
+            gridviewUploadedRepos.AutoGenerateColumns = false;
+            gridviewUploadedRepos.DataSource = repo;
+            gridviewUploadedRepos.DataBind();
+        }
+
+        protected void GetMyMatrix()
+        {
+            var matrx = nav.pocasnMAtrix.ToList().Where(o => o.Username == Session["username"].ToString());
+            gridMatrixPocas.AutoGenerateColumns = false;
+            gridMatrixPocas.DataSource = matrx;
+            gridMatrixPocas.DataBind();
+        }
+        protected void lnkReupload_OnClick(object sender, EventArgs e)
+        {
+            var entryId = (sender as LinkButton).CommandArgument;
+            TaskType(entryId);
+        }
+
+        protected void lnkReuploadMatr_OnClick(object sender, EventArgs e)
+        {
+            Response.Redirect("UploadFiles_Grants.aspx");
+        }
+        protected void TaskType(string taskentryNo)
+        {
+            var typeOpt =
+                nav.reportingDocs.ToList().Where(n => n.No == taskentryNo).Select(op => op.Document_Kind).SingleOrDefault();
+
+            switch (typeOpt)
+            {
+                case "NARRATIVE":
+                    Session["typeoftask"] = "Narrative";
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "FINANCIAL":
+                    Session["typeoftask"] = "Financial";
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "DATA":
+                    Session["typeoftask"] = "Data";
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "INDICATOR MATRIX":
+                    Session["typeoftask"] = "Indicator Matrix";
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "POCA TOOL":
+                    Session["typeoftask"] = "POCA Tool";
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "OTHER":
+                    Session["typeoftask"] = "Other";
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+            }
+
+        }
     }
 }

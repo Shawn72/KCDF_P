@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
@@ -24,17 +25,24 @@ namespace KCDF_P
        
         protected void Page_Load(object sender, EventArgs e)
         {
-            NoCache();
-            if (!IsPostBack)
+            if (!this.Page.User.Identity.IsAuthenticated)
             {
-                if (Session["username"] == null)
+                FormsAuthentication.RedirectToLoginPage();
+            }
+            else
+            {
+                NoCache();
+                if (!IsPostBack)
                 {
-                    Response.Redirect("~/Default.aspx");
+                    if (Session["username"] == null)
+                    {
+                        Response.Redirect("~/Default.aspx");
 
+                    }
+                    returnCustomer();
+                    loadProfPic();
+                    LoadMyApplications();
                 }
-                returnCustomer();
-                loadProfPic();
-                LoadMyApplications();
             }
         }
         public void NoCache()

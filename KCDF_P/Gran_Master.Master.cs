@@ -1,17 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using KCDF_P.NavOData;
+using KCDF_P.NAVWS;
 
 namespace KCDF_P
 {
     public partial class Gran_Master : System.Web.UI.MasterPage
     {
+        public NAV nav = new NAV(new Uri(ConfigurationManager.AppSettings["ODATA_URI"]))
+        {
+            Credentials =
+              new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
+                  ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
+        };
         protected void Page_Load(object sender, EventArgs e)
         {
-           // getURL();
+            // getURL();
+            GetNotification();
         }
        
         protected void lnkBtnChangeP_OnClick(object sender, EventArgs e)
@@ -28,13 +39,25 @@ namespace KCDF_P
         }
         protected void lnkDashboard_OnClick(object sender, EventArgs e)
         {
-            Response.ApplyAppPathModifier("~/Grantee_Dashboard.aspx");
+            Response.Redirect("~/Grantee_Dashboard.aspx");
         }
 
         protected void lnkLogout_OnClick(object sender, EventArgs e)
         {
             Response.Redirect("~/Logout.aspx");
             //Response.ApplyAppPathModifier("~/Default.aspx");
+        }
+
+        protected void GetNotification()
+        {
+            //int nots = nav.tasks.ToList().Where(n => n.User_Number == Grantees.No).Count();
+
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            int nots = sup.FnCountGrantsNotifications(Grantees.No);
+            lblNots.Text= nots.ToString();
         }
     }
 }
