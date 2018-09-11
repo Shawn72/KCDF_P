@@ -176,6 +176,7 @@ namespace KCDF_P
             string callRefNo, string attachedBlob)
         {
             var usaname = Session["username"].ToString();
+            var taskNum = Session["tasknumber"].ToString();
             int granttype = 0;
             var userNumber = "";
             var myyearP = "";
@@ -279,6 +280,7 @@ namespace KCDF_P
                 // loadUploads();
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything",
                     "alert('Document: '" + filName + "'successfully uploaded!');", true);
+                sup.FnFullfillTask(taskNum);
                 return true;
             }
             return false;
@@ -599,10 +601,14 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc);
-                appComm.InnerText = "Uploaded!";
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
+                {
+                    KCDFAlert.ShowAlert("File Uploaded!");
+                    appComm.InnerText = "Uploaded!";
+                    Session.Remove("typeoftask");
+                    return;
+                }
 
-                // loadUploads();
             }
             else
             {
@@ -676,10 +682,13 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc);
-                lblSchRepo.InnerText = "Uploaded!";
-
-                // loadUploads();
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
+                {
+                    KCDFAlert.ShowAlert("File uploaded!");
+                    lblSchRepo.InnerText = "Uploaded!";
+                    Session.Remove("typeoftask");
+                    return;
+                }
             }
             else
             {
@@ -705,7 +714,7 @@ namespace KCDF_P
         {
             //try
             //{
-            var documentKind = "Consultancy Report";
+            const string documentKind = "Consultancy Report";
             var refNoIs = txtPrefNo.Text;
             var usnn = "";
 
@@ -753,10 +762,13 @@ namespace KCDF_P
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
 
-                SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc);
-                lblCons.InnerText = "Uploaded!";
-
-                // loadUploads();
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
+                {
+                    KCDFAlert.ShowAlert("File Uploaded!");
+                    lblCons.InnerText = "Uploaded!";
+                    Session.Remove("typeoftask");
+                    return;
+                }
             }
             else
             {
@@ -795,18 +807,90 @@ namespace KCDF_P
                     myData.Visible = true;
                     break;
 
-                case "Indicator Matrix":
-
-                    break;
-
-                case "POCA Tool":
-
-                    break;
-
-                case "Other":
-
+                default:
+                    generalUploads.Visible = true;
                     break;
             }
+        }
+
+        protected void btnUploadGeneral_OnClick(object sender, EventArgs e)
+        {
+
+            //try
+            //{
+            const string documentKind = "General Upload";
+            var refNoIs = txtPrefNo.Text;
+            var usnn = "";
+
+            var sessx = Session["reportformUser"].ToString();
+            switch (sessx)
+            {
+                case "iamGrantee":
+                    usnn = Grantees.No;
+                    break;
+                case "iamStudent":
+                    usnn = Students.No;
+                    break;
+                case "iamConsult":
+                    usnn = ConsultantClass.No;
+                    break;
+            }
+
+
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + usnn + @"\";
+            string fileName = Path.GetFileName(FileUploadGeneral.PostedFile.FileName);
+            string ext = Path.GetExtension(FileUploadGeneral.PostedFile.FileName);
+            if (!Directory.Exists(uploadsFolder))
+            {
+                //if the folder doesnt exist create it
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            if (FileUploadGeneral.PostedFile.ContentLength > 5000000)
+            {
+                KCDFAlert.ShowAlert("Select a file less than 5MB!");
+                return;
+            }
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
+                (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
+            {
+
+                string filenames = usnn + "_" + fileName;
+                FileUploadGeneral.SaveAs(uploadsFolder + filenames);
+
+                //file path to read file
+                string filePath = uploadsFolder + filenames;
+                FileStream file = File.OpenRead(filePath);
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+                file.Close();
+                string attachedDoc = Convert.ToBase64String(buffer);
+
+                if (SaveAttachment(UserNo, filenames, ext, documentKind, refNoIs, attachedDoc) == true)
+                {
+                    KCDFAlert.ShowAlert("File Uploaded!");
+                    lblGeneral.InnerText = "Uploaded!";
+                    Session.Remove("typeoftask");
+                }
+            }
+            else
+            {
+                KCDFAlert.ShowAlert("File Format is : " + ext +
+                                    "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!");
+
+            }
+            if (!FileUploadGeneral.HasFile)
+            {
+                KCDFAlert.ShowAlert("Select Document before uploading");
+                return;
+            }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    KCDFAlert.ShowAlert("Unkown Error Occured!");
+            //    // KCDFAlert.ShowAlert(ex.Message);
+            //}
         }
     }
 }

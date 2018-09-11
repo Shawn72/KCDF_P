@@ -142,7 +142,7 @@
             <asp:BoundField DataField="Document_Name" HeaderText="File Name" />
                <asp:TemplateField HeaderText="Action">
                     <ItemTemplate>
-                        <asp:LinkButton ID="lnkReuploadMatr" Text="Re-Upload Document" runat="server" OnClick="lnkReuploadMatr_OnClick"></asp:LinkButton>
+                        <asp:LinkButton ID="lnkReuploadMatr" Text="Re-Upload Document" CommandArgument='<%# Eval("Id") %>' CommandName="lnkReupload" runat="server" OnClick="lnkReuploadMatr_OnClick"></asp:LinkButton>
                     </ItemTemplate>
                 </asp:TemplateField>
                

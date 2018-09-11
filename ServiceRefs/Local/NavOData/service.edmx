@@ -3696,6 +3696,16 @@
         <Property Name="Project_Name" Type="Edm.String" />
         <Property Name="ProjCallRefNo" Type="Edm.String" />
       </EntityType>
+      <EntityType Name="pocasnMAtrix">
+        <Key>
+          <PropertyRef Name="Id" />
+        </Key>
+        <Property Name="Id" Type="Edm.String" Nullable="false" />
+        <Property Name="Document_Name" Type="Edm.String" />
+        <Property Name="Document_Kind" Type="Edm.String" />
+        <Property Name="Username" Type="Edm.String" />
+        <Property Name="Project_Name" Type="Edm.String" />
+      </EntityType>
       <EntityType Name="profile_Pics">
         <Key>
           <PropertyRef Name="AuxiliaryIndex1" />
@@ -3758,6 +3768,19 @@
         <Property Name="Document_Type" Type="Edm.String" />
         <Property Name="Document_Kind" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="reportingDocs">
+        <Key>
+          <PropertyRef Name="No" />
+        </Key>
+        <Property Name="No" Type="Edm.String" Nullable="false" />
+        <Property Name="Project_Year" Type="Edm.String" />
+        <Property Name="User_Number" Type="Edm.String" />
+        <Property Name="Username" Type="Edm.String" />
+        <Property Name="Document_Name" Type="Edm.String" />
+        <Property Name="Document_Kind" Type="Edm.String" />
+        <Property Name="Project_Title" Type="Edm.String" />
+        <Property Name="Project_Quarter" Type="Edm.String" />
       </EntityType>
       <EntityType Name="SalesDashboard">
         <Key>
@@ -3940,6 +3963,25 @@
         <Property Name="Project_Number" Type="Edm.String" />
         <Property Name="ProjCallRefNo" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.String" Nullable="false" />
+      </EntityType>
+      <EntityType Name="tasks">
+        <Key>
+          <PropertyRef Name="Amount" />
+          <PropertyRef Name="AuxiliaryIndex1" />
+          <PropertyRef Name="Condition" />
+          <PropertyRef Name="Grant_No" />
+          <PropertyRef Name="Project" />
+        </Key>
+        <Property Name="Project" Type="Edm.String" Nullable="false" />
+        <Property Name="Due_Date" Type="Edm.DateTime" />
+        <Property Name="Amount" Type="Edm.Decimal" Nullable="false" />
+        <Property Name="Condition" Type="Edm.String" Nullable="false" />
+        <Property Name="Grant_No" Type="Edm.String" Nullable="false" />
+        <Property Name="User_Number" Type="Edm.String" />
+        <Property Name="Entry_No" Type="Edm.String" />
+        <Property Name="Condition_FullFilled" Type="Edm.Boolean" />
+        <Property Name="Task_Type" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.Boolean" Nullable="false" />
       </EntityType>
       <EntityType Name="TopCustomerOverview">
         <Key>
@@ -4863,10 +4905,12 @@
         <NavigationProperty Name="myScholaruploads" Relationship="NAV.Company_myScholaruploads" ToRole="myScholaruploads" FromRole="Company" />
         <NavigationProperty Name="mysubCountyIs" Relationship="NAV.Company_mysubCountyIs" ToRole="mysubCountyIs" FromRole="Company" />
         <NavigationProperty Name="myUploads" Relationship="NAV.Company_myUploads" ToRole="myUploads" FromRole="Company" />
+        <NavigationProperty Name="pocasnMAtrix" Relationship="NAV.Company_pocasnMAtrix" ToRole="pocasnMAtrix" FromRole="Company" />
         <NavigationProperty Name="profile_Pics" Relationship="NAV.Company_profile_Pics" ToRole="profile_Pics" FromRole="Company" />
         <NavigationProperty Name="project_objectives" Relationship="NAV.Company_project_objectives" ToRole="project_objectives" FromRole="Company" />
         <NavigationProperty Name="projectOverview" Relationship="NAV.Company_projectOverview" ToRole="projectOverview" FromRole="Company" />
         <NavigationProperty Name="ReportingAttached" Relationship="NAV.Company_ReportingAttached" ToRole="ReportingAttached" FromRole="Company" />
+        <NavigationProperty Name="reportingDocs" Relationship="NAV.Company_reportingDocs" ToRole="reportingDocs" FromRole="Company" />
         <NavigationProperty Name="SalesDashboard" Relationship="NAV.Company_SalesDashboard" ToRole="SalesDashboard" FromRole="Company" />
         <NavigationProperty Name="SalesOpportunities" Relationship="NAV.Company_SalesOpportunities" ToRole="SalesOpportunities" FromRole="Company" />
         <NavigationProperty Name="SalesOrdersBySalesPerson" Relationship="NAV.Company_SalesOrdersBySalesPerson" ToRole="SalesOrdersBySalesPerson" FromRole="Company" />
@@ -4875,6 +4919,7 @@
         <NavigationProperty Name="studeBanks" Relationship="NAV.Company_studeBanks" ToRole="studeBanks" FromRole="Company" />
         <NavigationProperty Name="studentsRegister" Relationship="NAV.Company_studentsRegister" ToRole="studentsRegister" FromRole="Company" />
         <NavigationProperty Name="target_Groups" Relationship="NAV.Company_target_Groups" ToRole="target_Groups" FromRole="Company" />
+        <NavigationProperty Name="tasks" Relationship="NAV.Company_tasks" ToRole="tasks" FromRole="Company" />
         <NavigationProperty Name="TopCustomerOverview" Relationship="NAV.Company_TopCustomerOverview" ToRole="TopCustomerOverview" FromRole="Company" />
         <NavigationProperty Name="uniBanks" Relationship="NAV.Company_uniBanks" ToRole="uniBanks" FromRole="Company" />
         <NavigationProperty Name="workplanQ" Relationship="NAV.Company_workplanQ" ToRole="workplanQ" FromRole="Company" />
@@ -5243,6 +5288,10 @@
         <End Type="NAV.myUploads" Role="myUploads" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_pocasnMAtrix">
+        <End Type="NAV.pocasnMAtrix" Role="pocasnMAtrix" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_profile_Pics">
         <End Type="NAV.profile_Pics" Role="profile_Pics" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
@@ -5257,6 +5306,10 @@
       </Association>
       <Association Name="Company_ReportingAttached">
         <End Type="NAV.ReportingAttached" Role="ReportingAttached" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_reportingDocs">
+        <End Type="NAV.reportingDocs" Role="reportingDocs" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_SalesDashboard">
@@ -5289,6 +5342,10 @@
       </Association>
       <Association Name="Company_target_Groups">
         <End Type="NAV.target_Groups" Role="target_Groups" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_tasks">
+        <End Type="NAV.tasks" Role="tasks" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
       <Association Name="Company_TopCustomerOverview">
@@ -5518,10 +5575,12 @@
         <EntitySet Name="myScholaruploads" EntityType="NAV.myScholaruploads" />
         <EntitySet Name="mysubCountyIs" EntityType="NAV.mysubCountyIs" />
         <EntitySet Name="myUploads" EntityType="NAV.myUploads" />
+        <EntitySet Name="pocasnMAtrix" EntityType="NAV.pocasnMAtrix" />
         <EntitySet Name="profile_Pics" EntityType="NAV.profile_Pics" />
         <EntitySet Name="project_objectives" EntityType="NAV.project_objectives" />
         <EntitySet Name="projectOverview" EntityType="NAV.projectOverview" />
         <EntitySet Name="ReportingAttached" EntityType="NAV.ReportingAttached" />
+        <EntitySet Name="reportingDocs" EntityType="NAV.reportingDocs" />
         <EntitySet Name="SalesDashboard" EntityType="NAV.SalesDashboard" />
         <EntitySet Name="SalesOpportunities" EntityType="NAV.SalesOpportunities" />
         <EntitySet Name="SalesOrdersBySalesPerson" EntityType="NAV.SalesOrdersBySalesPerson" />
@@ -5530,6 +5589,7 @@
         <EntitySet Name="studeBanks" EntityType="NAV.studeBanks" />
         <EntitySet Name="studentsRegister" EntityType="NAV.studentsRegister" />
         <EntitySet Name="target_Groups" EntityType="NAV.target_Groups" />
+        <EntitySet Name="tasks" EntityType="NAV.tasks" />
         <EntitySet Name="TopCustomerOverview" EntityType="NAV.TopCustomerOverview" />
         <EntitySet Name="uniBanks" EntityType="NAV.uniBanks" />
         <EntitySet Name="workplanQ" EntityType="NAV.workplanQ" />
@@ -5898,6 +5958,10 @@
           <End Role="Company" EntitySet="Company" />
           <End Role="myUploads" EntitySet="myUploads" />
         </AssociationSet>
+        <AssociationSet Name="Company_pocasnMAtrix_pocasnMAtrix" Association="NAV.Company_pocasnMAtrix">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="pocasnMAtrix" EntitySet="pocasnMAtrix" />
+        </AssociationSet>
         <AssociationSet Name="Company_profile_Pics_profile_Pics" Association="NAV.Company_profile_Pics">
           <End Role="Company" EntitySet="Company" />
           <End Role="profile_Pics" EntitySet="profile_Pics" />
@@ -5913,6 +5977,10 @@
         <AssociationSet Name="Company_ReportingAttached_ReportingAttached" Association="NAV.Company_ReportingAttached">
           <End Role="Company" EntitySet="Company" />
           <End Role="ReportingAttached" EntitySet="ReportingAttached" />
+        </AssociationSet>
+        <AssociationSet Name="Company_reportingDocs_reportingDocs" Association="NAV.Company_reportingDocs">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="reportingDocs" EntitySet="reportingDocs" />
         </AssociationSet>
         <AssociationSet Name="Company_SalesDashboard_SalesDashboard" Association="NAV.Company_SalesDashboard">
           <End Role="Company" EntitySet="Company" />
@@ -5945,6 +6013,10 @@
         <AssociationSet Name="Company_target_Groups_target_Groups" Association="NAV.Company_target_Groups">
           <End Role="Company" EntitySet="Company" />
           <End Role="target_Groups" EntitySet="target_Groups" />
+        </AssociationSet>
+        <AssociationSet Name="Company_tasks_tasks" Association="NAV.Company_tasks">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="tasks" EntitySet="tasks" />
         </AssociationSet>
         <AssociationSet Name="Company_TopCustomerOverview_TopCustomerOverview" Association="NAV.Company_TopCustomerOverview">
           <End Role="Company" EntitySet="Company" />

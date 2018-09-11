@@ -193,6 +193,42 @@ namespace KCDF_P {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblData;
         
         /// <summary>
+        /// generalUploads control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl generalUploads;
+        
+        /// <summary>
+        /// FileUploadGeneral control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.FileUpload FileUploadGeneral;
+        
+        /// <summary>
+        /// btnUploadGeneral control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnUploadGeneral;
+        
+        /// <summary>
+        /// lblGeneral control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblGeneral;
+        
+        /// <summary>
         /// amScholar control.
         /// </summary>
         /// <remarks>

@@ -77,31 +77,37 @@ namespace KCDF_P
             {
                 case "Narrative":
                     Session["typeoftask"] = "Narrative";
+                    Session["tasknumber"] = taskentryNo;
                     Response.Redirect("Report_Form.aspx");
                     break;
 
                 case "Financial":
                     Session["typeoftask"] = "Financial";
+                    Session["tasknumber"] = taskentryNo;
                     Response.Redirect("Report_Form.aspx");
                     break;
 
                 case "Data":
                     Session["typeoftask"] = "Data";
+                    Session["tasknumber"] = taskentryNo;
                     Response.Redirect("Report_Form.aspx");
                     break;
 
                 case "Indicator Matrix":
                     Session["typeoftask"] = "Indicator Matrix";
-                    Response.Redirect("Report_Form.aspx");
+                    Session["tasknumber"] = taskentryNo;
+                    Response.Redirect("UploadFiles_Grants.aspx");
                     break;
 
                 case "POCA Tool":
                     Session["typeoftask"] = "POCA Tool";
-                    Response.Redirect("Report_Form.aspx");
+                    Session["tasknumber"] = taskentryNo;
+                    Response.Redirect("UploadFiles_Grants.aspx");
                     break;
 
                 case "Other":
                     Session["typeoftask"] = "Other";
+                    Session["tasknumber"] = taskentryNo;
                     Response.Redirect("Report_Form.aspx");
                     break;
 

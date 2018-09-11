@@ -534,7 +534,7 @@ namespace KCDF_P
             switch (subStatus)
             {
                 case "isValid":
-                    submitProject(projectRfN);
+                    SubmitProject(projectRfN);
                     break;
                 case "isInValid":
                     KCDFAlert.ShowAlert("You can't submit this application, because you have not uploaded all documents!");
@@ -546,18 +546,18 @@ namespace KCDF_P
 
 
         }
-        protected void submitProject(string projNo)
+        protected void SubmitProject(string projNo)
         {
             try
             {
-                var usNM = Session["username"].ToString();
+                var usNm = Session["username"].ToString();
 
                 var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                     ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
                 Portals sup = new Portals();
                 sup.Credentials = credentials;
                 sup.PreAuthenticate = true;
-                bool isSubmitted = sup.FnFinalSubmission(usNM, projNo);
+                bool isSubmitted = sup.FnFinalSubmission(usNm, projNo);
 
                 switch (isSubmitted)
                 {
@@ -603,7 +603,8 @@ namespace KCDF_P
 
         protected void lnkReuploadMatr_OnClick(object sender, EventArgs e)
         {
-            Response.Redirect("UploadFiles_Grants.aspx");
+            var entryId = (sender as LinkButton).CommandArgument;
+            TaskTypeinMatrix(entryId);
         }
         protected void TaskType(string taskentryNo)
         {
@@ -629,15 +630,41 @@ namespace KCDF_P
 
                 case "INDICATOR MATRIX":
                     Session["typeoftask"] = "Indicator Matrix";
-                    Response.Redirect("Report_Form.aspx");
+                    Response.Redirect("UploadFiles_Grants.aspx");
                     break;
 
                 case "POCA TOOL":
                     Session["typeoftask"] = "POCA Tool";
+                    Response.Redirect("UploadFiles_Grants.aspx");
+                    break;
+
+                default:
+                    Session["typeoftask"] = "Other";
                     Response.Redirect("Report_Form.aspx");
                     break;
 
-                case "OTHER":
+            }
+
+        }
+
+        protected void TaskTypeinMatrix(string taskentryNo)
+        {
+            var typeOpt =
+                nav.pocasnMAtrix.ToList().Where(n => n.Id == taskentryNo).Select(op => op.Document_Kind).SingleOrDefault();
+
+            switch (typeOpt)
+            {
+                case "INDICATOR MATRIX":
+                    Session["typeoftask"] = "Indicator Matrix";
+                    Response.Redirect("UploadFiles_Grants.aspx");
+                    break;
+
+                case "POCA TOOL":
+                    Session["typeoftask"] = "POCA Tool";
+                    Response.Redirect("UploadFiles_Grants.aspx");
+                    break;
+
+                default:
                     Session["typeoftask"] = "Other";
                     Response.Redirect("Report_Form.aspx");
                     break;

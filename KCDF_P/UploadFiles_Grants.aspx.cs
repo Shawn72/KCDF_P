@@ -29,10 +29,11 @@ namespace KCDF_P
             }
             if (!IsPostBack)
             {
-                loadView();
+                LoadView();
                 loadUploads();
                 LoadMyMatrixUploads();
                 GetProjects();
+                SetMySessionItemView();
             }
             
         }
@@ -46,7 +47,7 @@ namespace KCDF_P
             Response.End();
         }
 
-        protected void loadView()
+        protected void LoadView()
         {
             multiVDlds.SetActiveView(GranteesViewId);
         }
@@ -135,7 +136,7 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    saveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
+                    SaveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
                     LoadMyMatrixUploads();
                 }
                 else
@@ -158,10 +159,11 @@ namespace KCDF_P
 
         }
 
-        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo, string attachedBLOB)
+        protected void SaveAttachment(string filName, string extension, string docKind, string callRefNo, string attachedBlob)
         {
             var usNo = nav.grantees_Register.ToList().Where(usr => usr.Organization_Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
             var usaname = Session["username"].ToString();
+            var taskNum = Session["tasknumber"].ToString();
             var prjct = ddlAccountType.SelectedItem.Text;
 
             // string fullFPath = Request.PhysicalApplicationPath + "All Uploads\\" + Grantees.No + @"\" + filName;
@@ -172,7 +174,7 @@ namespace KCDF_P
             // string urI =;
 
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
-            int granttype = 1;
+            const int granttype = 1;
             string docType = "";
             if ((extension == ".jpg") || (extension == ".jpeg") || (extension == ".png"))
             {
@@ -205,9 +207,10 @@ namespace KCDF_P
                     Portals sup = new Portals();
                     sup.Credentials = credentials;
                     sup.PreAuthenticate = true;
-                    if (sup.FnAttachMatrixx(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo, attachedBLOB) == true)
+                    if (sup.FnAttachMatrixx(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo, attachedBlob) == true)
                     {
                      ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Document: "+ filName + " uploaded and Saved successfully!');", true);
+                     sup.FnFullfillTask(taskNum);
                     }
                     break;
                }
@@ -223,7 +226,7 @@ namespace KCDF_P
         {
             try
             {
-                var documentKind = "INDICATOR MATRIX";
+                const string documentKind = "INDICATOR MATRIX";
                 var refNoIs = txtPrefNo.Text;
 
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
@@ -253,7 +256,7 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    saveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
+                    SaveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
                     LoadMyMatrixUploads();
                 }
                 else
@@ -314,22 +317,41 @@ namespace KCDF_P
             }
         }
         protected void ddlAccountType_OnSelectedIndexChanged(object sender, EventArgs e)
-                {
-                    int slVal = ddlAccountType.SelectedIndex;
-                    switch (slVal)
-                    {
-                        case 0:
-                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Select valid project from dropdownlist!');", true);
-                            txtPrefNo.Text = "";
-                            break;
-                        default:
-                            txtPrefNo.Text = ddlAccountType.SelectedValue;
-                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
-                            break;
-                    }
+        {
+            int slVal = ddlAccountType.SelectedIndex;
+            switch (slVal)
+            {
+                case 0:
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Select valid project from dropdownlist!');", true);
+                    txtPrefNo.Text = "";
+                    break;
+                default:
+                    txtPrefNo.Text = ddlAccountType.SelectedValue;
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
+                    break;
+            }
            
-                }
-       
-    }
+        }
+
+        protected void SetMySessionItemView()
+        {
+            var typeOpt = Session["typeoftask"].ToString();
+            switch (typeOpt)
+            {
+                case "Indicator Matrix":
+                    matrixAssID.Visible = true;
+                    break;
+
+                case "POCA Tool":
+                    pocaAssID.Visible = true;
+                    break;
+
+                case "Other":
+
+                    break;
+            }
+        }
+
+     }
 
 }

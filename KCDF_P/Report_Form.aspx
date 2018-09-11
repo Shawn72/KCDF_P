@@ -116,6 +116,23 @@
                                             </div>
                                             <br/>
                                  </div> 
+                                    
+                                 <div class="col-md-12" runat="server" ID="generalUploads" Visible="false">
+                                    <div class="form-group">
+                                    <div class="col-md-4">
+                                        <label class="control-label alert-info" style="font-weight: bold;">General Uploads</label>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <asp:FileUpload ID="FileUploadGeneral" runat="server" CssClass="btn btn-success pull-left btn-sm" /> &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+                                        <asp:Button ID="btnUploadGeneral" runat="server" CssClass="btn btn-primary btn-sm" Text="Upload File" OnClick="btnUploadGeneral_OnClick" />
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label style="color: green; font-weight:bold" runat="server" id="lblGeneral"></label>
+                                    </div>
+                                        </div>
+                                        <br/>
+                                     </div>
+
                                 </asp:View>
 
                                 <asp:View runat="server" ID="amScholar">

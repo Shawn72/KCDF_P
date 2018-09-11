@@ -61,7 +61,7 @@
             </div>
             <br/>
 
-            <div class="col-md-12">
+            <div class="col-md-12" runat="server" ID="pocaAssID" Visible="False">
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-5">
@@ -76,7 +76,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="col-md-12" runat="server" ID="matrixAssID" Visible="False">
                 <div class="row">
                     <div class="form-group">
                         <div class="col-md-5">

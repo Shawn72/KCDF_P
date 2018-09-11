@@ -1113,6 +1113,18 @@
           </sequence>
         </complexType>
       </element>
+      <element name="FnFullfillTask">
+        <complexType>
+          <sequence>
+            <element minOccurs="1" maxOccurs="1" name="taskNo" type="string" />
+          </sequence>
+        </complexType>
+      </element>
+      <element name="FnFullfillTask_Result">
+        <complexType>
+          <sequence />
+        </complexType>
+      </element>
     </schema>
   </types>
   <message name="FnActivateAc">
@@ -1493,6 +1505,12 @@
   <message name="FnCountGrantsNotifications_Result">
     <part name="parameters" element="tns:FnCountGrantsNotifications_Result" />
   </message>
+  <message name="FnFullfillTask">
+    <part name="parameters" element="tns:FnFullfillTask" />
+  </message>
+  <message name="FnFullfillTask_Result">
+    <part name="parameters" element="tns:FnFullfillTask_Result" />
+  </message>
   <portType name="Portals_Port">
     <operation name="FnActivateAc">
       <input name="FnActivateAc" message="tns:FnActivateAc" />
@@ -1745,6 +1763,10 @@
     <operation name="FnCountGrantsNotifications">
       <input name="FnCountGrantsNotifications" message="tns:FnCountGrantsNotifications" />
       <output name="FnCountGrantsNotifications_Result" message="tns:FnCountGrantsNotifications_Result" />
+    </operation>
+    <operation name="FnFullfillTask">
+      <input name="FnFullfillTask" message="tns:FnFullfillTask" />
+      <output name="FnFullfillTask_Result" message="tns:FnFullfillTask_Result" />
     </operation>
   </portType>
   <binding name="Portals_Binding" type="tns:Portals_Port">
@@ -2313,6 +2335,15 @@
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </input>
       <output name="FnCountGrantsNotifications_Result">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </output>
+    </operation>
+    <operation name="FnFullfillTask">
+      <operation soapAction="urn:microsoft-dynamics-schemas/codeunit/Portals:FnFullfillTask" style="document" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <input name="FnFullfillTask">
+        <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      </input>
+      <output name="FnFullfillTask_Result">
         <body use="literal" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
       </output>
     </operation>

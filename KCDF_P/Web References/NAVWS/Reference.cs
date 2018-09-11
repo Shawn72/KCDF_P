@@ -155,6 +155,8 @@ namespace KCDF_P.NAVWS {
         
         private System.Threading.SendOrPostCallback FnCountGrantsNotificationsOperationCompleted;
         
+        private System.Threading.SendOrPostCallback FnFullfillTaskOperationCompleted;
+        
         private bool useDefaultCredentialsSetExplicitly;
         
         /// <remarks/>
@@ -381,6 +383,9 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         public event FnCountGrantsNotificationsCompletedEventHandler FnCountGrantsNotificationsCompleted;
+        
+        /// <remarks/>
+        public event FnFullfillTaskCompletedEventHandler FnFullfillTaskCompleted;
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnActivateAc", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnActivateAc_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
@@ -2879,6 +2884,34 @@ namespace KCDF_P.NAVWS {
         }
         
         /// <remarks/>
+        [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnFullfillTask", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnFullfillTask_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
+        public void FnFullfillTask(string taskNo) {
+            this.Invoke("FnFullfillTask", new object[] {
+                        taskNo});
+        }
+        
+        /// <remarks/>
+        public void FnFullfillTaskAsync(string taskNo) {
+            this.FnFullfillTaskAsync(taskNo, null);
+        }
+        
+        /// <remarks/>
+        public void FnFullfillTaskAsync(string taskNo, object userState) {
+            if ((this.FnFullfillTaskOperationCompleted == null)) {
+                this.FnFullfillTaskOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnFullfillTaskOperationCompleted);
+            }
+            this.InvokeAsync("FnFullfillTask", new object[] {
+                        taskNo}, this.FnFullfillTaskOperationCompleted, userState);
+        }
+        
+        private void OnFnFullfillTaskOperationCompleted(object arg) {
+            if ((this.FnFullfillTaskCompleted != null)) {
+                System.Web.Services.Protocols.InvokeCompletedEventArgs invokeArgs = ((System.Web.Services.Protocols.InvokeCompletedEventArgs)(arg));
+                this.FnFullfillTaskCompleted(this, new System.ComponentModel.AsyncCompletedEventArgs(invokeArgs.Error, invokeArgs.Cancelled, invokeArgs.UserState));
+            }
+        }
+        
+        /// <remarks/>
         public new void CancelAsync(object userState) {
             base.CancelAsync(userState);
         }
@@ -4270,6 +4303,10 @@ namespace KCDF_P.NAVWS {
             }
         }
     }
+    
+    /// <remarks/>
+    [System.CodeDom.Compiler.GeneratedCodeAttribute("System.Web.Services", "4.7.2556.0")]
+    public delegate void FnFullfillTaskCompletedEventHandler(object sender, System.ComponentModel.AsyncCompletedEventArgs e);
 }
 
 #pragma warning restore 1591
