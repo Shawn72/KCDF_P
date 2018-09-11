@@ -58,11 +58,11 @@ namespace KCDF_P
                 {
                     CheckSessX();
                     returnGrantee();
-                    loadMyProjects();
-                    myCountyIs();
-                    loadProfPic();
+                    LoadMyProjects();
+                    MyCountyIs();
+                    LoadProfPic();
                     //fetchPicture();
-                    clearCache();
+                    ClearCache();
                     lblUsernameIS.Text = Convert.ToString(Session["username"]);
                     lblSessionfromMAster();
                     MyReporting();
@@ -127,14 +127,14 @@ namespace KCDF_P
             }
         }
 
-        protected void clearCache()
+        protected void ClearCache()
         {
             Response.Cache.SetExpires(DateTime.UtcNow.AddMinutes(-1));
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
             Response.Cache.SetNoStore();
         }
 
-        protected void loadMyProjects()
+        protected void LoadMyProjects()
         {
             try
             {
@@ -162,7 +162,7 @@ namespace KCDF_P
             }
 
         }
-        protected void loadProfPic()
+        protected void LoadProfPic()
         {
             try
             {
@@ -249,7 +249,7 @@ namespace KCDF_P
             }
         }
         
-        protected void myCountyIs()
+        protected void MyCountyIs()
         {
             var mycounty = nav.mycountyIs.ToList();
             ddlSelCountry.DataSource = mycounty;
@@ -295,7 +295,7 @@ namespace KCDF_P
                 sup.Credentials = credentials;
                 sup.PreAuthenticate = true;
                 sup.FnDeleteProject(del_id);
-                loadMyProjects();
+                LoadMyProjects();
                 KCDFAlert.ShowAlert("Project Deleted Successfully!");
             }
             catch (Exception ex)
@@ -608,6 +608,7 @@ namespace KCDF_P
         }
         protected void TaskType(string taskentryNo)
         {
+            Session["fullfillTask"] = 0;
             var typeOpt =
                 nav.reportingDocs.ToList().Where(n => n.No == taskentryNo).Select(op => op.Document_Kind).SingleOrDefault();
 
@@ -649,6 +650,8 @@ namespace KCDF_P
 
         protected void TaskTypeinMatrix(string taskentryNo)
         {
+            Session["fullfillTask"] = 0;
+
             var typeOpt =
                 nav.pocasnMAtrix.ToList().Where(n => n.Id == taskentryNo).Select(op => op.Document_Kind).SingleOrDefault();
 

@@ -69,7 +69,9 @@ namespace KCDF_P
         }
 
     protected void TaskType(string taskentryNo)
-        {
+    {
+            Session["fullfillTask"] = 1;
+
             var typeOpt =
                 nav.tasks.ToList().Where(n => n.Entry_No == taskentryNo).Select(op => op.Task_Type).SingleOrDefault();
 
