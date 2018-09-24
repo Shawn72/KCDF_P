@@ -77,7 +77,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;<% =Grantees.OrgUsername %> </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;<% = Session["username"].ToString() %> </a>
                             <ul class="dropdown-menu">
                                 <li><a href="../Grantee_Dashboard.aspx">My Dashboard</a></li>
                                 <li class="divider"></li>

@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Security.Claims;
-using System.Security.Principal;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
@@ -16,6 +13,7 @@ namespace KCDF_P
         private const string AntiXsrfUserNameKey = "__AntiXsrfUserName";
         private string _antiXsrfTokenValue;
 
+        
         protected void Page_Init(object sender, EventArgs e)
         {
             // The code below helps to protect against XSRF attacks
@@ -80,13 +78,14 @@ namespace KCDF_P
         protected void editModal()
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
-        }
+        }      
 
         protected void lnkBtnChangeP_OnClick(object sender, EventArgs e)
         {
             Session["userType"] = "student";
-            Response.Redirect("PasswordReset.aspx");
+            Response.Redirect("/PasswordReset.aspx");
         }
+       
     }
 
 }

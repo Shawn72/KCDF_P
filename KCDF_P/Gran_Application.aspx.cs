@@ -405,7 +405,7 @@ namespace KCDF_P
         {
             try
             {
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
             string destPath = @"\\192.168.0.250\All Uploads\";
 
             foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
@@ -525,7 +525,7 @@ namespace KCDF_P
                 var documentKind = "Application Form";
             var refNoIs = txtPrefNo.Text;
 
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
 
                  // string uploadsFolder = @"\\KCDFSVR\All_Portal_Uploaded\";  //@"\\192.168.0.249\All_Portal_Uploaded\";
             string fileName = Path.GetFileName(FileUpload.PostedFile.FileName);
@@ -544,7 +544,7 @@ namespace KCDF_P
             if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
             {
 
-            string filename = Grantees.No + "_" + fileName;
+            string filename = Session["grant_no"] + "_" + fileName;
             FileUpload.SaveAs(uploadsFolder + filename);
 
             //file path to read file
@@ -587,7 +587,7 @@ namespace KCDF_P
                 var documentKind = "Registration Certificate";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadID.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadID.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -603,7 +603,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadID.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;
@@ -645,7 +645,7 @@ namespace KCDF_P
                 var documentKind = "Organizational Constitution ";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadConst.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadConst.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -661,7 +661,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadConst.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;
@@ -702,7 +702,7 @@ namespace KCDF_P
                 var documentKindML = "Members List";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadList.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadList.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -718,7 +718,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadList.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;
@@ -760,7 +760,7 @@ namespace KCDF_P
                 var documentKindFR = "Financial Report ";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadFinRePo.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadFinRePo.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -776,7 +776,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") ||(ext == ".xls")|| (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadFinRePo.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;
@@ -1296,7 +1296,7 @@ namespace KCDF_P
                 var documentKindFR = "Proposed Budget ";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadProjectBudget.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadProjectBudget.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -1312,7 +1312,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadProjectBudget.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;
@@ -1355,7 +1355,7 @@ namespace KCDF_P
                 var documentKindFR = "Bill of Quantities ";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadtheBill.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadtheBill.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -1371,7 +1371,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadtheBill.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;
@@ -1412,7 +1412,7 @@ namespace KCDF_P
                 var documentKindFR = "Audited Accounts";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadAudit.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadAudit.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -1428,7 +1428,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadAudit.SaveAs(uploadsFolder + filename);
                     //file path to read file
                     string filePath = uploadsFolder + filename;

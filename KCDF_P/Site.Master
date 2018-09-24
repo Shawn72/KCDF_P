@@ -1,4 +1,5 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="KCDF_P.SiteMaster" %>
+<%@ Import Namespace="System.Web.Providers.Entities" %>
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -68,20 +69,19 @@
                                 <li class="divider"></li> 
                             </ul>
                         </li>
-                        
-                      <%--  <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reporting<b class="caret"></b></a>
 
-                            <ul class="dropdown-menu">
-                                <li><a href="../Report_Form.aspx">Upload Reporting Documents</a></li>
-                                <li class="divider"></li>                                
-                            </ul>
-                        </li>--%>
+                         <li>
+                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
+                         </li>
+                        
+                         <li>
+                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Completed Tasks<span class="badge alert-danger"><asp:Label runat="server" ID="lblcomplt" ></asp:Label></span><b class="caret"></b></a>
+                         </li>
 
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;<% =Students.Username %> </a>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;<% = Session["username"] %> </a>
                             <ul class="dropdown-menu">
-                                <li><a href="../Dashboard.aspx">My Dashboard</a></li>
+                                <li><a href="../Dashboard.aspx">Homepage</a></li>
                                 <li class="divider"></li>
                                 <li><a href="/Account/Add_Students_Profile.aspx">Edit Profile</a></li>
                                  <li class="divider"></li>

@@ -28,12 +28,12 @@ namespace KCDF_P
              new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
                  ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
-        public  static readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+        public  static readonly string StrSqlConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
                                   ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public static string Company_Name = "KCDF";
+        public static string CompanyName = "KCDF";
 
 
         [STAThread]
@@ -54,17 +54,30 @@ namespace KCDF_P
                 if (!IsPostBack)
                 {
                     LoadProfPic();
-                    ReturnConsultancy();
+                    GetMemberDetails();
                     getPostaCodes();
                     CheckSessX();
                     getProjects();
-                    LoadMYProfile();
+                    LoadMyProfile();
                     LoadmyApplications();
                     loadUploads();
                 }
                
             }
            
+        }
+
+        protected void GetMemberDetails()
+        {
+            var objCons = nav.myConsultants.Where(r => r.Organization_Username == User.Identity.Name).FirstOrDefault();
+
+            if (objCons != null)
+            {
+                confullname.InnerHtml = objCons.Organization_Name;
+                conEmail.InnerHtml = objCons.Organization_Email;
+                conRegno.InnerHtml = objCons.Organization_Registration_No;
+                Session["consultant_no"] = objCons.No;
+            }
         }
 
         public void NoCache()
@@ -85,12 +98,7 @@ namespace KCDF_P
                 ClientScript.RegisterStartupScript(this.GetType(), "SessionAlert", "SessionExpireAlert(" + timeout + ");", true);
             }
         }
-        protected ConsultantClass ReturnConsultancy()
-        {
-            return new ConsultantClass(User.Identity.Name);
-            //return new ConsultantClass(Session["username"].ToString());
-        }
-        protected void LoadProfPic()
+       protected void LoadProfPic()
         {
             try
             {
@@ -190,7 +198,7 @@ namespace KCDF_P
             try
             {
                 var usnM = Session["username"].ToString();
-                var regiNM = ConsultantClass.IDNoReg;
+                var regiNM = Session["myRNo"].ToString();
                 var namecontactPs = TextBxcont.Text;
                 var currPostn = TextBoposition.Text;
                 var postTow = txtPostalTown.Text;
@@ -251,7 +259,7 @@ namespace KCDF_P
                 if (sup.FnEditConsultant(usnM, regiNM, PhoneN, namecontactPs, currPostn, postCode, postTow, postaAddress, kcdfb4, statusofProject, siteonWeb)==true)
                 {
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Your Profile Edited Successfully!!');", true);
-                    LoadMYProfile();
+                    LoadMyProfile();
                 }
 
             }
@@ -265,10 +273,10 @@ namespace KCDF_P
         {
             EditConsultant();
         }
-        protected void LoadMYProfile()
+        protected void LoadMyProfile()
         {
             var myusername = Session["username"].ToString();
-            var regIdN = ConsultantClass.IDNoReg;
+            var regIdN = Session["myRNo"].ToString();
 
             var edPrF =
                 nav.myConsultants.ToList()
@@ -360,7 +368,7 @@ namespace KCDF_P
             var userNme = Session["username"].ToString();
             var projctName = Session["projectIs"].ToString();
             var refNo = txtPrefNo.Text;
-            var myRNo = ConsultantClass.IDNoReg;
+                var myRNo = Session["myRNo"].ToString();
 
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"],
              ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
@@ -481,7 +489,7 @@ namespace KCDF_P
                 var documentKind = "Consultancy Proposal";
                 var refNoIs = textRefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + ConsultantClass.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
 
                 // string uploadsFolder = @"\\192.168.0.249\All_Portal_Uploaded\"; @"\\KCDFSVR\All_Portal_Uploaded\";  //
                 string fileName = Path.GetFileName(FileUploadProposal.PostedFile.FileName);
@@ -500,7 +508,7 @@ namespace KCDF_P
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
                 {
 
-                    string filename = ConsultantClass.No + "_" + fileName;
+                    string filename = Session["consultant_no"] + "_" + fileName;
                     FileUploadProposal.SaveAs(uploadsFolder + filename);
 
                     //file path to read file
@@ -538,7 +546,7 @@ namespace KCDF_P
                 var documentKind = "Proposal Budget";
                 var refNoIs = textRefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + ConsultantClass.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadBudget.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadBudget.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -554,7 +562,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
                 {
-                string filename = ConsultantClass.No + "_" + fileName;
+                string filename = Session["consultant_no"] + "_" + fileName;
                 FileUploadBudget.SaveAs(uploadsFolder + filename);
                 //file path to read file
                 string filePath = uploadsFolder + filename;
@@ -691,7 +699,7 @@ namespace KCDF_P
         {
             try
             {
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + ConsultantClass.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
                 string destPathserver1 = @"\\192.168.0.250\All Uploads\";
 
                 foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",

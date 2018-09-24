@@ -39,7 +39,7 @@ namespace KCDF_P
         {
             try
             {
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + "\\";
                 string fileName = Path.GetFileName(FileUpload.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -55,7 +55,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") ||(ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUpload.SaveAs(uploadsFolder + filename);
                     CopyFilesToDir();
                     loadUploads();
@@ -84,7 +84,7 @@ namespace KCDF_P
 
         protected void CopyFilesToDir()
         {
-            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + "\\";
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + "\\";
             string destPath = Request.PhysicalApplicationPath + "All Uploads\\";
 
             foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
@@ -119,7 +119,7 @@ namespace KCDF_P
         {
             var usNo = nav.grantees_Register.ToList().Where(usr => usr.Organization_Username == Session["username"].ToString()).Select(nu=>nu.No).SingleOrDefault();
            // var prjct =;
-            string fullFPath = Request.PhysicalApplicationPath + "All Uploads\\"+ Grantees.No +"\\"+ filName;
+            string fullFPath = Request.PhysicalApplicationPath + "All Uploads\\"+ Session["grant_no"] + "\\"+ filName;
             var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
             int granttype = 1;
             string docType ="";

@@ -2856,24 +2856,24 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnCountGrantsNotifications", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnCountGrantsNotifications_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public int FnCountGrantsNotifications(string userNumber) {
+        public int FnCountGrantsNotifications(string userName) {
             object[] results = this.Invoke("FnCountGrantsNotifications", new object[] {
-                        userNumber});
+                        userName});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void FnCountGrantsNotificationsAsync(string userNumber) {
-            this.FnCountGrantsNotificationsAsync(userNumber, null);
+        public void FnCountGrantsNotificationsAsync(string userName) {
+            this.FnCountGrantsNotificationsAsync(userName, null);
         }
         
         /// <remarks/>
-        public void FnCountGrantsNotificationsAsync(string userNumber, object userState) {
+        public void FnCountGrantsNotificationsAsync(string userName, object userState) {
             if ((this.FnCountGrantsNotificationsOperationCompleted == null)) {
                 this.FnCountGrantsNotificationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnCountGrantsNotificationsOperationCompleted);
             }
             this.InvokeAsync("FnCountGrantsNotifications", new object[] {
-                        userNumber}, this.FnCountGrantsNotificationsOperationCompleted, userState);
+                        userName}, this.FnCountGrantsNotificationsOperationCompleted, userState);
         }
         
         private void OnFnCountGrantsNotificationsOperationCompleted(object arg) {

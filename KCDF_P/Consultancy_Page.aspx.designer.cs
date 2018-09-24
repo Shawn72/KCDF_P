@@ -94,6 +94,33 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUploadPic;
         
         /// <summary>
+        /// confullname control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell confullname;
+        
+        /// <summary>
+        /// conEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell conEmail;
+        
+        /// <summary>
+        /// conRegno control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell conRegno;
+        
+        /// <summary>
         /// hdnTxtValidit control.
         /// </summary>
         /// <remarks>

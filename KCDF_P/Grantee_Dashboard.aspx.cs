@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Data.SqlClient;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -32,17 +29,14 @@ namespace KCDF_P
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public string Company_Name = "KCDF";
+        public string CompanyName = "KCDF";
         [STAThread]
         protected void Page_Load(object sender, EventArgs e)
         {
             NoCache();
             if (!IsPostBack)
             {
-                //if (Session["username"] == null)
-                //{
-                //    Response.Redirect("~/Default.aspx");
-                //}
+                
                 if (!this.Page.User.Identity.IsAuthenticated)
                 {
                     FormsAuthentication.RedirectToLoginPage();
@@ -57,14 +51,14 @@ namespace KCDF_P
                 else
                 {
                     CheckSessX();
-                    returnGrantee();
+                    GetMemberDetails();
                     LoadMyProjects();
                     MyCountyIs();
                     LoadProfPic();
                     //fetchPicture();
                     ClearCache();
                     lblUsernameIS.Text = Convert.ToString(Session["username"]);
-                    lblSessionfromMAster();
+                    LblSessionfromMAster();
                     MyReporting();
                     GetMyMatrix();
                 }
@@ -72,12 +66,19 @@ namespace KCDF_P
             }
 
         }
-        protected Grantees returnGrantee()
+
+        protected void GetMemberDetails()
         {
-            //string username = User.Identity.Name;
-            // return new Grantees(Session["username"].ToString());
-            return new Grantees(User.Identity.Name);
-           
+            var objGrantees = nav.grantees_Register.Where(r => r.Organization_Username == User.Identity.Name).FirstOrDefault();
+
+            if (objGrantees != null)
+            {
+                orgName.InnerHtml = objGrantees.Organization_Name;
+                orgEmail.InnerHtml = objGrantees.Email;
+                orgNumber.InnerHtml = objGrantees.No;
+                Session["grant_no"] = objGrantees.No;
+            }
+
         }
         public void NoCache()
         {
@@ -106,7 +107,7 @@ namespace KCDF_P
             stream.Close();
 
         }
-        protected void lblSessionfromMAster()
+        protected void LblSessionfromMAster()
         {
             System.Web.UI.WebControls.Label lblMastersession =
                 (System.Web.UI.WebControls.Label)Master.FindControl("lblSessionUsername");
@@ -218,11 +219,11 @@ namespace KCDF_P
 
         protected void fetchPicture()
         {
-            var grntNo = Grantees.No;
-            string SQLRQST = @"SELECT No, ProfilePhoto from [" + Company_Name + "$Grantees] WHERE No=@usnM";
+            var grntNo = Session["grant_no"];
+            string sqlrqst = @"SELECT No, ProfilePhoto from [" + CompanyName + "$Grantees] WHERE No=@usnM";
 
             SqlConnection con = new SqlConnection(strSQLConn);
-            SqlCommand command = new SqlCommand(SQLRQST, con);
+            SqlCommand command = new SqlCommand(sqlrqst, con);
             command.Parameters.AddWithValue("@usnM", grntNo);
             SqlDataAdapter da = new SqlDataAdapter(command);
             SqlCommandBuilder cbd = new SqlCommandBuilder();
@@ -433,7 +434,7 @@ namespace KCDF_P
             {
                 //try
                 //{
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents/" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents/" + Session["grant_no"] + @"\";
                 string uriUploads = new Uri(uploadsFolder).LocalPath;
 
                 string destPath = @"http://192.168.0.249:801/";
@@ -458,21 +459,7 @@ namespace KCDF_P
             }
         }
    
-        protected void Copy()
-        {
-            ProcessStartInfo processInfo;
-            Process process;
-
-            processInfo = new ProcessStartInfo("cmd.exe", @"/c E:\AdvancedPortals\KCDF_P\KCDF_P\DCopy\DCopier.bat");
-            processInfo.CreateNoWindow = false;
-            processInfo.UseShellExecute = false;
-            // *** Redirect the output ***
-            processInfo.RedirectStandardError = true;
-            processInfo.RedirectStandardOutput = true;
-            process = Process.Start(processInfo);
-            process.WaitForExit();
-        }
-
+     
         protected void btnValidateInfo_OnClick(object sender, EventArgs e)
         {
             try

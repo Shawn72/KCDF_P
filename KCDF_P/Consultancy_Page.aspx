@@ -35,7 +35,7 @@
     <asp:Label ID="lblUsernameIS" runat="server" Visible="False"></asp:Label>
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <%=ConsultantClass.Username%></strong></div>
+                <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <%= User.Identity.Name%></strong></div>
                 <div class="panel-body">
                     <div class="row" tabindex="0px">
                         <div class="col-md-3"></div>
@@ -53,16 +53,16 @@
                         </tr>
                          <tr>
                             <td>Consultant Name: </td>
-                            <td><%=ConsultantClass.fullname %></td>
+                            <td id="confullname" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Email: </td>
-                            <td><%=ConsultantClass.Email %></td>
+                            <td id="conEmail" runat="server"></td>
                         </tr>
                         
                          <tr>
                             <td>Reg No/Id No: </td>
-                            <td><%=ConsultantClass.IDNoReg %></td>
+                            <td id="conRegno" runat="server"></td>
                         </tr>
                     </table>   
                 </div>
@@ -546,7 +546,7 @@
     {
         string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\Consultants\\";
         string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
-        string filenameO = ConsultantClass.Username + DateTime.Now.Millisecond.ToString()+ ext;
+        string filenameO = User.Identity.Name + DateTime.Now.Millisecond.ToString()+ ext;
         if (FileUpload.PostedFile.ContentLength>1000000)
         {
             KCDFAlert.ShowAlert("Select a file less than 1MB!");

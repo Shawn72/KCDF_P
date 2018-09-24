@@ -39,8 +39,8 @@ namespace KCDF_P
                         Response.Redirect("~/Default.aspx");
 
                     }
-                    returnCustomer();
-                    loadProfPic();
+                    GetMemberDetails();
+                    LoadProfPic();
                     LoadMyApplications();
                 }
             }
@@ -51,12 +51,36 @@ namespace KCDF_P
             Response.ExpiresAbsolute = DateTime.Now.AddDays(-1d);
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
         }
-        protected Students returnCustomer()
+        protected void GetMemberDetails()
         {
-            return new Students(User.Identity.Name);
-            //return new Students(Session["username"].ToString());
+            var objStudents = nav.studentsRegister.Where(r => r.Username == User.Identity.Name).FirstOrDefault();
+            if (objStudents != null)
+            {
+                mykcdfNumber.InnerHtml = objStudents.No;
+                string fName = objStudents.First_name;
+                string  mName = objStudents.Middle_name;
+                string lName = objStudents.Last_name;
+                myEmail.InnerHtml = objStudents.Email;
+                myphoneNo.InnerHtml = objStudents.Phone_Number;
+                myidNo.InnerHtml = objStudents.ID_No;
+                myaddress.InnerHtml = objStudents.Residence;
+                DateTime db = Convert.ToDateTime(objStudents.Date_of_Birth);
+                mydoB.InnerHtml = db.ToShortDateString();
+                mygender.InnerHtml = objStudents.Gender;
+                myprimo.InnerHtml = objStudents.Primary_School;
+                myseco.InnerHtml = objStudents.Secondary_School;
+                myuniver.InnerHtml = objStudents.University_or_College;
+                DateTime yoa = Convert.ToDateTime(objStudents.Year_of_Admission);
+                myyrofAdm.InnerHtml = yoa.ToShortDateString();
+                DateTime yroc = Convert.ToDateTime(objStudents.Year_of_Completion);
+                myyrofcompletion.InnerHtml = yroc.ToShortDateString();
+                myyrofstudy.InnerHtml = objStudents.Year_of_Study;
+                mycourse.InnerHtml = objStudents.Course;
+                myfullname.InnerHtml = fName + " " + mName + " " + lName;
+            }
+           
         }
-        protected void loadProfPic()
+        protected void LoadProfPic()
         {
             try
             {
@@ -84,7 +108,7 @@ namespace KCDF_P
            
         }
 
-        protected void checkExtension()
+        protected void CheckExtension()
         {
             string namepart = Session["username"].ToString();
             string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
@@ -114,7 +138,7 @@ namespace KCDF_P
         {
             string extn = ".jpg";
             string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";
-            string filenameO = Students.Username + extn;
+            string filenameO = User.Identity.Name + extn;
             System.Drawing.Image image = System.Drawing.Image.FromFile(uploadsFolder + filenameO);
             image.Save(uploadsFolder + "dre2.png", System.Drawing.Imaging.ImageFormat.Png);
             KCDFAlert.ShowAlert("Converted to png");
@@ -147,7 +171,7 @@ namespace KCDF_P
         protected void LoadMyApplications()
         {
             var myapps =
-                nav.scholarshipApplications.ToList().Where(u => u.Student_Username == Session["username"].ToString());
+                nav.scholarshipApplications.ToList().Where(u => u.Student_Username == User.Identity.Name);
             tblmyApplications.AutoGenerateColumns = false;
             tblmyApplications.DataSource = myapps;
             tblmyApplications.DataBind();

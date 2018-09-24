@@ -1616,7 +1616,6 @@
     <Compile Include="Consultancy_Page.aspx.designer.cs">
       <DependentUpon>Consultancy_Page.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ConsultantClass.cs" />
     <Compile Include="Consultants.Master.cs">
       <DependentUpon>Consultants.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1683,7 +1682,6 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Grantees.cs" />
     <Compile Include="Grantee_Dashboard.aspx.cs">
       <DependentUpon>Grantee_Dashboard.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1797,7 +1795,6 @@
       <DependentUpon>Site.Mobile.Master</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
-    <Compile Include="Students.cs" />
     <Compile Include="ToRDownload.aspx.cs">
       <DependentUpon>ToRDownload.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -1856,10 +1853,10 @@
     <WebReferences Include="Web References\" />
   </ItemGroup>
   <ItemGroup>
-    <WebReferenceUrl Include="http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals">
+    <WebReferenceUrl Include="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals">
       <UrlBehavior>Dynamic</UrlBehavior>
       <RelPath>Web References\NAVWS\</RelPath>
-      <UpdateFromURL>http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals</UpdateFromURL>
+      <UpdateFromURL>http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals</UpdateFromURL>
       <ServiceLocationURL>
       </ServiceLocationURL>
       <CachedDynamicPropName>

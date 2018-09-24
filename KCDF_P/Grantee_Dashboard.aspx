@@ -36,7 +36,7 @@
     <asp:Label ID="lblUsernameIS" runat="server" Visible="False"></asp:Label>
         <div class="col-md-4">
             <div class="panel panel-default">
-                <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <%=Grantees.OrgUsername%></strong></div>
+                <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <%=Session["username"].ToString()%></strong></div>
                 <div class="panel-body">
                     <div class="row" tabindex="0px">
                         <div class="col-md-3"></div>
@@ -53,16 +53,16 @@
                         </tr>
                          <tr>
                             <td>Organization Name: </td>
-                            <td><%=Grantees.orgname %></td>
+                            <td id="orgName" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Email: </td>
-                            <td><%=Grantees.Email %></td>
+                            <td id="orgEmail" runat="server"></td>
                         </tr>
                         
                          <tr>
                             <td>KCDF Number: </td>
-                            <td><%=Grantees.No %></td>
+                            <td id="orgNumber" runat="server"></td>
                         </tr>
                     </table>  
                 </div>
@@ -441,7 +441,7 @@
     {
         string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\Grantees\\";
         string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
-        string filenameO = Grantees.OrgUsername + DateTime.Now.Millisecond.ToString()+ ext;
+        string filenameO = User.Identity.Name + DateTime.Now.Millisecond.ToString()+ ext;
         if (FileUpload.PostedFile.ContentLength>1000000)
         {
             KCDFAlert.ShowAlert("Select a file less than 1MB!");

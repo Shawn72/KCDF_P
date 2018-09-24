@@ -200,8 +200,7 @@ namespace KCDF_P
                     //lblMastersession.InnerText = eml;
                     //Change the Session called "Logged" value into "Yes"
                     Session["Logged"] = "Yes";
-                    Grantees.SessionUsername = eml;
-                    Session["username"] = Grantees.SessionUsername;
+                    Session["username"] = eml;
                     Session["pwd"] = pass;
                     Session["reportformUser"] = "iamGrantee";
 
@@ -432,6 +431,7 @@ namespace KCDF_P
                         Session["pwd"] = EncryptP(userPassword);
                         rememberMeYeah(userName, EncryptP(userPassword));
                         Session["reportformUser"] = "iamConsult";
+                        GetConsultantNoSession(userName);
                         FormsAuthentication.GetAuthCookie(userName, true);
                         FormsAuthentication.SetAuthCookie(userName, true);
                         Response.Redirect("~/Consultancy_Page.aspx");
@@ -554,10 +554,10 @@ namespace KCDF_P
                             Session.Clear();
                             FormsAuthentication.RedirectFromLoginPage(UserName, chkRememberMe.Checked);
                             Session["Logged"] = "Yes";
-                            Grantees.SessionUsername = UserName;
-                            Session["username"] = Grantees.SessionUsername;
+                            Session["username"] = UserName;
                             Session["pwd"] = Password;
                             Session["reportformUser"] = "iamGrantee";
+                            GetGranteeNoSession(UserName);
 
                             FormsAuthentication.GetAuthCookie(UserName, false);
                             FormsAuthentication.SetAuthCookie(UserName, false);
@@ -618,6 +618,7 @@ namespace KCDF_P
                             FormsAuthentication.SetAuthCookie(UserName, true);
 
                             Session["pwd"] = Password;
+                            GetStudentNoSession(UserName);
                             rememberMeYeah(UserName, Password);
                             Session["reportformUser"] = "iamStudent";
                             CheckStudentsProfile(UserName);
@@ -630,6 +631,43 @@ namespace KCDF_P
             {
 
                 KCDFAlert.ShowAlert(ex.Message);
+            }
+
+        }
+
+        protected void GetGranteeNoSession(string username)
+        {
+            var objGrantees = nav.grantees_Register.Where(r => r.Organization_Username == username).FirstOrDefault();
+
+            if (objGrantees != null)
+            {
+                Session["grant_no"] = objGrantees.No;
+                Session["userNotify"] = 1;
+            }
+
+        }
+
+        protected void GetConsultantNoSession(string username)
+        {
+            var objCons = nav.myConsultants.Where(r => r.Organization_Username == username).FirstOrDefault();
+
+            if (objCons != null)
+            {
+                Session["myRNo"] = objCons.Organization_Registration_No;
+                Session["consultant_no"] = objCons.No;
+                Session["userNotify"] = 2;
+            }
+
+        }
+
+        protected void GetStudentNoSession(string username)
+        {
+            var objStudents = nav.studentsRegister.Where(r => r.Username == username).FirstOrDefault();
+
+            if (objStudents != null)
+            {
+                Session["student_no"] = objStudents.No;
+                Session["userNotify"] = 3;
             }
 
         }

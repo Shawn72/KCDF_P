@@ -24,12 +24,7 @@ namespace KCDF_P
 
             if (!IsPostBack)
             {
-                //    if (Session["username"] == null)
-                //    {
-                //        Response.Redirect("~/Default.aspx");
-                //    }
-
-                GetMeAllNotifics();
+                CheckUserSession();
             }
         }
 
@@ -39,27 +34,87 @@ namespace KCDF_P
             notifyPMultiview.ActiveViewIndex = index;
         }
 
-        protected void GetMeAllNotifics()
+        public void CheckUserSession()
+        {
+            int loggedSessionUser= Convert.ToInt32(Session["userNotify"]);
+            switch (loggedSessionUser)
+            {
+                case 1:
+                    GetMeAllNotificsGrantee();
+                    break;
+                case 2:
+                    GetMeAllNotificsConsultant();
+                    break;
+                case 3:
+                    GetMeAllNotificsStudent();
+                    break;
+                    
+            }
+        }
+
+        protected void GetMeAllNotificsGrantee()
         {
             try
             {
-                var myNots = nav.tasks.ToList().Where(un => un.User_Number == Grantees.No && un.Condition_FullFilled == false);
+                var myNots = nav.tasks.ToList().Where(un => un.User_Number == Session["grant_no"].ToString() && un.Condition_FullFilled == false);
                 tblPendingTasks.AutoGenerateColumns = false;
                 tblPendingTasks.DataSource = myNots;
                 tblPendingTasks.DataBind();
 
-
-
-                var myNotsSorted = nav.tasks.ToList().Where(un => un.User_Number == Grantees.No && un.Condition_FullFilled==true);
+                var myNotsSorted = nav.tasks.ToList().Where(un => un.User_Number == Session["grant_no"].ToString() && un.Condition_FullFilled==true);
                 tblCompletedTasks.AutoGenerateColumns = false;
                 tblCompletedTasks.DataSource = myNotsSorted;
                 tblCompletedTasks.DataBind();
             }
             catch (Exception xc)
             {
-                
+                // ignored
             }
-            
+        }
+
+        protected void GetMeAllNotificsStudent()
+        {
+            try
+            {
+                var myNots = nav.tasks.ToList().Where(un => un.User_Number == Session["student_no"].ToString() && un.Condition_FullFilled == false);
+                tblPendingTasks.AutoGenerateColumns = false;
+                tblPendingTasks.DataSource = myNots;
+                tblPendingTasks.DataBind();
+
+                var myNotsSorted = nav.tasks.ToList().Where(un => un.User_Number == Session["student_no"].ToString() && un.Condition_FullFilled == true);
+                tblCompletedTasks.AutoGenerateColumns = false;
+                tblCompletedTasks.DataSource = myNotsSorted;
+                tblCompletedTasks.DataBind();
+            }
+            catch (Exception xc)
+            {
+                // ignored
+            }
+        }
+
+        protected void GetMeAllNotificsConsultant()
+        {
+            try
+            {
+                var myNots =
+                    nav.tasks.ToList()
+                        .Where(
+                            un => un.User_Number == Session["consultant_no"].ToString() && un.Condition_FullFilled == false);
+                tblPendingTasks.AutoGenerateColumns = false;
+                tblPendingTasks.DataSource = myNots;
+                tblPendingTasks.DataBind();
+
+                var myNotsSorted =
+                    nav.tasks.ToList()
+                        .Where(un => un.User_Number == Session["consultant_no"].ToString() && un.Condition_FullFilled == true);
+                tblCompletedTasks.AutoGenerateColumns = false;
+                tblCompletedTasks.DataSource = myNotsSorted;
+                tblCompletedTasks.DataBind();
+            }
+            catch (Exception xc)
+            {
+                // ignored
+            }
         }
 
         protected void lnkReact_OnClick(object sender, EventArgs e)
@@ -85,6 +140,24 @@ namespace KCDF_P
 
                 case "Financial":
                     Session["typeoftask"] = "Financial";
+                    Session["tasknumber"] = taskentryNo;
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "Community Report":
+                    Session["typeoftask"] = "Community Report";
+                    Session["tasknumber"] = taskentryNo;
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "Scholarship Report":
+                    Session["typeoftask"] = "Scholarship Report";
+                    Session["tasknumber"] = taskentryNo;
+                    Response.Redirect("Report_Form.aspx");
+                    break;
+
+                case "Consultant Report":
+                    Session["typeoftask"] = "Consultant Report";
                     Session["tasknumber"] = taskentryNo;
                     Response.Redirect("Report_Form.aspx");
                     break;

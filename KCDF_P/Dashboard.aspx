@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-md-5">
             <div class="panel panel-default">
-                <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <%=Students.Username%></strong></div>
+                <div class="panel-heading text-danger"><i class="fa fa-user"></i><strong style="font-family:Trebuchet MS">Welcome, <% = User.Identity.Name %></strong></div>
                 <div class="panel-body">
                     <div class="row" tabindex="0px">
                         <div class="col-md-3"></div>
@@ -29,26 +29,26 @@
                         </tr>
                          <tr>
                             <td>Full Name: </td>
-                            <td><%=Students.Name %></td>
+                            <td id="myfullname" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Date of Birth: </td>
-                            <td><%=Students.doB %></td>
+                            <td id="mydoB" runat="server"></td>
                         </tr>
                         
                          <tr>
                             <td>KCDF Number: </td>
-                            <td><%=Students.No %></td>
+                            <td id="mykcdfNumber" runat="server"></td>
                         </tr>
                        
                        
                          <tr>
                             <td>ID Number: </td>
-                             <td><%=Students.IDNo %></td>
+                             <td id="myidNo" runat="server"></td>
                         </tr>
                          <tr>
                             <td>Gender: </td>
-                             <td><%=Students.gender %></td>
+                             <td id="mygender" runat="server"></td>
                         </tr>
                     </table>   
                    
@@ -62,32 +62,32 @@
                         </tr>
                          <tr>
                             <td>Primary school: </td>
-                            <td><%=Students.primo %></td>
+                            <td id="myprimo" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Secondary School:</td>
-                            <td><%=Students.seco %></td>
+                            <td id="myseco" runat="server"></td>
                         </tr>
                                               
                         <tr>
                             <td>University/College: </td>
-                            <td><%=Students.univ %></td>
+                            <td id="myuniver" runat="server"></td>
                         </tr>
                        <tr>
                          <td>Course: </td>
-                            <td><%=Students.course %></td>
+                            <td id="mycourse" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Year of Admission: </td>
-                            <td><%=Students.yearofAd %></td>
+                            <td id="myyrofAdm" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Year of Study: </td>
-                            <td><%=Students.yrofstudy %></td>
+                            <td id="myyrofstudy" runat="server"></td>
                         </tr>
                         <tr>
                             <td>Year of Completion: </td>
-                            <td><%=Students.yrofCompltn %></td>
+                            <td id="myyrofcompletion" runat="server"></td>
                         </tr>
                     </table> 
                </div>
@@ -100,17 +100,17 @@
 
                     <tr>
                         <td>Email:</td>
-                        <td><%=Students.Email %></td>
+                        <td id="myEmail" runat="server"></td>
                     </tr>
                                               
                     <tr>
                         <td>Phone No: </td>
-                        <td><%=Students.MobileNo %></td>
+                        <td id="myphoneNo" runat="server"></td>
                     </tr>
                         
                         <tr>
                         <td>Residence: </td>
-                        <td><%=Students.Address %></td>
+                        <td id="myaddress" runat="server"></td>
                     </tr>
                 </table> 
               </div>
@@ -145,7 +145,7 @@
        {
            string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\Scholarship\\";
            string ext = Path.GetExtension(FileUpload.PostedFile.FileName);
-           string filenameO = Students.Username+ DateTime.Now.Millisecond.ToString() + ext;
+           string filenameO = User.Identity.Name+ DateTime.Now.Millisecond.ToString() + ext;
            if (FileUpload.PostedFile.ContentLength>1000000)
            {
                KCDFAlert.ShowAlert("Select a file less than 1MB!");
@@ -155,7 +155,7 @@
            {
                FileUpload.SaveAs(uploadsFolder + filenameO);
                saveProfToNav(uploadsFolder + filenameO, filenameO);
-               refreSH();
+               RefreSh();
            }
            else
            {
@@ -168,13 +168,13 @@
                return;
            }
        }
-       protected void refreSH()
+       protected void RefreSh()
        {
            HttpResponse.RemoveOutputCacheItem("/Dashboard.aspx");
            // Response.Redirect(Request.RawUrl);
            Page.Response.Redirect(Page.Request.Url.ToString(), true);
        }
-       protected void ToPNG(string imgFormat)
+       protected void ToPng(string imgFormat)
        {
            //string extn = imgFormat;
            //string uploadsFolder = Request.PhysicalApplicationPath + "ProfilePics\\";

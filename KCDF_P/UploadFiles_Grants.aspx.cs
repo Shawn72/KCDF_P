@@ -55,7 +55,7 @@ namespace KCDF_P
         {
             try
             {
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string destPath = @"\\192.168.0.250\All Uploads\";
 
                 foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
@@ -107,7 +107,7 @@ namespace KCDF_P
                 var documentKind = "POCA TOOL";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
 
                 // string uploadsFolder = @"\\KCDFSVR\All_Portal_Uploaded\";  //@"\\192.168.0.249\All_Portal_Uploaded\";
                 string fileName = Path.GetFileName(FileUploadPOCA.PostedFile.FileName);
@@ -125,7 +125,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadPOCA.SaveAs(uploadsFolder + filename);
                     // file path to read file
                     string filePath = uploadsFolder + filename;
@@ -229,7 +229,7 @@ namespace KCDF_P
                 const string documentKind = "INDICATOR MATRIX";
                 var refNoIs = txtPrefNo.Text;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Grantees.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["grant_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadMatrix.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadMatrix.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -245,7 +245,7 @@ namespace KCDF_P
                 }
                 if ((ext == ".xls") || (ext == ".xlsx"))
                 {
-                    string filename = Grantees.No + "_" + fileName;
+                    string filename = Session["grant_no"] + "_" + fileName;
                     FileUploadMatrix.SaveAs(uploadsFolder + filename);
                     // file path to read file
                     string filePath = uploadsFolder + filename;

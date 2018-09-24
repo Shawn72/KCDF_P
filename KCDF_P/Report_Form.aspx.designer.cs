@@ -238,6 +238,15 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.View amScholar;
         
         /// <summary>
+        /// communityreport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl communityreport;
+        
+        /// <summary>
         /// FileUploadComm control.
         /// </summary>
         /// <remarks>
@@ -263,6 +272,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl appComm;
+        
+        /// <summary>
+        /// scholarshipreport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl scholarshipreport;
         
         /// <summary>
         /// FileUploadSchRepo control.
@@ -299,6 +317,15 @@ namespace KCDF_P {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View amConsult;
+        
+        /// <summary>
+        /// consultantreport control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl consultantreport;
         
         /// <summary>
         /// FileUploadConsulRepo control.

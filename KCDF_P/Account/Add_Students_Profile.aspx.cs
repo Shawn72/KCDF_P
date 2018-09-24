@@ -25,22 +25,21 @@ namespace KCDF_P.Account
                     ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
 
-        public static readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] +
+        public static readonly string StrSqlConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] +
                                                    ";Database=" +
                                                    ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
                                                    ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                                    ConfigurationManager.AppSettings["DB_PWD"] +
                                                    "; MultipleActiveResultSets=true";
 
-        public static string Company_Name = "KCDF";
+        public static string CompanyName = "KCDF";
 
         protected void Page_Load(object sender, EventArgs e)
         {
             NoCache();
             if (!IsPostBack)
-            {
-                ReturnStudent();
-                checkSessionExists();
+            {                
+                CheckSessionExists();
                 readData();
                 readEducBgData();
                 loadRefs();
@@ -49,7 +48,7 @@ namespace KCDF_P.Account
             }
         }
 
-        protected void checkSessionExists()
+        protected void CheckSessionExists()
         {
             try
             {
@@ -59,19 +58,13 @@ namespace KCDF_P.Account
                     Response.Redirect("/Default.aspx");
                 }
             }
-            catch (Exception errEx)
+            catch (Exception)
             {
                 Response.Redirect("/Default.aspx");
             }
 
         }
-
-        protected Students ReturnStudent()
-        {
-
-            return new Students(Session["username"].ToString());
-        }
-
+       
         public void NoCache()
         {
             Response.CacheControl = "private";
@@ -79,7 +72,7 @@ namespace KCDF_P.Account
             Response.Cache.SetCacheability(HttpCacheability.NoCache);
         }
 
-        protected void editProfile()
+        protected void EditProfile()
         {
             //try
             //{
@@ -193,7 +186,7 @@ namespace KCDF_P.Account
 
         protected void btnEditProf_Click(object sender, EventArgs e)
         {
-            editProfile();
+            EditProfile();
         }
 
         protected void readData()
@@ -616,10 +609,10 @@ namespace KCDF_P.Account
             List<string> customers = new List<string>();
             using (SqlConnection conn = new SqlConnection())
             {
-                conn.ConnectionString = strSQLConn;
+                conn.ConnectionString = StrSqlConn;
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.CommandText = @"SELECT [School Name],[Level of School] from [" + Company_Name +
+                    cmd.CommandText = @"SELECT [School Name],[Level of School] from [" + CompanyName +
                                       "$Schools List] WHERE [School Name] like @SearchText + '%' && [Level of School]=0";
                     cmd.Parameters.AddWithValue("@SearchText", prefix);
                     cmd.Connection = conn;
@@ -639,11 +632,11 @@ namespace KCDF_P.Account
 
         protected void fillMySchoolList(string searchT)
         {
-            using (SqlConnection con = new SqlConnection(strSQLConn))
+            using (SqlConnection con = new SqlConnection(StrSqlConn))
             {
                 using (SqlCommand cmd = new SqlCommand())
                 {
-                    cmd.CommandText = @"SELECT DISTINCT([School Name]) from [" + Company_Name +
+                    cmd.CommandText = @"SELECT DISTINCT([School Name]) from [" + CompanyName +
                                       "$Schools List] WHERE lower([School Name]) like @SearchText + '%' AND [Level of School]=0";
                     cmd.CommandType = CommandType.Text;
                     cmd.Parameters.AddWithValue("@SearchText", searchT);

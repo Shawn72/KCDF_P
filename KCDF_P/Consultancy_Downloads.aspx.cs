@@ -22,15 +22,11 @@ namespace KCDF_P
                     Response.Redirect("~/Default.aspx");
 
                 }
-                returnConsultancy();
                 LoadUploads();
             }
 
         }
-        protected ConsultantClass returnConsultancy()
-        {
-            return new ConsultantClass(Session["username"].ToString());
-        }
+      
         protected void DownloadFile(object sender, EventArgs e)
         {
             string filePath = (sender as LinkButton).CommandArgument;

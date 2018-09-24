@@ -120,38 +120,23 @@
             <div class="collapse navbar-collapse" id="shrink">
                     <ul class="nav navbar-nav navbar-right"> 
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Apply for Grant<b class="caret"></b></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a href="/Gran_Application.aspx">Grants Application</a></li>
-                                 <li class="divider"></li>
-                            </ul>
+                            <a href="/Gran_Application.aspx" class="">Apply for Grant<b class="caret"></b></a>
                         </li>
 
                         <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                    <li><a href="/Notifications.aspx">View All Notifications</a></li>
-                                <li class="divider"></li>  
-                            </ul>
+                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
                          </li>
                         
-                      <%--  <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Reporting<b class="caret"></b></a>
-
-                            <ul class="dropdown-menu">
-                                <li><a href="Report_Form.aspx">Upload Reporting Documents</a></li>
-                                    <li class="divider"></li>  
-                                <li><a href="/UploadFiles_Grants.aspx">Indicator Matrix & POCA</a></li>
-                                    <li class="divider"></li>                                                         
-                            </ul>
-                        </li>--%>
+                         <li>
+                            <a href="/Notifications.aspx" class=""><i class="fa fa-check"></i> &nbsp;Completed Tasks</a>
+                         </li>
 
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp;
-                                <asp:Label runat="server" ID="lblSessionUsername" Visible="false"></asp:Label><% =Grantees.SessionUsername %> </a>
+                                <asp:Label runat="server" ID="lblSessionUsername" Visible="false"></asp:Label><% = Session["username"].ToString() %> </a>
                             <ul class="dropdown-menu">
-                                <asp:LinkButton ID="lnkDashboard" runat="server" style="align-content: center" OnClick="lnkDashboard_OnClick"> My Dashboard</asp:LinkButton>
+                                
+                                <asp:LinkButton ID="lnkDashboard" runat="server" style="align-content: center" OnClick="lnkDashboard_OnClick"> Homepage</asp:LinkButton>
                                 <li class="divider"></li>
                                 <asp:LinkButton ID="lnkbtnEdit" runat="server" OnClick="lnkbtnEdit_OnClick" style="align-content: center" PostBackUrl = "~/Account/Add_Grantee_Profile.aspx">Edit Profile</asp:LinkButton>
                                  <li class="divider"></li>

@@ -24,8 +24,7 @@ namespace KCDF_P.Account
         {
             NoCache();
             if (!IsPostBack)
-            {
-                returnGrantee();
+            {               
                 if (Session["username"] == null)
                 {
                     Response.Redirect("~/Default.aspx");
@@ -38,10 +37,7 @@ namespace KCDF_P.Account
             }
             
         }
-        protected Grantees returnGrantee()
-        {
-            return new Grantees(Session["username"].ToString());
-        }
+        
         public void NoCache()
         {
             Response.CacheControl = "private";

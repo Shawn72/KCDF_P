@@ -26,14 +26,8 @@ namespace KCDF_P
             {
                 Response.Redirect("/Default.aspx");
             }
-            ReturnStudent();
             loadView();
             loadUploads();
-        }
-        protected Students ReturnStudent()
-        {
-
-            return new Students(Session["username"].ToString());
         }
         protected void DownloadFile(object sender, EventArgs e)
         {

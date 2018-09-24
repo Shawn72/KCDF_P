@@ -1102,7 +1102,7 @@
       <element name="FnCountGrantsNotifications">
         <complexType>
           <sequence>
-            <element minOccurs="1" maxOccurs="1" name="userNumber" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
           </sequence>
         </complexType>
       </element>
@@ -2350,7 +2350,7 @@
   </binding>
   <service name="Portals">
     <port name="Portals_Port" binding="tns:Portals_Binding">
-      <address location="http://sngutu:7047/DynamicsNAV110/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
+      <address location="http://192.168.0.249:2442/PORTAL/WS/KCDF/Codeunit/Portals" xmlns="http://schemas.xmlsoap.org/wsdl/soap/" />
     </port>
   </service>
 </definitions>

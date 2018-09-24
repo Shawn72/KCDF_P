@@ -41,7 +41,6 @@ namespace KCDF_P
                 GetmeYears();
                 LoadList();
                 SetMySessionItemView();
-                //loadUploads();
 
             }
         }
@@ -54,7 +53,7 @@ namespace KCDF_P
             ddlQuarter.Items.Add("July - Sept");
             ddlQuarter.Items.Add("Oct - Dec");
         }
-
+       
         protected void ddlAccountType_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             var selProj = ddlAccountType.SelectedItem.Text.Trim();
@@ -156,6 +155,7 @@ namespace KCDF_P
         {
             Session["yearofAwd"] = ddlYears.SelectedItem.Text;
         }
+
 
         protected void GetmeYears()
         {
@@ -410,13 +410,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 
@@ -524,13 +524,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 
@@ -633,13 +633,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 
@@ -744,13 +744,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 
@@ -846,13 +846,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 
@@ -948,13 +948,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 
@@ -1054,7 +1054,15 @@ namespace KCDF_P
                 case "Data":
                     myData.Visible = true;
                     break;
-
+                case "Community Report":
+                    communityreport.Visible = true;
+                    break;
+                case "Scholarship Report":
+                    scholarshipreport.Visible = true;
+                    break;
+                case "Consultant Report":
+                    consultantreport.Visible = true;
+                    break;
                 default:
                     generalUploads.Visible = true;
                     break;
@@ -1075,13 +1083,13 @@ namespace KCDF_P
             switch (sessx)
             {
                 case "iamGrantee":
-                    usnn = Grantees.No;
+                    usnn = Session["grant_no"].ToString();
                     break;
                 case "iamStudent":
-                    usnn = Students.No;
+                    usnn = Session["student_no"].ToString();
                     break;
                 case "iamConsult":
-                    usnn = ConsultantClass.No;
+                    usnn = Session["consultant_no"].ToString();
                     break;
             }
 

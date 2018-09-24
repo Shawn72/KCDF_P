@@ -132,11 +132,10 @@
                                         </div>
                                         <br/>
                                      </div>
-
                                 </asp:View>
 
                                 <asp:View runat="server" ID="amScholar">
-                                    <div class="col-md-12">
+                                     <div class="col-md-12" runat="server" ID="communityreport" Visible="false">
                                              <div class="form-group">
                                                 <div class="col-md-4">
                                                     <label class="control-label alert-info" style="font-weight: bold;">Community Report/Giveback Report</label>
@@ -152,8 +151,8 @@
                                             <br/>
                                            
                                     </div>
-                            
-                                    <div class="col-md-12">
+                                    
+                                     <div class="col-md-12" runat="server" ID="scholarshipreport" Visible="false">
                                              <div class="form-group">
                                                 <div class="col-md-4">
                                                     <label class="control-label alert-info" style="font-weight: bold;">Scholarship Report</label>
@@ -168,10 +167,13 @@
                                             </div>
                                             <br/>
                                     </div>
+                                    
+                            
+                                   
                                 </asp:View>
 
                                 <asp:View runat="server" ID="amConsult">
-                                     <div class="col-md-12">
+                                     <div class="col-md-12" runat="server" ID="consultantreport" Visible="false">
                                              <div class="form-group">
                                                 <div class="col-md-4">
                                                     <label class="control-label alert-info" style="font-weight: bold;">Consultancy Report</label>

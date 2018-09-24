@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Net;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Web.Providers.Entities;
+
 using KCDF_P.NavOData;
 using KCDF_P.NAVWS;
 
@@ -24,7 +21,18 @@ namespace KCDF_P
             // getURL();
             GetNotification();
         }
-       
+
+        //protected void GetMemberDetails()
+        //{
+        //    var memberdetails = Nav.MemberList.Where(r => r.No == Session["username"].ToString()).FirstOrDefault();
+
+        //    if (memberdetails != null)
+        //    {
+        //        memberName.InnerHtml = memberdetails.Name;
+        //    }
+
+        //}
+
         protected void lnkBtnChangeP_OnClick(object sender, EventArgs e)
         {
             Session["userType"] = "grantee";
@@ -56,7 +64,7 @@ namespace KCDF_P
             Portals sup = new Portals();
             sup.Credentials = credentials;
             sup.PreAuthenticate = true;
-            int nots = sup.FnCountGrantsNotifications(Grantees.No);
+            int nots = sup.FnCountGrantsNotifications(Session["username"].ToString());
             lblNots.Text= nots.ToString();
         }
     }

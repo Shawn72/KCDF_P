@@ -33,8 +33,7 @@ namespace KCDF_P
                 {
                     Response.Redirect("/Default.aspx");
 
-                }
-                ReturnStudent();
+                }              
                 readData();
                 loadRefs();
                 readEducBgData();
@@ -61,11 +60,7 @@ namespace KCDF_P
                 Wizard1.Visible = false;
             }
         }
-        protected Students ReturnStudent()
-        {
-            return new Students(User.Identity.Name);
-        }
-
+       
         protected void scholarshipDataCollection_OnMenuItemClick(object sender, MenuEventArgs e)
         {
             int index = Int32.Parse(e.Item.Value);
@@ -411,7 +406,7 @@ namespace KCDF_P
             {
                 var documentKind = "Scholarship Form";
                 var schlRefNo = ddlScolarshipType.SelectedValue;
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["student_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadSDoc.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadSDoc.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -428,7 +423,7 @@ namespace KCDF_P
                     (ext == ".doc") || (ext == ".xlsx"))
                 {
 
-                    string filename = Students.No + "_" + fileName;
+                    string filename = Session["student_no"] + "_" + fileName;
                     FileUploadSDoc.SaveAs(uploadsFolder + filename);
 
                     //file path to read file
@@ -471,7 +466,7 @@ namespace KCDF_P
                 var documentKind = "College Financials";
                 var schlRefNo = ddlScolarshipType.SelectedValue;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["student_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadCF.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadCF.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -488,7 +483,7 @@ namespace KCDF_P
                     (ext == ".doc") || (ext == ".xlsx"))
                 {
 
-                    string filename = Students.No + "_" + fileName;
+                    string filename = Session["student_no"] + "_" + fileName;
                     FileUploadCF.SaveAs(uploadsFolder + filename);
 
                     //file path to read file
@@ -532,7 +527,7 @@ namespace KCDF_P
                 var documentKind = "National ID /or Student ID";
                 var schlRefNo = ddlScolarshipType.SelectedValue;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["student_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadSNID.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadSNID.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -548,7 +543,7 @@ namespace KCDF_P
                 if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") ||
                     (ext == ".doc") || (ext == ".xlsx"))
                 {
-                    string filename = Students.No + "_" + fileName;
+                    string filename = Session["student_no"] + "_" + fileName;
                     FileUploadSNID.SaveAs(uploadsFolder + filename);
 
                     //file path to read file
@@ -590,7 +585,7 @@ namespace KCDF_P
                 var documentKind = "Passport Photo";
                 var schlRefNo = ddlScolarshipType.SelectedValue;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["student_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadPhoto.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadPhoto.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -607,7 +602,7 @@ namespace KCDF_P
                     (ext == ".doc") || (ext == ".xlsx"))
                 {
 
-                    string filename = Students.No + "_" + fileName;
+                    string filename = Session["student_no"] + "_" + fileName;
                     FileUploadPhoto.SaveAs(uploadsFolder + filename);
 
                     //file path to read file
@@ -649,7 +644,7 @@ namespace KCDF_P
                 var documentKind = "Guardian Concurrence Letter";
                 var schlRefNo = ddlScolarshipType.SelectedValue;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["student_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadGurdLeter.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadGurdLeter.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -666,7 +661,7 @@ namespace KCDF_P
                     (ext == ".doc") || (ext == ".xlsx"))
                 {
 
-                    string filename = Students.No + "_" + fileName;
+                    string filename = Session["student_no"] + "_" + fileName;
                     FileUploadGurdLeter.SaveAs(uploadsFolder + filename);
 
                     //file path to read file
@@ -708,7 +703,7 @@ namespace KCDF_P
                 var documentKind = "Guardian Concurrence Letter";
                 var schlRefNo = ddlScolarshipType.SelectedValue;
 
-                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Students.No + @"\";
+                string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["student_no"] + @"\";
                 string fileName = Path.GetFileName(FileUploadDeansTest.PostedFile.FileName);
                 string ext = Path.GetExtension(FileUploadDeansTest.PostedFile.FileName);
                 if (!Directory.Exists(uploadsFolder))
@@ -725,7 +720,7 @@ namespace KCDF_P
                     (ext == ".doc") || (ext == ".xlsx"))
                 {
 
-                    string filename = Students.No + "_" + fileName;
+                    string filename = Session["student_no"] + "_" + fileName;
                     FileUploadDeansTest.SaveAs(uploadsFolder + filename);
 
                     //file path to read file

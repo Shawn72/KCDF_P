@@ -94,6 +94,33 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Button btnUploadPic;
         
         /// <summary>
+        /// orgName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell orgName;
+        
+        /// <summary>
+        /// orgEmail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell orgEmail;
+        
+        /// <summary>
+        /// orgNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlTableCell orgNumber;
+        
+        /// <summary>
         /// hdnTxtValidit control.
         /// </summary>
         /// <remarks>
