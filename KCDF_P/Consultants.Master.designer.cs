@@ -13,6 +13,15 @@ namespace KCDF_P {
     public partial class Consultants {
         
         /// <summary>
+        /// lnkBtnPends control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkBtnPends;
+        
+        /// <summary>
         /// lblNots control.
         /// </summary>
         /// <remarks>
@@ -22,13 +31,31 @@ namespace KCDF_P {
         protected global::System.Web.UI.WebControls.Label lblNots;
         
         /// <summary>
-        /// lblcomplt control.
+        /// lnkBtnCompleted control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblcomplt;
+        protected global::System.Web.UI.WebControls.LinkButton lnkBtnCompleted;
+        
+        /// <summary>
+        /// LnkchnagetoProfile control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton LnkchnagetoProfile;
+        
+        /// <summary>
+        /// lnkBtntoDashd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton lnkBtntoDashd;
         
         /// <summary>
         /// lnkBtnChangeP control.

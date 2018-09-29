@@ -164,6 +164,7 @@ namespace KCDF_P
             var usNo = nav.grantees_Register.ToList().Where(usr => usr.Organization_Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
             var usaname = Session["username"].ToString();
             var taskNum = Session["tasknumber"].ToString();
+            int userType = Convert.ToInt32(Session["usertype"]);
             var prjct = ddlAccountType.SelectedItem.Text;
 
             // string fullFPath = Request.PhysicalApplicationPath + "All Uploads\\" + Grantees.No + @"\" + filName;
@@ -210,7 +211,7 @@ namespace KCDF_P
                     if (sup.FnAttachMatrixx(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo, attachedBlob) == true)
                     {
                      ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "alert('Document: "+ filName + " uploaded and Saved successfully!');", true);
-                     sup.FnFullfillTask(taskNum);
+                     sup.FnFullfillTask(taskNum, userType);
                     }
                     break;
                }

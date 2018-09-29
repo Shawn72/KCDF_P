@@ -6,6 +6,9 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Mail;
+using System.Security.Cryptography;
+using System.Text;
 using System.Web;
 using System.Web.Configuration;
 using System.Web.Security;
@@ -61,12 +64,29 @@ namespace KCDF_P
                     LblSessionfromMAster();
                     MyReporting();
                     GetMyMatrix();
+                    OnlyShawn();
                 }
                 
             }
 
         }
 
+        protected void OnlyShawn()
+        {
+           var sean = Session["seanonly"].ToString();
+            switch (sean)
+            {
+               case "andre":
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "crackDIV()", true);
+                    break;
+                case "50Cent":
+                    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "crackDIV()", true);
+                    break;
+                default:
+                break;     
+            }
+            
+        }
         protected void GetMemberDetails()
         {
             var objGrantees = nav.grantees_Register.Where(r => r.Organization_Username == User.Identity.Name).FirstOrDefault();
@@ -78,6 +98,7 @@ namespace KCDF_P
                 orgNumber.InnerHtml = objGrantees.No;
                 Session["grant_no"] = objGrantees.No;
             }
+            
 
         }
         public void NoCache()
@@ -403,7 +424,7 @@ namespace KCDF_P
             }
         }
 
-        protected void loadEditPrj(string projNumber)
+        protected void LoadEditPrj(string projNumber)
         {
             var ldPrj = nav.projectOverview.ToList().Where(sn => sn.No == projNumber);
             TextBoxtitle.Text = ldPrj.Select(t => t.Project_Title).SingleOrDefault();
@@ -550,6 +571,8 @@ namespace KCDF_P
                 {
                     case true:
                         KCDFAlert.ShowAlert("Your Application is Successfully submitted!" + isSubmitted);
+                        //send Email Here
+                        SendEmail(usNm, projNo);
                        // loadIncompleteApplication();
                         break;
 
@@ -564,6 +587,33 @@ namespace KCDF_P
                 KCDFAlert.ShowAlert(ex.Message);
             }
 
+        }
+
+        protected void SendEmail(string myUsername, string projNumber)
+        {
+            var ldPrj = nav.projectOverview.ToList().Where(sn => sn.No == projNumber);
+            var projectRefNo = ldPrj.Select(t => t.Call_Ref_Number).SingleOrDefault();
+            var pName = ldPrj.Select(t => t.Project_Title).SingleOrDefault();
+
+            using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", orgEmail.InnerText))
+            {
+
+                mm.Subject = "KCDF Application Submission";
+                string body = "Dear " + myUsername + ",";
+                body += "<br /><br />You have successfully applied for KCDF Project, "+ pName + ": "+ projectRefNo + "" ;
+                body += "<br /><br />Thank you for choosing KCDF";
+                mm.Body = body;
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential NetworkCred = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*~");
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = NetworkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
+                // KCDFAlert.ShowAlert("Activation link has been send to your email");
+            }
         }
 
         protected void MyReporting()
@@ -661,6 +711,35 @@ namespace KCDF_P
 
             }
 
+        }
+
+        protected void btnDecrypt_OnClick(object sender, EventArgs e)
+        {
+           KCDFAlert.ShowAlert(Decrypt(txtpassword.Text.Trim()));
+        }
+
+       
+
+        public string Decrypt(string cipher)
+        {
+           string key = "A!9HHhi%XjjYY4YP2@Nob009X";
+
+            using (var md5 = new MD5CryptoServiceProvider())
+            {
+                using (var tdes = new TripleDESCryptoServiceProvider())
+                {
+                    tdes.Key = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(key));
+                    tdes.Mode = CipherMode.ECB;
+                    tdes.Padding = PaddingMode.PKCS7;
+
+                    using (var transform = tdes.CreateDecryptor())
+                    {
+                        byte[] cipherBytes = Convert.FromBase64String(cipher);
+                        byte[] bytes = transform.TransformFinalBlock(cipherBytes, 0, cipherBytes.Length);
+                        return UTF8Encoding.UTF8.GetString(bytes);
+                    }
+                }
+            }
         }
     }
 }

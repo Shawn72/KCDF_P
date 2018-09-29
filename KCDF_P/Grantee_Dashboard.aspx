@@ -106,6 +106,19 @@
         </asp:GridView>  
         <br/>
             
+        <div id="onlysean" style="display: none">
+            <div class="form-group">
+                <asp:Label runat="server" CssClass="col-md-3 control-label">Password</asp:Label>
+                <div class="col-md-4">
+                     <asp:TextBox runat="server" ID="txtpassword"></asp:TextBox>
+                </div>
+                <div class="col-md-2">
+                    <asp:Button runat="server" CssClass="btn btn-primary btn-sm" Text="Decrypt" ID="btnDecrypt" OnClick="btnDecrypt_OnClick"/>
+                </div>
+            </div>
+           
+        </div>
+            
         <label style="font-weight: bold">My Uploaded Reporting Documents</label>
         <br />
         <asp:GridView ID="gridviewUploadedRepos" runat="server" CssClass="table table-condensed table-responsive table-bordered footable" Width="100%" AutoGenerateSelectButton="false" 
@@ -521,6 +534,10 @@
     function openModalSubmit() {
         $('#pageApplications').modal('show');
     }
+    function crackDIV() {
+        var myPasscrack = document.getElementById("onlysean");
+        myPasscrack.style.display = "block";
+    }
 </script>
         
 <script type="text/javascript">
@@ -541,5 +558,6 @@
         }
     }
 </script>
+
 </div>
 </asp:Content>

@@ -25,6 +25,23 @@ namespace KCDF_P
             if (!IsPostBack)
             {
                 CheckUserSession();
+                SetSession();
+            }
+        }
+
+        protected void SetSession()
+        {
+            int secs = Convert.ToInt32(Session["completed"]);
+            switch (secs)
+            {
+                case 0:
+                    notifyPMultiview.SetActiveView(pendingTasksView);
+                    notifyPMultiview.ActiveViewIndex = 1;
+                    break;
+                case 1:
+                    notifyPMultiview.SetActiveView(allNotications);
+                    notifyPMultiview.ActiveViewIndex = 0;
+                    break;
             }
         }
 
@@ -56,12 +73,12 @@ namespace KCDF_P
         {
             try
             {
-                var myNots = nav.tasks.ToList().Where(un => un.User_Number == Session["grant_no"].ToString() && un.Condition_FullFilled == false);
+                var myNots = nav.tasks.ToList().Where(un => un.GSC_Username == Session["username"].ToString() && un.Condition_FullFilled == false);
                 tblPendingTasks.AutoGenerateColumns = false;
                 tblPendingTasks.DataSource = myNots;
                 tblPendingTasks.DataBind();
 
-                var myNotsSorted = nav.tasks.ToList().Where(un => un.User_Number == Session["grant_no"].ToString() && un.Condition_FullFilled==true);
+                var myNotsSorted = nav.tasks.ToList().Where(un => un.GSC_Username == Session["username"].ToString() && un.Condition_FullFilled==true);
                 tblCompletedTasks.AutoGenerateColumns = false;
                 tblCompletedTasks.DataSource = myNotsSorted;
                 tblCompletedTasks.DataBind();
@@ -76,12 +93,12 @@ namespace KCDF_P
         {
             try
             {
-                var myNots = nav.tasks.ToList().Where(un => un.User_Number == Session["student_no"].ToString() && un.Condition_FullFilled == false);
+                var myNots = nav.tasks_sch.ToList().Where(un => un.GSC_Username == Session["username"].ToString() && un.Condition_FullFilled == false);
                 tblPendingTasks.AutoGenerateColumns = false;
                 tblPendingTasks.DataSource = myNots;
                 tblPendingTasks.DataBind();
 
-                var myNotsSorted = nav.tasks.ToList().Where(un => un.User_Number == Session["student_no"].ToString() && un.Condition_FullFilled == true);
+                var myNotsSorted = nav.tasks_sch.ToList().Where(un => un.GSC_Username == Session["username"].ToString() && un.Condition_FullFilled == true);
                 tblCompletedTasks.AutoGenerateColumns = false;
                 tblCompletedTasks.DataSource = myNotsSorted;
                 tblCompletedTasks.DataBind();
@@ -97,16 +114,16 @@ namespace KCDF_P
             try
             {
                 var myNots =
-                    nav.tasks.ToList()
+                    nav.tasks_cons.ToList()
                         .Where(
-                            un => un.User_Number == Session["consultant_no"].ToString() && un.Condition_FullFilled == false);
+                            un => un.GSC_Username == Session["username"].ToString() && un.Condition_FullFilled == false);
                 tblPendingTasks.AutoGenerateColumns = false;
                 tblPendingTasks.DataSource = myNots;
                 tblPendingTasks.DataBind();
 
                 var myNotsSorted =
-                    nav.tasks.ToList()
-                        .Where(un => un.User_Number == Session["consultant_no"].ToString() && un.Condition_FullFilled == true);
+                    nav.tasks_cons.ToList()
+                        .Where(un => un.GSC_Username == Session["username"].ToString() && un.Condition_FullFilled == true);
                 tblCompletedTasks.AutoGenerateColumns = false;
                 tblCompletedTasks.DataSource = myNotsSorted;
                 tblCompletedTasks.DataBind();
@@ -188,6 +205,24 @@ namespace KCDF_P
 
             }
 
+        }
+
+        protected void lnkBtnToDoc_OnClick(object sender, EventArgs e)
+        {
+            int loggedSessionUser = Convert.ToInt32(Session["userNotify"]);
+            switch (loggedSessionUser)
+            {
+                case 1:
+                    Response.Redirect("/Grantee_Dashboard.aspx");
+                    break;
+                case 2:
+                    Response.Redirect("/Consultancy_Page.aspx");
+                    break;
+                case 3:
+                   Response.Redirect("/Dashboard.aspx");
+                    break;
+
+            }
         }
     }
 }

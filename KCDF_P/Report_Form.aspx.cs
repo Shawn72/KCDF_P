@@ -177,6 +177,7 @@ namespace KCDF_P
         {
             var usaname = Session["username"].ToString();
             var taskNum = Session["tasknumber"].ToString();
+            int userType = Convert.ToInt32(Session["usertype"]);
             int granttype = 0;
             var userNumber = "";
             var myyearP = "";
@@ -275,7 +276,7 @@ namespace KCDF_P
                 // loadUploads();
                 ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything",
                     "alert('Document: '" + filName + "'successfully uploaded!');", true);
-                sup.FnFullfillTask(taskNum);
+                sup.FnFullfillTask(taskNum, userType);
                 return true;
             }
             return false;

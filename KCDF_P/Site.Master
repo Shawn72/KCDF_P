@@ -70,12 +70,12 @@
                             </ul>
                         </li>
 
-                         <li>
+                        <li>
                             <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
                          </li>
                         
                          <li>
-                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Completed Tasks<span class="badge alert-danger"><asp:Label runat="server" ID="lblcomplt" ></asp:Label></span><b class="caret"></b></a>
+                            <a href="/Notifications.aspx" class=""><i class="fa fa-check"></i> &nbsp;Completed Tasks</a>
                          </li>
 
                         <li>

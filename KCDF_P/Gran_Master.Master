@@ -124,11 +124,15 @@
                         </li>
 
                         <li>
-                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
-                         </li>
+                            <%--<a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
+                         --%>
+                         <asp:LinkButton runat="server" ID="lnkBtnPends" OnClick="lnkBtnPends_OnClick"><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b> </asp:LinkButton>
+                      
+                        </li>
                         
                          <li>
-                            <a href="/Notifications.aspx" class=""><i class="fa fa-check"></i> &nbsp;Completed Tasks</a>
+                             <asp:LinkButton ID="lnkBtnCompleted" runat="server" style="align-content: center" OnClick="lnkBtnCompleted_OnClick"><i class="fa fa-check"></i> &nbsp; Completed Tasks</asp:LinkButton>
+                              <%-- <a href="/Notifications.aspx" class="">Completed Tasks</a>--%>
                          </li>
 
                         <li>

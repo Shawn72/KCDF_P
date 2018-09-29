@@ -519,7 +519,7 @@ namespace KCDF_P
             }
         }
 
-        protected void ValidateGrantee(string UserName, string Password)
+        protected void ValidateGrantee(string userName, string password)
         {
             try
             {
@@ -531,8 +531,8 @@ namespace KCDF_P
                 using (SqlCommand cmd = new SqlCommand("Validate_UserGrantee"))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@Username", UserName);
-                        cmd.Parameters.AddWithValue("@Password", EncryptP(Password));
+                        cmd.Parameters.AddWithValue("@Username", userName);
+                        cmd.Parameters.AddWithValue("@Password", EncryptP(password));
                         cmd.Connection = con;
 
                         con.Open();
@@ -552,17 +552,17 @@ namespace KCDF_P
                             break;
                         default:
                             Session.Clear();
-                            FormsAuthentication.RedirectFromLoginPage(UserName, chkRememberMe.Checked);
+                            FormsAuthentication.RedirectFromLoginPage(userName, chkRememberMe.Checked);
                             Session["Logged"] = "Yes";
-                            Session["username"] = UserName;
-                            Session["pwd"] = Password;
+                            Session["username"] = userName;
+                            Session["pwd"] = password;
                             Session["reportformUser"] = "iamGrantee";
-                            GetGranteeNoSession(UserName);
+                            GetGranteeNoSession(userName);
 
-                            FormsAuthentication.GetAuthCookie(UserName, false);
-                            FormsAuthentication.SetAuthCookie(UserName, false);
-                            rememberMeYeah(UserName, Password);
-                            CheckUserProfileUpdates(UserName);
+                            FormsAuthentication.GetAuthCookie(userName, false);
+                            FormsAuthentication.SetAuthCookie(userName, false);
+                            rememberMeYeah(userName, password);
+                            CheckUserProfileUpdates(userName);
                             break;
                     }
                 }
@@ -577,7 +577,7 @@ namespace KCDF_P
         }
 
 
-        protected void ValidateScholar(string UserName, string Password)
+        protected void ValidateScholar(string userName, string password)
         {
             try
             {
@@ -589,8 +589,8 @@ namespace KCDF_P
                     using (SqlCommand cmd = new SqlCommand("Validate_UserScholar"))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@Username", UserName);
-                        cmd.Parameters.AddWithValue("@Password", EncryptP(Password));
+                        cmd.Parameters.AddWithValue("@Username", userName);
+                        cmd.Parameters.AddWithValue("@Password", EncryptP(password));
                         cmd.Connection = con;
 
                         con.Open();
@@ -610,18 +610,18 @@ namespace KCDF_P
                             break;
                         default:
                             Session.Clear();
-                            FormsAuthentication.RedirectFromLoginPage(UserName, chkRememberMe.Checked);
+                            FormsAuthentication.RedirectFromLoginPage(userName, chkRememberMe.Checked);
                             //Change the Session called "Logged" value into "Yes"
                             Session["Logged"] = "Yes";
-                            Session["username"] = UserName;
-                            FormsAuthentication.GetAuthCookie(UserName, true);
-                            FormsAuthentication.SetAuthCookie(UserName, true);
+                            Session["username"] = userName;
+                            FormsAuthentication.GetAuthCookie(userName, true);
+                            FormsAuthentication.SetAuthCookie(userName, true);
 
-                            Session["pwd"] = Password;
-                            GetStudentNoSession(UserName);
-                            rememberMeYeah(UserName, Password);
+                            Session["pwd"] = password;
+                            GetStudentNoSession(userName);
+                            rememberMeYeah(userName, password);
                             Session["reportformUser"] = "iamStudent";
-                            CheckStudentsProfile(UserName);
+                            CheckStudentsProfile(userName);
                             break;
                     }
                 }
@@ -643,6 +643,8 @@ namespace KCDF_P
             {
                 Session["grant_no"] = objGrantees.No;
                 Session["userNotify"] = 1;
+                Session["usertype"] = 1;
+                Session["seanonly"] = username;
             }
 
         }
@@ -656,6 +658,8 @@ namespace KCDF_P
                 Session["myRNo"] = objCons.Organization_Registration_No;
                 Session["consultant_no"] = objCons.No;
                 Session["userNotify"] = 2;
+                Session["usertype"] = 3;
+                Session["toprofile"] = 0;
             }
 
         }
@@ -668,6 +672,7 @@ namespace KCDF_P
             {
                 Session["student_no"] = objStudents.No;
                 Session["userNotify"] = 3;
+                Session["usertype"] = 2;
             }
 
         }

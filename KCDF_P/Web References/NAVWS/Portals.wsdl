@@ -1103,6 +1103,7 @@
         <complexType>
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="userName" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userType" type="int" />
           </sequence>
         </complexType>
       </element>
@@ -1117,6 +1118,7 @@
         <complexType>
           <sequence>
             <element minOccurs="1" maxOccurs="1" name="taskNo" type="string" />
+            <element minOccurs="1" maxOccurs="1" name="userType" type="int" />
           </sequence>
         </complexType>
       </element>

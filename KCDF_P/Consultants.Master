@@ -122,26 +122,40 @@
             
             <div class="collapse navbar-collapse" id="shrink">
                     <ul class="nav navbar-nav navbar-right">  
-                       <li>
-                           <a href="Consultancy_Downloads.aspx" class="" data-toggle="dropdown">Download KCDF Documents<b class="caret"></b></a>
+                        <li>
+                           <a href="/Consultancy_Downloads.aspx" class="" >Download KCDF Documents<b class="caret"></b></a>
                         </li>
                         
-                        <li>
-                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>
+                         <li>
+                            <%--<a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b></a>--%>
+                        <asp:LinkButton runat="server" ID="lnkBtnPends" OnClick="lnkBtnPends_OnClick"><i class="fa fa-bell-o"></i> &nbsp;Notifications<span class="badge alert-danger"><asp:Label runat="server" ID="lblNots" ></asp:Label></span><b class="caret"></b> </asp:LinkButton>
                          </li>
                         
-                         <li>
-                            <a href="/Notifications.aspx" class=""><i class="fa fa-bell-o"></i> &nbsp;Completed Tasks<span class="badge alert-danger"><asp:Label runat="server" ID="lblcomplt" ></asp:Label></span><b class="caret"></b></a>
+                          <li>
+                             <asp:LinkButton ID="lnkBtnCompleted" runat="server" style="align-content: center" OnClick="lnkBtnCompleted_OnClick"><i class="fa fa-check"></i> &nbsp; Completed Tasks</asp:LinkButton>
+                              <%-- <a href="/Notifications.aspx" class="">Completed Tasks</a>--%>
                          </li>
                        
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-user"></span>&nbsp;Hello:&nbsp; <% = Session["username"].ToString()%> </a>
                             
                             <ul class="dropdown-menu">
-                                <li><a href="/Consultancy_Page.aspx">Homepage</a></li>
+                                <li>
+                                    <asp:LinkButton ID="LnkchnagetoProfile" runat="server" OnClick="LnkchnagetoProfile_OnClick" style="align-content: center" CausesValidation="false">Homepage</asp:LinkButton>
+                                 </li>
+
+                                <li class="divider"></li>
+                                 <li>
+                                    <asp:LinkButton ID="lnkBtntoDashd" runat="server" OnClick="lnkBtntoDashd_OnClick" style="align-content: center" CausesValidation="false">Consultancy Application</asp:LinkButton>
+                                </li>
+
                                  <li class="divider"></li>
-                                <asp:LinkButton ID="lnkBtnChangeP" runat="server" OnClick="lnkBtnChangeP_OnClick" style="align-content: center" CausesValidation="false">Change Password</asp:LinkButton>
+                                <li>
+                                     <asp:LinkButton ID="lnkBtnChangeP" runat="server" OnClick="lnkBtnChangeP_OnClick" style="align-content: center" CausesValidation="false">Change Password</asp:LinkButton>
+                               </li>
+
                                  <li class="divider"></li>
+
                                 <li><a href="/Logout.aspx">Log Out</a></li>
                                 <li class="divider"></li>
                               

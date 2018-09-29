@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Configuration;
+using System.Net;
 using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using KCDF_P.NAVWS;
 using Microsoft.AspNet.Identity;
 
 namespace KCDF_P
@@ -68,6 +71,7 @@ namespace KCDF_P
         protected void Page_Load(object sender, EventArgs e)
         {
             //Session["username"] = Students.Username;
+            GetNotification();
         }
 
         protected void Unnamed_LoggingOut(object sender, LoginCancelEventArgs e)
@@ -75,7 +79,7 @@ namespace KCDF_P
             Context.GetOwinContext().Authentication.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
         }
 
-        protected void editModal()
+        protected void EditModal()
         {
             ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "openModal();", true);
         }      
@@ -85,7 +89,18 @@ namespace KCDF_P
             Session["userType"] = "student";
             Response.Redirect("/PasswordReset.aspx");
         }
-       
+        protected void GetNotification()
+        {
+            //int nots = nav.tasks.ToList().Where(n => n.User_Number == Grantees.No).Count();
+            int userType = Convert.ToInt32(Session["usertype"]);
+            var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
+            Portals sup = new Portals();
+            sup.Credentials = credentials;
+            sup.PreAuthenticate = true;
+            int nots = sup.FnCountGrantsNotifications(Session["username"].ToString(), userType);
+            lblNots.Text = nots.ToString();
+        }
+
     }
 
 }

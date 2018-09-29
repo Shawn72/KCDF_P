@@ -25,12 +25,12 @@ namespace KCDF_P.Account
                  ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"])
         };
 
-        public static readonly string strSQLConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
+        public static readonly string StrSqlConn = @"Server=" + ConfigurationManager.AppSettings["DB_INSTANCE"] + ";Database=" +
                                   ConfigurationManager.AppSettings["DB_NAME"] + "; User ID=" +
                                   ConfigurationManager.AppSettings["DB_USER"] + "; Password=" +
                                   ConfigurationManager.AppSettings["DB_PWD"] + "; MultipleActiveResultSets=true";
 
-        public string Company_Name = "KCDF";
+        public string CompanyName = "KCDF";
         protected void Page_Load(object sender, EventArgs e)
         {
             NoCache();
@@ -75,7 +75,7 @@ namespace KCDF_P.Account
                 return Convert.ToBase64String(data);
             }
         }
-        protected void createStudentUser()
+        protected void CreateStudentUser()
         {
             string fname = txtFirstname.Text.Trim();
             string mname = txtMiddlename.Text.Trim();
@@ -331,7 +331,7 @@ namespace KCDF_P.Account
                 status = false;
                 //Session["myStatusIsFalse"] = status;
                 //  KCDFAlert.ShowAlert(status.ToString());
-                createStudentUser();
+                CreateStudentUser();
             }
 
             return status;
@@ -474,7 +474,7 @@ namespace KCDF_P.Account
         }
         public void InsertToActivationDB(string userName, string ActvCode)
         {
-            using (SqlConnection con = new SqlConnection(strSQLConn))
+            using (SqlConnection con = new SqlConnection(StrSqlConn))
             {
                 using (SqlCommand cmd = new SqlCommand("INSERT INTO UserActivation VALUES(@UserId, @ActivationCode)"))
                 {

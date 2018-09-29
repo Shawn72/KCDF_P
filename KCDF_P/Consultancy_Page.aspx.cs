@@ -14,6 +14,7 @@ using System.Web.UI.WebControls;
 using KCDF_P.NavOData;
 using KCDF_P.NAVWS;
 using System.IO;
+using System.Net.Mail;
 using System.Security.Principal;
 using System.Text;
 using System.Web.Security;
@@ -53,20 +54,34 @@ namespace KCDF_P
                 }
                 if (!IsPostBack)
                 {
+                    SwitchViews();
                     LoadProfPic();
                     GetMemberDetails();
-                    getPostaCodes();
+                    GetPostaCodes();
                     CheckSessX();
-                    getProjects();
+                    GetProjects();
                     LoadMyProfile();
                     LoadmyApplications();
-                    loadUploads();
+                    LoadUploads();
                 }
                
             }
            
         }
 
+        protected void SwitchViews()
+        {
+           int sexcswitch= Convert.ToInt32(Session["toprofile"]);
+            switch (sexcswitch)
+            {
+                case 0:
+                    multiSwitchProf.SetActiveView(dashboardView);
+                    break;
+                case 1:
+                    multiSwitchProf.SetActiveView(profileView);
+                    break;
+            }
+        }
         protected void GetMemberDetails()
         {
             var objCons = nav.myConsultants.Where(r => r.Organization_Username == User.Identity.Name).FirstOrDefault();
@@ -159,7 +174,7 @@ namespace KCDF_P
             txtPostalTown.Text = postaTown;
             ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "anything", "pageLoad();", true);
         }
-        protected void getProjects()
+        protected void GetProjects()
         {
             var projs = nav.call_for_Proposal.ToList().Where(pty => pty.Proposal_Type == "Consultancy");
             ddlConsultProject.DataSource = projs;
@@ -174,7 +189,7 @@ namespace KCDF_P
             ddlProjectApp.DataBind();
             ddlProjectApp.Items.Insert(0, "--Select Project--");
         }
-        protected void getPostaCodes()
+        protected void GetPostaCodes()
         {
             try
             {
@@ -377,7 +392,7 @@ namespace KCDF_P
             sup.PreAuthenticate = true;
             if (sup.FnAddConsultantApplication(userNme, myRNo, projctName, refNo) == true)
             {
-                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('You have Applied for this project!,Keep checking status on your Dashboard');", true);
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('You have Applied for this project!,Go to HOMEPAGE to submit the application');", true);
                 LoadmyApplications();
             }
             }
@@ -430,11 +445,11 @@ namespace KCDF_P
                     Session["projectName"] = selProj;
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "UploadsDIV();", true);
                     ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "CodesaBitch", "pageLoad();", true);
-                    loadUploads();
+                    LoadUploads();
                     break;
             }
         }
-        protected void saveAttachment(string filName, string extension, string docKind, string callRefNo, string AttachedBLOB)
+        protected void SaveAttachment(string filName, string extension, string docKind, string callRefNo, string AttachedBLOB)
         {
             var usNo = nav.myConsultants.ToList().Where(usr => usr.Organization_Username == Session["username"].ToString()).Select(nu => nu.No).SingleOrDefault();
             var usaname = Session["username"].ToString();
@@ -472,7 +487,7 @@ namespace KCDF_P
                 if (sup.FnAttachmentConsultant(usNo, docType, navfilePath, filName, granttype, docKind, usaname, prjct, callRefNo,AttachedBLOB) == true)
                 {
                   ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Document: " + filName + " uploaded and Saved successfully!');", true);
-                    getProjects();
+                    GetProjects();
                 }
 
             }
@@ -519,8 +534,8 @@ namespace KCDF_P
                     file.Close();
                     string attachedDoc = Convert.ToBase64String(buffer);
 
-                    saveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
-                    loadUploads();
+                    SaveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
+                    LoadUploads();
                 }
                 else
                 {
@@ -543,7 +558,7 @@ namespace KCDF_P
         {
             //try
             //{
-                var documentKind = "Proposal Budget";
+                const string documentKind = "Proposal Budget";
                 var refNoIs = textRefNo.Text;
 
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
@@ -571,8 +586,8 @@ namespace KCDF_P
                 file.Read(buffer, 0, buffer.Length);
                 file.Close();
                 string attachedDoc = Convert.ToBase64String(buffer);
-                saveAttachment(filename, ext, documentKind, refNoIs,attachedDoc);
-                loadUploads();
+                SaveAttachment(filename, ext, documentKind, refNoIs,attachedDoc);
+                LoadUploads();
 
                 }
                 else
@@ -592,48 +607,16 @@ namespace KCDF_P
             //}
             
         }
-
-        private static void UploadFileToFTP(string src)
-        {
-            String sourcefilepath = src;
-            String ftpurl = "ftp://192.168.0.249/Uploads/"; 
-            String ftpusername = "Administrator"; // e.g. username
-            String ftppassword = "Admin7654321"; // e.g. password
-            try
-            {
-                string filename = Path.GetFileName(sourcefilepath);
-                string ftpfullpath = ftpurl;
-                FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(ftpfullpath);
-                ftp.Credentials = new NetworkCredential(ftpusername, ftppassword);
-
-                ftp.KeepAlive = true;
-                ftp.UseBinary = true;
-                ftp.Method = WebRequestMethods.Ftp.UploadFile;
-
-                FileStream fs = File.OpenRead(sourcefilepath);
-                byte[] buffer = new byte[fs.Length];
-                fs.Read(buffer, 0, buffer.Length);
-                fs.Close();
-
-                Stream ftpstream = ftp.GetRequestStream();
-                ftpstream.Write(buffer, 0, buffer.Length);
-                ftpstream.Close();
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        private void loadUploads()
+     
+        private void LoadUploads()
         {
             try
             {
-                var userNM = Session["username"].ToString();
-                var openP = nav.myConsultations.ToList().Where(up => up.Consultant_Username == userNM && up.Approval_Status == "Open").Select(pn => pn.No).SingleOrDefault();
+                var userNm = Session["username"].ToString();
+                var openP = nav.myConsultations.ToList().Where(up => up.Consultant_Username == userNm && up.Approval_Status == "Open").Select(pn => pn.No).SingleOrDefault();
 
                 //KCDFAlert.ShowAlert(openP);
-                var upsFiles = nav.myConsultsUploads.ToList().Where(un => un.Username == userNM && un.Scholarship_No == openP);
+                var upsFiles = nav.myConsultsUploads.ToList().Where(un => un.Username == userNm && un.Scholarship_No == openP);
                 gridViewUploads.AutoGenerateColumns = false;
                 gridViewUploads.DataSource = upsFiles;
                 gridViewUploads.DataBind();
@@ -700,7 +683,7 @@ namespace KCDF_P
             try
             {
                 string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
-                string destPathserver1 = @"\\192.168.0.250\All Uploads\";
+                const string destPathserver1 = @"\\192.168.0.250\All Uploads\";
 
                 foreach (string dirPath in Directory.GetDirectories(uploadsFolder, " * ",
                   SearchOption.AllDirectories))
@@ -755,8 +738,8 @@ namespace KCDF_P
         {
             try
             {
-                var del_id = gridViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
-                Session["delMeID"] = del_id;
+                var delId = gridViewUploads.DataKeys[e.RowIndex].Values[0].ToString();
+                Session["delMeID"] = delId;
 
                 var credentials = new NetworkCredential(ConfigurationManager.AppSettings["W_USER"], ConfigurationManager.AppSettings["W_PWD"], ConfigurationManager.AppSettings["DOMAIN"]);
                 Portals sup = new Portals();
@@ -781,9 +764,9 @@ namespace KCDF_P
                     case false:
                         if (sup.FnDeleteUploadConsult(Session["delMeID"].ToString()) == true)
                         {
-                            KCDFAlert.ShowAlert("Deleted Successfully!" + uploadsGrantNo + " &&" + del_id);
-                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Deleted Successfully!" + uploadsGrantNo + " &&" + del_id+"');", true);
-                            loadUploads();
+                            KCDFAlert.ShowAlert("Deleted Successfully!" + uploadsGrantNo + " &&" + delId);
+                            ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Deleted Successfully!" + uploadsGrantNo + " &&" + delId+"');", true);
+                            LoadUploads();
                         }
                         break;
                 }
@@ -877,6 +860,7 @@ namespace KCDF_P
                             case true:
                                 KCDFAlert.ShowAlert("Your Application is Successfully submitted!" + isSubmitted);
                                 LoadmyApplications();
+                                SendEmail(usname, refNoPrj);
                                 Session.Remove("validOR");
                                 break;
 
@@ -923,9 +907,10 @@ namespace KCDF_P
         {
             try
             {
-                string edit_id = (sender as LinkButton).CommandArgument;
-                var usernameIS = Session["username"].ToString();
-                IsAGoPostIt(usernameIS, edit_id);
+                string editId = (sender as LinkButton).CommandArgument;
+                var usernameIs = Session["username"].ToString();
+
+                IsAGoPostIt(usernameIs, editId);
             }
             catch (Exception rt)
             {
@@ -934,9 +919,144 @@ namespace KCDF_P
             }
         }
 
-        protected void copyTest_OnClick(object sender, EventArgs e)
+        protected void btnUploadIncept_OnClick(object sender, EventArgs e)
         {
-           /// UploadFileToFTP();
+            //try
+            //{
+            const string documentKind = "Inception Report";
+            var refNoIs = textRefNo.Text;
+
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
+            string fileName = Path.GetFileName(FileUploadIncept.PostedFile.FileName);
+            string ext = Path.GetExtension(FileUploadIncept.PostedFile.FileName);
+            if (!Directory.Exists(uploadsFolder))
+            {
+                //if the folder doesnt exist create it
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            if (FileUploadIncept.PostedFile.ContentLength > 5000000)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Select a file less than 5MB!');", true);
+                return;
+            }
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+            {
+                string filename = Session["consultant_no"] + "_" + fileName;
+                FileUploadIncept.SaveAs(uploadsFolder + filename);
+                //file path to read file
+                string filePath = uploadsFolder + filename;
+                FileStream file = File.OpenRead(filePath);
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+                file.Close();
+                string attachedDoc = Convert.ToBase64String(buffer);
+                SaveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
+                LoadUploads();
+
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!');", true);
+            }
+            if (!FileUploadIncept.HasFile)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Select Document before uploading!');", true);
+                return;
+            }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('" + ex.Message + "');", true);
+            //}
+
+        }
+
+        protected void btnFinalRepo_OnClick(object sender, EventArgs e)
+        {
+            //try
+            //{
+            const string documentKind = "Final Report";
+            var refNoIs = textRefNo.Text;
+
+            string uploadsFolder = Request.PhysicalApplicationPath + "Uploaded Documents\\" + Session["consultant_no"] + @"\";
+            string fileName = Path.GetFileName(FileUploadFinalRepo.PostedFile.FileName);
+            string ext = Path.GetExtension(FileUploadFinalRepo.PostedFile.FileName);
+            if (!Directory.Exists(uploadsFolder))
+            {
+                //if the folder doesnt exist create it
+                Directory.CreateDirectory(uploadsFolder);
+            }
+
+            if (FileUploadFinalRepo.PostedFile.ContentLength > 5000000)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Select a file less than 5MB!');", true);
+                return;
+            }
+            if ((ext == ".jpeg") || (ext == ".jpg") || (ext == ".png") || (ext == ".pdf") || (ext == ".docx") || (ext == ".doc") || (ext == ".xlsx"))
+            {
+                string filename = Session["consultant_no"] + "_" + fileName;
+                FileUploadFinalRepo.SaveAs(uploadsFolder + filename);
+                //file path to read file
+                string filePath = uploadsFolder + filename;
+                FileStream file = File.OpenRead(filePath);
+                byte[] buffer = new byte[file.Length];
+                file.Read(buffer, 0, buffer.Length);
+                file.Close();
+                string attachedDoc = Convert.ToBase64String(buffer);
+                SaveAttachment(filename, ext, documentKind, refNoIs, attachedDoc);
+                LoadUploads();
+
+            }
+            else
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('File Format is : " + ext + "; - Allowed picture formats are: JPG, JPEG, PNG, PDF, DOCX, DOC, XLSX only!');", true);
+            }
+            if (!FileUploadFinalRepo.HasFile)
+            {
+                ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('Select Document before uploading!');", true);
+                return;
+            }
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    ScriptManager.RegisterClientScriptBlock(this, this.GetType(), "itsABitch", "alert('" + ex.Message + "');", true);
+            //}
+        }
+
+        protected void SendEmail(string myUsername, string projno )
+        {
+            var ldPrj = nav.myConsultations.ToList().Where(sn => sn.No == projno);
+            var pName = ldPrj.Select(t => t.Project_Name).SingleOrDefault();
+            var projectRefNo = ldPrj.Select(t => t.Project_RefNo).SingleOrDefault();
+            using (MailMessage mm = new MailMessage("kcdfportal@gmail.com", conEmail.InnerText))
+            {
+
+                mm.Subject = "KCDF Application Submission";
+                string body = "Dear " + myUsername + ",";
+                body += "<br /><br />You have successfully applied to consult for KCDF Project, " + pName + ": " + projectRefNo + "";
+                body += "<br /><br />Thank you for choosing KCDF.";
+                mm.Body = body;
+                mm.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Host = "smtp.gmail.com";
+                smtp.EnableSsl = true;
+                NetworkCredential networkCred = new NetworkCredential("kcdfportal@gmail.com", "Kcdfportal@4321*~");
+                smtp.UseDefaultCredentials = true;
+                smtp.Credentials = networkCred;
+                smtp.Port = 587;
+                smtp.Send(mm);
+                // KCDFAlert.ShowAlert("Activation link has been send to your email");
+            }
+        }
+
+        protected void lnkToFinalsubmit_OnClick(object sender, EventArgs e)
+        {
+            Session.Remove("toprofile");
+            Session["toprofile"] = 1;
+            Response.Redirect("Consultancy_Page.aspx");
         }
     }
 }

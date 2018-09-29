@@ -2856,24 +2856,26 @@ namespace KCDF_P.NAVWS {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnCountGrantsNotifications", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnCountGrantsNotifications_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         [return: System.Xml.Serialization.XmlElementAttribute("return_value")]
-        public int FnCountGrantsNotifications(string userName) {
+        public int FnCountGrantsNotifications(string userName, int userType) {
             object[] results = this.Invoke("FnCountGrantsNotifications", new object[] {
-                        userName});
+                        userName,
+                        userType});
             return ((int)(results[0]));
         }
         
         /// <remarks/>
-        public void FnCountGrantsNotificationsAsync(string userName) {
-            this.FnCountGrantsNotificationsAsync(userName, null);
+        public void FnCountGrantsNotificationsAsync(string userName, int userType) {
+            this.FnCountGrantsNotificationsAsync(userName, userType, null);
         }
         
         /// <remarks/>
-        public void FnCountGrantsNotificationsAsync(string userName, object userState) {
+        public void FnCountGrantsNotificationsAsync(string userName, int userType, object userState) {
             if ((this.FnCountGrantsNotificationsOperationCompleted == null)) {
                 this.FnCountGrantsNotificationsOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnCountGrantsNotificationsOperationCompleted);
             }
             this.InvokeAsync("FnCountGrantsNotifications", new object[] {
-                        userName}, this.FnCountGrantsNotificationsOperationCompleted, userState);
+                        userName,
+                        userType}, this.FnCountGrantsNotificationsOperationCompleted, userState);
         }
         
         private void OnFnCountGrantsNotificationsOperationCompleted(object arg) {
@@ -2885,23 +2887,25 @@ namespace KCDF_P.NAVWS {
         
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("urn:microsoft-dynamics-schemas/codeunit/Portals:FnFullfillTask", RequestNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", ResponseElementName="FnFullfillTask_Result", ResponseNamespace="urn:microsoft-dynamics-schemas/codeunit/Portals", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
-        public void FnFullfillTask(string taskNo) {
+        public void FnFullfillTask(string taskNo, int userType) {
             this.Invoke("FnFullfillTask", new object[] {
-                        taskNo});
+                        taskNo,
+                        userType});
         }
         
         /// <remarks/>
-        public void FnFullfillTaskAsync(string taskNo) {
-            this.FnFullfillTaskAsync(taskNo, null);
+        public void FnFullfillTaskAsync(string taskNo, int userType) {
+            this.FnFullfillTaskAsync(taskNo, userType, null);
         }
         
         /// <remarks/>
-        public void FnFullfillTaskAsync(string taskNo, object userState) {
+        public void FnFullfillTaskAsync(string taskNo, int userType, object userState) {
             if ((this.FnFullfillTaskOperationCompleted == null)) {
                 this.FnFullfillTaskOperationCompleted = new System.Threading.SendOrPostCallback(this.OnFnFullfillTaskOperationCompleted);
             }
             this.InvokeAsync("FnFullfillTask", new object[] {
-                        taskNo}, this.FnFullfillTaskOperationCompleted, userState);
+                        taskNo,
+                        userType}, this.FnFullfillTaskOperationCompleted, userState);
         }
         
         private void OnFnFullfillTaskOperationCompleted(object arg) {

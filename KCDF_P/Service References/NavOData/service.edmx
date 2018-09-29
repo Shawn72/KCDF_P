@@ -3981,7 +3981,50 @@
         <Property Name="Entry_No" Type="Edm.String" />
         <Property Name="Condition_FullFilled" Type="Edm.Boolean" />
         <Property Name="Task_Type" Type="Edm.String" />
+        <Property Name="GSC_Username" Type="Edm.String" />
         <Property Name="AuxiliaryIndex1" Type="Edm.Boolean" Nullable="false" />
+      </EntityType>
+      <EntityType Name="tasks_cons">
+        <Key>
+          <PropertyRef Name="AlertSent" />
+          <PropertyRef Name="AuxiliaryIndex1" />
+          <PropertyRef Name="Condition" />
+          <PropertyRef Name="Grant_No" />
+          <PropertyRef Name="Project" />
+        </Key>
+        <Property Name="Entry_No" Type="Edm.String" />
+        <Property Name="Project" Type="Edm.String" Nullable="false" />
+        <Property Name="Months" Type="Edm.String" />
+        <Property Name="Due_Date" Type="Edm.DateTime" />
+        <Property Name="AlertSent" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="Condition" Type="Edm.String" Nullable="false" />
+        <Property Name="Grant_No" Type="Edm.String" Nullable="false" />
+        <Property Name="User_Number" Type="Edm.String" />
+        <Property Name="Condition_FullFilled" Type="Edm.Boolean" />
+        <Property Name="Task_Type" Type="Edm.String" />
+        <Property Name="GSC_Username" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.Decimal" Nullable="false" />
+      </EntityType>
+      <EntityType Name="tasks_sch">
+        <Key>
+          <PropertyRef Name="AlertSent" />
+          <PropertyRef Name="AuxiliaryIndex1" />
+          <PropertyRef Name="Condition" />
+          <PropertyRef Name="Grant_No" />
+          <PropertyRef Name="Project" />
+        </Key>
+        <Property Name="Entry_No" Type="Edm.String" />
+        <Property Name="Project" Type="Edm.String" Nullable="false" />
+        <Property Name="Months" Type="Edm.String" />
+        <Property Name="Due_Date" Type="Edm.DateTime" />
+        <Property Name="AlertSent" Type="Edm.Boolean" Nullable="false" />
+        <Property Name="Condition" Type="Edm.String" Nullable="false" />
+        <Property Name="Grant_No" Type="Edm.String" Nullable="false" />
+        <Property Name="User_Number" Type="Edm.String" />
+        <Property Name="Condition_FullFilled" Type="Edm.Boolean" />
+        <Property Name="Task_Type" Type="Edm.String" />
+        <Property Name="GSC_Username" Type="Edm.String" />
+        <Property Name="AuxiliaryIndex1" Type="Edm.Decimal" Nullable="false" />
       </EntityType>
       <EntityType Name="TopCustomerOverview">
         <Key>
@@ -4920,6 +4963,8 @@
         <NavigationProperty Name="studentsRegister" Relationship="NAV.Company_studentsRegister" ToRole="studentsRegister" FromRole="Company" />
         <NavigationProperty Name="target_Groups" Relationship="NAV.Company_target_Groups" ToRole="target_Groups" FromRole="Company" />
         <NavigationProperty Name="tasks" Relationship="NAV.Company_tasks" ToRole="tasks" FromRole="Company" />
+        <NavigationProperty Name="tasks_cons" Relationship="NAV.Company_tasks_cons" ToRole="tasks_cons" FromRole="Company" />
+        <NavigationProperty Name="tasks_sch" Relationship="NAV.Company_tasks_sch" ToRole="tasks_sch" FromRole="Company" />
         <NavigationProperty Name="TopCustomerOverview" Relationship="NAV.Company_TopCustomerOverview" ToRole="TopCustomerOverview" FromRole="Company" />
         <NavigationProperty Name="uniBanks" Relationship="NAV.Company_uniBanks" ToRole="uniBanks" FromRole="Company" />
         <NavigationProperty Name="workplanQ" Relationship="NAV.Company_workplanQ" ToRole="workplanQ" FromRole="Company" />
@@ -5348,6 +5393,14 @@
         <End Type="NAV.tasks" Role="tasks" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
       </Association>
+      <Association Name="Company_tasks_cons">
+        <End Type="NAV.tasks_cons" Role="tasks_cons" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
+      <Association Name="Company_tasks_sch">
+        <End Type="NAV.tasks_sch" Role="tasks_sch" Multiplicity="*" />
+        <End Type="NAV.Company" Role="Company" Multiplicity="*" />
+      </Association>
       <Association Name="Company_TopCustomerOverview">
         <End Type="NAV.TopCustomerOverview" Role="TopCustomerOverview" Multiplicity="*" />
         <End Type="NAV.Company" Role="Company" Multiplicity="*" />
@@ -5590,6 +5643,8 @@
         <EntitySet Name="studentsRegister" EntityType="NAV.studentsRegister" />
         <EntitySet Name="target_Groups" EntityType="NAV.target_Groups" />
         <EntitySet Name="tasks" EntityType="NAV.tasks" />
+        <EntitySet Name="tasks_cons" EntityType="NAV.tasks_cons" />
+        <EntitySet Name="tasks_sch" EntityType="NAV.tasks_sch" />
         <EntitySet Name="TopCustomerOverview" EntityType="NAV.TopCustomerOverview" />
         <EntitySet Name="uniBanks" EntityType="NAV.uniBanks" />
         <EntitySet Name="workplanQ" EntityType="NAV.workplanQ" />
@@ -6017,6 +6072,14 @@
         <AssociationSet Name="Company_tasks_tasks" Association="NAV.Company_tasks">
           <End Role="Company" EntitySet="Company" />
           <End Role="tasks" EntitySet="tasks" />
+        </AssociationSet>
+        <AssociationSet Name="Company_tasks_cons_tasks_cons" Association="NAV.Company_tasks_cons">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="tasks_cons" EntitySet="tasks_cons" />
+        </AssociationSet>
+        <AssociationSet Name="Company_tasks_sch_tasks_sch" Association="NAV.Company_tasks_sch">
+          <End Role="Company" EntitySet="Company" />
+          <End Role="tasks_sch" EntitySet="tasks_sch" />
         </AssociationSet>
         <AssociationSet Name="Company_TopCustomerOverview_TopCustomerOverview" Association="NAV.Company_TopCustomerOverview">
           <End Role="Company" EntitySet="Company" />

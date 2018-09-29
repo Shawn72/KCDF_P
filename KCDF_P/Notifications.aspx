@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Notifications.aspx.cs" Inherits="KCDF_P.Notifications" MasterPageFile="~/Gran_Master.Master" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Notifications.aspx.cs" Inherits="KCDF_P.Notifications" MasterPageFile="~/Notifications.Master" %>
 
 <asp:Content ID="notifiedContent" ContentPlaceHolderID="MainContent" runat="server">
    <div class="panel-body" style="font-family:Trebuchet MS">
@@ -9,7 +9,7 @@
             </div>
         <div class="form-horizontal">
             
-                 <header class="panel-heading tab-bg-info">
+             <header class="panel-heading tab-bg-info">
                 <asp:Menu ID="myNotificationTabs" Orientation="Horizontal" StaticMenuItemStyle-CssClass="tab" StaticSelectedStyle-CssClass="selectedtab" CssClass="tabs" runat="server" OnMenuItemClick="myNotificationTabs_OnMenuItemClick">
                     <Items>
                         <asp:MenuItem Text="Pending Tasks |" Value="0" runat="server" />
@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-md-3"></div>
                 <br/>
-                <asp:MultiView ID="notifyPMultiview" runat="server" ActiveViewIndex="0">
+                <asp:MultiView ID="notifyPMultiview" runat="server">
                 
                     <asp:View runat="server" ID="allNotications">
                          <div class="form-horizontal">
@@ -83,6 +83,12 @@
                                             <asp:BoundField DataField="Condition" HeaderText="Task" />
                                             <asp:BoundField DataField="Due_Date" HeaderText="Due Date:" DataFormatString="{0:dd/MM/yyyy}"/>
                                             <asp:BoundField DataField="Condition_FullFilled" HeaderText="Task Completed" />
+                                            
+                                            <asp:TemplateField HeaderText="Action">
+                                                <ItemTemplate>
+                                                    <asp:LinkButton ID="lnkBtnToDoc" Text="Go to Uploads" CommandArgument='<%# Eval("Entry_No") %>' CommandName="lnkReact" runat="server" OnClick="lnkBtnToDoc_OnClick"></asp:LinkButton>
+                                                </ItemTemplate>
+                                            </asp:TemplateField>
                                         </Columns>
                                         <SelectedRowStyle BackColor="#259EFF" BorderColor="#FF9966" />
                                     </asp:GridView>
